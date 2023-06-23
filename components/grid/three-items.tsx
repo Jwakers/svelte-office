@@ -38,18 +38,16 @@ function ThreeItemGridItem({
 export async function ThreeItemGrid() {
   // Collections that start with `hidden-*` are hidden from the search page.
   const homepageItems = await getCollectionProducts({
-    collection: 'hidden-homepage-featured-items'
+    collection: 'gid://shopify/Collection/450908258605'
   });
 
-  if (!homepageItems[0] || !homepageItems[1] || !homepageItems[2]) return null;
-
-  const [firstProduct, secondProduct, thirdProduct] = homepageItems;
+  if (!homepageItems.length) return null;
 
   return (
     <section className="lg:grid lg:grid-cols-6 lg:grid-rows-2" data-testid="homepage-products">
-      <ThreeItemGridItem size="full" item={firstProduct} background="purple" />
-      <ThreeItemGridItem size="half" item={secondProduct} background="black" />
-      <ThreeItemGridItem size="half" item={thirdProduct} background="pink" />
+      {homepageItems.map((product) => (
+        <ThreeItemGridItem size="half" item={product} background="purple" />
+      ))}
     </section>
   );
 }

@@ -3,7 +3,7 @@ import { Inter } from 'next/font/google';
 import { ReactNode, Suspense } from 'react';
 import './globals.css';
 
-const { TWITTER_CREATOR, TWITTER_SITE, SITE_NAME } = process.env;
+const { SITE_NAME } = process.env;
 
 export const metadata = {
   title: {
@@ -13,15 +13,7 @@ export const metadata = {
   robots: {
     follow: true,
     index: true
-  },
-  ...(TWITTER_CREATOR &&
-    TWITTER_SITE && {
-      twitter: {
-        card: 'summary_large_image',
-        creator: TWITTER_CREATOR,
-        site: TWITTER_SITE
-      }
-    })
+  }
 };
 
 const inter = Inter({

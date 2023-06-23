@@ -114,7 +114,7 @@ const reshapeCart = (cart: ShopifyCart): Cart => {
   if (!cart.cost?.totalTaxAmount) {
     cart.cost.totalTaxAmount = {
       amount: '0.0',
-      currencyCode: 'USD'
+      currencyCode: 'GBP'
     };
   }
 
@@ -273,7 +273,7 @@ export async function getCollectionProducts({
     query: getCollectionProductsQuery,
     tags: [TAGS.collections, TAGS.products],
     variables: {
-      handle: collection,
+      id: collection,
       reverse,
       sortKey
     }
