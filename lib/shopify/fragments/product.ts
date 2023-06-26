@@ -9,6 +9,10 @@ const productFragment = /* GraphQL */ `
     title
     description
     descriptionHtml
+    metafield(namespace: "custom", key: "custom_test_data") {
+      value
+      key
+    }
     options {
       id
       name
