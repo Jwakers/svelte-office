@@ -17,7 +17,7 @@ export default async function Navbar() {
       <Link href="/" aria-label="Go back home">
         <LogoIcon className="h-8 transition-transform hover:scale-110" />
       </Link>
-      <div className="fixed bottom-2 right-2 z-10 flex gap-6 rounded bg-orange-300 p-4 md:static">
+      <div className="fixed bottom-2 right-2 z-10 flex gap-6 rounded bg-orange-300 p-4 dark:bg-gray-800 md:static">
         {!!menu.length && (
           <ul className="mr-20 hidden md:flex md:items-center md:gap-6">
             {menu.map((item: Menu) => (
@@ -33,9 +33,11 @@ export default async function Navbar() {
           </ul>
         )}
         <Search />
-        <Suspense fallback={<CartIcon className="h-6" />}>
-          <Cart />
-        </Suspense>
+        <div className="flex items-center">
+          <Suspense fallback={<CartIcon className="h-6" />}>
+            <Cart />
+          </Suspense>
+        </div>
         <div className="flex items-center">
           <MobileMenu menu={menu} />
         </div>
