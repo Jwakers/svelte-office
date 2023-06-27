@@ -8,7 +8,6 @@ import { Fragment, useEffect, useState } from 'react';
 import CloseIcon from 'components/icons/close';
 import MenuIcon from 'components/icons/menu';
 import { Menu } from 'lib/shopify/types';
-import Search from './search';
 
 export default function MobileMenu({ menu }: { menu: Menu[] }) {
   const pathname = usePathname();
@@ -74,11 +73,8 @@ export default function MobileMenu({ menu }: { menu: Menu[] }) {
                   <CloseIcon className="h-6" />
                 </button>
 
-                <div className="mb-4 w-full">
-                  <Search />
-                </div>
                 {menu.length ? (
-                  <ul className="flex flex-col">
+                  <ul className="flex flex-col gap-6">
                     {menu.map((item: Menu) => (
                       <li key={item.title}>
                         <Link
