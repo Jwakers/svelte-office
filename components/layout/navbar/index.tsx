@@ -3,6 +3,7 @@ import Link from 'next/link';
 import Cart from 'components/cart';
 import CartIcon from 'components/icons/cart';
 import LogoIcon from 'components/icons/logo';
+import { ThemeToggle } from 'components/theme-toggle';
 import { getMenu } from 'lib/shopify';
 import { Menu } from 'lib/shopify/types';
 import { Suspense } from 'react';
@@ -18,6 +19,7 @@ export default async function Navbar() {
         <LogoIcon className="h-8 transition-transform hover:scale-110" />
       </Link>
       <div className="fixed bottom-2 right-2 z-10 flex gap-6 rounded bg-orange-300 p-4 dark:bg-gray-800 md:static">
+        <Search />
         {!!menu.length && (
           <ul className="mr-20 hidden md:flex md:items-center md:gap-6">
             {menu.map((item: Menu) => (
@@ -32,7 +34,8 @@ export default async function Navbar() {
             ))}
           </ul>
         )}
-        <Search />
+
+        <ThemeToggle />
         <div className="flex items-center">
           <Suspense fallback={<CartIcon className="h-6" />}>
             <Cart />
