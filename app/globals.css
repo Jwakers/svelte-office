@@ -7,3 +7,17 @@
     clip-path: inset(0.6px); /* Removes white border on lazy images safari */
   }
 }
+
+@layer components {
+  .button {
+    @apply rounded border border-orange-500 bg-orange-500 px-4 py-2 font-semibold text-white shadow transition-colors hover:bg-orange-400 disabled:bg-orange-300;
+  }
+
+  .heading {
+    @apply font-semibold tracking-wide;
+  }
+
+  .heading-large {
+    @apply heading text-4xl text-orange-500 sm:text-5xl md:text-6xl lg:text-7xl xl:text-9xl;
+  }
+}
