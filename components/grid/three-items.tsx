@@ -46,7 +46,7 @@ export async function ThreeItemGrid() {
   return (
     <section className="lg:grid lg:grid-cols-6 lg:grid-rows-2" data-testid="homepage-products">
       {homepageItems.map((product) => (
-        <ThreeItemGridItem size="half" item={product} background="purple" />
+        <ThreeItemGridItem size="half" item={product} background="purple" key={product.id} />
       ))}
     </section>
   );
