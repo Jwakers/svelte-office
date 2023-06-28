@@ -200,7 +200,7 @@ export type ShopifyCollectionProductsOperation = {
     };
   };
   variables: {
-    handle: string;
+    id: string;
     reverse?: boolean;
     sortKey?: string;
   };

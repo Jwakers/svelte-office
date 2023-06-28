@@ -261,11 +261,11 @@ export async function getCollection(handle: string): Promise<Collection | undefi
 }
 
 export async function getCollectionProducts({
-  collection,
+  id,
   reverse,
   sortKey
 }: {
-  collection: string;
+  id: string;
   reverse?: boolean;
   sortKey?: string;
 }): Promise<Product[]> {
@@ -273,14 +273,14 @@ export async function getCollectionProducts({
     query: getCollectionProductsQuery,
     tags: [TAGS.collections, TAGS.products],
     variables: {
-      id: collection,
+      id,
       reverse,
       sortKey
     }
   });
 
   if (!res.body.data.collection) {
-    console.log(`No collection found for \`${collection}\``);
+    console.log(`No collection found for \`${id}\``);
     return [];
   }
 

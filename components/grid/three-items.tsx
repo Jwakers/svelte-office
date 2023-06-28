@@ -38,7 +38,7 @@ function ThreeItemGridItem({
 export async function ThreeItemGrid() {
   // Collections that start with `hidden-*` are hidden from the search page.
   const homepageItems = await getCollectionProducts({
-    collection: 'gid://shopify/Collection/450908258605'
+    id: 'gid://shopify/Collection/450908258605'
   });
 
   if (!homepageItems.length) return null;
