@@ -2,9 +2,8 @@ import { useRouter } from 'next/navigation';
 import { useTransition } from 'react';
 
 import clsx from 'clsx';
+import { Icon } from 'components/Icon';
 import { removeItem, updateItemQuantity } from 'components/cart/actions';
-import MinusIcon from 'components/icons/minus';
-import PlusIcon from 'components/icons/plus';
 import LoadingDots from 'components/loading-dots';
 import type { CartItem } from 'lib/shopify/types';
 
@@ -52,9 +51,9 @@ export default function EditItemQuantityButton({
       {isPending ? (
         <LoadingDots className="bg-black dark:bg-white" />
       ) : type === 'plus' ? (
-        <PlusIcon className="h-4 w-4" />
+        <Icon name="add" />
       ) : (
-        <MinusIcon className="h-4 w-4" />
+        <Icon name="remove" />
       )}
     </button>
   );

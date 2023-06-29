@@ -1,11 +1,11 @@
-import CloseIcon from 'components/icons/close';
 import LoadingDots from 'components/loading-dots';
 import { useRouter } from 'next/navigation';
 
 import clsx from 'clsx';
+import { Icon } from 'components/Icon';
+import { removeItem } from 'components/cart/actions';
 import type { CartItem } from 'lib/shopify/types';
 import { useTransition } from 'react';
-import { removeItem } from 'components/cart/actions';
 
 export default function DeleteItemButton({ item }: { item: CartItem }) {
   const router = useRouter();
@@ -37,7 +37,7 @@ export default function DeleteItemButton({ item }: { item: CartItem }) {
       {isPending ? (
         <LoadingDots className="bg-black dark:bg-white" />
       ) : (
-        <CloseIcon className="hover:text-accent-3 mx-[1px] h-4 w-4" />
+        <Icon name="close" className="mx-[1px] h-4 w-4" />
       )}
     </button>
   );

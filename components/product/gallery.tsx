@@ -4,7 +4,7 @@ import { useState } from 'react';
 
 import clsx from 'clsx';
 import { GridTileImage } from 'components/grid/tile';
-import ArrowLeftIcon from 'components/icons/arrow-left';
+import { Icon } from 'components/Icon';
 
 export function Gallery({
   title,
@@ -57,14 +57,14 @@ export function Gallery({
               className={clsx(buttonClassName, 'border-r border-white dark:border-black')}
               onClick={() => handleNavigate('previous')}
             >
-              <ArrowLeftIcon className="h-6" />
+              <Icon name="chevron_right" />
             </button>
             <button
               aria-label="Next product image"
               className={clsx(buttonClassName)}
               onClick={() => handleNavigate('next')}
             >
-              <ArrowLeftIcon className="h-6 rotate-180" />
+              <Icon name="left" />
             </button>
           </div>
         ) : null}

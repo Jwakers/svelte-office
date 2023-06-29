@@ -4,9 +4,7 @@ import { Dialog, Transition } from '@headlessui/react';
 import Image from 'next/image';
 import Link from 'next/link';
 
-import CartIcon from 'components/icons/cart';
-import CloseIcon from 'components/icons/close';
-import ShoppingBagIcon from 'components/icons/shopping-bag';
+import { Icon } from 'components/Icon';
 import Price from 'components/price';
 import { DEFAULT_OPTION } from 'lib/constants';
 import type { Cart } from 'lib/shopify/types';
@@ -53,8 +51,8 @@ export default function CartModal({ cart, cartIdUpdated }: { cart: Cart; cartIdU
 
   return (
     <>
-      <button aria-label="Open cart" onClick={openCart} data-testid="open-cart">
-        <CartIcon quantity={cart.totalQuantity} />
+      <button className="flex" aria-label="Open cart" onClick={openCart} data-testid="open-cart">
+        <Icon name="shopping_bag" />
       </button>
       <Transition show={isOpen}>
         <Dialog onClose={closeCart} className="relative z-50" data-testid="cart">
@@ -87,13 +85,13 @@ export default function CartModal({ cart, cartIdUpdated }: { cart: Cart; cartIdU
                   className="text-black transition-colors hover:text-gray-500 dark:text-gray-100"
                   data-testid="close-cart"
                 >
-                  <CloseIcon className="h-7" />
+                  <Icon name="close" />
                 </button>
               </div>
 
               {cart.lines.length === 0 ? (
                 <div className="mt-20 flex w-full flex-col items-center justify-center overflow-hidden">
-                  <ShoppingBagIcon className="h-16" />
+                  <Icon name="shopping_bag" />
                   <p className="mt-6 text-center text-2xl font-bold">Your cart is empty.</p>
                 </div>
               ) : (

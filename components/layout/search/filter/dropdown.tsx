@@ -3,7 +3,7 @@
 import { usePathname, useSearchParams } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
 
-import Caret from 'components/icons/caret-right';
+import { Icon } from 'components/Icon';
 import type { ListItem } from '.';
 import { FilterItem } from './item';
 
@@ -45,7 +45,7 @@ export default function FilterItemDropdown({ list }: { list: ListItem[] }) {
         className="flex w-full items-center justify-between rounded border border-black/30 px-4 py-2 text-sm dark:border-white/30"
       >
         <div>{active}</div>
-        <Caret className="h-4 rotate-90" />
+        <Icon name="chevron_left" />
       </div>
       {openSelect && (
         <div

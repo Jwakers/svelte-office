@@ -13,7 +13,8 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        sans: ['var(--font-inter)']
+        sans: ['var(--font-work-sans)'],
+        serif: ['var(--font-vollkorn)']
       },
       colors: {
         gray: colors.neutral,

@@ -27,6 +27,7 @@
     "clsx": "^1.2.1",
     "framer-motion": "^10.12.17",
     "is-empty-iterable": "^3.0.0",
+    "material-symbols": "^0.8.1",
     "next": "13.4.6",
     "react": "18.2.0",
     "react-cookie": "^4.1.1",

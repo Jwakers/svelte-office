@@ -5,9 +5,9 @@ import Link from 'next/link';
 import { usePathname, useSearchParams } from 'next/navigation';
 import { Fragment, useEffect, useState } from 'react';
 
-import CloseIcon from 'components/icons/close';
-import MenuIcon from 'components/icons/menu';
+import { Icon } from 'components/Icon';
 import { Menu } from 'lib/shopify/types';
+import Search from './search';
 
 export default function MobileMenu({ menu }: { menu: Menu[] }) {
   const pathname = usePathname();
@@ -35,10 +35,10 @@ export default function MobileMenu({ menu }: { menu: Menu[] }) {
       <button
         onClick={openMobileMenu}
         aria-label="Open mobile menu"
-        className="md:hidden"
+        className="flex md:hidden"
         data-testid="open-mobile-menu"
       >
-        <MenuIcon className="h-6" />
+        <Icon name="menu" />
       </button>
       <Transition show={isOpen}>
         <Dialog onClose={closeMobileMenu} className="relative z-50">
@@ -70,9 +70,9 @@ export default function MobileMenu({ menu }: { menu: Menu[] }) {
                   aria-label="Close mobile menu"
                   data-testid="close-mobile-menu"
                 >
-                  <CloseIcon className="h-6" />
+                  <Icon name="close" />
                 </button>
-
+                <Search />
                 {menu.length ? (
                   <ul className="flex flex-col gap-6">
                     {menu.map((item: Menu) => (

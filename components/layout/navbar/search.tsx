@@ -1,29 +1,33 @@
 'use client';
 
-import { AnimatePresence, motion } from 'framer-motion';
 import { useRouter, useSearchParams } from 'next/navigation';
 
-import CloseIcon from 'components/icons/close';
-import SearchIcon from 'components/icons/search';
-import { FADE_ANIMATION } from 'lib/constants';
+import clsx, { ClassValue } from 'clsx';
+import { Icon } from 'components/Icon';
 import { useOutsideClick } from 'lib/hooks';
 import { createUrl } from 'lib/utils';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
-export default function Search() {
+export default function Search({ className }: { className?: ClassValue }) {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const [isOpen, set_isOpen] = useState(false);
-  const inputRef = useRef(null);
-  const toggleOpen = () => set_isOpen(!isOpen);
-  const close = () => set_isOpen(false);
+  const [isOpen, setIsOpen] = useState(false);
+  const inputRef = useRef<HTMLInputElement>(null);
+  const formRef = useRef<HTMLFormElement>(null);
 
-  useOutsideClick(inputRef, close);
+  const toggleOpen = () => setIsOpen(!isOpen);
+  const close = () => setIsOpen(false);
+  useOutsideClick(formRef, close);
+
+  useEffect(() => {
+    if (isOpen && inputRef.current) {
+      inputRef.current.focus();
+    }
+  }, [isOpen]);
 
   function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
 
-    console.log(e.target);
     const val = e.target as HTMLFormElement;
     const search = val.search as HTMLInputElement;
     const newParams = new URLSearchParams(searchParams.toString());
@@ -39,40 +43,28 @@ export default function Search() {
   }
 
   return (
-    <form onSubmit={onSubmit} className="flex items-center justify-end">
-      <AnimatePresence>
-        {isOpen && (
-          <motion.input
-            ref={inputRef}
-            key="search-input"
-            initial={{ width: 0 }}
-            animate={{ width: '140px' }}
-            exit={{ width: 0 }}
-            type="text"
-            name="search"
-            placeholder="Search..."
-            autoComplete="off"
-            defaultValue={searchParams?.get('q') || ''}
-            className="bg-transparent text-black placeholder:text-white/40 focus-within:border-b focus-visible:border-black focus-visible:outline-none dark:focus-visible:border-white"
-          />
+    <form onSubmit={onSubmit} className={clsx('flex h-6 items-center', className)} ref={formRef}>
+      <input
+        ref={inputRef}
+        key="search-input"
+        type="text"
+        name="search"
+        placeholder="Search"
+        autoComplete="off"
+        defaultValue={searchParams?.get('q') || ''}
+        className={clsx(
+          'bg-transparent uppercase text-black transition-[width] placeholder:text-black/40 focus-visible:outline-none',
+          isOpen ? 'w-40' : 'w-0'
         )}
-        <button
-          onClick={toggleOpen}
-          type="button"
-          title={isOpen ? 'Close' : 'Search'}
-          className="cursor-pointer"
-        >
-          {isOpen ? (
-            <motion.div {...FADE_ANIMATION} key="search-close">
-              <CloseIcon className="h-6" />
-            </motion.div>
-          ) : (
-            <motion.div {...FADE_ANIMATION} key="search-icon">
-              <SearchIcon className="h-6" />
-            </motion.div>
-          )}
-        </button>
-      </AnimatePresence>
+      />
+      <button
+        onClick={toggleOpen}
+        type="button"
+        title={isOpen ? 'Close' : 'Search'}
+        className="h-full cursor-pointer"
+      >
+        {isOpen ? <Icon name="close" /> : <Icon name="search" />}
+      </button>
     </form>
   );
 }

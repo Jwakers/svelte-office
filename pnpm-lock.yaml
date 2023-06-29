@@ -20,6 +20,9 @@ dependencies:
   is-empty-iterable:
     specifier: ^3.0.0
     version: 3.0.0
+  material-symbols:
+    specifier: ^0.8.1
+    version: 0.8.1
   next:
     specifier: 13.4.6
     version: 13.4.6(react-dom@18.2.0)(react@18.2.0)
@@ -2277,6 +2280,10 @@ packages:
     dependencies:
       yallist: 4.0.0
     dev: true
+
+  /material-symbols@0.8.1:
+    resolution: {integrity: sha512-hJszgoT33GamNWfuH5GvO8vW+UgHs7SyloJbIfAQQ2KH8iEuQ0PgTdyFQFpVNdlDS3jm4wonswtKB8khGCSDgQ==}
+    dev: false
 
   /merge-stream@2.0.0:
     resolution: {integrity: sha512-abv/qOcuPfk3URPfDzmZU1LKmuw8kT+0nIHvKrKgFrwifol/doWcdA4ZqsWQ8ENrFKkd67Mfpo/LovbIUsbt3w==}

@@ -1,11 +1,10 @@
 import Link from 'next/link';
 
+import { Icon } from 'components/Icon';
 import Cart from 'components/cart';
-import CartIcon from 'components/icons/cart';
-import LogoIcon from 'components/icons/logo';
-import { ThemeToggle } from 'components/theme-toggle';
 import { getMenu } from 'lib/shopify';
 import { Menu } from 'lib/shopify/types';
+import 'material-symbols';
 import { Suspense } from 'react';
 import MobileMenu from './mobile-menu';
 import Search from './search';
@@ -14,35 +13,31 @@ export default async function Navbar() {
   const menu = await getMenu('main-menu');
 
   return (
-    <nav className="flex w-full items-center justify-between px-6 py-4">
-      <Link href="/" aria-label="Go back home">
-        <LogoIcon className="h-8 transition-transform hover:scale-110" />
+    <nav className="fixed bottom-0 left-0 grid w-full grid-cols-[1fr_auto] items-center justify-between border-t border-black bg-stone-50 px-4 md:static md:border-b">
+      <Link href="/" aria-label="Go back home" className="py-2">
+        <span className="font-serif font-bold">Logo</span>
       </Link>
-      <div className="fixed bottom-2 right-2 z-10 flex gap-6 rounded bg-orange-300 p-4 dark:bg-gray-800 md:static">
-        <Search />
+      <div className="flex h-full gap-4">
         {!!menu.length && (
-          <ul className="mr-20 hidden md:flex md:items-center md:gap-6">
+          <ul className="hidden uppercase md:flex md:items-center md:gap-4">
             {menu.map((item: Menu) => (
               <li key={item.title}>
-                <Link
-                  href={item.path}
-                  className="rounded-lg text-gray-800 hover:text-gray-500 dark:text-gray-200 dark:hover:text-gray-400"
-                >
-                  {item.title}
-                </Link>
+                <Link href={item.path}>{item.title}</Link>
               </li>
             ))}
           </ul>
         )}
-
-        <ThemeToggle />
-        <div className="flex items-center">
-          <Suspense fallback={<CartIcon className="h-6" />}>
-            <Cart />
+        <div className="border-l border-black" />
+        <div className="flex items-center gap-4">
+          <Search className="hidden md:block" />
+          <Suspense fallback={<Icon name="shopping_bag" />}>
+            <span>
+              <Cart />
+            </span>
           </Suspense>
-        </div>
-        <div className="flex items-center">
-          <MobileMenu menu={menu} />
+          <div className="flex items-center md:hidden">
+            <MobileMenu menu={menu} />
+          </div>
         </div>
       </div>
     </nav>
