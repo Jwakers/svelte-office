@@ -1,22 +1,44 @@
+import Image from 'next/image';
 import Link from 'next/link';
 
 export const Hero = function () {
+  // TODO: Create collection in shopify and link
   return (
-    <div className="relative flex h-screen flex-col items-center justify-center md:-mt-[5.5rem]">
-      <div className="grid h-screen gap-8 md:grid-cols-2 md:gap-40">
-        <div className="z-10 mx-auto max-w-md space-y-6 self-center justify-self-end px-4 md:mx-0 md:mt-32 md:px-0">
-          <h1 className="heading-large whitespace-nowrap">New arrivals</h1>
-          <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Vero, dolorem.</p>
-          <Link href="/products" className="button inline-flex gap-4">
-            Go to products
+    <section className="grid h-[calc(100vh_-_42px)] grid-cols-[auto_1fr] border-b border-black">
+      <div className="flex max-w-xl flex-col justify-end gap-4 px-3 pb-4">
+        <h1 className="font-serif uppercase leading-none md:text-5xl">
+          Premium furniture collection
+        </h1>
+        <p>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum urna felis, interdum
+          nec arcu non, euismod hendrerit nulla. Phasellus finibus sem ornare, molestie sem nec,
+          pharetra metus. Integer vitae venenatis odio, at sollicitudin tortor. Duis ac tortor quis
+          ex elementum semper.
+        </p>
+        <div className="flex gap-4">
+          <Link
+            href="/"
+            className="border border-black px-4 py-2 text-sm uppercase transition-colors hover:bg-black hover:text-white"
+          >
+            All collections
+          </Link>
+          <Link
+            href="/"
+            className="border border-black px-4 py-2 text-sm uppercase transition-colors hover:bg-black hover:text-white"
+          >
+            View collection
           </Link>
         </div>
-        <img
-          src="/hero-placeholder.jpg"
+      </div>
+      <div className="relative">
+        <Image
+          src="/hero-image.webp"
           alt="Hero image"
-          className="h-full w-full object-cover opacity-10 md:[clip-path:polygon(6%_0%,_100%_0%,_100%_100%,_0%_100%)]"
+          className="object-cover mix-blend-multiply"
+          priority
+          fill
         />
       </div>
-    </div>
+    </section>
   );
 };
