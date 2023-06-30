@@ -1,3 +1,4 @@
+import { CollectionPreview } from 'components/collections/collection-preview';
 import { Hero } from 'components/hero';
 import Footer from 'components/layout/footer';
 import { Suspense } from 'react';
@@ -23,6 +24,9 @@ export default async function HomePage() {
     <>
       <Suspense>
         <Hero />
+      </Suspense>
+      <Suspense>
+        <CollectionPreview />
       </Suspense>
       <Suspense>
         <Footer />

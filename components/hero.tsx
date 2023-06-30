@@ -4,9 +4,9 @@ import Link from 'next/link';
 export const Hero = function () {
   // TODO: Create collection in shopify and link
   return (
-    <section className="grid h-[calc(100vh_-_42px)] grid-cols-[auto_1fr] border-b border-black">
+    <section className="flex h-[calc(100vh_-_42px)] flex-col-reverse border-b border-black md:grid md:grid-cols-[auto_1fr]">
       <div className="flex max-w-xl flex-col justify-end gap-4 px-3 pb-4">
-        <h1 className="font-serif uppercase leading-none md:text-5xl">
+        <h1 className="font-serif text-3xl uppercase leading-none md:text-5xl">
           Premium furniture collection
         </h1>
         <p>
@@ -30,11 +30,11 @@ export const Hero = function () {
           </Link>
         </div>
       </div>
-      <div className="relative">
+      <div className="relative grow">
         <Image
           src="/hero-image.webp"
           alt="Hero image"
-          className="object-cover mix-blend-multiply"
+          className="object-contain mix-blend-multiply"
           priority
           fill
         />

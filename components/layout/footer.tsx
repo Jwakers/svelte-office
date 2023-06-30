@@ -11,7 +11,7 @@ export default async function Footer() {
   const menu = await getMenu('next-js-frontend-footer-menu');
 
   return (
-    <footer className="border-t border-gray-700 bg-stone-50 text-black dark:bg-black dark:text-white">
+    <footer className="bg-stone-50 text-black dark:bg-black dark:text-white">
       <div className="w-full px-4">
         <div className="grid grid-cols-1 gap-8 border-b border-gray-700 py-12 transition-colors duration-150 lg:grid-cols-12">
           <div className="col-span-1 lg:col-span-3">

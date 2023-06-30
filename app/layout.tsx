@@ -32,7 +32,7 @@ const vollkorn = Vollkorn({
 export default async function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en" className={clsx(workSans.variable, vollkorn.variable)}>
-      <body className="bg-stone-50 font-light text-black selection:bg-yellow-400 dark:bg-black dark:text-white">
+      <body className="bg-stone-100 font-light text-black selection:bg-yellow-400 dark:bg-black dark:text-white">
         <Navbar />
         <Suspense>
           <main>{children}</main>
