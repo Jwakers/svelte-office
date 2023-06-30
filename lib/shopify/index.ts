@@ -10,6 +10,7 @@ import { getCartQuery } from './queries/cart';
 import {
   getCollectionProductsQuery,
   getCollectionQuery,
+  getCollectionWithProductsQuery,
   getCollectionsQuery
 } from './queries/collection';
 import { getMenuQuery } from './queries/menu';
@@ -22,6 +23,7 @@ import {
 import {
   Cart,
   Collection,
+  CollectionWithProducts,
   Connection,
   Menu,
   Page,
@@ -32,6 +34,7 @@ import {
   ShopifyCollection,
   ShopifyCollectionOperation,
   ShopifyCollectionProductsOperation,
+  ShopifyCollectionWithProductsOperation,
   ShopifyCollectionsOperation,
   ShopifyCreateCartOperation,
   ShopifyMenuOperation,
@@ -261,11 +264,11 @@ export async function getCollection(handle: string): Promise<Collection | undefi
 }
 
 export async function getCollectionProducts({
-  id,
+  handle,
   reverse,
   sortKey
 }: {
-  id: string;
+  handle: string;
   reverse?: boolean;
   sortKey?: string;
 }): Promise<Product[]> {
@@ -273,18 +276,51 @@ export async function getCollectionProducts({
     query: getCollectionProductsQuery,
     tags: [TAGS.collections, TAGS.products],
     variables: {
-      id,
+      handle,
       reverse,
       sortKey
     }
   });
 
   if (!res.body.data.collection) {
-    console.log(`No collection found for \`${id}\``);
+    console.log(`No collection found for \`${handle}\``);
     return [];
   }
 
   return reshapeProducts(removeEdgesAndNodes(res.body.data.collection.products));
+}
+
+export async function getCollectionWithProducts({
+  handle,
+  reverse,
+  sortKey,
+  limit
+}: {
+  handle: string;
+  reverse?: boolean;
+  sortKey?: string;
+  limit?: number;
+}): Promise<CollectionWithProducts | undefined> {
+  const res = await shopifyFetch<ShopifyCollectionWithProductsOperation>({
+    query: getCollectionWithProductsQuery,
+    tags: [TAGS.collections, TAGS.products],
+    variables: {
+      handle,
+      reverse,
+      sortKey,
+      limit
+    }
+  });
+
+  if (!res.body.data.collectionByHandle) {
+    console.log(`No collection found for \`${handle}\``);
+    return undefined;
+  }
+
+  return {
+    ...res.body.data.collectionByHandle,
+    products: reshapeProducts(removeEdgesAndNodes(res.body.data.collectionByHandle.products))
+  };
 }
 
 export async function getCollections(): Promise<Collection[]> {

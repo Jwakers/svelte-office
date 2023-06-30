@@ -6,21 +6,31 @@ const collectionFragment = /* GraphQL */ `
     handle
     title
     description
+    image {
+      url
+      altText
+      width
+      height
+    }
+    metafield(namespace: "custom", key: "secondary_title") {
+      value
+      key
+    }
     seo {
       ...seo
     }
     updatedAt
   }
-  ${seoFragment}
 `;
 
 export const getCollectionQuery = /* GraphQL */ `
   query getCollection($handle: String!) {
-    collection(handle: $handle) {
+    collectionByHandle(handle: $handle) {
       ...collection
     }
   }
   ${collectionFragment}
+  ${seoFragment}
 `;
 
 export const getCollectionsQuery = /* GraphQL */ `
@@ -34,6 +44,7 @@ export const getCollectionsQuery = /* GraphQL */ `
     }
   }
   ${collectionFragment}
+  ${seoFragment}
 `;
 
 export const getCollectionProductsQuery = /* GraphQL */ `
@@ -48,5 +59,27 @@ export const getCollectionProductsQuery = /* GraphQL */ `
       }
     }
   }
+  ${productFragment}
+`;
+
+export const getCollectionWithProductsQuery = /* GraphQL */ `
+  query getCollectionWithProducts(
+    $handle: String!
+    $sortKey: ProductCollectionSortKeys
+    $reverse: Boolean
+    $limit: Int
+  ) {
+    collectionByHandle(handle: $handle) {
+      ...collection
+      products(sortKey: $sortKey, reverse: $reverse, first: $limit) {
+        edges {
+          node {
+            ...product
+          }
+        }
+      }
+    }
+  }
+  ${collectionFragment}
   ${productFragment}
 `;

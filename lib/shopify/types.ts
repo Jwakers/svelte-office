@@ -33,11 +33,19 @@ export type Collection = ShopifyCollection & {
   path: string;
 };
 
+export type CollectionWithProducts = ShopifyCollection & {
+  products: Product[];
+};
+
 export type Image = {
   url: string;
   altText: string;
   width: number;
   height: number;
+};
+export type Metafield = {
+  value: string;
+  key: string;
 };
 
 export type Menu = {
@@ -106,6 +114,8 @@ export type ShopifyCollection = {
   description: string;
   seo: SEO;
   updatedAt: string;
+  metafield?: Metafield;
+  image?: Image;
 };
 
 export type ShopifyProduct = {
@@ -126,6 +136,7 @@ export type ShopifyProduct = {
   seo: SEO;
   tags: string[];
   updatedAt: string;
+  metafield?: Metafield;
 };
 
 export type ShopifyCartOperation = {
@@ -200,9 +211,23 @@ export type ShopifyCollectionProductsOperation = {
     };
   };
   variables: {
-    id: string;
+    handle: string;
     reverse?: boolean;
     sortKey?: string;
+  };
+};
+
+export type ShopifyCollectionWithProductsOperation = {
+  data: {
+    collectionByHandle: ShopifyCollection & {
+      products: Connection<ShopifyProduct>;
+    };
+  };
+  variables: {
+    handle: string;
+    reverse?: boolean;
+    sortKey?: string;
+    limit?: number;
   };
 };
 
