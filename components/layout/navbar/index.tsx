@@ -14,7 +14,7 @@ export default async function Navbar() {
 
   return (
     <>
-      <nav className="fixed bottom-0 left-0 z-20 grid w-full grid-cols-[1fr_auto] items-center justify-between border-t border-black bg-stone-100 px-4 md:static md:border-b md:border-t-0">
+      <nav className="fixed bottom-0 left-0 z-20 grid w-full grid-cols-[1fr_auto] items-center justify-between border-t border-black bg-white px-4 md:static md:border-b md:border-t-0">
         <Link href="/" aria-label="Go back home" className="py-2">
           <span className="font-serif font-bold">Logo</span>
         </Link>

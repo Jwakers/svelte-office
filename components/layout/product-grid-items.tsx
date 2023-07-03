@@ -7,12 +7,14 @@ export default function ProductGridItems({ products }: { products: Product[] }) 
   return (
     <>
       {products.map((product) => (
-        <Grid.Item key={product.handle} className="animate-fadeIn">
+        <Grid.Item
+          key={product.handle}
+          className="animate-fadeIn border-b border-r border-black md:[&:nth-child(3n)]:border-r-0"
+        >
           <Link className="h-full w-full" href={`/product/${product.handle}`}>
             <GridTileImage
               alt={product.title}
               labels={{
-                isSmall: true,
                 title: product.title,
                 amount: product.priceRange.maxVariantPrice.amount,
                 currencyCode: product.priceRange.maxVariantPrice.currencyCode

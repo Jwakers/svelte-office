@@ -12,7 +12,7 @@ export const Hero = async function () {
 
   return (
     <section className="flex min-h-[calc(100vh_-_42px)] flex-col-reverse border-b border-black md:grid md:grid-cols-[auto_1fr]">
-      <div className="flex max-w-xl flex-col justify-end gap-4 px-3 pb-4">
+      <div className="flex max-w-xl flex-col justify-end gap-4 px-3 py-4">
         {!!metafield && (
           <h1 className="font-serif text-3xl uppercase leading-none md:text-5xl">
             {metafield.value}
@@ -20,22 +20,16 @@ export const Hero = async function () {
         )}
         <p>{heroCollection.description}</p>
         <div className="flex gap-4">
-          <Link
-            href="/collection"
-            className="border border-black px-4 py-2 text-sm uppercase transition-colors hover:bg-black hover:text-white"
-          >
+          <Link href="/collection" className="button grow">
             All collections
           </Link>
-          <Link
-            href={`/collection/${handle}`}
-            className="border border-black px-4 py-2 text-sm uppercase transition-colors hover:bg-black hover:text-white"
-          >
+          <Link href={`/collection/${handle}`} className="button grow">
             View collection
           </Link>
         </div>
       </div>
       {!!image && (
-        <div className="relative min-h-[120px] grow border-l border-black">
+        <div className="relative min-h-[120px] grow border-b border-black md:border-b-0 md:border-l">
           <Image
             src={image.url}
             alt={image.altText}

@@ -21,12 +21,11 @@ function PathFilterItem({ item }: { item: PathFilterItem }) {
   }, [pathname, item.path]);
 
   return (
-    <li className="mt-2 flex text-sm text-gray-400" key={item.title}>
+    <li className="text-sm" key={item.title}>
       <Link
         href={createUrl(item.path, newParams)}
-        className={clsx('w-full hover:text-gray-800 dark:hover:text-gray-100', {
-          'text-gray-600 dark:text-gray-400': !active,
-          'font-semibold text-black dark:text-white': active
+        className={clsx({
+          underline: active
         })}
       >
         {item.title}
@@ -57,13 +56,12 @@ function SortFilterItem({ item }: { item: SortFilterItem }) {
       : pathname;
 
   return (
-    <li className="mt-2 flex text-sm text-gray-400" key={item.title}>
+    <li className="text-sm" key={item.title}>
       <Link
         prefetch={false}
         href={href}
-        className={clsx('w-full hover:text-gray-800 dark:hover:text-gray-100', {
-          'text-gray-600 dark:text-gray-400': !active,
-          'font-semibold text-black dark:text-white': active
+        className={clsx({
+          underline: active
         })}
       >
         {item.title}

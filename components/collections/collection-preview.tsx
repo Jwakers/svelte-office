@@ -1,4 +1,5 @@
 import { Icon } from 'components/Icon';
+import Price from 'components/price';
 import { getCollectionWithProducts } from 'lib/shopify';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -15,7 +16,7 @@ export const CollectionPreview = async function () {
     <section className="relative grid border-b border-black md:grid-cols-[repeat(3,_1fr),_40%]">
       <Link
         href="/collection/collection-handle"
-        className="sticky top-0 z-10 flex items-center gap-1 self-end border-b border-black bg-stone-100 px-4 py-2 transition-all group-hover:gap-4 md:hidden"
+        className="sticky top-0 z-10 flex items-center gap-1 self-end border-b border-black px-4 py-2 transition-all group-hover:gap-4 md:hidden"
       >
         <h2 className="font-serif text-2xl">{collectionTitle}</h2>
         <Icon name="arrow_right_alt" />
@@ -47,8 +48,8 @@ export const CollectionPreview = async function () {
               alt={featuredImage.altText}
               className="transition-transform duration-500 group-hover:-translate-x-2 md:h-full md:object-cover"
             />
-            <div className="flex flex-col-reverse border-t border-black bg-stone-100 p-4 md:absolute md:bottom-0 md:right-0 md:h-full md:translate-x-[calc(100%_+_1px)] md:-rotate-180 md:flex-col md:border-r md:border-t-0 md:transition-transform md:[writing-mode:vertical-rl] md:group-hover:translate-x-0">
-              <span>{GBPound.format(Number(amount))}</span>
+            <div className="flex flex-col-reverse border-t border-black bg-white p-4 md:absolute md:bottom-0 md:right-0 md:h-full md:translate-x-[calc(100%_+_1px)] md:-rotate-180 md:flex-col md:border-r md:border-t-0 md:transition-transform md:[writing-mode:vertical-rl] md:group-hover:translate-x-0">
+              <Price amount={amount} currencyCode={currencyCode} />
               <span className="text-md font-serif">{title}</span>
             </div>
           </Link>
