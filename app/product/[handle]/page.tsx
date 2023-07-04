@@ -1,17 +1,17 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
-import { Suspense } from 'react';
 
 import { AddToCart } from 'components/cart/add-to-cart';
-import Grid from 'components/grid';
+import { GridTileImage } from 'components/grid/tile';
 import Footer from 'components/layout/footer';
-import ProductGridItems from 'components/layout/product-grid-items';
+import Price from 'components/price';
 import { Gallery } from 'components/product/gallery';
 import { VariantSelector } from 'components/product/variant-selector';
 import Prose from 'components/prose';
 import { HIDDEN_PRODUCT_TAG } from 'lib/constants';
 import { getProduct, getProductRecommendations } from 'lib/shopify';
-import { Image } from 'lib/shopify/types';
+import Link from 'next/link';
+import { Suspense } from 'react';
 
 export const runtime = 'edge';
 
@@ -76,43 +76,44 @@ export default async function ProductPage({ params }: { params: { handle: string
   };
 
   return (
-    <div>
+    <>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
           __html: JSON.stringify(productJsonLd)
         }}
       />
-      <div className="lg:grid lg:grid-cols-6">
-        <div className="lg:col-span-4">
-          <Gallery
-            title={product.title}
-            amount={product.priceRange.maxVariantPrice.amount}
-            currencyCode={product.priceRange.maxVariantPrice.currencyCode}
-            images={product.images.map((image: Image) => ({
-              src: image.url,
-              altText: image.altText
-            }))}
-          />
+      <section className="md:grid md:grid-cols-2">
+        <div className="flex flex-col border-black md:border-r">
+          <Gallery images={product.images.map(({ url, altText }) => ({ src: url, altText }))} />
         </div>
-
-        <div className="p-6 lg:col-span-2">
-          <VariantSelector options={product.options} variants={product.variants} />
-
-          {product.descriptionHtml ? (
-            <Prose className="mb-6 text-sm leading-tight" html={product.descriptionHtml} />
-          ) : null}
-
-          <AddToCart variants={product.variants} availableForSale={product.availableForSale} />
+        <div className="relative">
+          <div className="sticky top-0 flex flex-col gap-4 p-3 pb-0">
+            <div className="flex flex-wrap items-end justify-between gap-4">
+              <h1 className="font-serif text-lg md:text-3xl">{product.title}</h1>
+              {/* TODO: have price update depeding on variant select. Can get variant from URL. */}
+              <Price
+                amount={product.priceRange.minVariantPrice.amount}
+                currencyCode={product.priceRange.minVariantPrice.currencyCode}
+              />
+            </div>
+            <VariantSelector options={product.options} variants={product.variants} />
+            {product.descriptionHtml ? <Prose className="" html={product.descriptionHtml} /> : null}
+            <AddToCart
+              variants={product.variants}
+              availableForSale={product.availableForSale}
+              className="sticky bottom-12"
+            />
+          </div>
         </div>
-      </div>
+      </section>
       <Suspense>
         <RelatedProducts id={product.id} />
         <Suspense>
           <Footer />
         </Suspense>
       </Suspense>
-    </div>
+    </>
   );
 }
 
@@ -122,11 +123,27 @@ async function RelatedProducts({ id }: { id: string }) {
   if (!relatedProducts.length) return null;
 
   return (
-    <div className="px-4 py-8">
-      <div className="mb-4 text-3xl font-bold">Related Products</div>
-      <Grid className="grid-cols-2 lg:grid-cols-5">
-        <ProductGridItems products={relatedProducts} />
-      </Grid>
+    <div className="py-8">
+      <div className="mb-4 px-3 font-serif text-3xl">Related Products</div>
+      <ul className="grid grid-cols-2 md:grid-cols-4">
+        {relatedProducts.map((product) => (
+          <li className="relative h-full w-full overflow-hidden border-black transition-opacity">
+            <Link className="h-full w-full" href={`/product/${product.handle}`}>
+              <GridTileImage
+                alt={product.title}
+                labels={{
+                  title: product.title,
+                  amount: product.priceRange.maxVariantPrice.amount,
+                  currencyCode: product.priceRange.maxVariantPrice.currencyCode
+                }}
+                src={product.featuredImage?.url}
+                width={600}
+                height={600}
+              />
+            </Link>
+          </li>
+        ))}
+      </ul>
     </div>
   );
 }

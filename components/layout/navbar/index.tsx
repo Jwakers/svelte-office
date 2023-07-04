@@ -42,7 +42,7 @@ export default async function Navbar() {
           </div>
         </div>
       </nav>
-      <Link href="/" aria-label="Go back home" className="absolute left-4 top-2 py-2 md:hidden">
+      <Link href="/" aria-label="Go back home" className="absolute left-3 top-2 py-2 md:hidden">
         <span className="font-serif font-bold">Logo</span>
       </Link>
     </>
