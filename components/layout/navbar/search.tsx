@@ -3,7 +3,7 @@
 import { useRouter, useSearchParams } from 'next/navigation';
 
 import clsx, { ClassValue } from 'clsx';
-import { Icon } from 'components/Icon';
+import { Icon } from 'components/icon';
 import { useOutsideClick } from 'lib/hooks';
 import { createUrl } from 'lib/utils';
 import { useEffect, useRef, useState } from 'react';

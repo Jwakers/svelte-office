@@ -2,8 +2,8 @@ import { useRouter } from 'next/navigation';
 import { useTransition } from 'react';
 
 import clsx from 'clsx';
-import { Icon } from 'components/Icon';
 import { removeItem, updateItemQuantity } from 'components/cart/actions';
+import { Icon } from 'components/icon';
 import LoadingDots from 'components/loading-dots';
 import type { CartItem } from 'lib/shopify/types';
 

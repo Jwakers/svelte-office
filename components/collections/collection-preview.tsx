@@ -1,4 +1,4 @@
-import { Icon } from 'components/Icon';
+import { Icon } from 'components/icon';
 import Price from 'components/price';
 import { getCollectionWithProducts } from 'lib/shopify';
 import Image from 'next/image';
@@ -31,10 +31,6 @@ export const CollectionPreview = async function () {
           title
         } = product;
 
-        const GBPound = new Intl.NumberFormat('en-GB', {
-          style: 'currency',
-          currency: currencyCode
-        });
         return (
           <Link
             href={`/product/${handle}`}

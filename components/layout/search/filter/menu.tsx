@@ -1,7 +1,7 @@
 'use client';
 
 import { Dialog, Transition } from '@headlessui/react';
-import { Icon } from 'components/Icon';
+import { Icon } from 'components/icon';
 import { Fragment, useState } from 'react';
 
 export default function SearchMenu({ children }: { children: React.ReactNode }) {

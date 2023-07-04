@@ -3,7 +3,7 @@
 import { usePathname, useSearchParams } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
 
-import { Icon } from 'components/Icon';
+import { Icon } from 'components/icon';
 import type { ListItem } from '.';
 import { FilterItem } from './item';
 

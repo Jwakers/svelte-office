@@ -4,7 +4,7 @@ import { Dialog, Transition } from '@headlessui/react';
 import Image from 'next/image';
 import Link from 'next/link';
 
-import { Icon } from 'components/Icon';
+import { Icon } from 'components/icon';
 import Price from 'components/price';
 import { DEFAULT_OPTION } from 'lib/constants';
 import type { Cart } from 'lib/shopify/types';

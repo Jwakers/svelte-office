@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { usePathname, useSearchParams } from 'next/navigation';
 import { Fragment, useEffect, useState } from 'react';
 
-import { Icon } from 'components/Icon';
+import { Icon } from 'components/icon';
 import { Menu } from 'lib/shopify/types';
 import Search from './search';
 

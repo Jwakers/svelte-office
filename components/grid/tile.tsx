@@ -3,12 +3,10 @@ import Image from 'next/image';
 import Price from 'components/price';
 
 export function GridTileImage({
-  isInteractive = true,
   active,
   labels,
   ...props
 }: {
-  isInteractive?: boolean;
   active?: boolean;
   labels?: {
     title: string;

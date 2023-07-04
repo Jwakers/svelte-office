@@ -1,7 +1,7 @@
 import Link from 'next/link';
 
-import { Icon } from 'components/Icon';
 import Cart from 'components/cart';
+import { Icon } from 'components/icon';
 import { getMenu } from 'lib/shopify';
 import { Menu } from 'lib/shopify/types';
 import 'material-symbols';
