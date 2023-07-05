@@ -19,7 +19,7 @@ export function GridTileImage({
     <div className="flex h-full w-full flex-col overflow-hidden">
       {props.src ? (
         <Image
-          className="relative aspect-square h-full w-full object-cover"
+          className="relative aspect-square h-full w-full bg-white object-cover"
           {...props}
           alt={props.title || ''}
         />

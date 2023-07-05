@@ -125,13 +125,13 @@ async function RelatedProducts({ id }: { id: string }) {
   return (
     <div className="py-8">
       <div className="mb-4 px-3 font-serif text-3xl">Related Products</div>
-      <ul className="grid grid-cols-2 md:grid-cols-4">
+      <ul className="grid sm:grid-cols-2 md:grid-cols-4">
         {relatedProducts.map((product) => (
           <li
-            className="relative h-full w-full overflow-hidden border-black transition-opacity"
+            className="relative overflow-hidden outline outline-1 outline-black transition-opacity"
             key={`related-${product.id}`}
           >
-            <Link className="h-full w-full" href={`/product/${product.handle}`}>
+            <Link className="block h-full w-full" href={`/product/${product.handle}`}>
               <GridTileImage
                 alt={product.title}
                 labels={{

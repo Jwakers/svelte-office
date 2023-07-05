@@ -54,7 +54,7 @@ export default function Search({ className }: { className?: ClassValue }) {
         defaultValue={searchParams?.get('q') || ''}
         className={clsx(
           'bg-transparent uppercase text-black transition-[width] placeholder:text-black/40 focus-visible:outline-none',
-          isOpen ? 'w-40' : 'w-0'
+          isOpen ? 'w-full md:w-40' : 'w-0'
         )}
       />
       <button
