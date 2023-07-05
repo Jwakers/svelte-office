@@ -31,6 +31,7 @@
     "react": "18.2.0",
     "react-cookie": "^4.1.1",
     "react-dom": "18.2.0",
+    "sharp": "^0.32.1",
     "swiper": "^10.0.3"
   },
   "devDependencies": {
