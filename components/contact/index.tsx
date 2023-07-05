@@ -4,6 +4,7 @@ import { useMutation } from '@tanstack/react-query';
 import { ContactFormSchema } from 'app/api/contact/route';
 import clsx from 'clsx';
 import LoadingDots from 'components/loading-dots';
+import { useRouter } from 'next/navigation';
 import { FormEvent, useState } from 'react';
 
 type MutationResponse = {
@@ -12,9 +13,11 @@ type MutationResponse = {
 };
 
 export default function ContactForm() {
+  const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [subject, setSubject] = useState('');
   const [message, setMessage] = useState('');
+  const router = useRouter();
 
   const postContactData = async () => {
     const res = await fetch('api/contact', {
@@ -22,16 +25,15 @@ export default function ContactForm() {
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({ email, subject, message })
+      body: JSON.stringify({ name, email, subject, message })
     });
 
     const data: MutationResponse = await res.json();
+    console.log({ data });
 
     if (!data?.errors && res.ok) {
-      setEmail('');
-      setSubject('');
-      setMessage('');
       alert(data?.message || 'Message sent');
+      router.push('/');
     }
 
     return data;
@@ -40,8 +42,6 @@ export default function ContactForm() {
   const mutation = useMutation(postContactData);
 
   const { isLoading, data, isError } = mutation;
-
-  console.log(data);
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -57,6 +57,21 @@ export default function ContactForm() {
 
   return !isError ? (
     <form action="#" className="space-y-4 text-black" onSubmit={handleSubmit}>
+      <div>
+        <label htmlFor="email" className="mb-2 block text-sm uppercase">
+          Your name
+        </label>
+        {renderError('name')}
+        <input
+          type="text"
+          id="name"
+          className="block w-full border border-black bg-white p-3 text-sm"
+          placeholder="John Smith"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          required
+        />
+      </div>
       <div>
         <label htmlFor="email" className="mb-2 block text-sm uppercase">
           Your email
