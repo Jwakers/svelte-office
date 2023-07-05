@@ -4,7 +4,7 @@ import Navbar from 'components/layout/navbar';
 import { Vollkorn, Work_Sans } from 'next/font/google';
 import { ReactNode, Suspense } from 'react';
 import './globals.css';
-import { QueryProvider } from './providers';
+import Providers from './providers';
 
 const { SITE_NAME } = process.env;
 
@@ -37,9 +37,9 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
       <body className="min-h-screen grid-rows-[auto_1fr_auto] text-black selection:bg-yellow-400">
         <Navbar />
         <Suspense>
-          <QueryProvider>
+          <Providers>
             <main>{children}</main>
-          </QueryProvider>
+          </Providers>
         </Suspense>
         <Suspense>
           <Footer />
