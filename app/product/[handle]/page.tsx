@@ -92,10 +92,16 @@ export default async function ProductPage({ params }: { params: { handle: string
             <div className="flex flex-wrap items-end justify-between gap-4">
               <h1 className="font-serif text-lg md:text-3xl">{product.title}</h1>
               {/* TODO: have price update depeding on variant select. Can get variant from URL. */}
-              <Price
-                amount={product.priceRange.minVariantPrice.amount}
-                currencyCode={product.priceRange.minVariantPrice.currencyCode}
-              />
+              <div className="flex items-end gap-1">
+                <span className="text-xs leading-none opacity-80">
+                  {product.variants.length > 1 && 'from'}
+                </span>
+                <Price
+                  amount={product.priceRange.minVariantPrice.amount}
+                  currencyCode={product.priceRange.minVariantPrice.currencyCode}
+                  className="leading-none"
+                />
+              </div>
             </div>
             <VariantSelector options={product.options} variants={product.variants} />
             {product.descriptionHtml ? <Prose className="" html={product.descriptionHtml} /> : null}
