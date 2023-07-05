@@ -42,9 +42,9 @@ export const CollectionPreview = async function () {
               height={featuredImage.height}
               src={featuredImage.url}
               alt={featuredImage.altText}
-              className="transition-transform duration-500 group-hover:-translate-x-2 md:h-full md:object-cover"
+              className="transition-transform duration-[400ms] group-hover:-translate-x-2 md:h-full md:object-cover"
             />
-            <div className="flex flex-col-reverse border-t border-black bg-white p-4 md:absolute md:bottom-0 md:right-0 md:h-full md:translate-x-[calc(100%_+_1px)] md:-rotate-180 md:flex-col md:border-r md:border-t-0 md:transition-transform md:[writing-mode:vertical-rl] md:group-hover:translate-x-0">
+            <div className="flex flex-col-reverse border-t border-black bg-white p-4 md:absolute md:bottom-0 md:right-0 md:h-full md:translate-x-[calc(100%_+_1px)] md:-rotate-180 md:flex-col md:border-r md:border-t-0 md:transition-transform md:duration-[200ms] md:ease-in md:[writing-mode:vertical-rl] md:group-hover:translate-x-0">
               <Price amount={amount} currencyCode={currencyCode} />
               <span className="text-md font-serif">{title}</span>
             </div>
