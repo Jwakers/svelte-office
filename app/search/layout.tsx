@@ -1,4 +1,3 @@
-import Footer from 'components/layout/footer';
 import Collections from 'components/layout/search/collections';
 import FilterList from 'components/layout/search/filter';
 import SearchMenu from 'components/layout/search/filter/menu';
@@ -25,7 +24,6 @@ export default function SearchLayout({ children }: { children: React.ReactNode }
           </div>
         </div>
       </div>
-      <Footer />
     </Suspense>
   );
 }

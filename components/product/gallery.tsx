@@ -49,7 +49,7 @@ export function Gallery({ images }: { images: { src: string; altText: string }[]
               height={750}
               alt={altText || ''}
               priority={i === 0}
-              className="h-full w-full border-black object-cover md:border-b"
+              className="h-full w-full animate-fadeIn border-black object-cover md:border-b"
             />
           </SwiperSlide>
         ))}

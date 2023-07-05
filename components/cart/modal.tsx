@@ -51,8 +51,18 @@ export default function CartModal({ cart, cartIdUpdated }: { cart: Cart; cartIdU
 
   return (
     <>
-      <button className="flex" aria-label="Open cart" onClick={openCart} data-testid="open-cart">
+      <button
+        className="relative flex"
+        aria-label="Open cart"
+        onClick={openCart}
+        data-testid="open-cart"
+      >
         <Icon name="shopping_bag" />
+        {!!cart.totalQuantity && (
+          <span className="absolute -bottom-1 -right-1 flex h-4 w-4  transform items-center justify-center rounded-full border bg-black p-1 text-xs text-white">
+            {cart.totalQuantity}
+          </span>
+        )}
       </button>
       <Transition show={isOpen}>
         <Dialog onClose={closeCart} className="relative z-50" data-testid="cart">
@@ -65,7 +75,7 @@ export default function CartModal({ cart, cartIdUpdated }: { cart: Cart; cartIdU
             leaveFrom="opacity-100 backdrop-blur-[.5px]"
             leaveTo="opacity-0 backdrop-blur-none"
           >
-            <div className="fixed inset-0 bg-black/30" aria-hidden="true" />
+            <div className="fixed inset-0 bg-black/30 backdrop-blur-sm" aria-hidden="true" />
           </Transition.Child>
           <Transition.Child
             as={Fragment}
@@ -76,13 +86,13 @@ export default function CartModal({ cart, cartIdUpdated }: { cart: Cart; cartIdU
             leaveFrom="translate-x-0"
             leaveTo="translate-x-full"
           >
-            <Dialog.Panel className="fixed bottom-0 right-0 top-0 flex h-full w-full flex-col bg-white p-6 text-black dark:bg-black dark:text-white md:w-3/5 lg:w-2/5">
-              <div className="flex items-center justify-between">
-                <p className="text-lg font-bold">My Cart</p>
+            <Dialog.Panel className="fixed bottom-0 right-0 top-0 flex h-full w-full flex-col border-black bg-white text-black md:w-3/5 md:border-l lg:w-2/5">
+              <div className="flex items-center justify-between p-3">
+                <p className="font-serif text-2xl">My Cart</p>
                 <button
                   aria-label="Close cart"
                   onClick={closeCart}
-                  className="text-black transition-colors hover:text-gray-500 dark:text-gray-100"
+                  className="text-black transition-colors"
                   data-testid="close-cart"
                 >
                   <Icon name="close" />
@@ -90,13 +100,13 @@ export default function CartModal({ cart, cartIdUpdated }: { cart: Cart; cartIdU
               </div>
 
               {cart.lines.length === 0 ? (
-                <div className="mt-20 flex w-full flex-col items-center justify-center overflow-hidden">
+                <div className="mt-20 flex w-full flex-col items-center justify-center">
                   <Icon name="shopping_bag" />
-                  <p className="mt-6 text-center text-2xl font-bold">Your cart is empty.</p>
+                  <p className="mt-6 font-serif text-3xl">Your cart is empty.</p>
                 </div>
               ) : (
                 <div className="flex h-full flex-col justify-between overflow-hidden">
-                  <ul className="flex-grow overflow-auto p-6">
+                  <ul className="flex-grow overflow-auto p-3">
                     {cart.lines.map((item, i) => {
                       const merchandiseSearchParams = {} as MerchandiseSearchParams;
 
@@ -112,12 +122,12 @@ export default function CartModal({ cart, cartIdUpdated }: { cart: Cart; cartIdU
                       );
 
                       return (
-                        <li key={i} data-testid="cart-item">
-                          <Link
-                            className="flex flex-row space-x-4 py-4"
-                            href={merchandiseUrl}
-                            onClick={closeCart}
-                          >
+                        <li
+                          key={i}
+                          className="flex flex-col gap-2 border-b border-black py-3 last:border-b-0"
+                          data-testid="cart-item"
+                        >
+                          <Link className="flex gap-4" href={merchandiseUrl} onClick={closeCart}>
                             <div className="relative h-16 w-16 cursor-pointer overflow-hidden bg-white">
                               <Image
                                 className="h-full w-full object-cover"
@@ -146,9 +156,9 @@ export default function CartModal({ cart, cartIdUpdated }: { cart: Cart; cartIdU
                               currencyCode={item.cost.totalAmount.currencyCode}
                             />
                           </Link>
-                          <div className="flex h-9 flex-row">
+                          <div className="flex h-9">
                             <DeleteItemButton item={item} />
-                            <p className="ml-2 flex w-full items-center justify-center border dark:border-gray-700">
+                            <p className="flex w-full items-center justify-center border border-l-0 border-black">
                               <span className="w-full px-2">{item.quantity}</span>
                             </p>
                             <EditItemQuantityButton item={item} type="minus" />
@@ -158,42 +168,45 @@ export default function CartModal({ cart, cartIdUpdated }: { cart: Cart; cartIdU
                       );
                     })}
                   </ul>
-                  <div className="border-t border-gray-200 pt-2 text-sm text-black dark:text-white">
-                    <div className="mb-2 flex items-center justify-between">
-                      <p>Subtotal</p>
-                      <Price
-                        className="text-right"
-                        amount={cart.cost.subtotalAmount.amount}
-                        currencyCode={cart.cost.subtotalAmount.currencyCode}
-                      />
-                    </div>
-                    <div className="mb-2 flex items-center justify-between">
-                      <p>Taxes</p>
-                      <Price
-                        className="text-right"
-                        amount={cart.cost.totalTaxAmount.amount}
-                        currencyCode={cart.cost.totalTaxAmount.currencyCode}
-                      />
-                    </div>
-                    <div className="mb-2 flex items-center justify-between border-b border-gray-200 pb-2">
-                      <p>Shipping</p>
-                      <p className="text-right">Calculated at checkout</p>
-                    </div>
-                    <div className="mb-2 flex items-center justify-between font-bold">
-                      <p>Total</p>
-                      <Price
-                        className="text-right"
-                        amount={cart.cost.totalAmount.amount}
-                        currencyCode={cart.cost.totalAmount.currencyCode}
-                      />
+                  <div className="border-t border-black pt-2 text-sm text-black">
+                    <div className="p-3">
+                      <div className="mb-2 flex items-center justify-between">
+                        <p>Subtotal</p>
+                        <Price
+                          className="text-right"
+                          amount={cart.cost.subtotalAmount.amount}
+                          currencyCode={cart.cost.subtotalAmount.currencyCode}
+                        />
+                      </div>
+                      <div className="mb-2 flex items-center justify-between">
+                        <p>Taxes</p>
+                        <Price
+                          className="text-right"
+                          amount={cart.cost.totalTaxAmount.amount}
+                          currencyCode={cart.cost.totalTaxAmount.currencyCode}
+                        />
+                      </div>
+                      <div className="mb-2 flex items-center justify-between border-b border-black pb-2">
+                        <p>Shipping</p>
+                        <p className="text-right">Calculated at checkout</p>
+                      </div>
+                      <div className="mb-2 flex items-center justify-between font-bold">
+                        <p>Total</p>
+                        <Price
+                          className="text-right"
+                          amount={cart.cost.totalAmount.amount}
+                          currencyCode={cart.cost.totalAmount.currencyCode}
+                        />
+                      </div>
+                      <a
+                        href={cart.checkoutUrl}
+                        className="flex w-full items-center justify-center gap-2 border border-black bg-black p-3 text-sm uppercase text-white transition-colors hover:bg-white hover:text-black"
+                      >
+                        <span className="">Proceed to Secure Checkout</span>
+                        <Icon name="lock" className="-translate-y-[1px] text-lg leading-none" />
+                      </a>
                     </div>
                   </div>
-                  <a
-                    href={cart.checkoutUrl}
-                    className="flex w-full items-center justify-center bg-black p-3 text-sm font-medium uppercase text-white opacity-90 hover:opacity-100 dark:bg-white dark:text-black"
-                  >
-                    <span>Proceed to Checkout</span>
-                  </a>
                 </div>
               )}
             </Dialog.Panel>

@@ -62,7 +62,7 @@ export function AddToCart({
       )}
     >
       <span>{availableForSale ? 'Add To Cart' : 'Out Of Stock'}</span>
-      {isPending ? <LoadingDots className="border bg-white dark:bg-black" /> : null}
+      {isPending ? <LoadingDots /> : null}
     </button>
   );
 }
