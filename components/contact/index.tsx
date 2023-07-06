@@ -6,6 +6,7 @@ import clsx from 'clsx';
 import LoadingDots from 'components/loading-dots';
 import { useRouter } from 'next/navigation';
 import { FormEvent, useState } from 'react';
+import { toast } from 'react-hot-toast';
 
 type MutationResponse = {
   message?: string;
@@ -32,7 +33,7 @@ export default function ContactForm() {
     console.log({ data });
 
     if (!data?.errors && res.ok) {
-      alert(data?.message || 'Message sent');
+      toast(data?.message || 'Message sent');
       router.push('/');
     }
 
