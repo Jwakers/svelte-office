@@ -14,6 +14,9 @@ export default async function Navbar() {
 
   return (
     <>
+      <Link href="/" aria-label="Go back home" className="relative z-10 block p-3 md:hidden">
+        <span className="font-serif font-bold">Logo</span>
+      </Link>
       <nav className="fixed bottom-0 left-0 z-20 grid w-full grid-cols-[1fr_auto] items-center justify-between border-t border-black bg-white px-4 md:static md:border-b md:border-t-0">
         <Link href="/" aria-label="Go back home" className="py-2">
           <span className="font-serif font-bold">Logo</span>
@@ -42,13 +45,6 @@ export default async function Navbar() {
           </div>
         </div>
       </nav>
-      <Link
-        href="/"
-        aria-label="Go back home"
-        className="absolute left-3 top-2 z-10 py-2 md:hidden"
-      >
-        <span className="font-serif font-bold">Logo</span>
-      </Link>
     </>
   );
 }

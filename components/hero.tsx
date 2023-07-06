@@ -11,7 +11,7 @@ export const Hero = async function () {
   const { metafield, handle, image } = heroCollection;
 
   return (
-    <section className="flex min-h-[calc(100vh_-_42px)] flex-col-reverse border-b border-black md:grid md:grid-cols-[auto_1fr]">
+    <section className="-mt-[50px] flex min-h-[calc(100vh_-_42px)] flex-col-reverse border-b border-black md:mt-0 md:grid md:grid-cols-[auto_1fr]">
       <div className="flex max-w-xl flex-col justify-end gap-4 px-3 py-4">
         {!!metafield && (
           <h1 className="font-serif text-3xl uppercase leading-none md:text-5xl">

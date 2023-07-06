@@ -13,7 +13,7 @@ export default function SearchMenu({ children }: { children: React.ReactNode }) 
     <>
       <button
         onClick={openMenu}
-        className="button sticky -bottom-40 top-4 z-10 mx-4 bg-white md:hidden"
+        className="button sticky -bottom-40 top-4 z-10 mx-4 mb-4 bg-white md:my-0 md:hidden"
       >
         Filter
       </button>

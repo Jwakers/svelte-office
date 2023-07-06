@@ -30,7 +30,6 @@ export default function ContactForm() {
     });
 
     const data: MutationResponse = await res.json();
-    console.log({ data });
 
     if (!data?.errors && res.ok) {
       toast(data?.message || 'Message sent');

@@ -16,7 +16,7 @@ export const CollectionPreview = async function () {
     <section className="relative grid border-b border-black md:grid-cols-[repeat(3,_1fr),_40%]">
       <Link
         href="/collection/collection-handle"
-        className="sticky top-0 z-10 flex items-center gap-1 self-end border-b border-black px-4 py-2 transition-all group-hover:gap-4 md:hidden"
+        className="sticky top-0 z-10 flex items-center gap-1 self-end border-b border-black bg-white px-4 py-2 transition-all group-hover:gap-4 md:hidden"
       >
         <h2 className="font-serif text-2xl">{collectionTitle}</h2>
         <Icon name="arrow_right_alt" />

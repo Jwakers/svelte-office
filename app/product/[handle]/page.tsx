@@ -80,7 +80,7 @@ export default async function ProductPage({ params }: { params: { handle: string
           __html: JSON.stringify(productJsonLd)
         }}
       />
-      <section className="md:grid md:grid-cols-2">
+      <section className="-mt-[50px] md:mt-0 md:grid md:grid-cols-2">
         <div className="flex flex-col border-black md:border-r">
           <Gallery images={product.images.map(({ url, altText }) => ({ src: url, altText }))} />
         </div>
