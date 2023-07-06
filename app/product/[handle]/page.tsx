@@ -3,7 +3,6 @@ import { notFound } from 'next/navigation';
 
 import { AddToCart } from 'components/cart/add-to-cart';
 import { GridTileImage } from 'components/grid/tile';
-import Footer from 'components/layout/footer';
 import Price from 'components/price';
 import { Gallery } from 'components/product/gallery';
 import { VariantSelector } from 'components/product/variant-selector';
@@ -113,9 +112,6 @@ export default async function ProductPage({ params }: { params: { handle: string
       </section>
       <Suspense>
         <RelatedProducts id={product.id} />
-        <Suspense>
-          <Footer />
-        </Suspense>
       </Suspense>
     </>
   );
