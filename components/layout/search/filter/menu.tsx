@@ -2,12 +2,21 @@
 
 import { Dialog, Transition } from '@headlessui/react';
 import { Icon } from 'components/icon';
-import { Fragment, useState } from 'react';
+import { useSearchParams } from 'next/navigation';
+import { Fragment, useEffect, useState } from 'react';
 
 export default function SearchMenu({ children }: { children: React.ReactNode }) {
   const [isOpen, setIsOpen] = useState(false);
   const openMenu = () => setIsOpen(true);
   const closeMenu = () => setIsOpen(false);
+  const searchParams = useSearchParams();
+
+  useEffect(() => {
+    // Close model on filter update
+    if (isOpen) {
+      setIsOpen(false);
+    }
+  }, [searchParams]);
 
   return (
     <>
