@@ -197,7 +197,7 @@ export type ShopifyUpdateCartOperation = {
 
 export type ShopifyCollectionOperation = {
   data: {
-    collection: ShopifyCollection;
+    collectionByHandle: ShopifyCollection;
   };
   variables: {
     handle: string;

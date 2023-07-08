@@ -1,12 +1,10 @@
-import { getCollectionWithProducts } from 'lib/shopify';
+import { getCollection } from 'lib/shopify';
 import Image from 'next/image';
 import Link from 'next/link';
 
 export const Hero = async function () {
-  const heroCollection = await getCollectionWithProducts({
-    handle: 'hidden-homepage-hero',
-    limit: 3
-  });
+  const heroCollection = await getCollection('premium-furniture-collection');
+
   if (!heroCollection) return;
   const { metafield, handle, image } = heroCollection;
 
@@ -20,16 +18,16 @@ export const Hero = async function () {
         )}
         <p>{heroCollection.description}</p>
         <div className="flex gap-4">
-          <Link href="/collection" className="button grow">
+          <Link href="/collections/" className="button grow">
             All collections
           </Link>
-          <Link href={`/collection/${handle}`} className="button grow">
+          <Link href={`/collections/${handle}`} className="button grow">
             View collection
           </Link>
         </div>
       </div>
       {!!image && (
-        <div className="relative min-h-[120px] grow border-b border-black md:border-b-0 md:border-l">
+        <div className="relative min-h-[120px] grow animate-fadeIn border-b border-black md:border-b-0 md:border-l">
           <Image
             src={image.url}
             alt={image.altText}

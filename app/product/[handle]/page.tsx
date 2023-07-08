@@ -86,7 +86,7 @@ export default async function ProductPage({ params }: { params: { handle: string
         </div>
         <div className="relative">
           <div className="sticky top-0 flex flex-col gap-4 p-3 pb-0">
-            <div className="flex flex-wrap items-end justify-between gap-4">
+            <div className="flex flex-wrap items-start justify-between gap-4">
               <h1 className="font-serif text-lg md:text-3xl">{product.title}</h1>
               {/* TODO: have price update depeding on variant select. Can get variant from URL. */}
               <div className="flex items-end gap-1">

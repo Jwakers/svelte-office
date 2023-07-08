@@ -84,6 +84,7 @@ export async function shopifyFetch<T>({
     });
 
     const body = await result.json();
+    console.log(body);
 
     if (body.errors) {
       throw body.errors[0];
@@ -260,7 +261,7 @@ export async function getCollection(handle: string): Promise<Collection | undefi
     }
   });
 
-  return reshapeCollection(res.body.data.collection);
+  return reshapeCollection(res.body.data.collectionByHandle);
 }
 
 export async function getCollectionProducts({
@@ -330,17 +331,6 @@ export async function getCollections(): Promise<Collection[]> {
   });
   const shopifyCollections = removeEdgesAndNodes(res.body?.data?.collections);
   const collections = [
-    {
-      handle: '',
-      title: 'All',
-      description: 'All products',
-      seo: {
-        title: 'All',
-        description: 'All products'
-      },
-      path: '/search',
-      updatedAt: new Date().toISOString()
-    },
     // Filter out the `hidden` collections.
     // Collections that start with `hidden-*` need to be hidden on the search page.
     ...reshapeCollections(shopifyCollections).filter(

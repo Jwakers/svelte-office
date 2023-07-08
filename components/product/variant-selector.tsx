@@ -31,10 +31,6 @@ export function VariantSelector({
   const hasNoOptionsOrJustOneOption =
     !options.length || (options.length === 1 && options[0]?.values.length === 1);
 
-  if (hasNoOptionsOrJustOneOption) {
-    return null;
-  }
-
   // Discard any unexpected options or values from url and create params map.
   const paramsMap: ParamsMap = Object.fromEntries(
     Array.from(currentParams.entries()).filter(([key, value]) =>
@@ -85,6 +81,10 @@ export function VariantSelector({
       router.replace(selectedVariantUrl);
     }
   }, []);
+
+  if (hasNoOptionsOrJustOneOption) {
+    return null;
+  }
 
   return (
     <div className="flex flex-col gap-2">
