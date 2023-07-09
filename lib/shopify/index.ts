@@ -84,7 +84,6 @@ export async function shopifyFetch<T>({
     });
 
     const body = await result.json();
-    console.log(body);
 
     if (body.errors) {
       throw body.errors[0];

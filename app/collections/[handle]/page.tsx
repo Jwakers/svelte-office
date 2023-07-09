@@ -63,46 +63,46 @@ export default async function Collection({ params }: { params: { handle: string 
 
 const ColletionProduct = ({ product }: { product: Product }) => {
   const hasVariants = product.variants.length > 1;
+  const previewImages = product.images.filter((_, i) => i >= 1 && i <= 3);
+
   return (
     <Link
       href={`/product/${product.handle}`}
-      className="grid grid-cols-[auto_1fr] border-b border-black 2xl:border-r"
+      className="grid-cols-[auto_1fr] border-b border-black md:grid 2xl:border-r"
       key={product.id}
     >
       <div className="flex">
-        <div>
+        <div className="max-h-80 w-full md:max-h-none md:w-auto">
           <Image
             src={product.featuredImage.url}
             height={320}
             width={320}
             alt={product.featuredImage.altText}
-            className="h-full w-full border-r border-black object-cover"
+            className="md:border-b-none h-full w-full border-b border-black object-cover md:border-r"
           />
         </div>
-        {product.images.length >= 3 && (
-          <div className="flex flex-col border-r border-black">
-            {product.images.map((image, i) =>
-              i < 3 ? (
-                <div
-                  className={clsx('h-1/3', {
-                    'border-b border-black': i < 2
-                  })}
-                >
-                  <Image
-                    src={image.url}
-                    height={100}
-                    width={100}
-                    className="h-full object-cover"
-                    alt={image.altText}
-                  />
-                </div>
-              ) : null
-            )}
+        {previewImages.length >= 3 && (
+          <div className="hidden flex-col border-r border-black md:flex">
+            {previewImages.map((image, i) => (
+              <div
+                className={clsx('h-1/3', {
+                  'border-b border-black': i < 2
+                })}
+              >
+                <Image
+                  src={image.url}
+                  height={100}
+                  width={100}
+                  className="h-full object-cover"
+                  alt={image.altText}
+                />
+              </div>
+            ))}
           </div>
         )}
       </div>
       <div className="flex max-w-2xl flex-col justify-end p-3 2xl:max-w-none">
-        <h2 className="font-serif text-3xl uppercase">{product.title}</h2>
+        <h2 className="font-serif text-lg uppercase md:text-3xl">{product.title}</h2>
         {hasVariants && (
           <p className="uppercase text-black/80">{product.variants.length} variations</p>
         )}
