@@ -138,22 +138,6 @@ const reshapeCollection = (collection: ShopifyCollection): Collection | undefine
   };
 };
 
-const reshapeCollections = (collections: ShopifyCollection[]) => {
-  const reshapedCollections = [];
-
-  for (const collection of collections) {
-    if (collection) {
-      const reshapedCollection = reshapeCollection(collection);
-
-      if (reshapedCollection) {
-        reshapedCollections.push(reshapedCollection);
-      }
-    }
-  }
-
-  return reshapedCollections;
-};
-
 const reshapeProduct = (product: ShopifyProduct, filterHiddenProducts: boolean = true) => {
   if (!product || (filterHiddenProducts && product.tags.includes(HIDDEN_PRODUCT_TAG))) {
     return undefined;
@@ -317,9 +301,12 @@ export async function getCollectionWithProducts({
     return undefined;
   }
 
+  const collection = res.body.data.collectionByHandle;
+
   return {
-    ...res.body.data.collectionByHandle,
-    products: reshapeProducts(removeEdgesAndNodes(res.body.data.collectionByHandle.products))
+    ...collection,
+    products: reshapeProducts(removeEdgesAndNodes(collection.products)),
+    path: `/collection/${collection.handle}`
   };
 }
 

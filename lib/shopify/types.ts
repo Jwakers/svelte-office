@@ -35,6 +35,7 @@ export type Collection = ShopifyCollection & {
 
 export type CollectionWithProducts = ShopifyCollection & {
   products: Product[];
+  path: string;
 };
 
 export type Image = {
@@ -43,6 +44,7 @@ export type Image = {
   width: number;
   height: number;
 };
+
 export type Metafield = {
   value: string;
   key: string;
