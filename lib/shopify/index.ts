@@ -323,21 +323,18 @@ export async function getCollectionWithProducts({
   };
 }
 
-export async function getCollections(): Promise<Collection[]> {
+export async function getCollections(): Promise<CollectionWithProducts[]> {
   const res = await shopifyFetch<ShopifyCollectionsOperation>({
     query: getCollectionsQuery,
     tags: [TAGS.collections]
   });
   const shopifyCollections = removeEdgesAndNodes(res.body?.data?.collections);
-  const collections = [
-    // Filter out the `hidden` collections.
-    // Collections that start with `hidden-*` need to be hidden on the search page.
-    ...reshapeCollections(shopifyCollections).filter(
-      (collection) => !collection.handle.startsWith('hidden')
-    )
-  ];
+  const shopifyCollectionsWithProducts = shopifyCollections.map((collection) => ({
+    ...collection,
+    products: removeEdgesAndNodes(collection.products)
+  }));
 
-  return collections;
+  return shopifyCollectionsWithProducts;
 }
 
 export async function getMenu(handle: string): Promise<Menu[]> {

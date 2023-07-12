@@ -3,7 +3,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 
 export const Hero = async function () {
-  const heroCollection = await getCollection('premium-furniture-collection');
+  const heroCollection = await getCollection('furniture');
 
   if (!heroCollection) return;
   const { metafield, handle, image } = heroCollection;
@@ -18,10 +18,10 @@ export const Hero = async function () {
         )}
         <p>{heroCollection.description}</p>
         <div className="flex gap-4">
-          <Link href="/collections/" className="button grow">
+          <Link href="/collection/" className="button grow">
             All collections
           </Link>
-          <Link href={`/collections/${handle}`} className="button grow">
+          <Link href={`/collection/${handle}`} className="button grow">
             View collection
           </Link>
         </div>

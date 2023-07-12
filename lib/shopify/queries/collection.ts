@@ -39,6 +39,13 @@ export const getCollectionsQuery = /* GraphQL */ `
       edges {
         node {
           ...collection
+          products(first: 100) {
+            edges {
+              node {
+                handle
+              }
+            }
+          }
         }
       }
     }

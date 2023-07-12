@@ -1,4 +1,5 @@
 import clsx from 'clsx';
+import IndexString from 'components/index-string';
 import Price from 'components/price';
 import { getCollection, getCollectionWithProducts } from 'lib/shopify';
 import { Product } from 'lib/shopify/types';
@@ -32,13 +33,10 @@ export default async function Collection({ params }: { params: { handle: string 
   return (
     <section>
       <div className="grid border-b border-black md:grid-cols-2">
-        <div className="flex flex-col justify-end gap-2 border-r border-black p-3">
-          <p className="text-black/80">
-            <span className="font-semibold">{productsCount}</span> product
-            {productsCount > 1 ? 's' : ''} in this collection
-          </p>
+        <div className="flex flex-col justify-end border-r border-black p-3">
           <h1 className="font-serif text-3xl uppercase">{title}</h1>
-          <p className="max-w-lg">{description}</p>
+          <IndexString value={productsCount} text="products in this collection" />
+          <p className="mt-1 max-w-lg">{description}</p>
         </div>
         {image && (
           <div className="max-h-96 animate-fadeIn">
@@ -54,7 +52,7 @@ export default async function Collection({ params }: { params: { handle: string 
       </div>
       <div className="grid 2xl:grid-cols-2">
         {products.map((product) => (
-          <ColletionProduct product={product} />
+          <ColletionProduct product={product} key={product.id} />
         ))}
       </div>
     </section>
@@ -69,7 +67,6 @@ const ColletionProduct = ({ product }: { product: Product }) => {
     <Link
       href={`/product/${product.handle}`}
       className="grid-cols-[auto_1fr] border-b border-black md:grid 2xl:border-r"
-      key={product.id}
     >
       <div className="flex">
         <div className="max-h-80 w-full md:max-h-none md:w-auto">
@@ -88,6 +85,7 @@ const ColletionProduct = ({ product }: { product: Product }) => {
                 className={clsx('h-1/3', {
                   'border-b border-black': i < 2
                 })}
+                key={image.url}
               >
                 <Image
                   src={image.url}
@@ -103,9 +101,7 @@ const ColletionProduct = ({ product }: { product: Product }) => {
       </div>
       <div className="flex max-w-2xl flex-col justify-end p-3 2xl:max-w-none">
         <h2 className="font-serif text-lg uppercase md:text-3xl">{product.title}</h2>
-        {hasVariants && (
-          <p className="uppercase text-black/80">{product.variants.length} variations</p>
-        )}
+        {hasVariants && <IndexString value={product.variants.length} text="variations" />}
         <p>
           {hasVariants && <span>from &nbsp;</span>}
           <Price

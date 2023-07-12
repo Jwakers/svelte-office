@@ -233,7 +233,11 @@ export type ShopifyCollectionWithProductsOperation = {
 
 export type ShopifyCollectionsOperation = {
   data: {
-    collections: Connection<ShopifyCollection>;
+    collections: Connection<
+      ShopifyCollection & {
+        products: Connection<ShopifyProduct>;
+      }
+    >;
   };
 };
 
