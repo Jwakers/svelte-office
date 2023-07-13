@@ -34,7 +34,7 @@ const vollkorn = Vollkorn({
 export default async function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en" className={clsx(workSans.variable, vollkorn.variable)}>
-      <body className="grid min-h-screen grid-rows-[auto_1fr_auto] text-black selection:bg-yellow-400">
+      <body className="text-black selection:bg-yellow-400">
         <Navbar />
         <Suspense>
           <Providers>
