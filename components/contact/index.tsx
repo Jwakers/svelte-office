@@ -32,9 +32,11 @@ export default function ContactForm() {
     const data: MutationResponse = await res.json();
 
     if (!data?.errors && res.ok) {
-      toast(data?.message || 'Message sent');
-      router.push('/');
+      toast.success(data?.message || 'Message sent');
+      return router.push('/');
     }
+
+    toast.error(data?.message || 'Error');
 
     return data;
   };

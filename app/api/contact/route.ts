@@ -19,17 +19,17 @@ export async function POST(request: Request) {
 
     const transporter = nodemailer.createTransport({
       port: 465,
-      host: 'smtp.gmail.com',
+      host: 'smtp.hostinger.com',
       auth: {
-        user: process.env.GOOGLE_EMAIL_ADDRESS,
-        pass: process.env.GOOGLE_APP_PASSWORD
+        user: process.env.HOSTINGER_CONTACT_EMAIL,
+        pass: process.env.HOSTINGER_CONTACT_PASSWORD
       }
     });
 
     const mailData = {
-      from: process.env.GOOGLE_EMAIL_ADDRESS,
-      to: process.env.GOOGLE_EMAIL_ADDRESS,
-      subject: `Customer enquiry: ${data.subject}`,
+      from: process.env.HOSTINGER_CONTACT_EMAIL,
+      to: process.env.HOSTINGER_CONTACT_EMAIL,
+      subject: `${data.subject}`,
       html: `
         <p><strong>Name:</strong> ${data.name}</p>
         <p><strong>Email:</strong> ${data.email}</p>
