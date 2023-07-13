@@ -12,7 +12,10 @@ function GridItem(props: React.ComponentProps<'li'>) {
   return (
     <li
       {...props}
-      className={clsx('relative h-full w-full overflow-hidden transition-opacity', props.className)}
+      className={clsx(
+        'relative h-full w-full overflow-hidden bg-white transition-opacity',
+        props.className
+      )}
     >
       {props.children}
     </li>

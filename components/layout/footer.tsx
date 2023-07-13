@@ -17,9 +17,8 @@ export default async function Footer() {
           <div className="col-span-1 lg:col-span-3">
             <a className="flex flex-initial items-center font-serif font-bold md:mr-24" href="/">
               <span className="mr-2">
-                <span>logo</span>
+                <span>SvelteOffice</span>
               </span>
-              <span>{SITE_NAME}</span>
             </a>
           </div>
           {menu.length ? (
