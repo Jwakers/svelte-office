@@ -1,9 +1,9 @@
 'use client';
 
 import { Dialog, Transition } from '@headlessui/react';
-import { Icon } from 'components/icon';
 import { useSearchParams } from 'next/navigation';
 import { Fragment, useEffect, useState } from 'react';
+import { X } from 'react-feather';
 
 export default function SearchMenu({ children }: { children: React.ReactNode }) {
   const [isOpen, setIsOpen] = useState(false);
@@ -41,7 +41,7 @@ export default function SearchMenu({ children }: { children: React.ReactNode }) 
             <Dialog.Panel className="fixed bottom-0 left-0 right-0 top-0 flex h-full w-full flex-col bg-white pb-6 dark:bg-black">
               <div className="flex flex-col p-4">
                 <button className="mb-4 ml-auto" onClick={closeMenu} aria-label="Close menu">
-                  <Icon name="close" />
+                  <X strokeWidth={1} />
                 </button>
                 {children}
               </div>

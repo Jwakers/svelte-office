@@ -3,9 +3,9 @@ import { useTransition } from 'react';
 
 import clsx from 'clsx';
 import { removeItem, updateItemQuantity } from 'components/cart/actions';
-import { Icon } from 'components/icon';
 import LoadingDots from 'components/loading-dots';
 import type { CartItem } from 'lib/shopify/types';
+import { Minus, Plus } from 'react-feather';
 
 export default function EditItemQuantityButton({
   item,
@@ -48,7 +48,13 @@ export default function EditItemQuantityButton({
         }
       )}
     >
-      {isPending ? <LoadingDots /> : type === 'plus' ? <Icon name="add" /> : <Icon name="remove" />}
+      {isPending ? (
+        <LoadingDots />
+      ) : type === 'plus' ? (
+        <Plus strokeWidth={1} />
+      ) : (
+        <Minus strokeWidth={1} />
+      )}
     </button>
   );
 }

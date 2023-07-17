@@ -4,13 +4,13 @@ import { Dialog, Transition } from '@headlessui/react';
 import Image from 'next/image';
 import Link from 'next/link';
 
-import { Icon } from 'components/icon';
 import Price from 'components/price';
 import { DEFAULT_OPTION } from 'lib/constants';
 import type { Cart } from 'lib/shopify/types';
 import { createUrl } from 'lib/utils';
 import { Fragment, useEffect, useRef, useState } from 'react';
 import { useCookies } from 'react-cookie';
+import { Lock, ShoppingBag, X } from 'react-feather';
 import DeleteItemButton from './delete-item-button';
 import EditItemQuantityButton from './edit-item-quantity-button';
 
@@ -57,7 +57,7 @@ export default function CartModal({ cart, cartIdUpdated }: { cart: Cart; cartIdU
         onClick={openCart}
         data-testid="open-cart"
       >
-        <Icon name="shopping_bag" />
+        <ShoppingBag strokeWidth={1} />
         {!!cart.totalQuantity && (
           <span className="absolute -bottom-1 -right-1 flex h-4 w-4  transform items-center justify-center rounded-full border bg-black p-1 text-xs text-white">
             {cart.totalQuantity}
@@ -95,13 +95,13 @@ export default function CartModal({ cart, cartIdUpdated }: { cart: Cart; cartIdU
                   className="text-black transition-colors"
                   data-testid="close-cart"
                 >
-                  <Icon name="close" />
+                  <X strokeWidth={1} />
                 </button>
               </div>
 
               {cart.lines.length === 0 ? (
                 <div className="mt-20 flex w-full flex-col items-center justify-center">
-                  <Icon name="shopping_bag" />
+                  <ShoppingBag strokeWidth={1} />
                   <p className="mt-6 font-serif text-3xl">Your cart is empty.</p>
                 </div>
               ) : (
@@ -202,8 +202,8 @@ export default function CartModal({ cart, cartIdUpdated }: { cart: Cart; cartIdU
                         href={cart.checkoutUrl}
                         className="flex w-full items-center justify-center gap-2 border border-black bg-black p-3 text-sm uppercase text-white transition-colors hover:bg-white hover:text-black"
                       >
-                        <span className="">Proceed to Secure Checkout</span>
-                        <Icon name="lock" className="-translate-y-[1px] text-lg leading-none" />
+                        <span>Proceed to Secure Checkout</span>
+                        <Lock strokeWidth={1} />
                       </a>
                     </div>
                   </div>

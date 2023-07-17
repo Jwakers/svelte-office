@@ -1,11 +1,10 @@
 import Link from 'next/link';
 
 import Cart from 'components/cart';
-import { Icon } from 'components/icon';
 import { getMenu } from 'lib/shopify';
 import { Menu } from 'lib/shopify/types';
-import 'material-symbols';
 import { Suspense } from 'react';
+import { ShoppingBag } from 'react-feather';
 import MobileMenu from './mobile-menu';
 import Search from './search';
 
@@ -34,7 +33,7 @@ export default async function Navbar() {
           <div className="border-l border-black" />
           <div className="flex items-center gap-4">
             <Search className="hidden md:flex" />
-            <Suspense fallback={<Icon name="shopping_bag" />}>
+            <Suspense fallback={<ShoppingBag strokeWidth={1} />}>
               <span>
                 <Cart />
               </span>
