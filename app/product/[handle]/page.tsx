@@ -5,6 +5,7 @@ import clsx from 'clsx';
 import { AddToCart } from 'components/cart/add-to-cart';
 import { GridTileImage } from 'components/grid/tile';
 import Price from 'components/price';
+import DeliverySection from 'components/product/delivery-section';
 import { Gallery } from 'components/product/gallery';
 import { VariantSelector } from 'components/product/variant-selector';
 import Prose from 'components/prose';
@@ -85,8 +86,8 @@ export default async function ProductPage({ params }: { params: { handle: string
         <div className="flex flex-col border-black md:border-r">
           <Gallery images={product.images.map(({ url, altText }) => ({ src: url, altText }))} />
         </div>
-        <div className="relative">
-          <div className="sticky top-0 flex flex-col gap-4 p-3 pb-0">
+        <div className="relative flex items-end">
+          <div className="sticky bottom-2 flex min-h-screen flex-col gap-4 p-3 pb-0">
             <div className="flex flex-wrap justify-between gap-2 md:items-start md:gap-4">
               <h1 className="font-serif text-lg md:text-3xl">{product.title}</h1>
               {/* TODO: have price update depeding on variant select. Can get variant from URL. */}
@@ -103,6 +104,7 @@ export default async function ProductPage({ params }: { params: { handle: string
             </div>
             <VariantSelector options={product.options} variants={product.variants} />
             {product.descriptionHtml ? <Prose className="" html={product.descriptionHtml} /> : null}
+            <DeliverySection vendor={product.vendor} />
             <AddToCart
               variants={product.variants}
               availableForSale={product.availableForSale}

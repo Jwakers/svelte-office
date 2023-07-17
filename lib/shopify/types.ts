@@ -138,6 +138,7 @@ export type ShopifyProduct = {
   seo: SEO;
   tags: string[];
   updatedAt: string;
+  vendor: string;
   metafield?: Metafield;
 };
 
