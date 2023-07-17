@@ -33,3 +33,16 @@ export const FADE_ANIMATION = {
   animate: { opacity: 1 },
   exit: { opacity: 0 }
 };
+
+export const DELIVERY_OPTIONS: { [key: string]: string } = {
+  default: `
+  Standard Delivery: We offer standard delivery service, which usually takes 3-5 business days for your order to be delivered.
+  Express Delivery: With express delivery, you can expect your order to arrive within 1-2 business days, ensuring a speedy delivery.
+  `
+};
+
+export const RETURN_OPTIONS: { [key: string]: string } = {
+  default: `
+  We offer a standard return option. Once your return request is approved, it usually takes 7-10 business days for the returned item to reach our warehouse and for the refund or exchange process to be completed.
+  `
+};

@@ -6,12 +6,12 @@ import Link from 'next/link';
 
 export const CollectionPreview = async function () {
   const collection = await getCollectionWithProducts({
-    handle: 'furniture',
+    handle: 'chairs',
     limit: 3
   });
 
   if (!collection) return;
-  const collectionTitle = `${collection.metafield?.value}`;
+  const collectionTitle = collection.metafield?.value || collection.title;
   return (
     <section className="relative grid border-b border-black md:grid-cols-[repeat(3,_1fr),_40%]">
       <Link

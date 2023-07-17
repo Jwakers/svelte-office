@@ -138,6 +138,7 @@ export type ShopifyProduct = {
   seo: SEO;
   tags: string[];
   updatedAt: string;
+  vendor: string;
   metafield?: Metafield;
 };
 
@@ -208,7 +209,7 @@ export type ShopifyCollectionOperation = {
 
 export type ShopifyCollectionProductsOperation = {
   data: {
-    collection: {
+    collectionByHandle: {
       products: Connection<ShopifyProduct>;
     };
   };

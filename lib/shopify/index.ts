@@ -266,12 +266,12 @@ export async function getCollectionProducts({
     }
   });
 
-  if (!res.body.data.collection) {
+  if (!res.body.data.collectionByHandle) {
     console.log(`No collection found for \`${handle}\``);
     return [];
   }
 
-  return reshapeProducts(removeEdgesAndNodes(res.body.data.collection.products));
+  return reshapeProducts(removeEdgesAndNodes(res.body.data.collectionByHandle.products));
 }
 
 export async function getCollectionWithProducts({
