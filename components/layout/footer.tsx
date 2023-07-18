@@ -23,12 +23,12 @@ export default async function Footer() {
           </div>
           {menu.length ? (
             <nav className="col-span-1 lg:col-span-7">
-              <ul className="grid md:grid-flow-col md:grid-cols-3 md:grid-rows-4">
+              <ul className="grid md:grid-flow-col md:grid-cols-3 md:grid-rows-3">
                 {menu.map((item: Menu) => (
                   <li key={item.title} className="py-3 md:py-0 md:pb-4">
                     <Link
                       href={item.path}
-                      className="text-gray-800 transition duration-150 ease-in-out hover:text-gray-300 dark:text-gray-100"
+                      className="text-gray-800 transition duration-150 ease-in-out hover:text-black/40"
                     >
                       {item.title}
                     </Link>

@@ -14,13 +14,13 @@ export async function generateMetadata(): Promise<Metadata> {
 
 export default async function Collections() {
   const collections = await getCollections();
-  console.log();
+
   if (!collections.length) return notFound();
   console.log(collections);
 
   return (
     <section>
-      <h1 className="p-3 font-serif text-2xl md:text-3xl">Collections</h1>
+      <h1 className="p-3 font-serif text-2xl md:text-3xl">Categories</h1>
 
       <div className="grid sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4">
         {collections.map((collection) => (
@@ -42,7 +42,7 @@ export default async function Collections() {
                 <IndexString
                   value={collection.products.length}
                   text="products in
-                  this collection"
+                  this category"
                 />
               </div>
             </div>
