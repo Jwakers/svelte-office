@@ -8,7 +8,7 @@ const { SITE_NAME } = process.env;
 export default async function Footer() {
   const currentYear = new Date().getFullYear();
   const copyrightDate = 2023 + (currentYear > 2023 ? `-${currentYear}` : '');
-  const menu = await getMenu('next-js-frontend-footer-menu');
+  const menu = await getMenu('footer');
 
   return (
     <footer className="border-t border-black bg-white pb-11 text-black md:pb-0">
@@ -38,10 +38,10 @@ export default async function Footer() {
             </nav>
           ) : null}
         </div>
-        <div className="flex flex-col items-center justify-between space-y-4 pb-10 pt-6 text-sm md:flex-row">
-          <p>
-            &copy; {copyrightDate} {SITE_NAME}. All rights reserved.
-          </p>
+        <div className="flex flex-col pb-10 pt-6 text-xs">
+          <p>&copy; {copyrightDate} by Wakeham Retail LTD. All rights reserved.</p>
+          <p>Company Reg No: 15004801</p>
+          <p>Registered Address: 28 St Pauls Road, Gloucester, Gloucestershire, GL1 5AR</p>
         </div>
       </div>
     </footer>
