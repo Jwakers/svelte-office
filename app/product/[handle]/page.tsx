@@ -5,11 +5,11 @@ import clsx from 'clsx';
 import { AddToCart } from 'components/cart/add-to-cart';
 import { GridTileImage } from 'components/grid/tile';
 import Price from 'components/price';
-import DeliverySection from 'components/product/delivery-section';
+import Accordion from 'components/product/accordion';
 import { Gallery } from 'components/product/gallery';
 import { VariantSelector } from 'components/product/variant-selector';
 import Prose from 'components/prose';
-import { DeliveryTypes, HIDDEN_PRODUCT_TAG, Vendors } from 'lib/constants';
+import { DELIVERY_OPTIONS, DeliveryTypes, HIDDEN_PRODUCT_TAG, Vendors } from 'lib/constants';
 import { getProduct, getProductRecommendations } from 'lib/shopify';
 import Link from 'next/link';
 import { Suspense } from 'react';
@@ -52,12 +52,44 @@ export async function generateMetadata({
   };
 }
 
+function DeliverySection({
+  vendor,
+  deliveryType
+}: {
+  vendor: Vendors;
+  deliveryType: keyof DeliveryTypes;
+}) {
+  return (
+    <Accordion heading="Delivery and Returns">
+      <div className="flex flex-col gap-2">
+        <div className="py-2">
+          <h3 className="font-medium">Delivery</h3>
+          <p>{DELIVERY_OPTIONS[vendor][deliveryType]}</p>
+          <p>
+            For more information see our{' '}
+            <Link href="/delivery" className="underline">
+              Delivery page.
+            </Link>
+          </p>
+        </div>
+        <div>
+          <h3 className="font-medium">Returns</h3>
+          <p>
+            For more information see our{' '}
+            <Link href="/returns" className="underline">
+              Returns page.
+            </Link>
+          </p>
+        </div>
+      </div>
+    </Accordion>
+  );
+}
+
 export default async function ProductPage({ params }: { params: { handle: string } }) {
   const product = await getProduct(params.handle);
 
   if (!product) return notFound();
-
-  console.log(product);
 
   const productJsonLd = {
     '@context': 'https://schema.org',
@@ -106,10 +138,18 @@ export default async function ProductPage({ params }: { params: { handle: string
             </div>
             <VariantSelector options={product.options} variants={product.variants} />
             {product.descriptionHtml ? <Prose className="" html={product.descriptionHtml} /> : null}
-            <DeliverySection
-              vendor={product.vendor as Vendors}
-              deliveryType={product.metafield.value as keyof DeliveryTypes}
-            />
+            <div>
+              <DeliverySection
+                vendor={product.vendor as Vendors}
+                deliveryType={product.metafield.value as keyof DeliveryTypes}
+              />
+              <Accordion heading="Warranty">
+                <p className="py-2">
+                  All products have a two year mechanical parts replacement warranty, (subject to
+                  fair use).
+                </p>
+              </Accordion>
+            </div>
             <AddToCart
               variants={product.variants}
               availableForSale={product.availableForSale}
