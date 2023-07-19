@@ -24,7 +24,7 @@ export default async function Collections() {
 
       <div className="grid sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4">
         {collections.map((collection) => (
-          <Link className="group" href={`/collection/${collection.handle}`} key={collection.handle}>
+          <Link className="group" href={`/category/${collection.handle}`} key={collection.handle}>
             <div className="animate-fadeIn outline outline-1 outline-black">
               <div className="overflow-hidden">
                 {collection.image ? (

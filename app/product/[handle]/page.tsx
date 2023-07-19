@@ -5,11 +5,17 @@ import clsx from 'clsx';
 import { AddToCart } from 'components/cart/add-to-cart';
 import { GridTileImage } from 'components/grid/tile';
 import Price from 'components/price';
-import DeliverySection from 'components/product/delivery-section';
+import Accordion from 'components/product/accordion';
 import { Gallery } from 'components/product/gallery';
 import { VariantSelector } from 'components/product/variant-selector';
 import Prose from 'components/prose';
-import { HIDDEN_PRODUCT_TAG } from 'lib/constants';
+import {
+  DELIVERY_OPTIONS,
+  DeliveryTypes,
+  HIDDEN_PRODUCT_TAG,
+  UNIT_MAP,
+  Vendors
+} from 'lib/constants';
 import { getProduct, getProductRecommendations } from 'lib/shopify';
 import Link from 'next/link';
 import { Suspense } from 'react';
@@ -52,6 +58,40 @@ export async function generateMetadata({
   };
 }
 
+function DeliverySection({
+  vendor,
+  deliveryType
+}: {
+  vendor: Vendors;
+  deliveryType: keyof DeliveryTypes;
+}) {
+  return (
+    <Accordion heading="Delivery and Returns">
+      <div className="flex flex-col gap-2">
+        <div className="py-2">
+          <h3 className="font-medium">Delivery</h3>
+          <p>{DELIVERY_OPTIONS[vendor][deliveryType]}</p>
+          <p>
+            For more information see our{' '}
+            <Link href="/delivery" className="underline">
+              Delivery page.
+            </Link>
+          </p>
+        </div>
+        <div>
+          <h3 className="font-medium">Returns</h3>
+          <p>
+            For more information see our{' '}
+            <Link href="/returns" className="underline">
+              Returns page.
+            </Link>
+          </p>
+        </div>
+      </div>
+    </Accordion>
+  );
+}
+
 export default async function ProductPage({ params }: { params: { handle: string } }) {
   const product = await getProduct(params.handle);
 
@@ -88,10 +128,10 @@ export default async function ProductPage({ params }: { params: { handle: string
         </div>
         <div className="relative">
           <div className="sticky top-0 flex h-screen min-h-screen flex-col gap-4 overflow-auto p-3">
-            <div className="flex flex-wrap justify-between gap-2 md:items-start md:gap-4">
+            <div className="flex flex-col">
               <h1 className="font-serif text-lg md:text-3xl">{product.title}</h1>
               {/* TODO: have price update depeding on variant select. Can get variant from URL. */}
-              <div className="flex items-end gap-1">
+              <div className="flex flex-col gap-1">
                 <span className="text-xs leading-none opacity-80">
                   {product.variants.length > 1 && 'from'}
                 </span>
@@ -104,7 +144,33 @@ export default async function ProductPage({ params }: { params: { handle: string
             </div>
             <VariantSelector options={product.options} variants={product.variants} />
             {product.descriptionHtml ? <Prose className="" html={product.descriptionHtml} /> : null}
-            <DeliverySection vendor={product.vendor} />
+            <div>
+              <Accordion heading="Specification">
+                <table className="py-2">
+                  {product.specification.map((spec) => {
+                    const value = JSON.parse(spec.value);
+                    return (
+                      <tr className="border-b border-black/20">
+                        <td className="py-2 capitalize">{spec.key}</td>
+                        <td>
+                          {value.value} {UNIT_MAP[value.unit as keyof typeof UNIT_MAP] || ''}
+                        </td>
+                      </tr>
+                    );
+                  })}
+                </table>
+              </Accordion>
+              <DeliverySection
+                vendor={product.vendor as Vendors}
+                deliveryType={product.deliveryType.value as keyof DeliveryTypes}
+              />
+              <Accordion heading="Warranty">
+                <p className="py-2">
+                  All products have a two year mechanical parts replacement warranty, (subject to
+                  fair use).
+                </p>
+              </Accordion>
+            </div>
             <AddToCart
               variants={product.variants}
               availableForSale={product.availableForSale}

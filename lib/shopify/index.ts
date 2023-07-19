@@ -241,7 +241,8 @@ export async function getCollection(handle: string): Promise<Collection | undefi
     tags: [TAGS.collections],
     variables: {
       handle
-    }
+    },
+    cache: 'no-store'
   });
 
   return reshapeCollection(res.body.data.collectionByHandle);
@@ -263,7 +264,8 @@ export async function getCollectionProducts({
       handle,
       reverse,
       sortKey
-    }
+    },
+    cache: 'no-store'
   });
 
   if (!res.body.data.collectionByHandle) {
@@ -293,7 +295,8 @@ export async function getCollectionWithProducts({
       reverse,
       sortKey,
       limit
-    }
+    },
+    cache: 'no-store'
   });
 
   if (!res.body.data.collectionByHandle) {
@@ -313,7 +316,8 @@ export async function getCollectionWithProducts({
 export async function getCollections(): Promise<CollectionWithProducts[]> {
   const res = await shopifyFetch<ShopifyCollectionsOperation>({
     query: getCollectionsQuery,
-    tags: [TAGS.collections]
+    tags: [TAGS.collections],
+    cache: 'no-store'
   });
   const shopifyCollections = removeEdgesAndNodes(res.body?.data?.collections);
   const shopifyCollectionsWithProducts = shopifyCollections.map((collection) => ({
@@ -330,7 +334,8 @@ export async function getMenu(handle: string): Promise<Menu[]> {
     tags: [TAGS.collections],
     variables: {
       handle
-    }
+    },
+    cache: 'no-store'
   });
 
   return (
@@ -344,7 +349,8 @@ export async function getMenu(handle: string): Promise<Menu[]> {
 export async function getPage(handle: string): Promise<Page> {
   const res = await shopifyFetch<ShopifyPageOperation>({
     query: getPageQuery,
-    variables: { handle }
+    variables: { handle },
+    cache: 'no-store'
   });
 
   return res.body.data.pageByHandle;
@@ -352,7 +358,8 @@ export async function getPage(handle: string): Promise<Page> {
 
 export async function getPages(): Promise<Page[]> {
   const res = await shopifyFetch<ShopifyPagesOperation>({
-    query: getPagesQuery
+    query: getPagesQuery,
+    cache: 'no-store'
   });
 
   return removeEdgesAndNodes(res.body.data.pages);
@@ -364,7 +371,8 @@ export async function getProduct(handle: string): Promise<Product | undefined> {
     tags: [TAGS.products],
     variables: {
       handle
-    }
+    },
+    cache: 'no-store'
   });
 
   return reshapeProduct(res.body.data.product, false);
@@ -398,7 +406,8 @@ export async function getProducts({
       query,
       reverse,
       sortKey
-    }
+    },
+    cache: 'no-store'
   });
 
   return reshapeProducts(removeEdgesAndNodes(res.body.data.products));

@@ -5,7 +5,7 @@ import { getProducts } from 'lib/shopify';
 
 export const metadata = {
   title: 'Search',
-  description: 'Search for products in the store.'
+  description: 'Search for products.'
 };
 
 export default async function SearchPage({
