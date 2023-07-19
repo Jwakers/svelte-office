@@ -3,7 +3,7 @@
 import { usePathname, useSearchParams } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
 
-import { Icon } from 'components/icon';
+import { ChevronRight } from 'react-feather';
 import type { ListItem } from '.';
 import { FilterItem } from './item';
 
@@ -45,7 +45,7 @@ export default function FilterItemDropdown({ list }: { list: ListItem[] }) {
         className="flex w-full items-center justify-between border border-black px-4 py-2 text-sm"
       >
         <div>{active}</div>
-        <Icon name="chevron_right" className="rotate-90" />
+        <ChevronRight strokeWidth={1} />
       </div>
       {openSelect && (
         <div

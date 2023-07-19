@@ -1,8 +1,10 @@
 'use client';
 
+import clsx from 'clsx';
 import { DELIVERY_OPTIONS, RETURN_OPTIONS } from 'lib/constants';
 import Link from 'next/link';
 import { useRef, useState } from 'react';
+import { ChevronDown } from 'react-feather';
 
 export default function DeliverySection({ vendor }: { vendor: string }) {
   const [open, setOpen] = useState(false);
@@ -11,8 +13,12 @@ export default function DeliverySection({ vendor }: { vendor: string }) {
 
   return (
     <div>
-      <button className="w-full border-b border-black py-3 text-left" onClick={toggle}>
-        Delivery and Returns
+      <button
+        className="flex w-full items-center justify-between border-b border-black py-3 text-left"
+        onClick={toggle}
+      >
+        <span>Delivery and Returns</span>
+        <ChevronDown className={clsx('transition-transform', { '-scale-y-100': open })} />
       </button>
       <div
         ref={ref}

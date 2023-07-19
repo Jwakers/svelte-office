@@ -1,8 +1,8 @@
-import { Icon } from 'components/icon';
 import Price from 'components/price';
 import { getCollectionWithProducts } from 'lib/shopify';
 import Image from 'next/image';
 import Link from 'next/link';
+import { ChevronRight } from 'react-feather';
 
 export const CollectionPreview = async function () {
   const collection = await getCollectionWithProducts({
@@ -19,7 +19,7 @@ export const CollectionPreview = async function () {
         className="sticky top-0 z-10 flex items-center gap-1 self-end border-b border-black bg-white px-4 py-2 transition-all group-hover:gap-4 md:hidden"
       >
         <h2 className="font-serif text-2xl">{collectionTitle}</h2>
-        <Icon name="arrow_right_alt" />
+        <ChevronRight strokeWidth={1} />
       </Link>
       {collection.products.map((product) => {
         const {
@@ -57,7 +57,7 @@ export const CollectionPreview = async function () {
       >
         <div className="hidden items-center gap-1 self-end transition-all group-hover:gap-4 md:flex">
           <h2 className="font-serif text-3xl">{collectionTitle}</h2>
-          <Icon name="arrow_right_alt" />
+          <ChevronRight strokeWidth={1} />
         </div>
       </Link>
     </section>

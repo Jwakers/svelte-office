@@ -86,8 +86,8 @@ export default async function ProductPage({ params }: { params: { handle: string
         <div className="flex flex-col border-black md:border-r">
           <Gallery images={product.images.map(({ url, altText }) => ({ src: url, altText }))} />
         </div>
-        <div className="relative flex items-end">
-          <div className="sticky bottom-2 flex min-h-screen flex-col gap-4 p-3 pb-0">
+        <div className="relative">
+          <div className="sticky top-0 flex h-screen min-h-screen flex-col gap-4 overflow-auto p-3">
             <div className="flex flex-wrap justify-between gap-2 md:items-start md:gap-4">
               <h1 className="font-serif text-lg md:text-3xl">{product.title}</h1>
               {/* TODO: have price update depeding on variant select. Can get variant from URL. */}

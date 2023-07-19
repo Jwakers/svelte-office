@@ -3,9 +3,9 @@ import { useRouter } from 'next/navigation';
 
 import clsx from 'clsx';
 import { removeItem } from 'components/cart/actions';
-import { Icon } from 'components/icon';
 import type { CartItem } from 'lib/shopify/types';
 import { useTransition } from 'react';
+import { X } from 'react-feather';
 
 export default function DeleteItemButton({ item }: { item: CartItem }) {
   const router = useRouter();
@@ -34,7 +34,7 @@ export default function DeleteItemButton({ item }: { item: CartItem }) {
         }
       )}
     >
-      {isPending ? <LoadingDots /> : <Icon name="close" />}
+      {isPending ? <LoadingDots /> : <X strokeWidth={1} />}
     </button>
   );
 }

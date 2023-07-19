@@ -5,8 +5,8 @@ import Link from 'next/link';
 import { usePathname, useSearchParams } from 'next/navigation';
 import { Fragment, useEffect, useState } from 'react';
 
-import { Icon } from 'components/icon';
 import { Menu } from 'lib/shopify/types';
+import { Menu as MenuIcon, X } from 'react-feather';
 import Search from './search';
 
 export default function MobileMenu({ menu }: { menu: Menu[] }) {
@@ -38,7 +38,7 @@ export default function MobileMenu({ menu }: { menu: Menu[] }) {
         className="flex md:hidden"
         data-testid="open-mobile-menu"
       >
-        <Icon name="menu" />
+        <MenuIcon strokeWidth={1} />
       </button>
       <Transition show={isOpen}>
         <Dialog onClose={closeMobileMenu} className="relative z-50">
@@ -70,7 +70,7 @@ export default function MobileMenu({ menu }: { menu: Menu[] }) {
                   aria-label="Close mobile menu"
                   data-testid="close-mobile-menu"
                 >
-                  <Icon name="close" />
+                  <X strokeWidth={1} />
                 </button>
                 {menu.length ? (
                   <ul className="flex flex-col gap-6">

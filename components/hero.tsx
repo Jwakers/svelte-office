@@ -19,10 +19,10 @@ export const Hero = async function () {
         <p>{heroCollection.description}</p>
         <div className="flex gap-4">
           <Link href="/collection/" className="button grow">
-            All collections
+            All categories
           </Link>
           <Link href={`/collection/${handle}`} className="button grow">
-            View collection
+            View category
           </Link>
         </div>
       </div>
