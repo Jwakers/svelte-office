@@ -10,9 +10,9 @@ const productFragment = /* GraphQL */ `
     description
     descriptionHtml
     vendor
-    metafield(namespace: "custom", key: "custom_test_data") {
-      value
+    metafield(namespace: "custom", key: "delivery_type") {
       key
+      value
     }
     options {
       id

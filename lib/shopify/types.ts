@@ -139,7 +139,7 @@ export type ShopifyProduct = {
   tags: string[];
   updatedAt: string;
   vendor: string;
-  metafield?: Metafield;
+  metafield: Metafield;
 };
 
 export type ShopifyCartOperation = {

@@ -9,7 +9,7 @@ import DeliverySection from 'components/product/delivery-section';
 import { Gallery } from 'components/product/gallery';
 import { VariantSelector } from 'components/product/variant-selector';
 import Prose from 'components/prose';
-import { HIDDEN_PRODUCT_TAG } from 'lib/constants';
+import { DeliveryTypes, HIDDEN_PRODUCT_TAG, Vendors } from 'lib/constants';
 import { getProduct, getProductRecommendations } from 'lib/shopify';
 import Link from 'next/link';
 import { Suspense } from 'react';
@@ -56,6 +56,8 @@ export default async function ProductPage({ params }: { params: { handle: string
   const product = await getProduct(params.handle);
 
   if (!product) return notFound();
+
+  console.log(product);
 
   const productJsonLd = {
     '@context': 'https://schema.org',
@@ -104,7 +106,10 @@ export default async function ProductPage({ params }: { params: { handle: string
             </div>
             <VariantSelector options={product.options} variants={product.variants} />
             {product.descriptionHtml ? <Prose className="" html={product.descriptionHtml} /> : null}
-            <DeliverySection vendor={product.vendor} />
+            <DeliverySection
+              vendor={product.vendor as Vendors}
+              deliveryType={product.metafield.value as keyof DeliveryTypes}
+            />
             <AddToCart
               variants={product.variants}
               availableForSale={product.availableForSale}

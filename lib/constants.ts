@@ -34,15 +34,18 @@ export const FADE_ANIMATION = {
   exit: { opacity: 0 }
 };
 
-export const DELIVERY_OPTIONS: { [key: string]: string } = {
-  default: `
-  Standard Delivery: We offer standard delivery service, which usually takes 3-5 business days for your order to be delivered.
-  Express Delivery: With express delivery, you can expect your order to arrive within 1-2 business days, ensuring a speedy delivery.
-  `
+export type Vendors = 'Teknik';
+
+export type DeliveryTypes = {
+  ND: string;
+  '2M': string;
+  SP: string;
 };
 
-export const RETURN_OPTIONS: { [key: string]: string } = {
-  default: `
-  We offer a standard return option. Once your return request is approved, it usually takes 7-10 business days for the returned item to reach our warehouse and for the refund or exchange process to be completed.
-  `
+export const DELIVERY_OPTIONS: { [key in Vendors]: DeliveryTypes } = {
+  Teknik: {
+    ND: 'If this order is placed before 1pm this will be dispatched for next working day delivery',
+    '2M': 'This product is delivered by a two person team. You will be contacted to discuss a delivery date and time, typically deliveryed within 10 working days.',
+    SP: 'The delivery of this product varies, you will be contacted about delivery.'
+  }
 };

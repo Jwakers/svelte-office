@@ -6,7 +6,7 @@ import { ChevronRight } from 'react-feather';
 
 export const CollectionPreview = async function () {
   const collection = await getCollectionWithProducts({
-    handle: 'chairs',
+    handle: 'desks',
     limit: 3
   });
 
