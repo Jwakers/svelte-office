@@ -49,3 +49,8 @@ export const DELIVERY_OPTIONS: { [key in Vendors]: DeliveryTypes } = {
     SP: 'The delivery of this product varies, you will be contacted about delivery.'
   }
 };
+
+export const UNIT_MAP = {
+  CENTIMETERS: 'cm',
+  KILOGRAMS: 'kg'
+};
