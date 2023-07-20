@@ -140,6 +140,7 @@ export type ShopifyProduct = {
   updatedAt: string;
   vendor: string;
   specification: Metafield[];
+  specificationSheet: Metafield;
   deliveryType: Metafield;
 };
 
@@ -294,5 +295,16 @@ export type ShopifyProductsOperation = {
     query?: string;
     reverse?: boolean;
     sortKey?: string;
+  };
+};
+
+export type ShopifyGenericFileOperation = {
+  data: {
+    node: {
+      url: string;
+    };
+  };
+  variables: {
+    id: string;
   };
 };

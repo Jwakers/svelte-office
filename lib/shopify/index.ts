@@ -16,6 +16,7 @@ import {
 import { getMenuQuery } from './queries/menu';
 import { getPageQuery, getPagesQuery } from './queries/page';
 import {
+  getGenericFileQuery,
   getProductQuery,
   getProductRecommendationsQuery,
   getProductsQuery
@@ -37,6 +38,7 @@ import {
   ShopifyCollectionWithProductsOperation,
   ShopifyCollectionsOperation,
   ShopifyCreateCartOperation,
+  ShopifyGenericFileOperation,
   ShopifyMenuOperation,
   ShopifyPageOperation,
   ShopifyPagesOperation,
@@ -411,4 +413,15 @@ export async function getProducts({
   });
 
   return reshapeProducts(removeEdgesAndNodes(res.body.data.products));
+}
+
+export async function getGenericFile(id: string) {
+  const res = await shopifyFetch<ShopifyGenericFileOperation>({
+    query: getGenericFileQuery,
+    variables: {
+      id
+    }
+  });
+
+  return res.body.data.node.url;
 }

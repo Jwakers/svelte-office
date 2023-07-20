@@ -24,6 +24,10 @@ const productFragment = /* GraphQL */ `
       key
       value
     }
+    specificationSheet: metafield(namespace: "specification", key: "specification_sheet") {
+      key
+      value
+    }
     options {
       id
       name
