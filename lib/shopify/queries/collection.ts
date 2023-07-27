@@ -6,6 +6,7 @@ const collectionFragment = /* GraphQL */ `
     handle
     title
     description
+    descriptionHtml
     image {
       url
       altText

@@ -75,7 +75,7 @@ function DeliverySection({
           <p>
             For more information see our{' '}
             <Link href="/delivery" className="underline">
-              Delivery page.
+              delivery details page.
             </Link>
           </p>
         </div>
@@ -153,9 +153,10 @@ export default async function ProductPage({ params }: { params: { handle: string
               <Accordion heading="Specification">
                 <table className="py-2">
                   {product.specification.map((spec) => {
+                    if (!spec) return null;
                     const value = JSON.parse(spec.value);
                     return (
-                      <tr className="border-b border-black/20">
+                      <tr className="border-b border-black/20" key={spec.key}>
                         <td className="py-2 capitalize">{spec.key}</td>
                         <td>
                           {value.value} {UNIT_MAP[value.unit as keyof typeof UNIT_MAP] || ''}
@@ -164,14 +165,16 @@ export default async function ProductPage({ params }: { params: { handle: string
                     );
                   })}
                 </table>
-                <a
-                  className="button mb-4 mt-2 flex items-center justify-center gap-2"
-                  href={specSheet}
-                  target="_black"
-                >
-                  <span>Download full specification</span>
-                  <Download width={18} />
-                </a>
+                {specSheet ? (
+                  <a
+                    className="button mb-4 mt-2 flex items-center justify-center gap-2"
+                    href={specSheet}
+                    target="_black"
+                  >
+                    <span>Download full specification</span>
+                    <Download width={18} />
+                  </a>
+                ) : null}
               </Accordion>
               <DeliverySection
                 vendor={product.vendor as Vendors}
@@ -179,7 +182,7 @@ export default async function ProductPage({ params }: { params: { handle: string
               />
               <Accordion heading="Warranty">
                 <p className="py-2">
-                  All products have a two year mechanical parts replacement warranty, (subject to
+                  All products have a two year mechanical parts replacement warranty (subject to
                   fair use).
                 </p>
               </Accordion>

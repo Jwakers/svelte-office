@@ -44,7 +44,7 @@ export type DeliveryTypes = {
 
 export const DELIVERY_OPTIONS: { [key in Vendors]: DeliveryTypes } = {
   Teknik: {
-    ND: 'If this order is placed before 1pm this will be dispatched for next working day delivery',
+    ND: 'If this order is placed before 1pm it will be dispatched for next working day delivery.',
     '2M': 'This product is delivered by a two person team. You will be contacted to discuss a delivery date and time, typically deliveryed within 10 working days.',
     SP: 'The delivery of this product varies, you will be contacted about delivery.'
   }
