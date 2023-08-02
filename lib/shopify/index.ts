@@ -1,4 +1,9 @@
-import { HIDDEN_PRODUCT_TAG, SHOPIFY_GRAPHQL_API_ENDPOINT, TAGS } from 'lib/constants';
+import {
+  HIDDEN_PRODUCT_TAG,
+  SHOPIFY_GRAPHQL_ADMIN_API_ENDPOINT,
+  SHOPIFY_GRAPHQL_API_ENDPOINT,
+  TAGS
+} from 'lib/constants';
 import { isShopifyError } from 'lib/type-guards';
 import {
   addToCartMutation,
@@ -6,6 +11,7 @@ import {
   editCartItemsMutation,
   removeFromCartMutation
 } from './mutations/cart';
+import { inventorySetOnHandQuantitiesQuery } from './mutations/product';
 import { getCartQuery } from './queries/cart';
 import {
   getCollectionProductsQuery,
@@ -16,8 +22,10 @@ import {
 import { getMenuQuery } from './queries/menu';
 import { getPageQuery, getPagesQuery } from './queries/page';
 import {
+  getGenericFileQuery,
   getProductQuery,
   getProductRecommendationsQuery,
+  getProductSkusQuery,
   getProductsQuery
 } from './queries/product';
 import {
@@ -37,6 +45,8 @@ import {
   ShopifyCollectionWithProductsOperation,
   ShopifyCollectionsOperation,
   ShopifyCreateCartOperation,
+  ShopifyGenericFileOperation,
+  ShopifyGetProductSkus,
   ShopifyMenuOperation,
   ShopifyPageOperation,
   ShopifyPagesOperation,
@@ -45,11 +55,14 @@ import {
   ShopifyProductRecommendationsOperation,
   ShopifyProductsOperation,
   ShopifyRemoveFromCartOperation,
-  ShopifyUpdateCartOperation
+  ShopifyUpdateCartOperation,
+  ShopifyUpdateStockOperation
 } from './types';
 
 const domain = `https://${process.env.SHOPIFY_STORE_DOMAIN!}`;
-const endpoint = `${domain}${SHOPIFY_GRAPHQL_API_ENDPOINT}`;
+const storefrontEndpoint = `${domain}${SHOPIFY_GRAPHQL_API_ENDPOINT}`;
+const adminEndpoint = `${domain}${SHOPIFY_GRAPHQL_ADMIN_API_ENDPOINT}`;
+
 const key = process.env.SHOPIFY_STOREFRONT_ACCESS_TOKEN!;
 
 type ExtractVariables<T> = T extends { variables: object } ? T['variables'] : never;
@@ -59,20 +72,24 @@ export async function shopifyFetch<T>({
   headers,
   query,
   tags,
-  variables
+  variables,
+  isAdmin = false
 }: {
   cache?: RequestCache;
   headers?: HeadersInit;
   query: string;
   tags?: string[];
   variables?: ExtractVariables<T>;
+  isAdmin?: boolean;
 }): Promise<{ status: number; body: T } | never> {
   try {
-    const result = await fetch(endpoint, {
+    const result = await fetch(isAdmin ? adminEndpoint : storefrontEndpoint, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'X-Shopify-Storefront-Access-Token': key,
+        [isAdmin ? 'X-Shopify-Access-Token' : 'X-Shopify-Storefront-Access-Token']: isAdmin
+          ? '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'
+          : key,
         ...headers
       },
       body: JSON.stringify({
@@ -84,6 +101,8 @@ export async function shopifyFetch<T>({
     });
 
     const body = await result.json();
+
+    // console.log(JSON.stringify(body, null, 2));
 
     if (body.errors) {
       throw body.errors[0];
@@ -411,4 +430,52 @@ export async function getProducts({
   });
 
   return reshapeProducts(removeEdgesAndNodes(res.body.data.products));
+}
+
+export async function getProductSkus() {
+  const res = await shopifyFetch<ShopifyGetProductSkus>({
+    isAdmin: true,
+    query: getProductSkusQuery
+  });
+
+  return removeEdgesAndNodes(res.body.data.productVariants).map(
+    ({ sku, id, inventoryQuantity, inventoryItem }) => ({
+      sku,
+      id,
+      inventoryQuantity,
+      inventoryItemId: inventoryItem.id
+    })
+  );
+}
+
+export async function updateStock(inventoryItemId: string, quantity: number) {
+  const res = await shopifyFetch<ShopifyUpdateStockOperation>({
+    isAdmin: true,
+    query: inventorySetOnHandQuantitiesQuery,
+    variables: {
+      input: {
+        reason: 'cycle_count_available',
+        setQuantities: [
+          {
+            inventoryItemId,
+            locationId: 'gid://shopify/Location/86428975405',
+            quantity
+          }
+        ]
+      }
+    }
+  });
+
+  return res.body.data;
+}
+
+export async function getGenericFile(id: string) {
+  const res = await shopifyFetch<ShopifyGenericFileOperation>({
+    query: getGenericFileQuery,
+    variables: {
+      id
+    }
+  });
+
+  return res.body.data.node.url;
 }

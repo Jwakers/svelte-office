@@ -114,6 +114,7 @@ export type ShopifyCollection = {
   handle: string;
   title: string;
   description: string;
+  descriptionHtml: string;
   seo: SEO;
   updatedAt: string;
   metafield?: Metafield;
@@ -140,6 +141,7 @@ export type ShopifyProduct = {
   updatedAt: string;
   vendor: string;
   specification: Metafield[];
+  specificationSheet: Metafield;
   deliveryType: Metafield;
 };
 
@@ -294,5 +296,43 @@ export type ShopifyProductsOperation = {
     query?: string;
     reverse?: boolean;
     sortKey?: string;
+  };
+};
+
+export type ShopifyGenericFileOperation = {
+  data: {
+    node: {
+      url: string;
+    };
+  };
+  variables: {
+    id: string;
+  };
+};
+
+export type ShopifyGetProductSkus = {
+  data: {
+    productVariants: Connection<{
+      sku: string;
+      id: string;
+      inventoryQuantity: number;
+      inventoryItem: {
+        id: string;
+      };
+    }>;
+  };
+};
+
+export type ShopifyUpdateStockOperation = {
+  data: any;
+  variables: {
+    input: {
+      reason: 'cycle_count_available';
+      setQuantities: {
+        inventoryItemId: string;
+        locationId: string;
+        quantity: number;
+      }[];
+    };
   };
 };

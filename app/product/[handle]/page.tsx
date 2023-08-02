@@ -16,9 +16,10 @@ import {
   UNIT_MAP,
   Vendors
 } from 'lib/constants';
-import { getProduct, getProductRecommendations } from 'lib/shopify';
+import { getGenericFile, getProduct, getProductRecommendations } from 'lib/shopify';
 import Link from 'next/link';
 import { Suspense } from 'react';
+import { Download } from 'react-feather';
 
 export async function generateMetadata({
   params
@@ -74,7 +75,7 @@ function DeliverySection({
           <p>
             For more information see our{' '}
             <Link href="/delivery" className="underline">
-              Delivery page.
+              delivery details page.
             </Link>
           </p>
         </div>
@@ -96,6 +97,10 @@ export default async function ProductPage({ params }: { params: { handle: string
   const product = await getProduct(params.handle);
 
   if (!product) return notFound();
+
+  let specSheet: string | undefined;
+  if (product.specificationSheet)
+    specSheet = await getGenericFile(product.specificationSheet.value);
 
   const productJsonLd = {
     '@context': 'https://schema.org',
@@ -122,12 +127,12 @@ export default async function ProductPage({ params }: { params: { handle: string
           __html: JSON.stringify(productJsonLd)
         }}
       />
-      <section className="-mt-[50px] md:mt-0 md:grid md:grid-cols-2">
+      <section className="-mt-[52px] md:mt-0 md:grid md:grid-cols-2">
         <div className="flex flex-col border-black md:border-r">
           <Gallery images={product.images.map(({ url, altText }) => ({ src: url, altText }))} />
         </div>
         <div className="relative">
-          <div className="sticky top-0 flex h-screen min-h-screen flex-col gap-4 overflow-auto p-3">
+          <div className="sticky top-0 flex flex-col gap-4 p-3 md:h-screen md:overflow-auto">
             <div className="flex flex-col">
               <h1 className="font-serif text-lg md:text-3xl">{product.title}</h1>
               {/* TODO: have price update depeding on variant select. Can get variant from URL. */}
@@ -146,19 +151,34 @@ export default async function ProductPage({ params }: { params: { handle: string
             {product.descriptionHtml ? <Prose className="" html={product.descriptionHtml} /> : null}
             <div>
               <Accordion heading="Specification">
-                <table className="py-2">
-                  {product.specification.map((spec) => {
-                    const value = JSON.parse(spec.value);
-                    return (
-                      <tr className="border-b border-black/20">
-                        <td className="py-2 capitalize">{spec.key}</td>
-                        <td>
-                          {value.value} {UNIT_MAP[value.unit as keyof typeof UNIT_MAP] || ''}
-                        </td>
-                      </tr>
-                    );
-                  })}
-                </table>
+                {product.specification.length && (
+                  <table className="py-2">
+                    <tbody>
+                      {product.specification.map((spec) => {
+                        if (!spec) return null;
+                        const value = JSON.parse(spec.value);
+                        return (
+                          <tr className="border-b border-black/20" key={spec.key}>
+                            <td className="py-2 capitalize">{spec.key}</td>
+                            <td>
+                              {value.value} {UNIT_MAP[value.unit as keyof typeof UNIT_MAP] || ''}
+                            </td>
+                          </tr>
+                        );
+                      })}
+                    </tbody>
+                  </table>
+                )}
+                {specSheet ? (
+                  <a
+                    className="button mb-4 mt-2 flex items-center justify-center gap-2"
+                    href={specSheet}
+                    target="_black"
+                  >
+                    <span>Download full specification</span>
+                    <Download width={18} />
+                  </a>
+                ) : null}
               </Accordion>
               <DeliverySection
                 vendor={product.vendor as Vendors}
@@ -166,7 +186,7 @@ export default async function ProductPage({ params }: { params: { handle: string
               />
               <Accordion heading="Warranty">
                 <p className="py-2">
-                  All products have a two year mechanical parts replacement warranty, (subject to
+                  All products have a two year mechanical parts replacement warranty (subject to
                   fair use).
                 </p>
               </Accordion>

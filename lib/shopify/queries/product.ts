@@ -30,3 +30,30 @@ export const getProductRecommendationsQuery = /* GraphQL */ `
   }
   ${productFragment}
 `;
+
+export const getGenericFileQuery = /* GraphQL */ `
+  query getGenericFile($id: ID!) {
+    node(id: $id) {
+      ... on GenericFile {
+        url
+      }
+    }
+  }
+`;
+
+export const getProductSkusQuery = /* GraphQL */ `
+  query getProductSkus {
+    productVariants(first: 250) {
+      edges {
+        node {
+          sku
+          id
+          inventoryQuantity
+          inventoryItem {
+            id
+          }
+        }
+      }
+    }
+  }
+`;

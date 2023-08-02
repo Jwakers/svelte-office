@@ -42,7 +42,7 @@ export function Gallery({ images }: { images: { src: string; altText: string }[]
         onSwiper={(swiper: TSwiper) => setSwiper(swiper)}
       >
         {images.map(({ src, altText }, i) => (
-          <SwiperSlide key={`slide-${src}`} className="aspect-square">
+          <SwiperSlide key={`slide-${src}`} className="aspect-square md:aspect-auto">
             <Image
               src={src}
               width={750}
