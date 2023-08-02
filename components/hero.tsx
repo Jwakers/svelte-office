@@ -3,7 +3,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 
 export const Hero = async function () {
-  const heroCollection = await getCollection('desks');
+  const heroCollection = await getCollection('office-desks');
 
   if (!heroCollection) return;
   const { metafield, handle, image } = heroCollection;

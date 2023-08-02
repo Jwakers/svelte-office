@@ -1,4 +1,4 @@
-import { Carousel } from 'components/collections/carousel';
+import Carousel from 'components/collections/carousel';
 import IndexString from 'components/index-string';
 import Price from 'components/price';
 import Prose from 'components/prose';
@@ -34,14 +34,14 @@ export default async function Collection({ params }: { params: { handle: string 
   const productsCount = products.length;
   return (
     <section>
-      <div className="grid border-b border-black md:grid-cols-2">
-        <div className="flex flex-col justify-end border-r border-black p-3">
+      <div className="border-b border-black md:flex md:h-[clamp(400px,_calc(100vh_-_44px),_700px)]">
+        <div className="flex flex-col justify-end border-r border-black p-3 md:w-1/2">
           <h1 className="font-serif text-3xl uppercase">{title}</h1>
           <IndexString value={productsCount} text="products in this category" />
           <Prose html={descriptionHtml} />
         </div>
         {image && (
-          <div className="animate-fadeIn">
+          <div className="hidden animate-fadeIn md:block md:w-1/2">
             <Image
               className="h-full w-full object-cover"
               src={image.url}
