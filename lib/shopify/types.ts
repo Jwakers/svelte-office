@@ -309,3 +309,30 @@ export type ShopifyGenericFileOperation = {
     id: string;
   };
 };
+
+export type ShopifyGetProductSkus = {
+  data: {
+    productVariants: Connection<{
+      sku: string;
+      id: string;
+      inventoryQuantity: number;
+      inventoryItem: {
+        id: string;
+      };
+    }>;
+  };
+};
+
+export type ShopifyUpdateStockOperation = {
+  data: any;
+  variables: {
+    input: {
+      reason: 'cycle_count_available';
+      setQuantities: {
+        inventoryItemId: string;
+        locationId: string;
+        quantity: number;
+      }[];
+    };
+  };
+};

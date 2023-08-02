@@ -28,6 +28,7 @@ export const TAGS = {
 export const HIDDEN_PRODUCT_TAG = 'nextjs-frontend-hidden';
 export const DEFAULT_OPTION = 'Default Title';
 export const SHOPIFY_GRAPHQL_API_ENDPOINT = '/api/2023-07/graphql.json';
+export const SHOPIFY_GRAPHQL_ADMIN_API_ENDPOINT = '/admin/api/2023-07/graphql.json';
 
 export const FADE_ANIMATION = {
   animate: { opacity: 1 },

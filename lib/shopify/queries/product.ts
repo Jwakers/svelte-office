@@ -40,3 +40,20 @@ export const getGenericFileQuery = /* GraphQL */ `
     }
   }
 `;
+
+export const getProductSkusQuery = /* GraphQL */ `
+  query getProductSkus {
+    productVariants(first: 250) {
+      edges {
+        node {
+          sku
+          id
+          inventoryQuantity
+          inventoryItem {
+            id
+          }
+        }
+      }
+    }
+  }
+`;
