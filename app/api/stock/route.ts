@@ -2,6 +2,7 @@ import { getProductSkus, updateStock } from 'lib/shopify';
 import { NextResponse } from 'next/server';
 const ftp = require('basic-ftp');
 const fs = require('fs');
+require('os').tmpdir();
 
 const fetchStockViaFtp = async function () {
   const client = new ftp.Client();
@@ -12,7 +13,7 @@ const fetchStockViaFtp = async function () {
       user: process.env.TEKNIK_FTP_USER,
       password: process.env.TEKNIK_FTP_PASS
     });
-    await client.downloadTo('./public/stock.csv', process.env.TEKNIK_FTP_FILENAME);
+    await client.downloadTo('/tmp/stock.csv', process.env.TEKNIK_FTP_FILENAME);
   } catch (error) {
     console.error(JSON.stringify(error, null, 2));
   }
@@ -21,7 +22,7 @@ const fetchStockViaFtp = async function () {
 
 const getConvertedCSV = async function () {
   await fetchStockViaFtp();
-  const csv = fs.readFileSync(`./public/stock.csv`);
+  const csv = fs.readFileSync(`/tmp/stock.csv`);
   const array = csv.toString().split('\r');
 
   // Remove headers
