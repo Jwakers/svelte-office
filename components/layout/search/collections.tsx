@@ -13,7 +13,7 @@ async function CollectionList() {
   }));
   collectionsList.unshift({ title: 'All', path: '/search' });
 
-  return <FilterList list={collectionsList} title="Collections" />;
+  return <FilterList list={collectionsList} title="Categories" />;
 }
 
 const skeleton = 'mb-3 h-4 w-5/6 animate-pulse rounded';
