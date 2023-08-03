@@ -18,7 +18,7 @@ export default async function Navbar() {
       </Link>
       <nav className="fixed bottom-0 left-0 z-20 grid w-full grid-cols-[1fr_auto] items-center justify-between border-t border-black bg-white px-4 md:static md:border-b md:border-t-0">
         <Link href="/" aria-label="Go back home" className="py-2">
-          <span className="font-serif text-lg font-bold md:text-xl">SvelteOffice</span>
+          <span className="font-serif text-lg font-bold md:text-2xl">SvelteOffice</span>
         </Link>
         <div className="flex h-full gap-4">
           {!!menu.length && (

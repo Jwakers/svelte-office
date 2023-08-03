@@ -1,42 +1,31 @@
-import { getCollection } from 'lib/shopify';
 import Image from 'next/image';
 import Link from 'next/link';
 
 export const Hero = async function () {
-  const heroCollection = await getCollection('office-desks');
-
-  if (!heroCollection) return;
-  const { metafield, handle, image } = heroCollection;
-
   return (
-    <section className="-mt-[50px] flex min-h-[calc(100vh_-_42px)] flex-col-reverse border-b border-black md:mt-0 md:grid md:grid-cols-[auto_1fr]">
+    <section className="-mt-[52px] flex flex-col-reverse border-b border-black md:mt-0 md:grid md:min-h-[calc(100vh_-_77px)] md:grid-cols-[370px_1fr]">
       <div className="flex max-w-xl flex-col justify-end gap-4 px-3 py-4">
-        {!!metafield && (
-          <h1 className="font-serif text-3xl uppercase leading-none md:text-5xl">
-            {metafield.value}
-          </h1>
-        )}
-        <p>{heroCollection.description}</p>
-        <div className="flex gap-4">
-          <Link href="/category/" className="button grow">
-            All categories
+        <h1 className="font-serif text-2xl uppercase leading-none md:text-5xl">
+          Let your office reflect your ambitions.
+        </h1>
+        <div className="flex flex-col gap-2 md:flex-row md:gap-4">
+          <Link href="/category/office-desks" className="button grow">
+            Shop desks
           </Link>
-          <Link href={`/category/${handle}`} className="button grow">
-            View category
+          <Link href="/category/office-chairs" className="button grow">
+            Shop chairs
           </Link>
         </div>
       </div>
-      {!!image && (
-        <div className="relative min-h-[120px] grow animate-fadeIn border-b border-black md:border-b-0 md:border-l">
-          <Image
-            src={image.url}
-            alt={image.altText}
-            className="object-cover mix-blend-multiply"
-            priority
-            fill
-          />
-        </div>
-      )}
+      <div className="relative min-h-[180px] grow animate-fadeIn border-b border-black md:border-b-0 md:border-l">
+        <Image
+          src="/manhattan-desk-hero.jpeg"
+          alt="Large l-shaped desk in a studio apartment office"
+          className="object-cover mix-blend-multiply"
+          priority
+          fill
+        />
+      </div>
     </section>
   );
 };

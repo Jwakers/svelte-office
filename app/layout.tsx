@@ -1,4 +1,5 @@
 import clsx from 'clsx';
+import Banner from 'components/layout/banner';
 import Footer from 'components/layout/footer';
 import Navbar from 'components/layout/navbar';
 import { Vollkorn, Work_Sans } from 'next/font/google';
@@ -35,6 +36,7 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
   return (
     <html lang="en" className={clsx(workSans.variable, vollkorn.variable)}>
       <body className="text-black selection:bg-yellow-400">
+        <Banner />
         <Navbar />
         <Suspense>
           <Providers>
