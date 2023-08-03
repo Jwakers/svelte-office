@@ -25,7 +25,7 @@ export default async function Collections() {
       <div className="grid sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4">
         {collections.map((collection) => (
           <Link className="group" href={`/category/${collection.handle}`} key={collection.handle}>
-            <div className="animate-fadeIn outline outline-1 outline-black">
+            <div className="flex h-full animate-fadeIn flex-col outline outline-1 outline-black">
               <div className="overflow-hidden">
                 {collection.image ? (
                   <Image
@@ -37,7 +37,7 @@ export default async function Collections() {
                   />
                 ) : null}
               </div>
-              <div className="border-t border-black bg-white p-3">
+              <div className="flex grow flex-col justify-between border-t border-black bg-white p-3 ">
                 <h2 className="mb-1 font-serif text-xl md:text-2xl">{collection.title}</h2>
                 <IndexString
                   value={collection.products.length}
