@@ -23,7 +23,15 @@ export default async function HomePage() {
         <Hero />
       </Suspense>
       <Suspense>
-        <CollectionPreview />
+        <h2 className="border-black px-3 py-4 font-serif text-2xl uppercase md:border-b md:py-10 md:text-3xl">
+          Shop by category
+        </h2>
+        <div className="md:grid md:grid-cols-2">
+          <CollectionPreview handle="office-desks" />
+          <CollectionPreview handle="office-chairs" />
+          <CollectionPreview handle="bookcases-and-standing-shelves" />
+          <CollectionPreview handle="coffee-tables" />
+        </div>
       </Suspense>
     </>
   );

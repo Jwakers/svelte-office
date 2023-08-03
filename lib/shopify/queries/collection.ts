@@ -13,10 +13,6 @@ const collectionFragment = /* GraphQL */ `
       width
       height
     }
-    metafield(namespace: "custom", key: "secondary_title") {
-      value
-      key
-    }
     seo {
       ...seo
     }
@@ -36,7 +32,7 @@ export const getCollectionQuery = /* GraphQL */ `
 
 export const getCollectionsQuery = /* GraphQL */ `
   query getCollections {
-    collections(first: 100, sortKey: TITLE) {
+    collections(first: 100, sortKey: ID) {
       edges {
         node {
           ...collection
