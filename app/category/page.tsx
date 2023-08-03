@@ -16,7 +16,6 @@ export default async function Collections() {
   const collections = await getCollections();
 
   if (!collections.length) return notFound();
-  console.log(collections);
 
   return (
     <section>
