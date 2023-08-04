@@ -1,8 +1,7 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 
-import Grid from 'components/grid';
-import ProductGridItems from 'components/layout/product-grid-items';
+import ProductTile from 'components/product/product-tile';
 import { defaultSort, sorting } from 'lib/constants';
 import { getCollection, getCollectionProducts } from 'lib/shopify';
 
@@ -37,9 +36,13 @@ export default async function CategoryPage({
       {products.length === 0 ? (
         <p className="py-3 text-lg">{`No products found in this collection`}</p>
       ) : (
-        <Grid className="grid-cols-2 lg:grid-cols-3">
-          <ProductGridItems products={products} />
-        </Grid>
+        <ul className="grid grid-cols-2 lg:grid-cols-3">
+          {products.map((product) => (
+            <li>
+              <ProductTile product={product} />
+            </li>
+          ))}
+        </ul>
       )}
     </section>
   );

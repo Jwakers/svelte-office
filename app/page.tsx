@@ -1,5 +1,6 @@
 import { CollectionPreview } from 'components/collections/collection-preview';
 import { Hero } from 'components/hero';
+import LatestProducts from 'components/product/latest';
 import { Suspense } from 'react';
 
 export const metadata = {
@@ -32,6 +33,10 @@ export default async function HomePage() {
           <CollectionPreview handle="bookcases-and-standing-shelves" />
           <CollectionPreview handle="coffee-tables" />
         </div>
+        <h2 className="border-black px-3 py-4 font-serif text-2xl uppercase md:border-b md:py-10 md:text-3xl">
+          Latest products
+        </h2>
+        <LatestProducts />
       </Suspense>
     </>
   );

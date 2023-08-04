@@ -295,6 +295,7 @@ export type ShopifyProductsOperation = {
     query?: string;
     reverse?: boolean;
     sortKey?: string;
+    limit: number;
   };
 };
 

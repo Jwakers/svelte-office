@@ -1,5 +1,4 @@
-import Grid from 'components/grid';
-import ProductGridItems from 'components/layout/product-grid-items';
+import ProductTile from 'components/product/product-tile';
 import { defaultSort, sorting } from 'lib/constants';
 import { getProducts } from 'lib/shopify';
 
@@ -30,9 +29,13 @@ export default async function SearchPage({
         </p>
       ) : null}
       {products.length > 0 ? (
-        <Grid className="grid-cols-2 lg:grid-cols-3">
-          <ProductGridItems products={products} />
-        </Grid>
+        <ul className="grid grid-cols-2 lg:grid-cols-3">
+          {products.map((product) => (
+            <li>
+              <ProductTile product={product} />
+            </li>
+          ))}
+        </ul>
       ) : null}
     </>
   );
