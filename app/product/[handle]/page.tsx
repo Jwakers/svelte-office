@@ -3,10 +3,10 @@ import { notFound } from 'next/navigation';
 
 import clsx from 'clsx';
 import { AddToCart } from 'components/cart/add-to-cart';
-import { GridTileImage } from 'components/grid/tile';
 import Price from 'components/price';
 import Accordion from 'components/product/accordion';
 import { Gallery } from 'components/product/gallery';
+import ProductTile from 'components/product/product-tile';
 import { VariantSelector } from 'components/product/variant-selector';
 import Prose from 'components/prose';
 import {
@@ -216,24 +216,7 @@ async function RelatedProducts({ id }: { id: string }) {
       <div className="mb-4 px-3 font-serif text-3xl">Related Products</div>
       <ul className="grid sm:grid-cols-2 md:grid-cols-4">
         {relatedProducts.map((product) => (
-          <li
-            className="relative overflow-hidden outline outline-1 outline-black transition-opacity"
-            key={`related-${product.id}`}
-          >
-            <Link className="block h-full w-full" href={`/product/${product.handle}`}>
-              <GridTileImage
-                alt={product.title}
-                labels={{
-                  title: product.title,
-                  amount: product.priceRange.maxVariantPrice.amount,
-                  currencyCode: product.priceRange.maxVariantPrice.currencyCode
-                }}
-                src={product.featuredImage?.url}
-                width={600}
-                height={600}
-              />
-            </Link>
-          </li>
+          <ProductTile product={product} />
         ))}
       </ul>
     </div>

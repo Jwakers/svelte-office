@@ -102,8 +102,6 @@ export async function shopifyFetch<T>({
 
     const body = await result.json();
 
-    // console.log(JSON.stringify(body, null, 2));
-
     if (body.errors) {
       throw body.errors[0];
     }
@@ -113,6 +111,8 @@ export async function shopifyFetch<T>({
       body
     };
   } catch (e) {
+    console.log(JSON.stringify(e, null, 2));
+
     if (isShopifyError(e)) {
       throw {
         status: e.status || 500,
@@ -412,19 +412,23 @@ export async function getProductRecommendations(productId: string): Promise<Prod
 export async function getProducts({
   query,
   reverse,
-  sortKey
+  sortKey,
+  limit = 100
 }: {
   query?: string;
   reverse?: boolean;
   sortKey?: string;
+  limit?: number;
 }): Promise<Product[]> {
+  console.log({ limit });
   const res = await shopifyFetch<ShopifyProductsOperation>({
     query: getProductsQuery,
     tags: [TAGS.products],
     variables: {
       query,
       reverse,
-      sortKey
+      sortKey,
+      limit
     },
     cache: 'no-store'
   });
