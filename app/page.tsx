@@ -4,7 +4,8 @@ import LatestProducts from 'components/product/latest';
 import { Suspense } from 'react';
 
 export const metadata = {
-  description: 'High-performance ecommerce store built with Next.js, Vercel, and Shopify.',
+  description:
+    'Upgrade your workspace with premium office furniture. Shop our exclusive collection of ergonomic chairs, modern desks, and storage solutions. Transform your office into a stylish and efficient hub today.',
   openGraph: {
     images: [
       {
