@@ -62,7 +62,7 @@ const handleStockUpdate = async function () {
 export async function GET(request: Request) {
   try {
     await handleStockUpdate();
-    return NextResponse.json({ message: 'Stock updated' }, { status: 200 });
+    return NextResponse.json('Stock updated', { status: 200 });
   } catch (error) {
     return NextResponse.json({ error }, { status: 500 });
   }

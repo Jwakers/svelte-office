@@ -1,4 +1,5 @@
 import { getProductimages, updateProductImageAlt } from 'lib/shopify';
+import { NextResponse } from 'next/server';
 
 const generateAltText = async function (imageUrl: string) {
   let startResponse = await fetch('https://api.replicate.com/v1/predictions', {
@@ -59,4 +60,11 @@ const iterateImages = async function () {
   console.log('Alt text updates complete');
 };
 
-iterateImages();
+export async function GET(request: Request) {
+  try {
+    await iterateImages();
+    return NextResponse.json('Images alt text updated', { status: 200 });
+  } catch (error) {
+    return NextResponse.json({ error }, { status: 500 });
+  }
+}
