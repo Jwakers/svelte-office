@@ -11,7 +11,7 @@ import {
   editCartItemsMutation,
   removeFromCartMutation
 } from './mutations/cart';
-import { inventorySetOnHandQuantitiesQuery } from './mutations/product';
+import { inventorySetOnHandQuantitiesQuery, updateProductImageAltQuery } from './mutations/product';
 import { getCartQuery } from './queries/cart';
 import {
   getCollectionProductsQuery,
@@ -23,6 +23,7 @@ import { getMenuQuery } from './queries/menu';
 import { getPageQuery, getPagesQuery } from './queries/page';
 import {
   getGenericFileQuery,
+  getProductImagesQuery,
   getProductQuery,
   getProductRecommendationsQuery,
   getProductSkusQuery,
@@ -47,6 +48,7 @@ import {
   ShopifyCreateCartOperation,
   ShopifyGenericFileOperation,
   ShopifyGetProductSkus,
+  ShopifyGetProductimagesOperation,
   ShopifyMenuOperation,
   ShopifyPageOperation,
   ShopifyPagesOperation,
@@ -56,6 +58,7 @@ import {
   ShopifyProductsOperation,
   ShopifyRemoveFromCartOperation,
   ShopifyUpdateCartOperation,
+  ShopifyUpdateProductImageAltOperation,
   ShopifyUpdateStockOperation
 } from './types';
 
@@ -128,7 +131,7 @@ export async function shopifyFetch<T>({
   }
 }
 
-const removeEdgesAndNodes = (array: Connection<any>) => {
+export const removeEdgesAndNodes = (array: Connection<any>) => {
   return array.edges.map((edge) => edge?.node);
 };
 
@@ -186,6 +189,30 @@ const reshapeProducts = (products: ShopifyProduct[]) => {
 
   return reshapedProducts;
 };
+
+const reshapeProductImages = (
+  data: { id: string; title: string; images: Connection<{ id: string; altText: string }> }[]
+) => {
+  return data
+    .map((prod) => {
+      const images = removeEdgesAndNodes(prod.images);
+      const withProdId = images.map((image) => ({
+        ...image,
+        productId: prod.id,
+        productTitle: prod.title
+      }));
+      return withProdId;
+    })
+    .flat();
+};
+
+export async function getProductimages() {
+  const res = await shopifyFetch<ShopifyGetProductimagesOperation>({
+    query: getProductImagesQuery
+  });
+
+  return reshapeProductImages(removeEdgesAndNodes(res.body.data.products));
+}
 
 export async function createCart(): Promise<Cart> {
   const res = await shopifyFetch<ShopifyCreateCartOperation>({
@@ -466,6 +493,22 @@ export async function updateStock(inventoryItemId: string, quantity: number) {
             quantity
           }
         ]
+      }
+    }
+  });
+
+  return res.body.data;
+}
+
+export async function updateProductImageAlt(productId: string, imageId: string, altText: string) {
+  const res = await shopifyFetch<ShopifyUpdateProductImageAltOperation>({
+    isAdmin: true,
+    query: updateProductImageAltQuery,
+    variables: {
+      productId,
+      image: {
+        id: imageId,
+        altText
       }
     }
   });
