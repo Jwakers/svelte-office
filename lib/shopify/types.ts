@@ -336,3 +336,28 @@ export type ShopifyUpdateStockOperation = {
     };
   };
 };
+
+export type ShopifyUpdateProductImageAltOperation = {
+  data: any;
+  variables: {
+    productId: string;
+    image: {
+      id: string;
+      altText: string;
+    };
+  };
+};
+
+export type ShopifyGetProductimagesOperation = {
+  data: {
+    products: Connection<{
+      id: string;
+      title: string;
+      images: Connection<{
+        url: string;
+        id: string;
+        altText: string | null;
+      }>;
+    }>;
+  };
+};

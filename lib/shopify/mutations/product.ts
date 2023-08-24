@@ -8,3 +8,18 @@ export const inventorySetOnHandQuantitiesQuery = /* GraphQL */ `
     }
   }
 `;
+
+export const updateProductImageAltQuery = /* GraphQL */ `
+  mutation productImageUpdate($productId: ID!, $image: ImageInput!) {
+    productImageUpdate(productId: $productId, image: $image) {
+      image {
+        id
+        altText
+      }
+      userErrors {
+        field
+        message
+      }
+    }
+  }
+`;
