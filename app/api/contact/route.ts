@@ -1,6 +1,6 @@
+import sendEmail from 'lib/send-email';
 import { NextResponse } from 'next/server';
 import { z } from 'zod';
-const nodemailer = require('nodemailer');
 
 const contactFormSchema = z.object({
   name: z.string(),
@@ -16,29 +16,15 @@ export async function POST(request: Request) {
 
   try {
     contactFormSchema.parse(data);
-
-    const transporter = nodemailer.createTransport({
-      port: 465,
-      host: 'smtp.hostinger.com',
-      auth: {
-        user: process.env.HOSTINGER_CONTACT_EMAIL,
-        pass: process.env.HOSTINGER_CONTACT_PASSWORD
-      }
-    });
-
-    const mailData = {
-      from: process.env.HOSTINGER_CONTACT_EMAIL,
-      to: process.env.HOSTINGER_CONTACT_EMAIL,
+    sendEmail({
       subject: `${data.subject}`,
       html: `
-        <p><strong>Name:</strong> ${data.name}</p>
-        <p><strong>Email:</strong> ${data.email}</p>
-        <p><strong>Subject:</strong> ${data.subject}</p>
-        <p><strong>Message:</strong> ${data.message}</p>
-      `
-    };
-
-    await transporter.sendMail(mailData);
+    <p><strong>Name:</strong> ${data.name}</p>
+    <p><strong>Email:</strong> ${data.email}</p>
+    <p><strong>Subject:</strong> ${data.subject}</p>
+    <p><strong>Message:</strong> ${data.message}</p>
+  `
+    });
 
     return NextResponse.json({ message: 'Message sent, thank you!' }, { status: 200 });
   } catch (err) {
