@@ -29,7 +29,7 @@ export default async function SearchPage({
         </p>
       ) : null}
       {products.length > 0 ? (
-        <ul className="grid grid-cols-2 lg:grid-cols-3">
+        <ul className="grid sm:grid-cols-2 lg:grid-cols-3">
           {products.map((product) => (
             <li>
               <ProductTile product={product} />

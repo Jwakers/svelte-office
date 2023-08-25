@@ -36,7 +36,7 @@ export default async function CategoryPage({
       {products.length === 0 ? (
         <p className="py-3 text-lg">{`No products found in this collection`}</p>
       ) : (
-        <ul className="grid grid-cols-2 lg:grid-cols-3">
+        <ul className="grid sm:grid-cols-2 lg:grid-cols-3">
           {products.map((product) => (
             <li>
               <ProductTile product={product} />

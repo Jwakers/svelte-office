@@ -16,7 +16,7 @@ export default function SearchMenu({ children }: { children: React.ReactNode }) 
     if (isOpen) {
       setIsOpen(false);
     }
-  }, [searchParams, isOpen]);
+  }, [searchParams]);
 
   return (
     <>

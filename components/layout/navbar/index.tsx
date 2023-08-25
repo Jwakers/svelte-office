@@ -13,7 +13,7 @@ export default async function Navbar() {
 
   return (
     <>
-      <Link href="/" aria-label="Go back home" className="relative z-[60] block p-3 md:hidden">
+      <Link href="/" aria-label="Go back home" className="relative z-50 block p-3 md:hidden">
         <span className="font-serif text-lg font-bold md:text-xl">SvelteOffice</span>
       </Link>
       <nav className="fixed bottom-0 left-0 z-20 grid w-full grid-cols-[1fr_auto] items-center justify-between border-t border-black bg-white px-4 md:static md:border-b md:border-t-0">
