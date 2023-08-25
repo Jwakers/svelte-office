@@ -447,7 +447,6 @@ export async function getProducts({
   sortKey?: string;
   limit?: number;
 }): Promise<Product[]> {
-  console.log({ limit });
   const res = await shopifyFetch<ShopifyProductsOperation>({
     query: getProductsQuery,
     tags: [TAGS.products],

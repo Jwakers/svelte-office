@@ -1,6 +1,12 @@
 'use client';
 
-export default function Error({ reset }: { reset: () => void }) {
+import { useEffect } from 'react';
+
+export default function Error({ reset, error }: { reset: () => void; error: Error }) {
+  useEffect(() => {
+    console.error(error);
+  }, [error]);
+
   return (
     <div>
       <h2>Something went wrong.</h2>

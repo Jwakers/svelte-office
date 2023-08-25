@@ -1,6 +1,6 @@
 export default function Loading() {
   return (
-    <ul className="grid grid-cols-2 lg:grid-cols-3">
+    <ul className="grid sm:grid-cols-2 lg:grid-cols-3">
       {Array(12)
         .fill(0)
         .map((_, index) => {

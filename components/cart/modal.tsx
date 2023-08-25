@@ -178,17 +178,19 @@ export default function CartModal({ cart, cartIdUpdated }: { cart: Cart; cartIdU
                           currencyCode={cart.cost.subtotalAmount.currencyCode}
                         />
                       </div>
-                      <div className="mb-2 flex items-center justify-between">
-                        <p>Taxes</p>
-                        <Price
-                          className="text-right"
-                          amount={cart.cost.totalTaxAmount.amount}
-                          currencyCode={cart.cost.totalTaxAmount.currencyCode}
-                        />
-                      </div>
+                      {parseFloat(cart.cost.totalTaxAmount.amount) > 0 ? (
+                        <div className="mb-2 flex items-center justify-between">
+                          <p>Taxes</p>
+                          <Price
+                            className="text-right"
+                            amount={cart.cost.totalTaxAmount.amount}
+                            currencyCode={cart.cost.totalTaxAmount.currencyCode}
+                          />
+                        </div>
+                      ) : null}
                       <div className="mb-2 flex items-center justify-between border-b border-black pb-2">
                         <p>Shipping</p>
-                        <p className="text-right">Calculated at checkout</p>
+                        <p className="text-right">FREE</p>
                       </div>
                       <div className="mb-2 flex items-center justify-between font-bold">
                         <p>Total</p>
