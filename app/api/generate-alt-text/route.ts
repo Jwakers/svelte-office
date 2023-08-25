@@ -1,6 +1,8 @@
 import { getProductimages, updateProductImageAlt } from 'lib/shopify';
 import { NextResponse } from 'next/server';
 
+export const dynamic = 'force-dynamic'; // Prevents route running during build
+
 const generateAltText = async function (imageUrl: string) {
   let startResponse = await fetch('https://api.replicate.com/v1/predictions', {
     method: 'POST',

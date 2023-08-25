@@ -4,6 +4,8 @@ const ftp = require('basic-ftp');
 const fs = require('fs');
 require('os').tmpdir();
 
+export const dynamic = 'force-dynamic'; // Prevents route running during build
+
 const fetchStockViaFtp = async function () {
   const client = new ftp.Client();
   client.ftp.verbose = true;
