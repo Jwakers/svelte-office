@@ -3,6 +3,8 @@
 // import { headers } from 'next/headers';
 // import { NextResponse } from 'next/server';
 
+import { NextResponse } from 'next/server';
+
 // const isVerifiedWebhookRequest = async (req: Request) => {
 //   const headersList = headers();
 //   const shopifyHash = headersList.get('x-shopify-hmac-sha256');
@@ -107,12 +109,14 @@
 //   });
 // };
 
-// export async function POST(req: Request) {
-//   const data = await req.clone().json();
+export async function POST(req: Request) {
+  // const data = await req.clone().json();
 
-//   if (!isVerifiedWebhookRequest(req)) {
-//     return NextResponse.json({ error: 'Unverified shopify webhook' }, { status: 401 });
-//   }
-//   handleData(data);
-//   return NextResponse.json({ status: 200 });
-// }
+  // if (!isVerifiedWebhookRequest(req)) {
+  //   return NextResponse.json({ error: 'Unverified shopify webhook' }, { status: 401 });
+  // }
+  // handleData(data);
+  // return NextResponse.json({ status: 200 });
+  console.log('Temp code');
+  return NextResponse.json({ status: 200 });
+}
