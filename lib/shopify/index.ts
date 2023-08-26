@@ -355,7 +355,7 @@ export async function getCollectionWithProducts({
   return {
     ...collection,
     products: reshapeProducts(removeEdgesAndNodes(collection.products)),
-    path: `/collection/${collection.handle}`
+    path: `/category/${collection.handle}`
   };
 }
 
@@ -368,7 +368,8 @@ export async function getCollections(): Promise<CollectionWithProducts[]> {
   const shopifyCollections = removeEdgesAndNodes(res.body?.data?.collections);
   const shopifyCollectionsWithProducts = shopifyCollections.map((collection) => ({
     ...collection,
-    products: removeEdgesAndNodes(collection.products)
+    products: removeEdgesAndNodes(collection.products),
+    path: `/category/${collection.handle}`
   }));
 
   return shopifyCollectionsWithProducts;
