@@ -1,9 +1,10 @@
 import { getCollections, getPages, getProducts } from 'lib/shopify';
 import { MetadataRoute } from 'next';
 
-const baseUrl = process.env.VERCEL_URL
-  ? `https://${process.env.VERCEL_URL}`
-  : 'http://localhost:3000';
+const baseUrl =
+  process.env.NODE_ENV === 'production'
+    ? `https://${process.env.NEXT_PUBLIC_SITE_URL}`
+    : 'http://localhost:3000';
 
 export default async function sitemap(): Promise<Promise<Promise<MetadataRoute.Sitemap>>> {
   const routesMap = ['', '/contact', '/search'].map((route) => ({
