@@ -16,21 +16,5 @@ module.exports = {
         pathname: '/s/files/**'
       }
     ]
-  },
-  async headers() {
-    const headers = [];
-    // IMPORTANT: Remove before going live properly.
-    // This will prevent the site from being indexed.
-    headers.push({
-      headers: [
-        {
-          key: 'X-Robots-Tag',
-          value: 'noindex'
-        }
-      ],
-      source: '/:path*'
-    });
-
-    return headers;
   }
 };
