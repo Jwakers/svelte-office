@@ -41,7 +41,9 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
         {`
         window.dataLayer = window.dataLayer || [];
         function gtag(){dataLayer.push(arguments)}
-        gtag('js', new Date()); gtag('config', 'AW-11314383640');
+        gtag('js', new Date());
+        gtag('config', 'AW-11314383640');
+        gtag('config', 'G-QZHC45RS9P');
         `}
       </Script>
       <body className="text-black selection:bg-yellow-400">
