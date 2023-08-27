@@ -18,6 +18,7 @@ export async function POST(request: Request) {
     contactFormSchema.parse(data);
     sendEmail({
       subject: `${data.subject}`,
+      fromLabel: 'Svelte office contact form',
       html: `
     <p><strong>Name:</strong> ${data.name}</p>
     <p><strong>Email:</strong> ${data.email}</p>
