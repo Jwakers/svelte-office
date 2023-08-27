@@ -3,10 +3,12 @@ const nodemailer = require('nodemailer');
 export default async function ({
   subject,
   html,
+  fromLabel = 'Svelte office',
   to = process.env.HOSTINGER_CONTACT_EMAIL as string
 }: {
   subject: string;
   html: string;
+  fromLabel?: string;
   to?: string;
 }) {
   const transporter = nodemailer.createTransport({
@@ -19,7 +21,7 @@ export default async function ({
   });
 
   const mailData = {
-    from: `Svelte office order <${process.env.HOSTINGER_CONTACT_EMAIL}>`,
+    from: `${fromLabel} <${process.env.HOSTINGER_CONTACT_EMAIL}>`,
     to,
     subject,
     html

@@ -3,6 +3,7 @@ import Banner from 'components/layout/banner';
 import Footer from 'components/layout/footer';
 import Navbar from 'components/layout/navbar';
 import { Vollkorn, Work_Sans } from 'next/font/google';
+import Script from 'next/script';
 import { ReactNode, Suspense } from 'react';
 import './globals.css';
 import Providers from './providers';
@@ -35,6 +36,13 @@ const vollkorn = Vollkorn({
 export default async function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en" className={clsx(workSans.variable, vollkorn.variable)}>
+      <Script async src="https://www.googletagmanager.com/gtag/js?id=AW-11314383640"></Script>
+      <Script>
+        window.dataLayer = window.dataLayer || [];
+        {/* @ts-expect-error */}
+        function gtag(){dataLayer.push(arguments)}
+        gtag('js', new Date()); gtag('config', 'AW-11314383640');
+      </Script>
       <body className="text-black selection:bg-yellow-400">
         <Banner />
         <Navbar />

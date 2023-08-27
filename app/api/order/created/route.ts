@@ -102,8 +102,9 @@ const handleData = (data: any) => {
   `;
 
   sendEmail({
-    subject: `New order from Svelte Office #${id}`,
-    html
+    subject: `New order #${id}`,
+    html,
+    fromLabel: 'Svelte Office order'
   });
 };
 
