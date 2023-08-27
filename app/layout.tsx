@@ -38,10 +38,11 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
     <html lang="en" className={clsx(workSans.variable, vollkorn.variable)}>
       <Script async src="https://www.googletagmanager.com/gtag/js?id=AW-11314383640"></Script>
       <Script>
+        {`
         window.dataLayer = window.dataLayer || [];
-        {/* @ts-expect-error */}
         function gtag(){dataLayer.push(arguments)}
         gtag('js', new Date()); gtag('config', 'AW-11314383640');
+        `}
       </Script>
       <body className="text-black selection:bg-yellow-400">
         <Banner />
