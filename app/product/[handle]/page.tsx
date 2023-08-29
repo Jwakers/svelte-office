@@ -28,7 +28,7 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const product = await getProduct(params.handle);
 
-  if (!product) return notFound();
+  if (!product) notFound();
 
   const { url, width, height, altText: alt } = product.featuredImage || {};
   const hide = !product.tags.includes(HIDDEN_PRODUCT_TAG);
@@ -96,7 +96,7 @@ function DeliverySection({
 export default async function ProductPage({ params }: { params: { handle: string } }) {
   const product = await getProduct(params.handle);
 
-  if (!product) return notFound();
+  if (!product) notFound();
 
   let specSheet: string | undefined;
   if (product.specificationSheet)

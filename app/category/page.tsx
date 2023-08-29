@@ -16,7 +16,7 @@ export async function generateMetadata(): Promise<Metadata> {
 export default async function Collections() {
   const collections = await getCollections();
 
-  if (!collections.length) return notFound();
+  if (!collections.length) notFound();
 
   return (
     <section>
@@ -50,29 +50,6 @@ export default async function Collections() {
               </div>
             </div>
           </Link>
-          // <Link className="group" href={`/category/${collection.handle}`} key={collection.handle}>
-          //   <div className="flex h-full animate-fadeIn flex-col outline outline-1 outline-black">
-          //     <div className="overflow-hidden">
-          //       {collection.image ? (
-          //         <Image
-          //           src={collection.image.url}
-          //           width={450}
-          //           height={450}
-          //           alt={collection.image?.altText}
-          //           className="aspect-square w-full object-cover transition-transform group-hover:scale-105"
-          //         />
-          //       ) : null}
-          //     </div>
-          //     <div className="flex grow flex-col justify-between border-t border-black bg-white p-3 ">
-          //       <h2 className="mb-1 font-serif text-xl md:text-2xl">{collection.title}</h2>
-          //       <IndexString
-          //         value={collection.products.length}
-          //         text="products in
-          //         this category"
-          //       />
-          //     </div>
-          //   </div>
-          // </Link>
         ))}
       </div>
     </section>

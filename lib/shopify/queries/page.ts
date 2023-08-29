@@ -39,3 +39,28 @@ export const getPagesQuery = /* GraphQL */ `
   }
   ${pageFragment}
 `;
+
+export const getPoliciesQuery = /* GraphQL */ `
+  query getPolicies {
+    shop {
+      refundPolicy {
+        handle
+        body
+        title
+        url
+      }
+      privacyPolicy {
+        body
+        handle
+        title
+        url
+      }
+      termsOfService {
+        body
+        handle
+        title
+        url
+      }
+    }
+  }
+`;

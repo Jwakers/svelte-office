@@ -12,7 +12,7 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const collection = await getCollection(params.collection);
 
-  if (!collection) return notFound();
+  if (!collection) notFound();
 
   return {
     title: collection.seo?.title || collection.title,
