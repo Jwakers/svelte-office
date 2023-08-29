@@ -17,7 +17,7 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const collection = await getCollection(params.handle);
 
-  if (!collection) return notFound();
+  if (!collection) notFound();
 
   return {
     title: collection.seo?.title || collection.title,
@@ -28,7 +28,7 @@ export async function generateMetadata({
 
 export default async function Collection({ params }: { params: { handle: string } }) {
   const collection = await getCollectionWithProducts({ handle: params.handle, limit: 100 });
-  if (!collection) return notFound();
+  if (!collection) notFound();
 
   const { image, title, products, descriptionHtml } = collection;
   const productsCount = products.length;

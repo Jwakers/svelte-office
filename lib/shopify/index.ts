@@ -20,7 +20,7 @@ import {
   getCollectionsQuery
 } from './queries/collection';
 import { getMenuQuery } from './queries/menu';
-import { getPageQuery, getPagesQuery } from './queries/page';
+import { getPageQuery, getPagesQuery, getPoliciesQuery } from './queries/page';
 import {
   getGenericFileQuery,
   getProductImagesQuery,
@@ -525,4 +525,12 @@ export async function getGenericFile(id: string) {
   });
 
   return res.body.data.node.url;
+}
+
+export async function getPolicies() {
+  const res = await shopifyFetch<any>({
+    query: getPoliciesQuery
+  });
+
+  return res.body.data.shop;
 }
