@@ -2,20 +2,17 @@ import clsx from 'clsx';
 import Banner from 'components/layout/banner';
 import Footer from 'components/layout/footer';
 import Navbar from 'components/layout/navbar';
+import { getPublicBaseUrl } from 'lib/utils';
 import { Vollkorn, Work_Sans } from 'next/font/google';
 import Script from 'next/script';
 import { ReactNode, Suspense } from 'react';
 import './globals.css';
 import Providers from './providers';
 
-const { SITE_NAME, NEXT_PUBLIC_SITE_URL } = process.env;
+const { SITE_NAME } = process.env;
 
 export const metadata = {
-  metadataBase: new URL(
-    process.env.NODE_ENV === 'production'
-      ? `https://${NEXT_PUBLIC_SITE_URL}`
-      : 'http://localhost:3000'
-  ),
+  metadataBase: new URL(getPublicBaseUrl()),
   title: {
     default: SITE_NAME || '',
     template: `%s | ${SITE_NAME}`

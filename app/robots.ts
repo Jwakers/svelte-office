@@ -1,7 +1,6 @@
-const baseUrl =
-  process.env.NODE_ENV === 'production'
-    ? `https://${process.env.NEXT_PUBLIC_SITE_URL}`
-    : 'http://localhost:3000';
+import { getPublicBaseUrl } from 'lib/utils';
+
+const baseUrl = getPublicBaseUrl();
 
 export default function robots() {
   return {
