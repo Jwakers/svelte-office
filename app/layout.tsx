@@ -8,9 +8,14 @@ import { ReactNode, Suspense } from 'react';
 import './globals.css';
 import Providers from './providers';
 
-const { SITE_NAME } = process.env;
+const { SITE_NAME, NEXT_PUBLIC_SITE_URL } = process.env;
 
 export const metadata = {
+  metadataBase: new URL(
+    process.env.NODE_ENV === 'production'
+      ? `https://${NEXT_PUBLIC_SITE_URL}`
+      : 'http://localhost:3000'
+  ),
   title: {
     default: SITE_NAME || '',
     template: `%s | ${SITE_NAME}`

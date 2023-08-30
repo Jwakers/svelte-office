@@ -4,6 +4,9 @@ import LatestProducts from 'components/product/latest';
 import { Suspense } from 'react';
 
 export const metadata = {
+  alternates: {
+    canonical: '/'
+  },
   description:
     'Upgrade your workspace with premium office furniture. Shop our exclusive collection of ergonomic chairs, modern desks, and storage solutions. Transform your office into a stylish and efficient hub today.',
   openGraph: {
