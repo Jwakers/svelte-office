@@ -9,7 +9,7 @@ export const CollectionPreview = async function ({ handle }: { handle: string })
   if (!collection) return;
   return (
     <Link
-      href={`/category/${collection.handle}`}
+      href={`/categories/${collection.handle}`}
       className="group relative grid border-b border-black md:flex"
     >
       <div className="sticky top-0 z-10 flex items-center gap-1 self-end border-b border-black bg-white px-4 py-2 transition-all group-hover:gap-4 md:hidden">

@@ -9,10 +9,10 @@ export const Hero = async function () {
           Let your office reflect your ambitions.
         </h1>
         <div className="flex flex-col gap-2 md:flex-row md:gap-4">
-          <Link href="/category/office-desks" className="button grow">
+          <Link href="/categories/office-desks" className="button grow">
             Shop desks
           </Link>
-          <Link href="/category/office-chairs" className="button grow">
+          <Link href="/categories/office-chairs" className="button grow">
             Shop chairs
           </Link>
         </div>

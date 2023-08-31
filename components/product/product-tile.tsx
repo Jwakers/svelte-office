@@ -10,7 +10,7 @@ export default function ProductTile({ product }: { product: Product }) {
 
   return (
     <Link
-      href={`/product/${product.handle}`}
+      href={`/products/${product.handle}`}
       className="group flex h-full flex-col outline outline-1 outline-black"
     >
       <Image
