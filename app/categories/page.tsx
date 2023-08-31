@@ -25,7 +25,7 @@ export default async function Collections() {
       <div className="grid sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4">
         {collections.map((collection) => (
           <Link
-            href={`/category/${collection.handle}`}
+            href={`/categories/${collection.handle}`}
             key={collection.handle}
             className="group flex h-full flex-col outline outline-1 outline-black"
           >

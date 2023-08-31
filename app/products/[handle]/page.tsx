@@ -36,14 +36,6 @@ export async function generateMetadata({
   return {
     title: product.seo.title || product.title,
     description: product.seo.description || product.description,
-    robots: {
-      index: hide,
-      follow: hide,
-      googleBot: {
-        index: hide,
-        follow: hide
-      }
-    },
     openGraph: url
       ? {
           images: [

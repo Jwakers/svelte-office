@@ -70,7 +70,7 @@ const ColletionProduct = ({ product }: { product: Product }) => {
         images={product.images.map((img) => ({ src: img.url, altText: img.altText }))}
       ></Carousel>
       <Link
-        href={`/product/${product.handle}`}
+        href={`/products/${product.handle}`}
         className="group flex h-full flex-col border-t border-black bg-white p-3"
       >
         <h2 className="font-serif text-lg uppercase md:text-xl">{product.title}</h2>
