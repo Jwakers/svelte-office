@@ -9,13 +9,7 @@ import { Gallery } from 'components/product/gallery';
 import ProductTile from 'components/product/product-tile';
 import { VariantSelector } from 'components/product/variant-selector';
 import Prose from 'components/prose';
-import {
-  DELIVERY_OPTIONS,
-  DeliveryTypes,
-  HIDDEN_PRODUCT_TAG,
-  UNIT_MAP,
-  Vendors
-} from 'lib/constants';
+import { DELIVERY_OPTIONS, DeliveryTypes, UNIT_MAP, Vendors } from 'lib/constants';
 import { getGenericFile, getProduct, getProductRecommendations } from 'lib/shopify';
 import Link from 'next/link';
 import { Suspense } from 'react';
@@ -31,7 +25,6 @@ export async function generateMetadata({
   if (!product) notFound();
 
   const { url, width, height, altText: alt } = product.featuredImage || {};
-  const hide = !product.tags.includes(HIDDEN_PRODUCT_TAG);
 
   return {
     title: product.seo.title || product.title,
