@@ -193,7 +193,7 @@ export async function GET() {
         );
         if (operation.currentBulkOperation.status === 'COMPLETED' || status === 'COMPLETED')
           return resolve(operation);
-        if (iterations >= 10) return reject(new Error('Timeout - 10 polls reached.'));
+        if (iterations >= 20) return reject(new Error('Timeout - 20 polls reached.'));
         iterations++;
         setTimeout(checkStatus, 1000);
       })();
