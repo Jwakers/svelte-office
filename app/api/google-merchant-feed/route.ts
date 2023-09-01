@@ -2,7 +2,6 @@ import fs from 'fs';
 import { UNIT_MAP } from 'lib/constants';
 import { bulkOperationRunQuery, pollBulkOperation } from 'lib/shopify';
 import { googleMerchantFeedDataQuery } from 'lib/shopify/queries/product';
-import { getPublicBaseUrl } from 'lib/utils';
 import { NextResponse } from 'next/server';
 import RSS from 'rss';
 import { Measurement, Product, TypeNames } from './types';
@@ -11,7 +10,7 @@ const https = require('https');
 
 export const dynamic = 'force-dynamic'; // Prevents route running during build
 
-const SITE_URL = getPublicBaseUrl();
+const SITE_URL = `https://${process.env.NEXT_PUBLIC_SITE_URL}`;
 
 async function processJSONL(url: string): Promise<Product[]> {
   // Process JSONL back into iterable JSON object
@@ -135,7 +134,7 @@ function generateRSSFeed(data: Product[]) {
             priceRange.minVariantPrice.currencyCode
           }`
         },
-        { 'g:product_lenght': parseMeasuerment(length) },
+        { 'g:product_length': parseMeasuerment(length) },
         { 'g:product_width': parseMeasuerment(width) },
         { 'g:product_height': parseMeasuerment(height) },
         { 'g:product_weight': parseMeasuerment(weight) },
