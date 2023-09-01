@@ -182,7 +182,7 @@ export async function GET() {
   const res = await bulkOperationRunQuery(googleMerchantFeedDataQuery);
   const { id, status } = res.bulkOperationRunQuery.bulkOperation;
 
-  // Poll the data once per second for 10 seconds
+  // Poll the data once per second for 1 minute
   try {
     let iterations = 0;
     const poll: any = await new Promise((resolve, reject) => {
@@ -193,7 +193,7 @@ export async function GET() {
         );
         if (operation.currentBulkOperation.status === 'COMPLETED' || status === 'COMPLETED')
           return resolve(operation);
-        if (iterations >= 20) return reject(new Error('Timeout - 20 polls reached.'));
+        if (iterations >= 60) return reject(new Error('Timeout - 60 polls reached.'));
         iterations++;
         setTimeout(checkStatus, 1000);
       })();
