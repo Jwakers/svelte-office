@@ -8,6 +8,8 @@ import { Measurement, Product, TypeNames } from './types';
 const readline = require('node:readline');
 const https = require('https');
 
+// TODO - Render this route as a page and come back to it later to refactor to use the content API
+
 export const dynamic = 'force-dynamic'; // Prevents route running during build
 
 const SITE_URL = getPublicBaseUrl();
