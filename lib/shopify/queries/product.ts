@@ -79,3 +79,92 @@ export const getProductImagesQuery = /* GraphQL */ `
     }
   }
 `;
+
+export const pollBulkOperationQuery = /* GraphQL */ `
+  query bulkOperationRunQueryQuery {
+    currentBulkOperation {
+      id
+      status
+      errorCode
+      createdAt
+      completedAt
+      objectCount
+      fileSize
+      url
+      partialDataUrl
+    }
+  }
+`;
+
+export const googleMerchantFeedDataQuery = /* GraphQL */ `
+  {
+    products(first: 250) {
+      edges {
+        node {
+          id
+          title
+          description
+          handle
+          vendor
+          updatedAt
+          priceRangeV2 {
+            maxVariantPrice {
+              amount
+              currencyCode
+            }
+            minVariantPrice {
+              amount
+              currencyCode
+            }
+          }
+          featuredImage {
+            url
+          }
+          images(first: 10) {
+            edges {
+              node {
+                __typename
+                url
+              }
+            }
+          }
+          variants(first: 10) {
+            edges {
+              node {
+                __typename
+                sku
+                displayName
+                availableForSale
+                price
+                selectedOptions {
+                  name
+                  value
+                }
+                image {
+                  url
+                }
+              }
+            }
+          }
+          width: metafield(namespace: "specification", key: "width") {
+            value
+          }
+          length: metafield(namespace: "specification", key: "length") {
+            value
+          }
+          height: metafield(namespace: "specification", key: "height") {
+            value
+          }
+          weight: metafield(namespace: "specification", key: "weight") {
+            value
+          }
+          productCategory {
+            productTaxonomyNode {
+              fullName
+            }
+          }
+        }
+      }
+    }
+  }
+`;

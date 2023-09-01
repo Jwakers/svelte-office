@@ -27,7 +27,8 @@ import {
   getProductQuery,
   getProductRecommendationsQuery,
   getProductSkusQuery,
-  getProductsQuery
+  getProductsQuery,
+  pollBulkOperationQuery
 } from './queries/product';
 import {
   Cart,
@@ -38,6 +39,7 @@ import {
   Page,
   Product,
   ShopifyAddToCartOperation,
+  ShopifyBulkOperationRunQueryOperation,
   ShopifyCart,
   ShopifyCartOperation,
   ShopifyCollection,
@@ -52,6 +54,7 @@ import {
   ShopifyMenuOperation,
   ShopifyPageOperation,
   ShopifyPagesOperation,
+  ShopifyPollBulkOperation,
   ShopifyProduct,
   ShopifyProductOperation,
   ShopifyProductRecommendationsOperation,
@@ -66,7 +69,9 @@ const domain = `https://${process.env.SHOPIFY_STORE_DOMAIN!}`;
 const storefrontEndpoint = `${domain}${SHOPIFY_GRAPHQL_API_ENDPOINT}`;
 const adminEndpoint = `${domain}${SHOPIFY_GRAPHQL_ADMIN_API_ENDPOINT}`;
 
-const key = process.env.SHOPIFY_STOREFRONT_ACCESS_TOKEN!;
+const storefrontAccessToken = process.env.SHOPIFY_STOREFRONT_ACCESS_TOKEN!;
+const adminStockManagementAccessToken = process.env.SHOPIFY_STOCK_MANAGEMENT_ACCESS_TOKEN!;
+const adminGoogleMerchantFeedAccessToken = process.env.SHOPIFY_GOOGLE_MERCHANT_FEED_ACCESS_TOKEN!;
 
 type ExtractVariables<T> = T extends { variables: object } ? T['variables'] : never;
 
@@ -76,23 +81,22 @@ export async function shopifyFetch<T>({
   query,
   tags,
   variables,
-  isAdmin = false
+  adminAccessToken
 }: {
   cache?: RequestCache;
   headers?: HeadersInit;
   query: string;
   tags?: string[];
   variables?: ExtractVariables<T>;
-  isAdmin?: boolean;
+  adminAccessToken?: string;
 }): Promise<{ status: number; body: T } | never> {
   try {
-    const result = await fetch(isAdmin ? adminEndpoint : storefrontEndpoint, {
+    const result = await fetch(adminAccessToken ? adminEndpoint : storefrontEndpoint, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        [isAdmin ? 'X-Shopify-Access-Token' : 'X-Shopify-Storefront-Access-Token']: isAdmin
-          ? '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'
-          : key,
+        [adminAccessToken ? 'X-Shopify-Access-Token' : 'X-Shopify-Storefront-Access-Token']:
+          adminAccessToken ? adminAccessToken : storefrontAccessToken,
         ...headers
       },
       body: JSON.stringify({
@@ -465,7 +469,7 @@ export async function getProducts({
 
 export async function getProductSkus() {
   const res = await shopifyFetch<ShopifyGetProductSkus>({
-    isAdmin: true,
+    adminAccessToken: adminStockManagementAccessToken,
     query: getProductSkusQuery
   });
 
@@ -481,7 +485,7 @@ export async function getProductSkus() {
 
 export async function updateStock(inventoryItemId: string, quantity: number) {
   const res = await shopifyFetch<ShopifyUpdateStockOperation>({
-    isAdmin: true,
+    adminAccessToken: adminStockManagementAccessToken,
     query: inventorySetOnHandQuantitiesQuery,
     variables: {
       input: {
@@ -502,7 +506,7 @@ export async function updateStock(inventoryItemId: string, quantity: number) {
 
 export async function updateProductImageAlt(productId: string, imageId: string, altText: string) {
   const res = await shopifyFetch<ShopifyUpdateProductImageAltOperation>({
-    isAdmin: true,
+    adminAccessToken: adminStockManagementAccessToken,
     query: updateProductImageAltQuery,
     variables: {
       productId,
@@ -511,6 +515,38 @@ export async function updateProductImageAlt(productId: string, imageId: string, 
         altText
       }
     }
+  });
+
+  return res.body.data;
+}
+
+export async function bulkOperationRunQuery(query: string) {
+  const res = await shopifyFetch<ShopifyBulkOperationRunQueryOperation>({
+    adminAccessToken: adminGoogleMerchantFeedAccessToken,
+    query: /* GraphQL */ `
+    mutation {
+    bulkOperationRunQuery(
+     query: """${query}"""
+    ) {
+      bulkOperation {
+        id
+        status
+      }
+      userErrors {
+        field
+        message
+      }
+    }
+  }`
+  });
+
+  return res.body.data;
+}
+
+export async function pollBulkOperation(id: string) {
+  const res = await shopifyFetch<ShopifyPollBulkOperation>({
+    adminAccessToken: adminGoogleMerchantFeedAccessToken,
+    query: pollBulkOperationQuery
   });
 
   return res.body.data;
