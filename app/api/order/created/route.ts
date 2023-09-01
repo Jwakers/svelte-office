@@ -112,7 +112,7 @@ export async function POST(req: Request) {
   const data = await req.clone().json();
 
   if (!isVerifiedWebhookRequest(req)) {
-    return NextResponse.json({ error: 'Unverified shopify webhook' }, { status: 401 });
+    return NextResponse.json({ error: 'Unverified shopify webhook' }, { status: 403 });
   }
   handleData(data);
   return NextResponse.json({ status: 200 });

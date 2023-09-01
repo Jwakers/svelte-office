@@ -79,3 +79,70 @@ export const getProductImagesQuery = /* GraphQL */ `
     }
   }
 `;
+
+export const googleMerchantFeedDataQuery = /* GraphQL */ `
+  {
+    products(first: 200) {
+      edges {
+        node {
+          id
+          title
+          description
+          handle
+          vendor
+          updatedAt
+          priceRangeV2 {
+            maxVariantPrice {
+              amount
+              currencyCode
+            }
+            minVariantPrice {
+              amount
+              currencyCode
+            }
+          }
+          featuredImage {
+            url
+          }
+          images(first: 4) {
+            edges {
+              node {
+                __typename
+                url
+              }
+            }
+          }
+          variants(first: 4) {
+            edges {
+              node {
+                __typename
+                price
+                weight
+                weightUnit
+                availableForSale
+                inventoryQuantity
+              }
+            }
+          }
+          width: metafield(namespace: "specification", key: "width") {
+            value
+          }
+          length: metafield(namespace: "specification", key: "length") {
+            value
+          }
+          height: metafield(namespace: "specification", key: "height") {
+            value
+          }
+          weight: metafield(namespace: "specification", key: "weight") {
+            value
+          }
+          productCategory {
+            productTaxonomyNode {
+              fullName
+            }
+          }
+        }
+      }
+    }
+  }
+`;
