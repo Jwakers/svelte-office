@@ -362,6 +362,34 @@ export type ShopifyGetProductimagesOperation = {
   };
 };
 
+export type ShopifyPollBulkOperation = {
+  data: {
+    currentBulkOperation: {
+      id: string;
+      status: string;
+      errorCode: string;
+      createdAt: string;
+      completedAt: string;
+      objectCount: string;
+      fileSize: string;
+      url: string;
+      partialDataUrl: string;
+    };
+  };
+};
+
+export type ShopifyBulkOperationRunQueryOperation = {
+  data: {
+    bulkOperationRunQuery: {
+      bulkOperation: {
+        id: string;
+        status: string;
+      };
+      userErrors: string[];
+    };
+  };
+};
+
 export type WebhookTopics =
   | 'APP_SUBSCRIPTIONS_APPROACHING_CAPPED_AMOUNT'
   | 'APP_SUBSCRIPTIONS_UPDATE'

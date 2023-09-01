@@ -80,6 +80,22 @@ export const getProductImagesQuery = /* GraphQL */ `
   }
 `;
 
+export const pollBulkOperationQuery = /* GraphQL */ `
+  query bulkOperationRunQueryQuery {
+    currentBulkOperation {
+      id
+      status
+      errorCode
+      createdAt
+      completedAt
+      objectCount
+      fileSize
+      url
+      partialDataUrl
+    }
+  }
+`;
+
 export const googleMerchantFeedDataQuery = /* GraphQL */ `
   {
     products(first: 250) {

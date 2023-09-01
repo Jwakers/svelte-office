@@ -179,8 +179,8 @@ function generateRSSFeed(data: Product[]) {
 
 export async function GET() {
   // Start the bulk operation
-  const bulkOperation = await bulkOperationRunQuery(googleMerchantFeedDataQuery);
-  const { id, status } = bulkOperation.bulkOperationRunQuery;
+  const res = await bulkOperationRunQuery(googleMerchantFeedDataQuery);
+  const { id, status } = res.bulkOperationRunQuery.bulkOperation;
 
   // Poll the data once per second for 10 seconds
   try {
@@ -188,7 +188,9 @@ export async function GET() {
     const poll: any = await new Promise((resolve, reject) => {
       (async function checkStatus() {
         const operation = await pollBulkOperation(id);
-        console.log(`iterations ${iterations} - Status: ${operation.currentBulkOperation.status}`);
+        console.log(
+          `Iteration ${iterations + 1} - Status: ${operation.currentBulkOperation.status}`
+        );
         if (operation.currentBulkOperation.status === 'COMPLETED' || status === 'COMPLETED')
           return resolve(operation);
         if (iterations >= 10) return reject(new Error('Timeout - 10 polls reached.'));

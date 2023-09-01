@@ -27,7 +27,8 @@ import {
   getProductQuery,
   getProductRecommendationsQuery,
   getProductSkusQuery,
-  getProductsQuery
+  getProductsQuery,
+  pollBulkOperationQuery
 } from './queries/product';
 import {
   Cart,
@@ -38,6 +39,7 @@ import {
   Page,
   Product,
   ShopifyAddToCartOperation,
+  ShopifyBulkOperationRunQueryOperation,
   ShopifyCart,
   ShopifyCartOperation,
   ShopifyCollection,
@@ -52,6 +54,7 @@ import {
   ShopifyMenuOperation,
   ShopifyPageOperation,
   ShopifyPagesOperation,
+  ShopifyPollBulkOperation,
   ShopifyProduct,
   ShopifyProductOperation,
   ShopifyProductRecommendationsOperation,
@@ -517,49 +520,8 @@ export async function updateProductImageAlt(productId: string, imageId: string, 
   return res.body.data;
 }
 
-// export async function webhookSubscriptionCreate({
-//   topic,
-//   callbackUrl
-// }: {
-//   topic: WebhookTopics;
-//   callbackUrl: string;
-// }) {
-//   const res = await shopifyFetch<{
-//     variables: {
-//       topic: WebhookTopics;
-//       callbackUrl: string;
-//     };
-//   }>({
-//     adminAccessToken: adminGoogleMerchantFeedAccessToken,
-//     query: /* GraphQL */ `
-//       mutation webhookSubscriptionCreate($topic: WebhookSubscriptionTopic!, $callbackUrl: URL!) {
-//         webhookSubscriptionCreate(
-//           topic: $topic
-//           webhookSubscription: { format: JSON, callbackUrl: $callbackUrl }
-//         ) {
-//           userErrors {
-//             field
-//             message
-//           }
-//           webhookSubscription {
-//             id
-//           }
-//         }
-//       }
-//     `,
-//     variables: {
-//       topic,
-//       callbackUrl
-//     }
-//   });
-
-//   console.log('Create Webhook \n', JSON.stringify(res, null, 2), '\n');
-
-//   return res;
-// }
-
 export async function bulkOperationRunQuery(query: string) {
-  const res = await shopifyFetch({
+  const res = await shopifyFetch<ShopifyBulkOperationRunQueryOperation>({
     adminAccessToken: adminGoogleMerchantFeedAccessToken,
     query: /* GraphQL */ `
     mutation {
@@ -582,46 +544,12 @@ export async function bulkOperationRunQuery(query: string) {
 }
 
 export async function pollBulkOperation(id: string) {
-  const res = await shopifyFetch({
+  const res = await shopifyFetch<ShopifyPollBulkOperation>({
     adminAccessToken: adminGoogleMerchantFeedAccessToken,
-    query: /* GraphQL */ `
-      query {
-        currentBulkOperation {
-          id
-          status
-          errorCode
-          createdAt
-          completedAt
-          objectCount
-          fileSize
-          url
-          partialDataUrl
-        }
-      }
-    `
+    query: pollBulkOperationQuery
   });
 
   return res.body.data;
-}
-
-export async function getBulkOperationUrl(id: string) {
-  const res = await shopifyFetch<{ variables: { id: string } }>({
-    adminAccessToken: adminGoogleMerchantFeedAccessToken,
-    query: /* GraphQL */ `
-      query getBulkOperationUrl($id: ID!) {
-        node(id: $id) {
-          ... on BulkOperation {
-            url
-            partialDataUrl
-          }
-        }
-      }
-    `,
-    variables: {
-      id
-    }
-  });
-  console.log('Get Bulk \n', JSON.stringify(res, null, 2), '\n');
 }
 
 export async function getGenericFile(id: string) {
