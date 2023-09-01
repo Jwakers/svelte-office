@@ -116,6 +116,7 @@ function generateRSSFeed(data: Product[]) {
       description,
       url,
       date: updatedAt,
+      guid: overrides?.id || groupId,
       custom_elements: [
         { 'g:id': overrides?.id || groupId },
         { 'g:item_group_id': groupId },
