@@ -82,7 +82,7 @@ export const getProductImagesQuery = /* GraphQL */ `
 
 export const googleMerchantFeedDataQuery = /* GraphQL */ `
   {
-    products(first: 200) {
+    products(first: 250) {
       edges {
         node {
           id
@@ -104,7 +104,7 @@ export const googleMerchantFeedDataQuery = /* GraphQL */ `
           featuredImage {
             url
           }
-          images(first: 4) {
+          images(first: 10) {
             edges {
               node {
                 __typename
@@ -112,15 +112,21 @@ export const googleMerchantFeedDataQuery = /* GraphQL */ `
               }
             }
           }
-          variants(first: 4) {
+          variants(first: 10) {
             edges {
               node {
                 __typename
-                price
-                weight
-                weightUnit
+                sku
+                displayName
                 availableForSale
-                inventoryQuantity
+                price
+                selectedOptions {
+                  name
+                  value
+                }
+                image {
+                  url
+                }
               }
             }
           }

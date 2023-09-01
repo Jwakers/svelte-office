@@ -49,11 +49,17 @@ export type ImageEntity = {
 export type ProductVariantEntity = {
   __typename: TypeNames;
   __parentId: string;
+  sku: string;
+  displayName: string;
+  availableForSale: string;
   price: string;
-  weight: number;
-  weightUnit: string;
-  availableForSale: boolean;
-  inventoryQuantity: number;
+  selectedOptions: {
+    name: string;
+    value: string;
+  };
+  image: {
+    url: string;
+  };
 };
 
 export type TypeNames = 'Image' | 'ProductVariant';

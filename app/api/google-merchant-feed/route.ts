@@ -12,44 +12,52 @@ export const dynamic = 'force-dynamic'; // Prevents route running during build
 
 const SITE_URL = getPublicBaseUrl();
 
-async function processJSONL(url: string) {
+async function processJSONL(url: string): Promise<Product[]> {
   // Process JSONL back into iterable JSON object
-  const formattedData: Product[] = [];
+  return new Promise((resolve, reject) => {
+    const formattedData: Product[] = [];
+    const requestCallback = async (response: Response) => {
+      const rl = readline.createInterface({
+        input: response,
+        crlfDelay: Infinity
+      });
 
-  const requestCallback = async (response: Response) => {
-    const rl = readline.createInterface({
-      input: response,
-      crlfDelay: Infinity
-    });
+      // Iterate the response stream line by line
+      for await (const line of rl) {
+        const lineData = JSON.parse(line);
 
-    for await (const line of rl) {
-      const lineData = JSON.parse(line);
-      if (lineData['__parentId'] === undefined) {
-        formattedData.push(lineData);
-      } else {
-        // Find the parent
-        const parent: Product | undefined = formattedData.find(
-          (par: any) => par.id === lineData.__parentId
-        );
-        if (!parent) return new Error('Could not find parent');
+        // If ther is no parent ID this is a parent object (product)
+        if (lineData['__parentId'] === undefined) {
+          formattedData.push(lineData);
+        } else {
+          // Find the parent
+          const parent: Product | undefined = formattedData.find(
+            (par: any) => par.id === lineData.__parentId
+          );
+          if (!parent) return reject(new Error('Could not find parent'));
 
-        const existingData = parent[lineData.__typename as TypeNames];
-        // Spread the existing data and add new data to the child object
-        parent[lineData.__typename as TypeNames] = [
-          ...(existingData ? existingData : []),
-          lineData
-        ];
+          const existingData = parent[lineData.__typename as TypeNames];
+
+          // Spread the existing data and add new data to the child object
+          parent[lineData.__typename as TypeNames] = [
+            ...(existingData ? existingData : []),
+            lineData
+          ];
+        }
       }
-    }
-  };
+      resolve(formattedData);
+    };
 
-  // Get bulk operation data by URL
-  https.get(url, requestCallback);
-
-  return formattedData;
+    const req = https.get(url, requestCallback);
+    req.on('error', (err: Error) => {
+      reject(err);
+    });
+    req.end();
+  });
 }
 
-async function generateRSSFeed(data: Product[]) {
+function generateRSSFeed(data: Product[]) {
+  // Generate the RSS feed data
   const feed = new RSS({
     title: 'Svelte Office - Google Store',
     site_url: SITE_URL,
@@ -61,7 +69,18 @@ async function generateRSSFeed(data: Product[]) {
     }
   });
 
-  for (const product of data) {
+  const addFeedItem = (
+    product: Product,
+    overrides?: {
+      title?: string;
+      id?: string;
+      color?: string;
+      isAvailableForSale?: string;
+      price?: string;
+      imageUrl?: string;
+    }
+  ) => {
+    // Function to add a feed item be it product or variant
     const {
         id,
         title,
@@ -76,34 +95,44 @@ async function generateRSSFeed(data: Product[]) {
         Image,
         ProductVariant,
         vendor,
+        productCategory,
         priceRangeV2: priceRange
       } = product,
-      url = `${SITE_URL}/products/${handle}`;
+      url = `${SITE_URL}/products/${handle}`,
+      groupId = ProductVariant[0] ? ProductVariant[0].sku : id;
 
     const parseMeasuerment = (measurement: Measurement) => {
+      if (!measurement) return null;
       const { value, unit } = JSON.parse(measurement.value);
       return `${value} ${UNIT_MAP[unit as keyof typeof UNIT_MAP] || ''}`;
     };
-    const availableForSale = ProductVariant?.some((variant) => variant.availableForSale);
+    const availableForSale =
+      overrides?.isAvailableForSale !== undefined
+        ? overrides.isAvailableForSale
+        : ProductVariant?.some((variant) => variant.availableForSale);
 
     feed.item({
-      title: title,
-      description: description,
+      title: overrides?.title || title,
+      description,
       url,
       date: updatedAt,
       custom_elements: [
-        { 'g:id': id },
-        { 'g:title': title },
+        { 'g:id': overrides?.id || groupId },
+        { 'g:item_group_id': groupId },
+        { 'g:title': overrides?.title || title },
         { 'g:description': description },
         { 'g:link': url },
-        { 'g:image_link': featuredImage.url },
+        { 'g:image_link': overrides?.imageUrl || featuredImage.url },
         {
           'g:additional_image_link': Image?.length ? Image.map((img) => img.url).join(',') : null
         },
-        { 'g:availability': availableForSale ? 'in_stock' : 'out_of_stock' },
-        // { 'g:cost_of_goods_sold': '' },
         {
-          'g:price': `${priceRange.minVariantPrice.amount} ${priceRange.minVariantPrice.currencyCode}`
+          'g:availability': availableForSale ? 'in_stock' : 'out_of_stock'
+        },
+        {
+          'g:price': `${overrides?.price || priceRange.minVariantPrice.amount} ${
+            priceRange.minVariantPrice.currencyCode
+          }`
         },
         { 'g:product_lenght': parseMeasuerment(length) },
         { 'g:product_width': parseMeasuerment(width) },
@@ -111,22 +140,41 @@ async function generateRSSFeed(data: Product[]) {
         { 'g:product_weight': parseMeasuerment(weight) },
         { 'g:shipping_weight': parseMeasuerment(weight) },
         { 'g:brand': vendor },
-        { 'g:color': '' },
-        { 'g:item_group_id': id },
-        { 'g:google_product_category': '' },
-        { 'g:mpn': '' },
+        { 'g:color': overrides?.color || null },
+        { 'g:google_product_category': productCategory.productTaxonomyNode.fullName },
+        // TODO: Fetch a MPN or GTIN and add here (only use one, poreferably GTIN) https://support.google.com/merchants/answer/6324461?hl=en-GB
+        // { 'g:mpn': '' },
+        // { 'g:gtin': '' },
         {
           'g:shipping': [{ 'g:country': 'UK' }, { 'g:price': 0 }]
         }
       ]
     });
+  };
+
+  for (const product of data) {
+    const hasVariants = product.ProductVariant.length > 1;
+
+    addFeedItem(product);
+
+    // If we have more than one variant, add the additional variants as items
+    if (hasVariants) {
+      const variantData = product.ProductVariant.map((variant) => ({
+        id: variant.sku,
+        title: variant.displayName,
+        color: variant.selectedOptions.value,
+        isAvailableForSale: variant.availableForSale,
+        price: variant.price,
+        imageUrl: variant.image.url
+      }));
+
+      for (const variant of variantData) {
+        addFeedItem(product, variant);
+      }
+    }
   }
 
-  return new Response(feed.xml(), {
-    headers: {
-      'Content-Type': 'application/xml'
-    }
-  });
+  return feed.xml();
 }
 
 export async function GET() {
@@ -150,46 +198,16 @@ export async function GET() {
     });
 
     const data = await processJSONL(poll.currentBulkOperation.url);
+    const feed = generateRSSFeed(data);
 
-    return NextResponse.json({ status: 200, message: 'Google Feed updated' });
+    return new Response(feed, {
+      status: 200,
+      headers: {
+        'Content-Type': 'application/xml'
+      }
+    });
   } catch (err) {
     console.error({ err });
     return NextResponse.json({ error: err, status: 408 });
   }
 }
-
-// export async function POST(req: Request, res: Response) {
-//   console.log('POST START \n \n');
-
-//   console.log('Webhook POST \n', req, res);
-
-//   const bulk = getBulkOperationUrl(req.data.node.url);
-// }
-
-// <?xml version="1.0"?>
-// <rss xmlns:g="http://base.google.com/ns/1.0" version="2.0">
-// <channel>
-// <title>Example - Google Store</title>
-// <link>https://store.google.com</link>
-// <description>This is an example of a basic RSS 2.0 document containing a single item</description>
-// <item>
-
-// <g:id>TV_123456</g:id>
-// <g:title>Google Chromecast with Google TV</g:title>
-// <g:description>Chromecast with Google TV brings you the entertainment you love, in up to 4K HDR</g:description>
-// <g:link>https://store.google.com/product/chromecast_google_tv</g:link> <g:image_link>https://images.example.com/TV_123456.png</g:image_link> <g:condition>new</g:condition>
-// <g:availability>in stock</g:availability>
-// <g:price>49.99 USD</g:price>
-// <g:shipping>
-
-// <g:country>US</g:country>
-// <g:service>Standard</g:service>
-// <g:price>7.99 USD</g:price>
-
-// </g:shipping>
-// <g:gtin>123456789123</g:gtin>
-// <g:brand>Google</g:brand>
-
-// </item>
-// </channel>
-// </rss>
