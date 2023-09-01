@@ -5,7 +5,6 @@ export async function GET() {
   const data = await fetch(`${baseUrl}/api/google-merchant-feed`);
 
   const rawBody = await data.text();
-  console.log(rawBody);
 
   return new Response(rawBody, {
     headers: {
