@@ -1,3 +1,4 @@
+import fs from 'fs';
 import { UNIT_MAP } from 'lib/constants';
 import { bulkOperationRunQuery, pollBulkOperation } from 'lib/shopify';
 import { googleMerchantFeedDataQuery } from 'lib/shopify/queries/product';
@@ -201,6 +202,10 @@ export async function GET() {
 
     const data = await processJSONL(poll.currentBulkOperation.url);
     const feed = generateRSSFeed(data);
+
+    fs.writeFile('./public/google-feed.xml', feed, (err) => {
+      console.log('Error', err);
+    });
 
     return new Response(feed, {
       status: 200,
