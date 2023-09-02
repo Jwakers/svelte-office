@@ -1,11 +1,12 @@
 import { CollectionPreview } from 'components/collections/collection-preview';
 import { Hero } from 'components/hero';
 import LatestProducts from 'components/product/latest';
+import { getPublicBaseUrl } from 'lib/utils';
 import { Suspense } from 'react';
 
 export const metadata = {
   alternates: {
-    canonical: '/'
+    canonical: getPublicBaseUrl()
   },
   description:
     'Upgrade your workspace with premium office furniture. Shop our exclusive collection of ergonomic chairs, modern desks, and storage solutions. Transform your office into a stylish and efficient hub today.',
