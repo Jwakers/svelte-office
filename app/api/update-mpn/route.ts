@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic'; // Prevents route running during build
+
 export async function GET() {
   //   const skuList = await getProductSkus();
   //   for (const product of skuList) {
@@ -7,4 +9,5 @@ export async function GET() {
   //     const res = await updateBarcode(product.id, item.barcode);
   //     console.log(product.sku, item.barcode);
   //   }
+  return new Response('', { status: 200 });
 }
