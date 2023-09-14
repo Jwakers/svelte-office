@@ -362,22 +362,6 @@ export type ShopifyGetProductimagesOperation = {
   };
 };
 
-export type ShopifyPollBulkOperation = {
-  data: {
-    currentBulkOperation: {
-      id: string;
-      status: string;
-      errorCode: string;
-      createdAt: string;
-      completedAt: string;
-      objectCount: string;
-      fileSize: string;
-      url: string;
-      partialDataUrl: string;
-    };
-  };
-};
-
 export type ShopifyBulkOperationRunQueryOperation = {
   data: {
     bulkOperationRunQuery: {
@@ -386,6 +370,14 @@ export type ShopifyBulkOperationRunQueryOperation = {
         status: string;
       };
       userErrors: string[];
+    };
+  };
+};
+
+export type ShopifyGetBulkOperationOperation = {
+  data: {
+    node: {
+      url: string;
     };
   };
 };

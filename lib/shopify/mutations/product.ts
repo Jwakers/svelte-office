@@ -1,4 +1,4 @@
-export const inventorySetOnHandQuantitiesQuery = /* GraphQL */ `
+export const inventorySetOnHandQuantitiesMutation = /* GraphQL */ `
   mutation inventorySetOnHandQuantities($input: InventorySetOnHandQuantitiesInput!) {
     inventorySetOnHandQuantities(input: $input) {
       userErrors {
