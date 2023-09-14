@@ -48,7 +48,7 @@ export function Gallery({ images }: { images: { src: string; altText: string }[]
               width={750}
               height={750}
               alt={altText || ''}
-              priority={i === 0}
+              priority={i < 2}
               className="h-full w-full animate-fadeIn border-black object-cover md:border-b"
             />
           </SwiperSlide>

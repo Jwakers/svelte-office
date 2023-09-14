@@ -48,6 +48,7 @@ export default async function Collection({ params }: { params: { handle: string 
               width={736}
               height={384}
               alt={image.altText}
+              priority
             />
           </div>
         )}
