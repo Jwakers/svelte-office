@@ -1,8 +1,8 @@
 import fs from 'fs';
 import { UNIT_MAP } from 'lib/constants';
-import { bulkOperationRunQuery, pollBulkOperation } from 'lib/shopify';
+import { bulkOperationRunQuery, getBulkOperation, webhookSubscriptionCreate } from 'lib/shopify';
 import { googleMerchantFeedDataQuery } from 'lib/shopify/queries/product';
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import RSS from 'rss';
 import { Measurement, Product, TypeNames } from './types';
 const readline = require('node:readline');
@@ -16,6 +16,7 @@ async function processJSONL(url: string): Promise<Product[]> {
   // Process JSONL back into iterable JSON object
   return new Promise((resolve, reject) => {
     const formattedData: Product[] = [];
+
     const requestCallback = async (response: Response) => {
       const rl = readline.createInterface({
         input: response,
@@ -78,6 +79,7 @@ function generateRSSFeed(data: Product[]) {
       isAvailableForSale?: string;
       price?: string;
       imageUrl?: string;
+      barcode?: string;
     }
   ) => {
     // Function to add a feed item be it product or variant
@@ -143,9 +145,8 @@ function generateRSSFeed(data: Product[]) {
         { 'g:brand': vendor },
         { 'g:color': overrides?.color || null },
         { 'g:google_product_category': productCategory.productTaxonomyNode.fullName },
-        // TODO: Fetch a MPN or GTIN and add here (only use one, poreferably GTIN) https://support.google.com/merchants/answer/6324461?hl=en-GB
-        // { 'g:mpn': '' },
-        // { 'g:gtin': '' },
+        // https://support.google.com/merchants/answer/6324461?hl=en-GB
+        { 'g:mpn': overrides?.barcode || ProductVariant[0]?.barcode },
         {
           'g:shipping': [{ 'g:country': 'UK' }, { 'g:price': 0 }]
         }
@@ -166,7 +167,8 @@ function generateRSSFeed(data: Product[]) {
         color: variant.selectedOptions.value,
         isAvailableForSale: variant.availableForSale,
         price: variant.price,
-        imageUrl: variant.image.url
+        imageUrl: variant.image.url,
+        barcode: variant.barcode
       }));
 
       for (const variant of variantData) {
@@ -178,41 +180,38 @@ function generateRSSFeed(data: Product[]) {
   return feed.xml();
 }
 
+export async function POST(req: NextRequest) {
+  const body = await req.json();
+
+  const { admin_graphql_api_id } = body;
+
+  const bulkOperation = await getBulkOperation(admin_graphql_api_id);
+  const data = await processJSONL(bulkOperation.url);
+  const feed = generateRSSFeed(data);
+
+  fs.writeFile('./public/google-feed.xml', feed, (err) => {
+    console.error('Error', err);
+  });
+
+  return new Response(feed, {
+    status: 200,
+    headers: {
+      'Content-Type': 'application/xml'
+    }
+  });
+}
+
 export async function GET() {
-  // Start the bulk operation
-  const res = await bulkOperationRunQuery(googleMerchantFeedDataQuery);
-  const { id, status } = res.bulkOperationRunQuery.bulkOperation;
-
-  // Poll the data once per second for 1 minute
   try {
-    let iterations = 0;
-    const poll: any = await new Promise((resolve, reject) => {
-      (async function checkStatus() {
-        const operation = await pollBulkOperation(id);
-        console.log(
-          `Iteration ${iterations + 1} - Status: ${operation.currentBulkOperation.status}`
-        );
-        if (operation.currentBulkOperation.status === 'COMPLETED' || status === 'COMPLETED')
-          return resolve(operation);
-        if (iterations >= 60) return reject(new Error('Timeout - 60 polls reached.'));
-        iterations++;
-        setTimeout(checkStatus, 1000);
-      })();
-    });
+    await webhookSubscriptionCreate(
+      `${
+        process.env.NODE_ENV === 'production' ? SITE_URL : 'https://eighty-suits-wear.loca.lt'
+      }/api/google-merchant-feed`,
+      'BULK_OPERATIONS_FINISH'
+    );
+    const res = await bulkOperationRunQuery(googleMerchantFeedDataQuery);
 
-    const data = await processJSONL(poll.currentBulkOperation.url);
-    const feed = generateRSSFeed(data);
-
-    fs.writeFile('./public/google-feed.xml', feed, (err) => {
-      console.log('Error', err);
-    });
-
-    return new Response(feed, {
-      status: 200,
-      headers: {
-        'Content-Type': 'application/xml'
-      }
-    });
+    return new Response('Success', { status: 200 });
   } catch (err) {
     console.error({ err });
     return NextResponse.json({ error: err, status: 408 });

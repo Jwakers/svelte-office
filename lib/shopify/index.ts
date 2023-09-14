@@ -11,7 +11,10 @@ import {
   editCartItemsMutation,
   removeFromCartMutation
 } from './mutations/cart';
-import { inventorySetOnHandQuantitiesQuery, updateProductImageAltQuery } from './mutations/product';
+import {
+  inventorySetOnHandQuantitiesMutation,
+  updateProductImageAltQuery
+} from './mutations/product';
 import { getCartQuery } from './queries/cart';
 import {
   getCollectionProductsQuery,
@@ -27,8 +30,7 @@ import {
   getProductQuery,
   getProductRecommendationsQuery,
   getProductSkusQuery,
-  getProductsQuery,
-  pollBulkOperationQuery
+  getProductsQuery
 } from './queries/product';
 import {
   Cart,
@@ -49,12 +51,12 @@ import {
   ShopifyCollectionsOperation,
   ShopifyCreateCartOperation,
   ShopifyGenericFileOperation,
+  ShopifyGetBulkOperationOperation,
   ShopifyGetProductSkus,
   ShopifyGetProductimagesOperation,
   ShopifyMenuOperation,
   ShopifyPageOperation,
   ShopifyPagesOperation,
-  ShopifyPollBulkOperation,
   ShopifyProduct,
   ShopifyProductOperation,
   ShopifyProductRecommendationsOperation,
@@ -62,7 +64,8 @@ import {
   ShopifyRemoveFromCartOperation,
   ShopifyUpdateCartOperation,
   ShopifyUpdateProductImageAltOperation,
-  ShopifyUpdateStockOperation
+  ShopifyUpdateStockOperation,
+  WebhookTopics
 } from './types';
 
 const domain = `https://${process.env.SHOPIFY_STORE_DOMAIN!}`;
@@ -486,7 +489,7 @@ export async function getProductSkus() {
 export async function updateStock(inventoryItemId: string, quantity: number) {
   const res = await shopifyFetch<ShopifyUpdateStockOperation>({
     adminAccessToken: adminStockManagementAccessToken,
-    query: inventorySetOnHandQuantitiesQuery,
+    query: inventorySetOnHandQuantitiesMutation,
     variables: {
       input: {
         reason: 'cycle_count_available',
@@ -502,6 +505,32 @@ export async function updateStock(inventoryItemId: string, quantity: number) {
   });
 
   return res.body.data;
+}
+
+export async function updateBarcode(productId: string, barcode: string) {
+  const res = await shopifyFetch<any>({
+    adminAccessToken: adminStockManagementAccessToken,
+    query: /* GraphQl */ `
+    mutation productVariantUpdate($input: ProductVariantInput!) {
+      productVariantUpdate(input: $input) {
+        productVariant {
+          title
+        }
+        userErrors {
+          field
+          message
+        }
+      }
+    }`,
+    variables: {
+      input: {
+        id: productId,
+        barcode
+      }
+    }
+  });
+
+  return res;
 }
 
 export async function updateProductImageAlt(productId: string, imageId: string, altText: string) {
@@ -537,19 +566,53 @@ export async function bulkOperationRunQuery(query: string) {
         message
       }
     }
-  }`
+  }`,
+    cache: 'no-store'
   });
 
   return res.body.data;
 }
 
-export async function pollBulkOperation(id: string) {
-  const res = await shopifyFetch<ShopifyPollBulkOperation>({
+export async function getBulkOperation(id: string) {
+  const res = await shopifyFetch<ShopifyGetBulkOperationOperation>({
     adminAccessToken: adminGoogleMerchantFeedAccessToken,
-    query: pollBulkOperationQuery
+    query: /** GraphQL */ `
+    query {
+      node(id: "${id}") {
+        ... on BulkOperation {
+          url
+        }
+      }
+    }`
+  });
+  return res.body.data.node;
+}
+
+export async function webhookSubscriptionCreate(callbackUrl: string, topic: WebhookTopics) {
+  const res = await shopifyFetch({
+    adminAccessToken: adminGoogleMerchantFeedAccessToken,
+    query: /* GraphQL */ `
+    mutation {
+      webhookSubscriptionCreate(
+        topic: ${topic}
+        webhookSubscription: {
+          format: JSON,
+          callbackUrl: "${callbackUrl}"}
+      ) {
+        userErrors {
+          field
+          message
+        }
+        webhookSubscription {
+          id
+          topic
+        }
+      }
+    }`,
+    cache: 'no-store'
   });
 
-  return res.body.data;
+  return res;
 }
 
 export async function getGenericFile(id: string) {

@@ -53,6 +53,7 @@ export type ProductVariantEntity = {
   displayName: string;
   availableForSale: string;
   price: string;
+  barcode: string;
   selectedOptions: {
     name: string;
     value: string;
