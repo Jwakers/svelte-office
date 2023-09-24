@@ -167,8 +167,11 @@ const reshapeCollection = (collection: ShopifyCollection): Collection | undefine
   };
 };
 
-const reshapeProduct = (product: ShopifyProduct, filterHiddenProducts: boolean = true) => {
-  if (!product || (filterHiddenProducts && product.tags.includes(HIDDEN_PRODUCT_TAG))) {
+const showInProd = (product: ShopifyProduct) =>
+  product.tags.includes(HIDDEN_PRODUCT_TAG) && process.env.NODE_ENV === 'production' ? false : true;
+
+const reshapeProduct = (product: ShopifyProduct) => {
+  if (!product || !showInProd(product)) {
     return undefined;
   }
 
@@ -186,7 +189,7 @@ const reshapeProducts = (products: ShopifyProduct[]) => {
 
   for (const product of products) {
     if (product) {
-      const reshapedProduct = reshapeProduct(product, process.env.NODE_ENV === 'production');
+      const reshapedProduct = reshapeProduct(product);
 
       if (reshapedProduct) {
         reshapedProducts.push(reshapedProduct);
@@ -373,11 +376,14 @@ export async function getCollections(): Promise<CollectionWithProducts[]> {
     cache: 'no-store'
   });
   const shopifyCollections = removeEdgesAndNodes(res.body?.data?.collections);
-  const shopifyCollectionsWithProducts = shopifyCollections.map((collection) => ({
-    ...collection,
-    products: removeEdgesAndNodes(collection.products),
-    path: `/categories/${collection.handle}`
-  }));
+  const shopifyCollectionsWithProducts = shopifyCollections.map((collection) => {
+    const products = removeEdgesAndNodes(collection.products).filter(showInProd);
+    return {
+      ...collection,
+      products,
+      path: `/categories/${collection.handle}`
+    };
+  });
 
   return shopifyCollectionsWithProducts;
 }
@@ -429,7 +435,7 @@ export async function getProduct(handle: string): Promise<Product | undefined> {
     cache: 'no-store'
   });
 
-  return reshapeProduct(res.body.data.product, false);
+  return reshapeProduct(res.body.data.product);
 }
 
 export async function getProductRecommendations(productId: string): Promise<Product[]> {
