@@ -25,7 +25,7 @@ export const TAGS = {
   products: 'products'
 };
 
-export const HIDDEN_PRODUCT_TAG = 'nextjs-frontend-hidden';
+export const HIDDEN_PRODUCT_TAG = 'hide';
 export const DEFAULT_OPTION = 'Default Title';
 export const SHOPIFY_GRAPHQL_API_ENDPOINT = '/api/2023-07/graphql.json';
 export const SHOPIFY_GRAPHQL_ADMIN_API_ENDPOINT = '/admin/api/2023-07/graphql.json';
@@ -35,19 +35,21 @@ export const FADE_ANIMATION = {
   exit: { opacity: 0 }
 };
 
-export type Vendors = 'Teknik';
+export type Vendors = 'Teknik' | 'Hill Interiors';
 
 export type DeliveryTypes = {
   ND: string;
   '2M': string;
-  SP: string;
 };
 
 export const DELIVERY_OPTIONS: { [key in Vendors]: DeliveryTypes } = {
   Teknik: {
     ND: 'If this order is placed before 1pm it will be dispatched for next working day delivery.',
-    '2M': 'This product is delivered by a two person team. You will be contacted to discuss a delivery date and time, typically deliveryed within 10 working days.',
-    SP: 'The delivery of this product varies, you will be contacted about delivery.'
+    '2M': 'This product is delivered by a two person team. You will be contacted to discuss a delivery date and time, typically deliveryed within 10 working days.'
+  },
+  'Hill Interiors': {
+    ND: 'If this order is placed before 1pm it will be dispatched for next working day delivery.',
+    '2M': 'This product is delivered by a two person team. You will be contacted to discuss a delivery date and time, typically deliveryed within 10 working days.'
   }
 };
 

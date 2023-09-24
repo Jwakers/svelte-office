@@ -186,7 +186,7 @@ const reshapeProducts = (products: ShopifyProduct[]) => {
 
   for (const product of products) {
     if (product) {
-      const reshapedProduct = reshapeProduct(product);
+      const reshapedProduct = reshapeProduct(product, process.env.NODE_ENV === 'production');
 
       if (reshapedProduct) {
         reshapedProducts.push(reshapedProduct);
