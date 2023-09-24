@@ -40,6 +40,7 @@ export const getCollectionsQuery = /* GraphQL */ `
             edges {
               node {
                 handle
+                tags
               }
             }
           }
