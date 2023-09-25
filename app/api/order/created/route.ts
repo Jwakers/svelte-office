@@ -7,11 +7,6 @@ const isVerifiedWebhookRequest = async (req: Request) => {
   const headersList = headers();
   const shopifyHash = headersList.get('x-shopify-hmac-sha256');
 
-  // if (process.env.NODE_ENV === 'development') {
-  //   // Bypass the webhook signature check
-  //   return true;
-  // }
-
   if (!shopifyHash) {
     console.error('No HMAC header, cannot be verified.');
     return false;
@@ -29,13 +24,23 @@ const isVerifiedWebhookRequest = async (req: Request) => {
 const handleData = (data: any) => {
   const { id, contact_email, email, billing_address, customer, line_items } = data;
 
-  const teknikLineItems = line_items.filter(
-    (item: any) => item.vendor === 'Teknik' || item.vendor === null
-  );
+  const ordersByVendor: { [key: string]: any[] } = {};
 
-  const itemsMarkup = teknikLineItems
-    .map(
-      (item: any) => `
+  for (const item of line_items) {
+    const key = item.vendor || 'NO_VENDOR';
+    if (Array.isArray(ordersByVendor[key])) {
+      ordersByVendor[key]?.push(item);
+    } else {
+      ordersByVendor[key] = [item];
+    }
+  }
+
+  if (!ordersByVendor) return console.error('No orders');
+
+  const getMarkup = (items: any): string => {
+    return items
+      .map(
+        (item: any) => `
     <table style="margin-bottom: 16px; border-collapse: collapse;">
       <tr style="vertical-align: baseline;">
         <td style="border: 1px solid #d8d8d8; padding: 6px;">Name</td>
@@ -59,12 +64,22 @@ const handleData = (data: any) => {
       </tr>
     </table>
   `
-    )
-    .join('');
+      )
+      .join('');
+  };
+
+  const markup = [];
+
+  for (const [key, val] of Object.entries(ordersByVendor)) {
+    markup.push({
+      vendor: key,
+      items: getMarkup(val)
+    });
+  }
 
   const customerMarkup = `
   <div>
-    <h5>Customer information:</h5>
+    <h2>Customer information:</h2>
     <table style="margin-bottom: 16px; border-collapse: collapse;">
       <tr style="vertical-align: baseline;">
         <td style="border: 1px solid #d8d8d8; padding: 6px;">First name</td>
@@ -95,9 +110,22 @@ const handleData = (data: any) => {
   </div>
   `;
 
+  const itemsMarkup = markup
+    .map(
+      (vendor) => `
+<div>
+  <h3>${vendor.vendor}</h3>
+  ${vendor.items}
+</div>
+`
+    )
+    .join(
+      '<div style="borer-bottom: 1px solid black; margin-top: 24px; margin-bottom: 24px;"></div>'
+    );
+
   const html = `
     ${customerMarkup}
-    <h5>Order:</h5>
+    <h2>Order:</h2>
     ${itemsMarkup}
   `;
 
