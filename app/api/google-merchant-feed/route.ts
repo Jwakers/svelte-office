@@ -202,10 +202,11 @@ export async function POST(req: NextRequest) {
 }
 
 export async function GET() {
+  console.log('Setup local tunnel');
   try {
     await webhookSubscriptionCreate(
       `${
-        process.env.NODE_ENV === 'production' ? SITE_URL : 'https://eighty-suits-wear.loca.lt'
+        process.env.NODE_ENV === 'production' ? SITE_URL : 'https://tiny-snakes-sniff.loca.lt'
       }/api/google-merchant-feed`,
       'BULK_OPERATIONS_FINISH'
     );
