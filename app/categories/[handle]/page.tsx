@@ -1,4 +1,3 @@
-import Carousel from 'components/collections/carousel';
 import IndexString from 'components/index-string';
 import Price from 'components/price';
 import Prose from 'components/prose';
@@ -66,14 +65,18 @@ const ColletionProduct = ({ product }: { product: Product }) => {
   const hasVariants = product.variants.length > 1;
 
   return (
-    <div className="flex flex-col outline outline-1 outline-black">
-      <Carousel
-        images={product.images.map((img) => ({ src: img.url, altText: img.altText }))}
-      ></Carousel>
-      <Link
-        href={`/products/${product.handle}`}
-        className="group flex h-full flex-col border-t border-black bg-white p-3"
-      >
+    <Link
+      href={`/products/${product.handle}`}
+      className="group flex flex-col outline outline-1 outline-black"
+    >
+      <Image
+        className="w-full"
+        width={315}
+        height={315}
+        src={product.featuredImage.url}
+        alt={product.featuredImage.altText}
+      />
+      <div className="flex h-full flex-col border-t border-black bg-white p-3">
         <h2 className="font-serif text-lg uppercase md:text-xl">{product.title}</h2>
         {hasVariants && <IndexString value={product.variants.length} text="variations" />}
         <div className="mt-auto flex justify-between">
@@ -86,7 +89,7 @@ const ColletionProduct = ({ product }: { product: Product }) => {
           </div>
           <ArrowRight className="transition-all md:-translate-x-2 md:opacity-0 md:group-hover:translate-x-0 md:group-hover:opacity-100" />
         </div>
-      </Link>
-    </div>
+      </div>
+    </Link>
   );
 };
