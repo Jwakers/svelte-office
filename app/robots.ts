@@ -7,6 +7,10 @@ export default function robots() {
     rules: [
       {
         userAgent: '*'
+      },
+      { userAgent: 'Googlebot' },
+      {
+        userAgent: 'Googlebot-image'
       }
     ],
     sitemap: `${baseUrl}/sitemap.xml`,
