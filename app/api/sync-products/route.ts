@@ -4,7 +4,10 @@ import { Vendors } from 'lib/constants';
 import { readFileSync } from 'fs';
 import { google } from 'googleapis';
 
-// TODO move type definitions
+// TODO\
+// Move type definitions
+// Abstract auth function
+// Consider converting to use graphQL
 
 type Variant = {
   id: number;
@@ -173,8 +176,11 @@ async function updateGoogleMerchantProducts(
       }
 
       const requestBody: content_v2_1.Schema$Product = {
-        id: `shopify_GB_${variant.product_id}_${variant.id}`,
+        offerId: `shopify_GB_${variant.product_id}_${variant.id}`,
         itemGroupId: isVariant ? `shopify_GB_${variant.product_id}` : undefined,
+        channel: 'online',
+        contentLanguage: 'en',
+        targetCountry: 'GB',
         title,
         description: shopifyProduct.body_html,
         link: url,
