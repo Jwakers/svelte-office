@@ -1,13 +1,13 @@
-import { content_v2_1 } from '@googleapis/content';
-import { Vendors } from 'lib/constants';
-// import { authenticateGoogleApi } from 'lib/utils';
 import { readFileSync } from 'fs';
-import { google } from 'googleapis';
+import { content_v2_1, google } from 'googleapis';
+import { Vendors } from 'lib/constants';
 
 // TODO\
 // Move type definitions
 // Abstract auth function
 // Consider converting to use graphQL
+// Create a version that works from webhooks to update single products
+// Make it functional on vercel too
 
 type Variant = {
   id: number;

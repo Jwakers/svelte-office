@@ -5,9 +5,6 @@ settings:
   excludeLinksFromLockfile: false
 
 dependencies:
-  '@googleapis/content':
-    specifier: ^19.0.0
-    version: 19.0.0
   '@headlessui/react':
     specifier: ^1.7.15
     version: 1.7.15(react-dom@18.2.0)(react@18.2.0)
@@ -23,9 +20,6 @@ dependencies:
   clsx:
     specifier: ^1.2.1
     version: 1.2.1
-  google-auth-library:
-    specifier: ^9.4.2
-    version: 9.4.2
   googleapis:
     specifier: ^131.0.0
     version: 131.0.0
@@ -201,16 +195,6 @@ packages:
     resolution: {integrity: sha512-6SWlXpWU5AvId8Ac7zjzmIOqMOba/JWY8XZ4A7q7Gn1Vlfg/SFFIlrtHXt9nPn4op9ZPAkl91Jao+QQv3r/ukw==}
     engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
     dev: true
-
-  /@googleapis/content@19.0.0:
-    resolution: {integrity: sha512-TX+YjdtSQbAb6cffqP+zTBx88huD+jNRfQRxesXUYW2paapicvkG4zw9dr/R4SATEdTdhqzI85FQmOBkel2aCA==}
-    engines: {node: '>=12.0.0'}
-    dependencies:
-      googleapis-common: 7.0.1
-    transitivePeerDependencies:
-      - encoding
-      - supports-color
-    dev: false
 
   /@headlessui/react@1.7.15(react-dom@18.2.0)(react@18.2.0):
     resolution: {integrity: sha512-OTO0XtoRQ6JPB1cKNFYBZv2Q0JMqMGNhYP1CjPvcJvjz8YGokz8oAj89HIYZGN0gZzn/4kk9iUpmMF4Q21Gsqw==}
