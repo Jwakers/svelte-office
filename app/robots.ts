@@ -6,14 +6,10 @@ export default function robots() {
   return {
     rules: [
       {
-        userAgent: '*'
-      },
-      { userAgent: 'Googlebot' },
-      {
-        userAgent: 'Googlebot-image'
+        userAgent: '*',
+        allow: '/'
       }
     ],
-    sitemap: `${baseUrl}/sitemap.xml`,
-    host: baseUrl
+    sitemap: `${baseUrl}/sitemap.xml`
   };
 }
