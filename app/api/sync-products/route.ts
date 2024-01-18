@@ -2,6 +2,8 @@ import { readFileSync } from 'fs';
 import { content_v2_1, google } from 'googleapis';
 import { Vendors } from 'lib/constants';
 
+export const dynamic = 'force-dynamic'; // Prevents route running during build
+
 // TODO\
 // Move type definitions
 // Abstract auth function
