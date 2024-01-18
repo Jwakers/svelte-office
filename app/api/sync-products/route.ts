@@ -1,6 +1,7 @@
 import { readFileSync } from 'fs';
 import { content_v2_1, google } from 'googleapis';
 import { Vendors } from 'lib/constants';
+import { NextResponse } from 'next/server';
 
 export const dynamic = 'force-dynamic'; // Prevents route running during build
 
@@ -101,11 +102,11 @@ export async function GET() {
 
     const googleMerchantProducts = await updateGoogleMerchantProducts(content, shopifyProducts);
 
-    return Response.json(googleMerchantProducts);
+    return NextResponse.json(googleMerchantProducts);
   } catch (error) {
     console.error('Error:', error);
 
-    new Response('Internal Server Error', {
+    return new Response('Internal Server Error', {
       status: 500
     });
   }
