@@ -1,84 +1,15 @@
-import { readFileSync } from 'fs';
 import { content_v2_1, google } from 'googleapis';
-import { Vendors } from 'lib/constants';
+import googleAuth from 'lib/google-auth';
 import { NextResponse } from 'next/server';
+import type { Product } from '../types';
 
 export const dynamic = 'force-dynamic'; // Prevents route running during build
 
-// TODO\
-// Move type definitions
+// TODO
 // Abstract auth function
 // Consider converting to use graphQL
 // Create a version that works from webhooks to update single products
 // Make it functional on vercel too
-
-type Variant = {
-  id: number;
-  product_id: number;
-  title: string;
-  price: string;
-  sku: string;
-  position: number;
-  inventory_policy: string;
-  compare_at_price: string | null;
-  fulfillment_service: string;
-  inventory_management: string;
-  option1: string;
-  updated_at: string;
-  taxable: false;
-  barcode: string;
-  grams: number;
-  image_id: string | null;
-  weight: number;
-  weight_unit: string;
-  inventory_item_id: number;
-  inventory_quantity: number;
-  old_inventory_quantity: number;
-  requires_shipping: boolean;
-  admin_graphql_api_id: string;
-};
-
-type Option = {
-  id: number;
-  product_id: number;
-  name: string;
-  position: number;
-  values: string[];
-};
-
-type Image = {
-  id: number;
-  alt: string;
-  position: number;
-  product_id: number;
-  created_at: string;
-  updated_at: string;
-  admin_graphql_api_id: string;
-  width: number;
-  height: number;
-  src: string;
-  variant_ids: number[] | [];
-};
-
-type Product = {
-  id: number;
-  title: string;
-  body_html: string;
-  vendor: Vendors;
-  product_type: string;
-  created_at: string;
-  handle: string;
-  updated_at: string;
-  published_at: string;
-  template_suffix: string;
-  published_scope: string;
-  tags: string;
-  status: string;
-  admin_graphql_api_id: string;
-  variants: Variant[];
-  options: Option[];
-  images: Image[];
-};
 
 const SITE_URL = `https://${process.env.NEXT_PUBLIC_SITE_URL}`;
 
@@ -88,12 +19,7 @@ export async function GET() {
 
     if (!shopifyProducts || !shopifyProducts.length) throw Error('No shopify products');
 
-    const serviceAccountKey = JSON.parse(readFileSync('./svelte-office-4cfac2233c0d.json', 'utf8'));
-
-    const auth = new google.auth.GoogleAuth({
-      credentials: serviceAccountKey,
-      scopes: ['https://www.googleapis.com/auth/content']
-    });
+    const auth = googleAuth();
 
     const content = google.content({
       version: 'v2.1',

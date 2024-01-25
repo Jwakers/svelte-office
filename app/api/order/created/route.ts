@@ -1,25 +1,6 @@
-import crypto from 'crypto';
 import sendEmail from 'lib/send-email';
-import { headers } from 'next/headers';
+import { verifyWebhook } from 'lib/shopify/verify-webhook';
 import { NextResponse } from 'next/server';
-
-const isVerifiedWebhookRequest = async (req: Request) => {
-  const headersList = headers();
-  const shopifyHash = headersList.get('x-shopify-hmac-sha256');
-
-  if (!shopifyHash) {
-    console.error('No HMAC header, cannot be verified.');
-    return false;
-  }
-
-  const rawBody = await req.text();
-  const actualHash = crypto
-    .createHmac('sha256', process.env.SHOPIFY_WEBHOOKS_SIGNATURE as string)
-    .update(rawBody)
-    .digest('base64');
-
-  return shopifyHash === actualHash;
-};
 
 const handleData = (data: any) => {
   const { id, contact_email, email, billing_address, customer, line_items } = data;
@@ -139,9 +120,8 @@ const handleData = (data: any) => {
 export async function POST(req: Request) {
   const data = await req.clone().json();
 
-  if (!isVerifiedWebhookRequest(req)) {
-    return NextResponse.json({ error: 'Unverified shopify webhook' }, { status: 403 });
-  }
+  verifyWebhook(req);
+
   handleData(data);
   return NextResponse.json({ status: 200 });
 }
