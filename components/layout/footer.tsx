@@ -24,7 +24,7 @@ export default async function Footer() {
               <ul className="grid md:grid-flow-col md:grid-cols-3 md:grid-rows-3">
                 {menu.map((item: Menu) => (
                   <li key={item.title} className="py-3 md:py-0 md:pb-4">
-                    <Link href={item.path} className="transition duration-150 ease-in-out">
+                    <Link href={item.path} className="hover:underline">
                       {item.title}
                     </Link>
                   </li>

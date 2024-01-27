@@ -25,7 +25,9 @@ export default async function Navbar() {
             <ul className="hidden uppercase md:flex md:items-center md:gap-4">
               {menu.map((item: Menu) => (
                 <li key={item.title}>
-                  <Link href={item.path}>{item.title}</Link>
+                  <Link href={item.path} className="hover:underline">
+                    {item.title}
+                  </Link>
                 </li>
               ))}
             </ul>

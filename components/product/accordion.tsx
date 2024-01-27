@@ -18,10 +18,10 @@ export default function Accordion({
   return (
     <div>
       <button
-        className="flex w-full items-center justify-between border-b border-slate-900 py-3 text-left"
+        className="group flex w-full items-center justify-between border-b border-slate-900 py-3 text-left"
         onClick={toggle}
       >
-        <span className="text-sm font-medium uppercase">{heading}</span>
+        <span className="text-sm font-medium uppercase group-hover:underline">{heading}</span>
         <ChevronDown className={clsx('transition-transform', { '-scale-y-100': open })} />
       </button>
       <div
