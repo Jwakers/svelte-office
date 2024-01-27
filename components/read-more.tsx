@@ -1,7 +1,7 @@
 'use client';
 
 import clsx from 'clsx';
-import { useRef, useState } from 'react';
+import { useCallback, useState } from 'react';
 
 type ReadMoreProps = {
   children: React.ReactNode;
@@ -9,15 +9,22 @@ type ReadMoreProps = {
 
 export default function ReadMore({ children }: ReadMoreProps) {
   const [showMore, setShowMore] = useState(false);
-  const ref = useRef<HTMLDivElement>(null);
+  const [height, setHeight] = useState(0);
+
   const handleClick = () => setShowMore(!showMore);
+  const handleRef = useCallback(
+    (node: HTMLDivElement | null) => setHeight(node?.scrollHeight || 0),
+    []
+  );
+
+  if (height && height < 200) return children;
 
   return (
     <div className="flex flex-col gap-4">
       <div
-        ref={ref}
+        ref={handleRef}
         className={clsx('relative overflow-hidden transition-[max-height]')}
-        style={{ maxHeight: showMore ? `${ref.current?.scrollHeight}px` : '9rem' }}
+        style={{ maxHeight: showMore ? `${height}px` : '9rem' }}
       >
         {children}
         {showMore && (
