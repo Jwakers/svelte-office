@@ -15,8 +15,8 @@ export default function SearchLayout({ children }: { children: React.ReactNode }
           </div>
         </SearchMenu>
         <div>{children}</div>
-        <div className="hidden md:block md:border-l md:border-black">
-          <div className="border-b border-black p-4">
+        <div className="hidden md:block md:border-l md:border-slate-900">
+          <div className="border-b border-slate-900 p-4">
             <FilterList list={sorting} title="Sort by" />
           </div>
           <div className="p-4">

@@ -42,8 +42,8 @@ export default async function Collection({ params }: { params: { handle: string 
 
   return (
     <section>
-      <div className="border-b border-black md:flex md:h-[clamp(400px,_calc(100vh_-_44px),_700px)]">
-        <div className="flex flex-col justify-end border-r border-black p-3 md:w-1/2">
+      <div className="border-b border-slate-900 md:flex md:h-[clamp(400px,_calc(100vh_-_44px),_700px)]">
+        <div className="flex flex-col justify-end border-r border-slate-900 p-3 md:w-1/2">
           <h1 className="font-serif text-3xl uppercase">{title}</h1>
           <IndexString value={productsCount} text="products in this category" />
           <Prose html={descriptionHtml} />
@@ -85,7 +85,7 @@ const ColletionProduct = ({ product, padImage }: { product: Product; padImage?: 
         src={product.featuredImage.url}
         alt={product.featuredImage.altText}
       />
-      <div className="flex h-full flex-col border-t border-black bg-white p-3">
+      <div className="flex h-full flex-col border-t border-slate-900 bg-white p-3">
         <h2 className="font-serif text-lg uppercase md:text-xl">{product.title}</h2>
         {hasVariants && <IndexString value={product.variants.length} text="variations" />}
         <div className="mt-auto flex justify-between">

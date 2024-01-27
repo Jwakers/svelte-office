@@ -10,14 +10,14 @@ export const CollectionPreview = async function ({ handle }: { handle: string })
   return (
     <Link
       href={`/categories/${collection.handle}`}
-      className="group relative grid border-b border-black md:flex"
+      className="group relative grid border-b border-slate-900 md:flex"
     >
-      <div className="sticky top-0 z-10 flex items-center gap-1 self-end border-b border-black bg-white px-4 py-2 transition-all group-hover:gap-4 md:hidden">
+      <div className="sticky top-0 z-10 flex items-center gap-1 self-end border-b border-slate-900 bg-white px-4 py-2 transition-all group-hover:gap-4 md:hidden">
         <h2 className="font-serif text-2xl">{collection.title}</h2>
         <ArrowRight />
       </div>
       {collection.image ? (
-        <div className="md:border-l md:border-r md:border-black">
+        <div className="md:border-l md:border-r md:border-slate-900">
           <Image
             src={collection.image.url}
             alt={collection.image.altText}

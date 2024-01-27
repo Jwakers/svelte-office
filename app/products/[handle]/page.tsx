@@ -113,7 +113,7 @@ export default async function ProductPage({ params }: { params: { handle: string
         }}
       />
       <section className="-mt-[52px] md:mt-0 md:grid md:grid-cols-2">
-        <div className="flex flex-col border-black md:border-r">
+        <div className="flex flex-col border-slate-900 md:border-r">
           <Gallery images={product.images.map(({ url, altText }) => ({ src: url, altText }))} />
         </div>
         <div className="relative">
@@ -143,7 +143,7 @@ export default async function ProductPage({ params }: { params: { handle: string
                         if (!spec) return null;
                         const value = JSON.parse(spec.value);
                         return (
-                          <tr className="border-b border-black/20" key={spec.key}>
+                          <tr className="border-b border-slate-900/20" key={spec.key}>
                             <td className="py-2 capitalize">{spec.key}</td>
                             <td>
                               {value.value} {UNIT_MAP[value.unit as keyof typeof UNIT_MAP] || ''}

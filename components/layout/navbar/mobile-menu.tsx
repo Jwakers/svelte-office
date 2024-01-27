@@ -51,7 +51,7 @@ export default function MobileMenu({ menu }: { menu: Menu[] }) {
             leaveFrom="opacity-100 backdrop-blur-[.5px]"
             leaveTo="opacity-0 backdrop-blur-none"
           >
-            <div className="fixed inset-0 bg-black/30" aria-hidden="true" />
+            <div className="fixed inset-0 bg-slate-900/30" aria-hidden="true" />
           </Transition.Child>
           <Transition.Child
             as={Fragment}
@@ -62,7 +62,7 @@ export default function MobileMenu({ menu }: { menu: Menu[] }) {
             leaveFrom="translate-x-0"
             leaveTo="translate-x-[-100%]"
           >
-            <Dialog.Panel className="fixed bottom-0 left-0 right-0 top-0 flex h-full w-full flex-col bg-white pb-6 dark:bg-black">
+            <Dialog.Panel className="fixed bottom-0 left-0 right-0 top-0 flex h-full w-full flex-col bg-white pb-6">
               <div className="flex flex-col p-3">
                 <button
                   className="mb-4 ml-auto"
@@ -81,7 +81,7 @@ export default function MobileMenu({ menu }: { menu: Menu[] }) {
                       <li key={item.title}>
                         <Link
                           href={item.path}
-                          className="rounded-lg py-1 text-xl text-black transition-colors hover:text-gray-500 dark:text-white"
+                          className="rounded-lg py-1 text-xl transition-colors"
                           onClick={closeMobileMenu}
                         >
                           {item.title}
