@@ -36,7 +36,7 @@ export default async function Collections() {
                   height={320}
                   width={320}
                   alt={collection.image.altText}
-                  className="aspect-square w-full object-cover"
+                  className="aspect-square w-full animate-fadeIn object-cover"
                 />
               ) : null}
               <div className="flex h-full flex-col border-t border-slate-900 bg-white p-3">
