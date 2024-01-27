@@ -1,3 +1,4 @@
+import { Analytics } from '@vercel/analytics/react';
 import clsx from 'clsx';
 import Banner from 'components/layout/banner';
 import Footer from 'components/layout/footer';
@@ -59,6 +60,7 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
         <Suspense>
           <Footer />
         </Suspense>
+        <Analytics />
       </body>
     </html>
   );
