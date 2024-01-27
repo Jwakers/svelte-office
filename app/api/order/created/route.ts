@@ -1,6 +1,6 @@
 import sendEmail from 'lib/send-email';
 import { verifyWebhook } from 'lib/shopify/verify-webhook';
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 
 const handleData = (data: any) => {
   const { id, contact_email, email, billing_address, customer, line_items } = data;
@@ -117,7 +117,7 @@ const handleData = (data: any) => {
   });
 };
 
-export async function POST(req: Request) {
+export async function POST(req: NextRequest) {
   const data = await req.clone().json();
 
   verifyWebhook(req);

@@ -9,6 +9,7 @@ import { Gallery } from 'components/product/gallery';
 import ProductTile from 'components/product/product-tile';
 import { VariantSelector } from 'components/product/variant-selector';
 import Prose from 'components/prose';
+import ReadMore from 'components/read-more';
 import { DELIVERY_OPTIONS, DeliveryTypes, UNIT_MAP, Vendors } from 'lib/constants';
 import { getGenericFile, getProduct, getProductRecommendations } from 'lib/shopify';
 import Link from 'next/link';
@@ -133,7 +134,11 @@ export default async function ProductPage({ params }: { params: { handle: string
               </div>
             </div>
             <VariantSelector options={product.options} variants={product.variants} />
-            {product.descriptionHtml ? <Prose className="" html={product.descriptionHtml} /> : null}
+            {product.descriptionHtml ? (
+              <ReadMore>
+                <Prose className="" html={product.descriptionHtml} />
+              </ReadMore>
+            ) : null}
             <div>
               <Accordion heading="Specification">
                 {product.specification.length && (
