@@ -17,7 +17,7 @@ export default function ReadMore({ children }: ReadMoreProps) {
       <div
         ref={ref}
         className={clsx('relative overflow-hidden transition-[max-height]')}
-        style={{ maxHeight: showMore ? `${ref.current?.scrollHeight}px` : '5rem' }}
+        style={{ maxHeight: showMore ? `${ref.current?.scrollHeight}px` : '9rem' }}
       >
         {children}
         {showMore && (
