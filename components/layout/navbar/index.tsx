@@ -16,7 +16,7 @@ export default async function Navbar() {
       <Link href="/" aria-label="Go back home" className="relative z-50 block p-3 md:hidden">
         <span className="font-serif text-lg font-bold md:text-xl">SvelteOffice</span>
       </Link>
-      <nav className="fixed bottom-0 left-0 z-20 grid w-full grid-cols-[1fr_auto] items-center justify-between border-t border-black bg-white px-4 md:static md:border-b md:border-t-0">
+      <nav className="fixed bottom-0 left-0 z-20 grid w-full grid-cols-[1fr_auto] items-center justify-between border-t border-slate-900 bg-white px-4 md:static md:border-b md:border-t-0">
         <Link href="/" aria-label="Go back home" className="py-2">
           <span className="font-serif text-lg font-bold md:text-2xl">SvelteOffice</span>
         </Link>
@@ -30,7 +30,7 @@ export default async function Navbar() {
               ))}
             </ul>
           )}
-          <div className="border-l border-black" />
+          <div className="border-l border-slate-900" />
           <div className="flex items-center gap-4">
             <Search className="hidden md:flex" />
             <Suspense fallback={<ShoppingBag strokeWidth={1} />}>

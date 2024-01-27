@@ -29,7 +29,7 @@ export default async function HomePage() {
         <Hero />
       </Suspense>
       <Suspense>
-        <h2 className="border-black px-3 py-4 font-serif text-2xl uppercase md:border-b md:py-10 md:text-3xl">
+        <h2 className="border-slate-900 px-3 py-4 font-serif text-2xl uppercase md:border-b md:py-10 md:text-3xl">
           Shop by category
         </h2>
         <div className="md:grid md:grid-cols-2">
@@ -38,7 +38,7 @@ export default async function HomePage() {
           <CollectionPreview handle="bookcases-and-standing-shelves" />
           <CollectionPreview handle="coffee-tables" />
         </div>
-        <h2 className="border-black px-3 py-4 font-serif text-2xl uppercase md:border-b md:py-10 md:text-3xl">
+        <h2 className="border-slate-900 px-3 py-4 font-serif text-2xl uppercase md:border-b md:py-10 md:text-3xl">
           Latest products
         </h2>
         <LatestProducts />

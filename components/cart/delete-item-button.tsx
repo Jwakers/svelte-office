@@ -28,7 +28,7 @@ export default function DeleteItemButton({ item }: { item: CartItem }) {
       }}
       disabled={isPending}
       className={clsx(
-        'ease flex min-w-[36px] max-w-[36px] items-center justify-center border border-black px-2 transition-all duration-200',
+        'ease flex min-w-[36px] max-w-[36px] items-center justify-center border border-slate-900 px-2 transition-all duration-200',
         {
           'cursor-not-allowed px-0': isPending
         }

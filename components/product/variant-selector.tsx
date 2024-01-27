@@ -119,7 +119,7 @@ export function VariantSelector({
                   href={optionUrl}
                   title={`${option.name} ${value}${!isAvailableForSale ? ' (Out of Stock)' : ''}`}
                   className={clsx('border px-2 py-1 text-xs', {
-                    'cursor-pointer bg-black text-white': isActive,
+                    'cursor-pointer bg-slate-900 text-white': isActive,
                     'cursor-not-allowed opacity-20': !isAvailableForSale
                   })}
                   data-testid={isActive ? 'selected-variant' : 'variant'}

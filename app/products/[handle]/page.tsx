@@ -9,6 +9,7 @@ import { Gallery } from 'components/product/gallery';
 import ProductTile from 'components/product/product-tile';
 import { VariantSelector } from 'components/product/variant-selector';
 import Prose from 'components/prose';
+import ReadMore from 'components/read-more';
 import { DELIVERY_OPTIONS, DeliveryTypes, UNIT_MAP, Vendors } from 'lib/constants';
 import { getGenericFile, getProduct, getProductRecommendations } from 'lib/shopify';
 import Link from 'next/link';
@@ -113,7 +114,7 @@ export default async function ProductPage({ params }: { params: { handle: string
         }}
       />
       <section className="-mt-[52px] md:mt-0 md:grid md:grid-cols-2">
-        <div className="flex flex-col border-black md:border-r">
+        <div className="flex flex-col border-slate-900 md:border-r">
           <Gallery images={product.images.map(({ url, altText }) => ({ src: url, altText }))} />
         </div>
         <div className="relative">
@@ -133,7 +134,11 @@ export default async function ProductPage({ params }: { params: { handle: string
               </div>
             </div>
             <VariantSelector options={product.options} variants={product.variants} />
-            {product.descriptionHtml ? <Prose className="" html={product.descriptionHtml} /> : null}
+            {product.descriptionHtml ? (
+              <ReadMore>
+                <Prose className="" html={product.descriptionHtml} />
+              </ReadMore>
+            ) : null}
             <div>
               <Accordion heading="Specification">
                 {product.specification.length && (
@@ -143,7 +148,7 @@ export default async function ProductPage({ params }: { params: { handle: string
                         if (!spec) return null;
                         const value = JSON.parse(spec.value);
                         return (
-                          <tr className="border-b border-black/20" key={spec.key}>
+                          <tr className="border-b border-slate-900/20" key={spec.key}>
                             <td className="py-2 capitalize">{spec.key}</td>
                             <td>
                               {value.value} {UNIT_MAP[value.unit as keyof typeof UNIT_MAP] || ''}

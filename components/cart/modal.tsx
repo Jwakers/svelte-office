@@ -59,7 +59,7 @@ export default function CartModal({ cart, cartIdUpdated }: { cart: Cart; cartIdU
       >
         <ShoppingBag strokeWidth={1} />
         {!!cart.totalQuantity && (
-          <span className="absolute -bottom-1 -right-1 flex h-4 w-4  transform items-center justify-center rounded-full border bg-black p-1 text-xs text-white">
+          <span className="absolute -bottom-1 -right-1 flex h-4 w-4  transform items-center justify-center rounded-full border bg-slate-900 p-1 text-xs text-white">
             {cart.totalQuantity}
           </span>
         )}
@@ -75,7 +75,7 @@ export default function CartModal({ cart, cartIdUpdated }: { cart: Cart; cartIdU
             leaveFrom="opacity-100 backdrop-blur-[.5px]"
             leaveTo="opacity-0 backdrop-blur-none"
           >
-            <div className="fixed inset-0 bg-black/30 backdrop-blur-sm" aria-hidden="true" />
+            <div className="fixed inset-0 bg-slate-900/30 backdrop-blur-sm" aria-hidden="true" />
           </Transition.Child>
           <Transition.Child
             as={Fragment}
@@ -86,13 +86,13 @@ export default function CartModal({ cart, cartIdUpdated }: { cart: Cart; cartIdU
             leaveFrom="translate-x-0"
             leaveTo="translate-x-full"
           >
-            <Dialog.Panel className="fixed bottom-0 right-0 top-0 flex h-full w-full flex-col border-black bg-white text-black md:w-3/5 md:border-l lg:w-2/5">
+            <Dialog.Panel className="fixed bottom-0 right-0 top-0 flex h-full w-full flex-col border-slate-900 bg-white md:w-3/5 md:border-l lg:w-2/5">
               <div className="flex items-center justify-between p-3">
                 <p className="font-serif text-2xl">My Cart</p>
                 <button
                   aria-label="Close cart"
                   onClick={closeCart}
-                  className="text-black transition-colors"
+                  className="transition-colors"
                   data-testid="close-cart"
                 >
                   <X strokeWidth={1} />
@@ -124,7 +124,7 @@ export default function CartModal({ cart, cartIdUpdated }: { cart: Cart; cartIdU
                       return (
                         <li
                           key={i}
-                          className="flex flex-col gap-2 border-b border-black py-3 last:border-b-0"
+                          className="flex flex-col gap-2 border-b border-slate-900 py-3 last:border-b-0"
                           data-testid="cart-item"
                         >
                           <Link className="flex gap-4" href={merchandiseUrl} onClick={closeCart}>
@@ -158,7 +158,7 @@ export default function CartModal({ cart, cartIdUpdated }: { cart: Cart; cartIdU
                           </Link>
                           <div className="flex h-9">
                             <DeleteItemButton item={item} />
-                            <p className="flex w-full items-center justify-center border border-l-0 border-black">
+                            <p className="flex w-full items-center justify-center border border-l-0 border-slate-900">
                               <span className="w-full px-2">{item.quantity}</span>
                             </p>
                             <EditItemQuantityButton item={item} type="minus" />
@@ -168,7 +168,7 @@ export default function CartModal({ cart, cartIdUpdated }: { cart: Cart; cartIdU
                       );
                     })}
                   </ul>
-                  <div className="border-t border-black pt-2 text-sm text-black">
+                  <div className="border-t border-slate-900 pt-2 text-sm">
                     <div className="p-3">
                       <div className="mb-2 flex items-center justify-between">
                         <p>Subtotal</p>
@@ -188,7 +188,7 @@ export default function CartModal({ cart, cartIdUpdated }: { cart: Cart; cartIdU
                           />
                         </div>
                       ) : null}
-                      <div className="mb-2 flex items-center justify-between border-b border-black pb-2">
+                      <div className="mb-2 flex items-center justify-between border-b border-slate-900 pb-2">
                         <p>Shipping</p>
                         <p className="text-right">FREE</p>
                       </div>
@@ -202,7 +202,7 @@ export default function CartModal({ cart, cartIdUpdated }: { cart: Cart; cartIdU
                       </div>
                       <a
                         href={cart.checkoutUrl}
-                        className="flex w-full items-center justify-center gap-2 border border-black bg-black p-3 text-sm uppercase text-white transition-colors hover:bg-white hover:text-black"
+                        className="flex w-full items-center justify-center gap-2 border border-slate-900 bg-slate-900 p-3 text-sm uppercase text-white transition-colors hover:bg-white hover:text-slate-900"
                       >
                         <span>Proceed to Secure Checkout</span>
                         <Lock strokeWidth={1} />

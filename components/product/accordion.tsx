@@ -18,7 +18,7 @@ export default function Accordion({
   return (
     <div>
       <button
-        className="flex w-full items-center justify-between border-b border-black py-3 text-left"
+        className="flex w-full items-center justify-between border-b border-slate-900 py-3 text-left"
         onClick={toggle}
       >
         <span className="text-sm font-medium uppercase">{heading}</span>

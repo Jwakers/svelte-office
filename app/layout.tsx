@@ -48,7 +48,7 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
         gtag('config', 'G-QZHC45RS9P');
         `}
       </Script>
-      <body className="text-black selection:bg-yellow-400">
+      <body className="text-slate-900 selection:bg-yellow-400">
         <Banner />
         <Navbar />
         <Suspense>
