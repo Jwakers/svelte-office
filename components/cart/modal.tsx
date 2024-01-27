@@ -92,7 +92,7 @@ export default function CartModal({ cart, cartIdUpdated }: { cart: Cart; cartIdU
                 <button
                   aria-label="Close cart"
                   onClick={closeCart}
-                  className="transition-colors"
+                  className="hover:border hover:border-slate-900"
                   data-testid="close-cart"
                 >
                   <X strokeWidth={1} />
