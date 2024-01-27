@@ -1,4 +1,5 @@
 import { Analytics } from '@vercel/analytics/react';
+import { SpeedInsights } from '@vercel/speed-insights/next';
 import clsx from 'clsx';
 import Banner from 'components/layout/banner';
 import Footer from 'components/layout/footer';
@@ -61,6 +62,7 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
           <Footer />
         </Suspense>
         <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   );
