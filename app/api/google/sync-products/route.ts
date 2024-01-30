@@ -1,14 +1,15 @@
 import { content_v2_1, google } from 'googleapis';
 import googleAuth from 'lib/google-auth';
+import getAllProducts from 'lib/shopify/rest/get-all-products';
+import { Product } from 'lib/shopify/rest/types';
 import { NextResponse } from 'next/server';
 import { getRequestBody } from '../get-request-body';
-import type { Product } from '../types';
 
 export const dynamic = 'force-dynamic'; // Prevents route running during build
 
 export async function GET() {
   try {
-    const shopifyProducts = await fetchShopifyProducts();
+    const shopifyProducts = await getAllProducts();
 
     if (!shopifyProducts || !shopifyProducts.length) throw Error('No shopify products');
 
@@ -26,47 +27,6 @@ export async function GET() {
     console.error('Error:', error);
 
     return new Response('Internal Server Error', {
-      status: 500
-    });
-  }
-}
-
-function getNextPageUrl(linkHeader: string | null) {
-  if (!linkHeader) {
-    return null;
-  }
-
-  const match = linkHeader.match(/<([^>]+)>;\s*rel="next"/);
-  return match ? match[1] : null;
-}
-
-async function fetchShopifyProducts() {
-  try {
-    let url:
-      | string
-      | null
-      | undefined = `https://${process.env.SHOPIFY_STORE_DOMAIN}/admin/api/2024-01/products.json`;
-    let products = [];
-
-    while (url) {
-      const shopifyResponse = await fetch(url, {
-        headers: {
-          'X-Shopify-Access-Token': process.env.SHOPIFY_GOOGLE_MERCHANT_FEED_ACCESS_TOKEN as string
-        }
-      });
-
-      const data: { products: Product[] } = await shopifyResponse.json();
-      const nextPageLink = shopifyResponse.headers.get('link');
-      url = getNextPageUrl(nextPageLink);
-
-      products.push(...data.products);
-    }
-
-    return products;
-  } catch (error) {
-    console.error('Error:', error);
-
-    new Response('Internal Server Error', {
       status: 500
     });
   }

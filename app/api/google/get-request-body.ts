@@ -1,5 +1,5 @@
 import { content_v2_1 } from 'googleapis';
-import { Product, Variant } from './types';
+import { Product, Variant } from 'lib/shopify/rest/types';
 
 type Options = {
   isVariant: boolean;
