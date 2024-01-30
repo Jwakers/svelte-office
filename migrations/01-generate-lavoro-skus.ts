@@ -1,7 +1,21 @@
-require('dotenv').config({ path: `.env.local` });
-import getProductById from 'lib/shopify/rest/get-product-by-id';
+import { createAdminRestApiClient } from '@shopify/admin-api-client';
+import * as dotenv from 'dotenv';
+import { Product } from 'lib/shopify/rest/types';
+dotenv.config({ path: '.env.local' });
 
-const SKU_MAP = {
+// pnpm tsx migrations/01-generate-lavoro-skus.ts
+
+const client = createAdminRestApiClient({
+  storeDomain: process.env.SHOPIFY_STORE_DOMAIN as string,
+  accessToken: process.env.SHOPIFY_STOCK_MANAGEMENT_ACCESS_TOKEN as string,
+  apiVersion: '2023-04'
+});
+
+const SKU_MAP: {
+  frame: { [key: string]: string };
+  size: { [key: string]: number };
+  decor: { [key: string]: string };
+} = {
   frame: {
     Anthracite: 'AADVS/',
     Black: 'BADVS/',
@@ -41,7 +55,8 @@ const SKU_MAP = {
 
 async function migrate() {
   const productId = '9125048811821';
-  const product = await getProductById(productId);
+  const productResponse = await client.get(`products/${productId}`);
+  const { product }: { product: Product } = await productResponse.json();
 
   const variantsToUpdate = product.variants.map((variant) => {
     const { option1, option2, option3 } = variant;
@@ -54,30 +69,15 @@ async function migrate() {
     };
   });
 
-  const shopifyResponse = await fetch(
-    `https://${process.env.SHOPIFY_STORE_DOMAIN}/admin/api/2024-01/products/${productId}.json`,
-    {
-      method: 'PUT',
-      body: JSON.stringify({
-        product: {
-          variants: variantsToUpdate
-        }
-      }),
-      headers: {
-        'Content-Type': 'application/json',
-        'X-Shopify-Access-Token': process.env.SHOPIFY_STOCK_MANAGEMENT_ACCESS_TOKEN
+  const response = await client.put(`products/${productId}`, {
+    data: {
+      product: {
+        variants: variantsToUpdate
       }
     }
-  );
+  });
 
-  if (shopifyResponse.ok) {
-    const responseData = await shopifyResponse.json();
-    console.log('Update successful:', JSON.stringify(responseData, null, 2));
-  } else {
-    console.error('Update failed:', await shopifyResponse.text());
-  }
+  const responseData = await response.json();
+  console.log(JSON.stringify(responseData, null, 2));
 }
 migrate();
-
-// Next migration - update inventory - /admin/api/2024-01/inventory_items/808950810.json
-// Refactor to use Shopify client library

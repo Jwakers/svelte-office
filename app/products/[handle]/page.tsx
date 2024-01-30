@@ -15,7 +15,8 @@ import {
   DeliveryTypes,
   HIDDEN_PRODUCT_TAG,
   UNIT_MAP,
-  Vendors
+  Vendors,
+  WARRANTY
 } from 'lib/constants';
 import { getGenericFile, getProduct, getProductRecommendations } from 'lib/shopify';
 import Link from 'next/link';
@@ -190,10 +191,7 @@ export default async function ProductPage({ params }: { params: { handle: string
                 deliveryType={product.deliveryType.value as keyof DeliveryTypes}
               />
               <Accordion heading="Warranty">
-                <p className="py-2">
-                  All products have a two year mechanical parts replacement warranty (subject to
-                  fair use).
-                </p>
+                <p className="py-2">{WARRANTY[product.vendor]}</p>
               </Accordion>
             </div>
             <AddToCart

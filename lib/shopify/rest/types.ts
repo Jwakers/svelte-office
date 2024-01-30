@@ -12,6 +12,8 @@ export type Variant = {
   fulfillment_service: string;
   inventory_management: string;
   option1: string;
+  option2: string;
+  option3: string;
   updated_at: string;
   taxable: false;
   barcode: string;

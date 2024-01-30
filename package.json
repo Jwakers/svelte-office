@@ -13,8 +13,7 @@
     "prettier": "prettier --write --ignore-unknown .",
     "prettier:check": "prettier --check --ignore-unknown .",
     "test": "pnpm lint && pnpm prettier:check",
-    "test:e2e": "playwright test",
-    "migrate": "tsx migrations/01-generate-lavoro-skus.ts"
+    "test:e2e": "playwright test"
   },
   "git": {
     "pre-commit": "lint-staged"
@@ -24,6 +23,7 @@
   },
   "dependencies": {
     "@headlessui/react": "^1.7.15",
+    "@shopify/admin-api-client": "^0.2.2",
     "@tanstack/react-query": "^4.29.19",
     "@vercel/analytics": "^1.1.2",
     "@vercel/og": "^0.5.6",
