@@ -41,7 +41,6 @@ import {
   Page,
   Product,
   ShopifyAddToCartOperation,
-  ShopifyBulkOperationRunQueryOperation,
   ShopifyCart,
   ShopifyCartOperation,
   ShopifyCollection,
@@ -51,7 +50,6 @@ import {
   ShopifyCollectionsOperation,
   ShopifyCreateCartOperation,
   ShopifyGenericFileOperation,
-  ShopifyGetBulkOperationOperation,
   ShopifyGetProductSkus,
   ShopifyGetProductimagesOperation,
   ShopifyMenuOperation,
@@ -64,8 +62,7 @@ import {
   ShopifyRemoveFromCartOperation,
   ShopifyUpdateCartOperation,
   ShopifyUpdateProductImageAltOperation,
-  ShopifyUpdateStockOperation,
-  WebhookTopics
+  ShopifyUpdateStockOperation
 } from './types';
 
 const domain = `https://${process.env.SHOPIFY_STORE_DOMAIN!}`;
@@ -74,7 +71,6 @@ const adminEndpoint = `${domain}${SHOPIFY_GRAPHQL_ADMIN_API_ENDPOINT}`;
 
 const storefrontAccessToken = process.env.SHOPIFY_STOREFRONT_ACCESS_TOKEN!;
 const adminStockManagementAccessToken = process.env.SHOPIFY_STOCK_MANAGEMENT_ACCESS_TOKEN!;
-const adminGoogleMerchantFeedAccessToken = process.env.SHOPIFY_GOOGLE_MERCHANT_FEED_ACCESS_TOKEN!;
 
 type ExtractVariables<T> = T extends { variables: object } ? T['variables'] : never;
 
@@ -555,71 +551,71 @@ export async function updateProductImageAlt(productId: string, imageId: string, 
   return res.body.data;
 }
 
-export async function bulkOperationRunQuery(query: string) {
-  const res = await shopifyFetch<ShopifyBulkOperationRunQueryOperation>({
-    adminAccessToken: adminGoogleMerchantFeedAccessToken,
-    query: /* GraphQL */ `
-    mutation {
-    bulkOperationRunQuery(
-     query: """${query}"""
-    ) {
-      bulkOperation {
-        id
-        status
-      }
-      userErrors {
-        field
-        message
-      }
-    }
-  }`,
-    cache: 'no-store'
-  });
+// export async function bulkOperationRunQuery(query: string) {
+//   const res = await shopifyFetch<ShopifyBulkOperationRunQueryOperation>({
+//     adminAccessToken: adminGoogleMerchantFeedAccessToken,
+//     query: /* GraphQL */ `
+//     mutation {
+//     bulkOperationRunQuery(
+//      query: """${query}"""
+//     ) {
+//       bulkOperation {
+//         id
+//         status
+//       }
+//       userErrors {
+//         field
+//         message
+//       }
+//     }
+//   }`,
+//     cache: 'no-store'
+//   });
 
-  return res.body.data;
-}
+//   return res.body.data;
+// }
 
-export async function getBulkOperation(id: string) {
-  const res = await shopifyFetch<ShopifyGetBulkOperationOperation>({
-    adminAccessToken: adminGoogleMerchantFeedAccessToken,
-    query: /** GraphQL */ `
-    query {
-      node(id: "${id}") {
-        ... on BulkOperation {
-          url
-        }
-      }
-    }`
-  });
-  return res.body.data.node;
-}
+// export async function getBulkOperation(id: string) {
+//   const res = await shopifyFetch<ShopifyGetBulkOperationOperation>({
+//     adminAccessToken: adminGoogleMerchantFeedAccessToken,
+//     query: /** GraphQL */ `
+//     query {
+//       node(id: "${id}") {
+//         ... on BulkOperation {
+//           url
+//         }
+//       }
+//     }`
+//   });
+//   return res.body.data.node;
+// }
 
-export async function webhookSubscriptionCreate(callbackUrl: string, topic: WebhookTopics) {
-  const res = await shopifyFetch({
-    adminAccessToken: adminGoogleMerchantFeedAccessToken,
-    query: /* GraphQL */ `
-    mutation {
-      webhookSubscriptionCreate(
-        topic: ${topic}
-        webhookSubscription: {
-          format: JSON,
-          callbackUrl: "${callbackUrl}"}
-      ) {
-        userErrors {
-          field
-          message
-        }
-        webhookSubscription {
-          id
-          topic
-        }
-      }
-    }`,
-    cache: 'no-store'
-  });
+// export async function webhookSubscriptionCreate(callbackUrl: string, topic: WebhookTopics) {
+//   const res = await shopifyFetch({
+//     adminAccessToken: adminGoogleMerchantFeedAccessToken,
+//     query: /* GraphQL */ `
+//     mutation {
+//       webhookSubscriptionCreate(
+//         topic: ${topic}
+//         webhookSubscription: {
+//           format: JSON,
+//           callbackUrl: "${callbackUrl}"}
+//       ) {
+//         userErrors {
+//           field
+//           message
+//         }
+//         webhookSubscription {
+//           id
+//           topic
+//         }
+//       }
+//     }`,
+//     cache: 'no-store'
+//   });
 
-  return res;
-}
+//   return res;
+// }
 
 export async function getGenericFile(id: string) {
   const res = await shopifyFetch<ShopifyGenericFileOperation>({

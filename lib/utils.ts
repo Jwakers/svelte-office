@@ -11,3 +11,7 @@ export const getPublicBaseUrl = () =>
   process.env.NODE_ENV === 'production'
     ? `https://${process.env.NEXT_PUBLIC_SITE_URL}`
     : 'http://localhost:3000';
+
+export async function wait(ms: number) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}

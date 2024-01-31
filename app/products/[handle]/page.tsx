@@ -15,10 +15,10 @@ import {
   DeliveryTypes,
   HIDDEN_PRODUCT_TAG,
   UNIT_MAP,
-  Vendors,
   WARRANTY
 } from 'lib/constants';
 import { getGenericFile, getProduct, getProductRecommendations } from 'lib/shopify';
+import { ShopifyVendors } from 'lib/shopify/types';
 import Link from 'next/link';
 import { Suspense } from 'react';
 import { Download } from 'react-feather';
@@ -65,7 +65,7 @@ function DeliverySection({
   vendor,
   deliveryType
 }: {
-  vendor: Vendors;
+  vendor: ShopifyVendors;
   deliveryType: keyof DeliveryTypes;
 }) {
   return (
@@ -187,7 +187,7 @@ export default async function ProductPage({ params }: { params: { handle: string
                 ) : null}
               </Accordion>
               <DeliverySection
-                vendor={product.vendor as Vendors}
+                vendor={product.vendor as ShopifyVendors}
                 deliveryType={product.deliveryType.value as keyof DeliveryTypes}
               />
               <Accordion heading="Warranty">

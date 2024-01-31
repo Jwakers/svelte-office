@@ -20,7 +20,7 @@ export default async function getAllProducts() {
     while (url) {
       const shopifyResponse = await fetch(url, {
         headers: {
-          'X-Shopify-Access-Token': process.env.SHOPIFY_GOOGLE_MERCHANT_FEED_ACCESS_TOKEN as string
+          'X-Shopify-Access-Token': process.env.SHOPIFY_PRODUCT_MANAGEMENT_ACCESS_Token as string
         }
       });
 

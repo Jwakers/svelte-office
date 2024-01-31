@@ -1,6 +1,7 @@
 import { createAdminRestApiClient } from '@shopify/admin-api-client';
 import * as dotenv from 'dotenv';
 import { Product } from 'lib/shopify/rest/types';
+import { wait } from 'lib/utils';
 dotenv.config({ path: '.env.local' });
 
 // pnpm tsx migrations/02-generate-lavoro-prices.ts
@@ -44,10 +45,6 @@ function getPriceWithMargin(cost: string, marginPercentage: number = 30) {
   sellingPrice.toFixed(2);
 
   return `${sellingPrice.toFixed(2)}`;
-}
-
-async function wait(ms: number) {
-  return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
 async function migrate() {
