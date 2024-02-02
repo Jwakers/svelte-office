@@ -98,6 +98,8 @@ export type SEO = {
   description: string;
 };
 
+export type ShopifyVendors = 'Teknik' | 'Hill Interiors' | 'Lavoro';
+
 export type ShopifyCart = {
   id: string;
   checkoutUrl: string;
@@ -138,7 +140,7 @@ export type ShopifyProduct = {
   seo: SEO;
   tags: string[];
   updatedAt: string;
-  vendor: string;
+  vendor: ShopifyVendors;
   specification: Metafield[];
   specificationSheet: Metafield;
   deliveryType: Metafield;

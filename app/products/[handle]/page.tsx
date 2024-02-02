@@ -10,8 +10,15 @@ import ProductTile from 'components/product/product-tile';
 import { VariantSelector } from 'components/product/variant-selector';
 import Prose from 'components/prose';
 import ReadMore from 'components/read-more';
-import { DELIVERY_OPTIONS, DeliveryTypes, UNIT_MAP, Vendors } from 'lib/constants';
+import {
+  DELIVERY_OPTIONS,
+  DeliveryTypes,
+  HIDDEN_PRODUCT_TAG,
+  UNIT_MAP,
+  WARRANTY
+} from 'lib/constants';
 import { getGenericFile, getProduct, getProductRecommendations } from 'lib/shopify';
+import { ShopifyVendors } from 'lib/shopify/types';
 import Link from 'next/link';
 import { Suspense } from 'react';
 import { Download } from 'react-feather';
@@ -26,10 +33,19 @@ export async function generateMetadata({
   if (!product) notFound();
 
   const { url, width, height, altText: alt } = product.featuredImage || {};
+  const indexable = !product.tags.includes(HIDDEN_PRODUCT_TAG);
 
   return {
     title: product.seo.title || product.title,
     description: product.seo.description || product.description,
+    robots: {
+      index: indexable,
+      follow: indexable,
+      googleBot: {
+        index: indexable,
+        follow: indexable
+      }
+    },
     openGraph: url
       ? {
           images: [
@@ -49,7 +65,7 @@ function DeliverySection({
   vendor,
   deliveryType
 }: {
-  vendor: Vendors;
+  vendor: ShopifyVendors;
   deliveryType: keyof DeliveryTypes;
 }) {
   return (
@@ -171,14 +187,11 @@ export default async function ProductPage({ params }: { params: { handle: string
                 ) : null}
               </Accordion>
               <DeliverySection
-                vendor={product.vendor as Vendors}
+                vendor={product.vendor as ShopifyVendors}
                 deliveryType={product.deliveryType.value as keyof DeliveryTypes}
               />
               <Accordion heading="Warranty">
-                <p className="py-2">
-                  All products have a two year mechanical parts replacement warranty (subject to
-                  fair use).
-                </p>
+                <p className="py-2">{WARRANTY[product.vendor]}</p>
               </Accordion>
             </div>
             <AddToCart

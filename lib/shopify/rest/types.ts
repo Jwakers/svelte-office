@@ -1,4 +1,4 @@
-import { Vendors } from 'lib/constants';
+import { ShopifyVendors } from '../types';
 
 export type Variant = {
   id: number;
@@ -12,6 +12,8 @@ export type Variant = {
   fulfillment_service: string;
   inventory_management: string;
   option1: string;
+  option2: string;
+  option3: string;
   updated_at: string;
   taxable: false;
   barcode: string;
@@ -52,7 +54,7 @@ export type Product = {
   id: number;
   title: string;
   body_html: string;
-  vendor: Vendors;
+  vendor: ShopifyVendors;
   product_type: string;
   created_at: string;
   handle: string;
