@@ -12,11 +12,11 @@ export default async function Navbar() {
   const menu = await getMenu('main-menu');
 
   return (
-    <>
+    <header className="relative z-10">
       <Link href="/" aria-label="Go back home" className="relative z-50 block p-3 md:hidden">
         <span className="font-serif text-lg font-bold md:text-xl">SvelteOffice</span>
       </Link>
-      <nav className="fixed bottom-0 left-0 z-20 grid w-full grid-cols-[1fr_auto] items-center justify-between border-t border-slate-900 bg-white px-4 md:static md:border-b md:border-t-0">
+      <nav className="fixed bottom-0 left-0 z-20 grid w-full grid-cols-[1fr_auto] items-center justify-between border-t border-slate-900 bg-white px-4 md:static md:border-b md:border-t-0 md:bg-transparent">
         <Link href="/" aria-label="Go back home" className="py-2">
           <span className="font-serif text-lg font-bold md:text-2xl">SvelteOffice</span>
         </Link>
@@ -46,6 +46,6 @@ export default async function Navbar() {
           </div>
         </div>
       </nav>
-    </>
+    </header>
   );
 }

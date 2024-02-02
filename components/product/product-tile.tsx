@@ -15,8 +15,8 @@ export default function ProductTile({ product }: { product: Product }) {
     >
       <Image
         src={product.featuredImage.url}
+        width={640}
         height={320}
-        width={320}
         alt={product.featuredImage.altText}
         className="aspect-square w-full object-cover"
       />
