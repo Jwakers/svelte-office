@@ -135,7 +135,7 @@ export default async function ProductPage({ params }: { params: { handle: string
         <div className="relative">
           <div className="sticky top-0 flex flex-col gap-4 p-3 md:h-screen md:overflow-auto">
             <div className="flex flex-col">
-              <h1 className="font-serif text-lg md:text-3xl">{product.title}</h1>
+              <h1 className="font-serif text-2xl md:text-3xl">{product.title}</h1>
               <VariantSelector options={product.options} variants={product.variants} />
             </div>
             {product.descriptionHtml ? (
