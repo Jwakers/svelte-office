@@ -4,8 +4,6 @@ import { Product } from 'lib/shopify/rest/types';
 import { wait } from 'lib/utils';
 dotenv.config({ path: '.env.local' });
 
-// pnpm tsx migrations/02-generate-lavoro-prices.ts
-
 const client = createAdminRestApiClient({
   storeDomain: process.env.SHOPIFY_STORE_DOMAIN as string,
   accessToken: process.env.SHOPIFY_STOCK_MANAGEMENT_ACCESS_TOKEN as string,
@@ -13,13 +11,13 @@ const client = createAdminRestApiClient({
 });
 
 const COST_MAP: { [key: string]: string } = {
-  '1200 x 800mm': '433.00',
-  '1400 x 800mm': '443.00',
-  '1600 x 800mm': '447.00',
-  '1800 x 800mm': '460.00',
-  '1200 x 700mm': '433.00',
-  '1400 x 700mm': '443.00',
-  '1600 x 700mm': '447.00'
+  '1200 x 800mm': '817.00',
+  '1400 x 800mm': '824.00',
+  '1600 x 800mm': '831.00',
+  '1800 x 800mm': '838.00',
+  '1200 x 700mm': '817.00',
+  '1400 x 700mm': '824.00',
+  '1600 x 700mm': '831.00'
 };
 
 async function getProduct(id: string) {
@@ -29,26 +27,18 @@ async function getProduct(id: string) {
   return product;
 }
 
-async function getInventoryItem(id: number) {
-  const response = await client.get(`inventory_items/${id}`);
-  const inventory_item: { inventory_item: Product } = await response.json();
-
-  return inventory_item;
-}
-
 function getPriceWithMargin(cost: string, marginPercentage: number = 30) {
   const costPrice = parseFloat(cost);
 
-  let sellingPrice = costPrice + costPrice * (marginPercentage / 100);
+  let sellingPrice = costPrice / (1 - marginPercentage / 100);
   // Round to the nearest 10
   sellingPrice = Math.ceil(sellingPrice / 10) * 10;
-  sellingPrice.toFixed(2);
 
   return `${sellingPrice.toFixed(2)}`;
 }
 
 async function migrate() {
-  const productId = '9125048811821';
+  const productId = '9130590273837';
   const product = await getProduct(productId);
   const inventoryIds = product.variants.map((variant) => ({
     inventoryId: variant.inventory_item_id,

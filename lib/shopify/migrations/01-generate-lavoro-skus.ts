@@ -17,19 +17,22 @@ const SKU_MAP: {
   decor: { [key: string]: string };
 } = {
   frame: {
-    Anthracite: 'AADVS/',
-    Black: 'BADVS/',
-    Silver: 'SADVS/',
-    White: 'WADVS/'
+    Anthracite: 'ADUO/',
+    Black: 'BDUO/',
+    Silver: 'SDUO/',
+    White: 'WDUO/'
   },
   size: {
+    '1000 x 600mm': 1000600,
     '1200 x 800mm': 1200800,
     '1400 x 800mm': 1400800,
     '1600 x 800mm': 1600800,
     '1800 x 800mm': 1800800,
     '1200 x 700mm': 1200700,
     '1400 x 700mm': 1400700,
-    '1600 x 700mm': 1600700
+    '1600 x 700mm': 1600700,
+    '1600 x 1600mm': 16001600,
+    '1800 x 1600mm': 18001600
   },
   decor: {
     Black: 'BLA',
@@ -54,7 +57,7 @@ const SKU_MAP: {
 };
 
 async function migrate() {
-  const productId = '9125048811821';
+  const productId = '9130590273837';
   const productResponse = await client.get(`products/${productId}`);
   const { product }: { product: Product } = await productResponse.json();
 

@@ -11,7 +11,7 @@ const client = createAdminRestApiClient({
 });
 
 async function migrate() {
-  const productId = '9125048811821';
+  const productId = '9130590273837';
   const res = await client.get(`products/${productId}`);
   const { product }: { product: Product } = await res.json();
 
@@ -27,9 +27,14 @@ async function migrate() {
 
     const index = imageIds.findIndex((item) => {
       if (!item.fileName) return;
-      const [frame, _, color] = item.fileName.split(/(?=[A-Z])/);
+      const nameArr = item.fileName.split(/(?=[A-Z])/);
+      const frame = nameArr[0];
+      const color = nameArr.at(-1);
 
       if (frameColor === frame && color === deskColor) return true;
+      return false;
+
+      if (color === deskColor) return true;
       return false;
     });
 
