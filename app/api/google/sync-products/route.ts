@@ -1,6 +1,6 @@
 import { content_v2_1, google } from 'googleapis';
 import googleAuth from 'lib/google-auth';
-import getAllProducts from 'lib/shopify/rest/get-all-products';
+import getAllOfType from 'lib/shopify/rest/get-all-of-type';
 import { Product } from 'lib/shopify/rest/types';
 import { NextResponse } from 'next/server';
 import { getRequestBody } from '../get-request-body';
@@ -9,7 +9,7 @@ export const dynamic = 'force-dynamic'; // Prevents route running during build
 
 export async function GET() {
   try {
-    const shopifyProducts = await getAllProducts();
+    const shopifyProducts = await getAllOfType<Product>('products');
 
     if (!shopifyProducts || !shopifyProducts.length) throw Error('No shopify products');
 

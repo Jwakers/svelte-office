@@ -60,10 +60,10 @@ export const FeaturedHero = function () {
               to last using premium European materials, with a 5-year warranty on all parts.
             </p>
             <div className="flex flex-col gap-1 sm:flex-row">
-              <Link className="button block" href="">
+              {/* <Link className="button block" href="">
                 Find out more
-              </Link>
-              <Link className="button block" href="">
+              </Link> */}
+              <Link className="button block" href="/search?brand=lavoro">
                 View Lavoro products
               </Link>
             </div>

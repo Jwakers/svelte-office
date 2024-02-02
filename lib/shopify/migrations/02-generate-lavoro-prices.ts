@@ -1,7 +1,7 @@
 import { createAdminRestApiClient } from '@shopify/admin-api-client';
 import * as dotenv from 'dotenv';
 import { Product } from 'lib/shopify/rest/types';
-import { wait } from 'lib/utils';
+import { getPriceWithMargin, wait } from 'lib/utils';
 dotenv.config({ path: '.env.local' });
 
 const client = createAdminRestApiClient({
@@ -27,16 +27,6 @@ async function getProduct(id: string) {
   return product;
 }
 
-function getPriceWithMargin(cost: string, marginPercentage: number = 30) {
-  const costPrice = parseFloat(cost);
-
-  let sellingPrice = costPrice / (1 - marginPercentage / 100);
-  // Round to the nearest 10
-  sellingPrice = Math.ceil(sellingPrice / 10) * 10;
-
-  return `${sellingPrice.toFixed(2)}`;
-}
-
 async function migrate() {
   const productId = '9130590273837';
   const product = await getProduct(productId);
@@ -59,7 +49,6 @@ async function migrate() {
       }
     });
     data = await invRes.json();
-    console.log(data);
 
     const varRes = await client.put(`variants/${item.variantId}`, {
       data: {
@@ -70,7 +59,6 @@ async function migrate() {
       }
     });
     data = varRes.json();
-    console.log(data);
     await wait(500);
   }
 }
