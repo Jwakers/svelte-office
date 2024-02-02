@@ -80,8 +80,8 @@ const ColletionProduct = ({ product, padImage }: { product: Product; padImage?: 
     >
       <Image
         className={clsx('aspect-square w-full object-cover object-top', { 'px-4 pt-4': padImage })}
-        width={315}
-        height={315}
+        width={460}
+        height={320}
         src={product.featuredImage.url}
         alt={product.featuredImage.altText}
       />
