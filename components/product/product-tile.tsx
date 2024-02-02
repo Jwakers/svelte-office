@@ -1,4 +1,3 @@
-import IndexString from 'components/index-string';
 import Price from 'components/price';
 import { Product } from 'lib/shopify/types';
 import Image from 'next/image';
@@ -22,7 +21,7 @@ export default function ProductTile({ product }: { product: Product }) {
       />
       <div className="flex h-full flex-col border-t border-slate-900 bg-white p-3">
         <h2 className="font-serif text-lg uppercase md:text-xl">{product.title}</h2>
-        {hasVariants && <IndexString value={product.variants.length} text="variations" />}
+        {hasVariants && <span className="text-sm text-slate-700">Multiple options</span>}
         <div className="mt-auto flex justify-between">
           <div>
             {hasVariants && <span>from &nbsp;</span>}
