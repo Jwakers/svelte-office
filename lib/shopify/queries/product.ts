@@ -58,28 +58,6 @@ export const getProductSkusQuery = /* GraphQL */ `
   }
 `;
 
-export const getProductImagesQuery = /* GraphQL */ `
-  query getProductImages {
-    products(first: 250) {
-      edges {
-        node {
-          id
-          title
-          images(first: 25) {
-            edges {
-              node {
-                url
-                id
-                altText
-              }
-            }
-          }
-        }
-      }
-    }
-  }
-`;
-
 export const googleMerchantFeedDataQuery = /* GraphQL */ `
   {
     products(first: 250) {
