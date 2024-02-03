@@ -144,26 +144,26 @@ export default async function ProductPage({ params }: { params: { handle: string
               </ReadMore>
             ) : null}
             <div>
-              <Accordion heading="Specification">
-                {product.specification.length && (
-                  <table className="py-2">
-                    <tbody>
-                      {product.specification.map((spec) => {
-                        if (!spec) return null;
-                        const value = JSON.parse(spec.value);
-                        return (
-                          <tr className="border-b border-slate-900/20" key={spec.key}>
-                            <td className="py-2 capitalize">{spec.key}</td>
-                            <td>
-                              {value.value} {UNIT_MAP[value.unit as keyof typeof UNIT_MAP] || ''}
-                            </td>
-                          </tr>
-                        );
-                      })}
-                    </tbody>
-                  </table>
-                )}
-                {specSheet ? (
+              {specSheet ? (
+                <Accordion heading="Specification">
+                  {product.specification.length && (
+                    <table className="py-2">
+                      <tbody>
+                        {product.specification.map((spec) => {
+                          if (!spec) return null;
+                          const value = JSON.parse(spec.value);
+                          return (
+                            <tr className="border-b border-slate-900/20" key={spec.key}>
+                              <td className="py-2 capitalize">{spec.key}</td>
+                              <td>
+                                {value.value} {UNIT_MAP[value.unit as keyof typeof UNIT_MAP] || ''}
+                              </td>
+                            </tr>
+                          );
+                        })}
+                      </tbody>
+                    </table>
+                  )}
                   <a
                     className="button mb-4 mt-2 flex items-center justify-center gap-2"
                     href={specSheet}
@@ -172,8 +172,8 @@ export default async function ProductPage({ params }: { params: { handle: string
                     <span>Download full specification</span>
                     <Download width={18} />
                   </a>
-                ) : null}
-              </Accordion>
+                </Accordion>
+              ) : null}
               <DeliverySection
                 vendor={product.vendor as ShopifyVendors}
                 deliveryType={product.deliveryType.value as keyof DeliveryTypes}

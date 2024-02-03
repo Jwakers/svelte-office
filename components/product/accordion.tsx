@@ -1,7 +1,8 @@
 'use client';
 
+import { Disclosure, Transition } from '@headlessui/react';
 import clsx from 'clsx';
-import { useRef, useState } from 'react';
+import { useRef } from 'react';
 import { ChevronDown } from 'react-feather';
 
 export default function Accordion({
@@ -11,26 +12,27 @@ export default function Accordion({
   heading: string;
   children: React.ReactNode;
 }) {
-  const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
-  const toggle = () => setOpen(!open);
-
   return (
-    <div>
-      <button
-        className="group flex w-full items-center justify-between border-b border-slate-900 py-3 text-left"
-        onClick={toggle}
-      >
-        <span className="text-sm font-medium uppercase group-hover:underline">{heading}</span>
-        <ChevronDown className={clsx('transition-transform', { '-scale-y-100': open })} />
-      </button>
-      <div
-        ref={ref}
-        className="flex flex-col gap-2 overflow-hidden transition-[height]"
-        style={{ height: open && ref.current ? `${ref.current.scrollHeight}px` : '0px' }}
-      >
-        {children}
-      </div>
-    </div>
+    <Disclosure>
+      {({ open }) => (
+        <>
+          <Disclosure.Button className="group flex w-full items-center justify-between border-b border-slate-900 py-3 text-left">
+            <span className="text-sm font-medium uppercase group-hover:underline">{heading}</span>
+            <ChevronDown className={clsx('transition-transform', { '-scale-y-100': open })} />
+          </Disclosure.Button>
+
+          <Transition leave="duration-75">
+            <Disclosure.Panel
+              className="flex flex-col gap-2 overflow-hidden transition-[height]"
+              ref={ref}
+              style={{ height: open && ref.current ? `${ref.current.scrollHeight}px` : '0px' }}
+            >
+              {children}
+            </Disclosure.Panel>
+          </Transition>
+        </>
+      )}
+    </Disclosure>
   );
 }
