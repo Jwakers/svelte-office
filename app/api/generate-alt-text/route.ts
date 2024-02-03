@@ -1,7 +1,10 @@
-import { getProductimages, updateProductImageAlt } from 'lib/shopify';
-import { NextResponse } from 'next/server';
+import getAllOfType from 'lib/shopify/rest/get-all-of-type';
+import getRestClient from 'lib/shopify/rest/get-rest-client';
+import { Product } from 'lib/shopify/rest/types';
 
 export const dynamic = 'force-dynamic'; // Prevents route running during build
+
+const client = getRestClient();
 
 const generateAltText = async function (imageUrl: string) {
   let startResponse = await fetch('https://api.replicate.com/v1/predictions', {
@@ -43,19 +46,30 @@ const generateAltText = async function (imageUrl: string) {
 };
 
 const iterateImages = async function () {
-  const images = await getProductimages();
-  for (const image of images) {
-    if (!image.altText) {
-      const altText = await generateAltText(image.url);
-      if (altText) {
-        try {
-          const res = await updateProductImageAlt(image.productId, image.id, altText);
-          console.log(`Image update for ${image.productTitle} - ${altText}`);
-        } catch (e) {
-          console.log(e);
+  const products = await getAllOfType<Product>('products');
+
+  for (const product of products) {
+    const { images } = product;
+
+    for (const image of images) {
+      if (!image.alt) {
+        const altText = await generateAltText(image.src);
+        if (altText) {
+          try {
+            await client.put(`products/${product.id}/images/${image.id}`, {
+              data: {
+                image: {
+                  alt: altText
+                }
+              }
+            });
+            console.log(`Image update for ${product.title} - ${altText}`);
+          } catch (e) {
+            console.log(e);
+          }
+        } else {
+          console.log(`Could not generate alt text for: ${image.id} (${product.title})`);
         }
-      } else {
-        console.log(`Could not generate alt text for: ${image.id} (${image.productTitle})`);
       }
     }
   }
@@ -65,8 +79,8 @@ const iterateImages = async function () {
 export async function GET(request: Request) {
   try {
     await iterateImages();
-    return NextResponse.json('Images alt text updated', { status: 200 });
+    return Response.json('Images alt text updated', { status: 200 });
   } catch (error) {
-    return NextResponse.json({ error }, { status: 500 });
+    return Response.json({ error }, { status: 500 });
   }
 }
