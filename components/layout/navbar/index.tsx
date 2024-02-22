@@ -41,7 +41,9 @@ export default async function Navbar() {
               </span>
             </Suspense>
             <div className="flex items-center md:hidden">
-              <MobileMenu menu={menu} />
+              <Suspense>
+                <MobileMenu menu={menu} />
+              </Suspense>
             </div>
           </div>
         </div>
