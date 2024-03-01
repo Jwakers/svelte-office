@@ -54,7 +54,7 @@ async function migrate() {
     });
     const data = await res.json();
     console.log(data);
-    wait(1000);
+    await wait(1000);
   });
 }
 migrate();

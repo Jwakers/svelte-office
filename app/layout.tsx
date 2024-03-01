@@ -52,7 +52,9 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
       </Script>
       <body className="text-slate-900 selection:bg-yellow-400">
         <Banner />
-        <Navbar />
+        <Suspense>
+          <Navbar />
+        </Suspense>
         <Suspense>
           <Providers>
             <main>{children}</main>

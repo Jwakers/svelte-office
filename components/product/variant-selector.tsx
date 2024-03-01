@@ -1,7 +1,8 @@
 'use client';
 
 import clsx from 'clsx';
-import { ProductOption, ProductVariant } from 'lib/shopify/types';
+import Price from 'components/price';
+import { Money, ProductOption, ProductVariant } from 'lib/shopify/types';
 import { createUrl } from 'lib/utils';
 import Link from 'next/link';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
@@ -15,7 +16,13 @@ type OptimizedVariant = {
   id: string;
   availableForSale: boolean;
   params: URLSearchParams;
-  [key: string]: string | boolean | URLSearchParams; // ie. { color: 'Red', size: 'Large', ... }
+  price: Money;
+  [key: string]: string | boolean | URLSearchParams | Money; // ie. { color: 'Red', size: 'Large', ... }
+};
+
+type PriceSectionProps = {
+  selectedVariant?: OptimizedVariant;
+  fromPrice: ProductVariant;
 };
 
 export function VariantSelector({
@@ -30,6 +37,9 @@ export function VariantSelector({
   const router = useRouter();
   const hasNoOptionsOrJustOneOption =
     !options.length || (options.length === 1 && options[0]?.values.length === 1);
+  const fromPrice = variants.reduce((prev, curr) =>
+    prev.price.amount < curr?.price.amount ? prev : curr
+  );
 
   // Discard any unexpected options or values from url and create params map.
   const paramsMap: ParamsMap = Object.fromEntries(
@@ -43,7 +53,8 @@ export function VariantSelector({
     const optimized: OptimizedVariant = {
       id: variant.id,
       availableForSale: variant.availableForSale,
-      params: new URLSearchParams()
+      params: new URLSearchParams(),
+      price: variant.price
     };
 
     variant.selectedOptions.forEach((selectedOption) => {
@@ -78,59 +89,74 @@ export function VariantSelector({
 
   useEffect(() => {
     if (currentUrl !== selectedVariantUrl) {
-      router.replace(selectedVariantUrl);
+      router.replace(selectedVariantUrl, { scroll: false });
     }
   }, []);
 
   if (hasNoOptionsOrJustOneOption) {
-    return null;
+    return <PriceSection selectedVariant={selectedVariant} fromPrice={fromPrice} />;
   }
 
   return (
-    <div className="flex flex-col gap-2">
-      {options.map((option) => (
-        <dl key={option.id}>
-          <dt className="mb-2 text-sm uppercase">{option.name}</dt>
-          <dd className="flex flex-wrap gap-2">
-            {option.values.map((value) => {
-              // Base option params on selected variant params.
-              const optionParams = new URLSearchParams(selectedVariantParams);
-              // Update the params using the current option to reflect how the url would change.
-              optionParams.set(option.name.toLowerCase(), value);
+    <>
+      <PriceSection selectedVariant={selectedVariant} fromPrice={fromPrice} />
+      <div className="flex flex-col gap-2">
+        {options.map((option) => (
+          <dl key={option.id}>
+            <dt className="mb-2 text-sm uppercase">{option.name}</dt>
+            <dd className="flex flex-wrap gap-2">
+              {option.values.map((value) => {
+                // Base option params on selected variant params.
+                const optionParams = new URLSearchParams(selectedVariantParams);
+                // Update the params using the current option to reflect how the url would change.
+                optionParams.set(option.name.toLowerCase(), value);
 
-              const optionUrl = createUrl(pathname, optionParams);
+                const optionUrl = createUrl(pathname, optionParams);
 
-              // The option is active if it is in the url params.
-              const isActive = selectedVariantParams.get(option.name.toLowerCase()) === value;
+                // The option is active if it is in the url params.
+                const isActive = selectedVariantParams.get(option.name.toLowerCase()) === value;
 
-              // The option is available for sale if it fully matches the variant in the option's url params.
-              // It's super important to note that this is the options params, *not* the selected variant's params.
-              // This is the "magic" that will cross check possible future variant combinations and preemptively
-              // disable combinations that are not possible.
-              const isAvailableForSale = optimizedVariants.find((a) =>
-                Array.from(optionParams.entries()).every(([key, value]) => a[key] === value)
-              )?.availableForSale;
+                // The option is available for sale if it fully matches the variant in the option's url params.
+                // It's super important to note that this is the options params, *not* the selected variant's params.
+                // This is the "magic" that will cross check possible future variant combinations and preemptively
+                // disable combinations that are not possible.
+                const isAvailableForSale = optimizedVariants.find((a) =>
+                  Array.from(optionParams.entries()).every(([key, value]) => a[key] === value)
+                )?.availableForSale;
 
-              const DynamicTag = isAvailableForSale ? Link : 'span';
+                const DynamicTag = isAvailableForSale ? Link : 'span';
 
-              return (
-                <DynamicTag
-                  key={value}
-                  href={optionUrl}
-                  title={`${option.name} ${value}${!isAvailableForSale ? ' (Out of Stock)' : ''}`}
-                  className={clsx('border px-2 py-1 text-xs', {
-                    'cursor-pointer bg-slate-900 text-white': isActive,
-                    'cursor-not-allowed opacity-20': !isAvailableForSale
-                  })}
-                  data-testid={isActive ? 'selected-variant' : 'variant'}
-                >
-                  {value}
-                </DynamicTag>
-              );
-            })}
-          </dd>
-        </dl>
-      ))}
-    </div>
+                return (
+                  <DynamicTag
+                    key={value}
+                    href={optionUrl}
+                    scroll={false}
+                    title={`${option.name} ${value}${!isAvailableForSale ? ' (Out of Stock)' : ''}`}
+                    className={clsx('border px-2 py-1 text-xs', {
+                      'cursor-pointer bg-slate-900 text-white': isActive,
+                      'cursor-not-allowed opacity-20': !isAvailableForSale
+                    })}
+                    data-testid={isActive ? 'selected-variant' : 'variant'}
+                  >
+                    {value}
+                  </DynamicTag>
+                );
+              })}
+            </dd>
+          </dl>
+        ))}
+      </div>
+    </>
   );
 }
+
+const PriceSection = ({ selectedVariant, fromPrice }: PriceSectionProps) => (
+  <div className="mb-4 flex flex-col gap-1">
+    {!selectedVariant ? <span className="text-xs leading-none opacity-80">from</span> : null}
+    <Price
+      amount={(selectedVariant || fromPrice).price.amount || '0'}
+      currencyCode={(selectedVariant || fromPrice).price.currencyCode || 'GBP'}
+      className="leading-none"
+    />
+  </div>
+);

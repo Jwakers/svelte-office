@@ -3,7 +3,6 @@ import { notFound } from 'next/navigation';
 
 import clsx from 'clsx';
 import { AddToCart } from 'components/cart/add-to-cart';
-import Price from 'components/price';
 import Accordion from 'components/product/accordion';
 import { Gallery } from 'components/product/gallery';
 import ProductTile from 'components/product/product-tile';
@@ -136,20 +135,9 @@ export default async function ProductPage({ params }: { params: { handle: string
         <div className="relative">
           <div className="sticky top-0 flex flex-col gap-4 p-3 md:h-screen md:overflow-auto">
             <div className="flex flex-col">
-              <h1 className="font-serif text-lg md:text-3xl">{product.title}</h1>
-              {/* TODO: have price update depeding on variant select. Can get variant from URL. */}
-              <div className="flex flex-col gap-1">
-                <span className="text-xs leading-none opacity-80">
-                  {product.variants.length > 1 && 'from'}
-                </span>
-                <Price
-                  amount={product.priceRange.minVariantPrice.amount}
-                  currencyCode={product.priceRange.minVariantPrice.currencyCode}
-                  className="leading-none"
-                />
-              </div>
+              <h1 className="font-serif text-2xl md:text-3xl">{product.title}</h1>
+              <VariantSelector options={product.options} variants={product.variants} />
             </div>
-            <VariantSelector options={product.options} variants={product.variants} />
             {product.descriptionHtml ? (
               <ReadMore>
                 <Prose className="" html={product.descriptionHtml} />

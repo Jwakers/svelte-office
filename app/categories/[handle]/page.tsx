@@ -1,15 +1,11 @@
-import clsx from 'clsx';
 import IndexString from 'components/index-string';
-import Price from 'components/price';
+import ProductTile from 'components/product/product-tile';
 import Prose from 'components/prose';
 import { getCollection, getCollectionWithProducts } from 'lib/shopify';
-import { Product } from 'lib/shopify/types';
 import { Metadata } from 'next';
 import { headers } from 'next/headers';
 import Image from 'next/image';
-import Link from 'next/link';
 import { notFound } from 'next/navigation';
-import { ArrowRight } from 'react-feather';
 
 export async function generateMetadata({
   params
@@ -63,42 +59,9 @@ export default async function Collection({ params }: { params: { handle: string 
       </div>
       <div className="grid grid-cols-1 gap-[1px] sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4">
         {products.map((product) => (
-          <ColletionProduct product={product} key={product.id} padImage={isOfficeChairsPage} />
+          <ProductTile product={product} />
         ))}
       </div>
     </section>
   );
 }
-
-const ColletionProduct = ({ product, padImage }: { product: Product; padImage?: boolean }) => {
-  const hasVariants = product.variants.length > 1;
-
-  return (
-    <Link
-      href={`/products/${product.handle}`}
-      className="group flex flex-col outline outline-1 outline-black"
-    >
-      <Image
-        className={clsx('aspect-square w-full object-cover object-top', { 'px-4 pt-4': padImage })}
-        width={315}
-        height={315}
-        src={product.featuredImage.url}
-        alt={product.featuredImage.altText}
-      />
-      <div className="flex h-full flex-col border-t border-slate-900 bg-white p-3">
-        <h2 className="font-serif text-lg uppercase md:text-xl">{product.title}</h2>
-        {hasVariants && <IndexString value={product.variants.length} text="variations" />}
-        <div className="mt-auto flex justify-between">
-          <div>
-            {hasVariants && <span>from &nbsp;</span>}
-            <Price
-              amount={product.priceRange.minVariantPrice.amount}
-              currencyCode={product.priceRange.minVariantPrice.currencyCode}
-            />
-          </div>
-          <ArrowRight className="transition-all md:-translate-x-2 md:opacity-0 md:group-hover:translate-x-0 md:group-hover:opacity-100" />
-        </div>
-      </div>
-    </Link>
-  );
-};

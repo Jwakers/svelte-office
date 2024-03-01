@@ -33,8 +33,8 @@ export default async function Collections() {
               {collection.image ? (
                 <Image
                   src={collection.image.url}
+                  width={460}
                   height={320}
-                  width={320}
                   alt={collection.image.altText}
                   className="aspect-square w-full animate-fadeIn object-cover"
                 />

@@ -1,5 +1,5 @@
 import { CollectionPreview } from 'components/collections/collection-preview';
-import { Hero } from 'components/hero';
+import { FeaturedHero } from 'components/hero';
 import LatestProducts from 'components/product/latest';
 import { getPublicBaseUrl } from 'lib/utils';
 import { Suspense } from 'react';
@@ -26,7 +26,8 @@ export default async function HomePage() {
   return (
     <>
       <Suspense>
-        <Hero />
+        {/* <Hero /> */}
+        <FeaturedHero />
       </Suspense>
       <Suspense>
         <h2 className="border-slate-900 px-3 py-4 font-serif text-2xl uppercase md:border-b md:py-10 md:text-3xl">
