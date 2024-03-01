@@ -89,7 +89,7 @@ export function VariantSelector({
 
   useEffect(() => {
     if (currentUrl !== selectedVariantUrl) {
-      router.replace(selectedVariantUrl, { scroll: false });
+      router.replace(selectedVariantUrl);
     }
   }, []);
 
@@ -130,13 +130,12 @@ export function VariantSelector({
                   <DynamicTag
                     key={value}
                     href={optionUrl}
-                    scroll={false}
+                    scroll={isAvailableForSale ? false : undefined}
                     title={`${option.name} ${value}${!isAvailableForSale ? ' (Out of Stock)' : ''}`}
                     className={clsx('border px-2 py-1 text-xs', {
                       'cursor-pointer bg-slate-900 text-white': isActive,
                       'cursor-not-allowed opacity-20': !isAvailableForSale
                     })}
-                    data-testid={isActive ? 'selected-variant' : 'variant'}
                   >
                     {value}
                   </DynamicTag>
