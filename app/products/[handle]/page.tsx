@@ -20,7 +20,7 @@ import { getGenericFile, getProduct, getProductRecommendations } from 'lib/shopi
 import { ShopifyVendors } from 'lib/shopify/types';
 import Link from 'next/link';
 import { Suspense } from 'react';
-import { Download } from 'react-feather';
+import { Download, Star } from 'react-feather';
 
 export async function generateMetadata({
   params
@@ -135,7 +135,10 @@ export default async function ProductPage({ params }: { params: { handle: string
         <div className="relative">
           <div className="sticky top-0 flex flex-col gap-4 p-3 md:h-screen md:overflow-auto">
             <div className="flex flex-col">
-              <h1 className="font-serif text-2xl md:text-3xl">{product.title}</h1>
+              <div className="flex items-start justify-between">
+                <h1 className="font-serif text-2xl md:text-3xl">{product.title}</h1>
+                <Reviews productId={product.id} />
+              </div>
               <VariantSelector options={product.options} variants={product.variants} />
             </div>
             {product.descriptionHtml ? (
@@ -194,6 +197,26 @@ export default async function ProductPage({ params }: { params: { handle: string
         <RelatedProducts id={product.id} />
       </Suspense>
     </>
+  );
+}
+
+async function Reviews({ productId }: { productId: string }) {
+  return (
+    <a className="group relative block" href="#reviews" title="Go to reviews">
+      <div className="flex gap-2">
+        <span>4.3</span>
+        <div className="flex gap-1">
+          <Star className="fill-yellow-400 text-yellow-400" />
+          <Star className="hidden fill-yellow-400 text-yellow-400 sm:block" />
+          <Star className="hidden fill-yellow-400 text-yellow-400 sm:block" />
+          <Star className="hidden fill-yellow-400 text-yellow-400 sm:block" />
+          <Star className="hidden fill-yellow-400 text-yellow-400 sm:block" />
+        </div>
+      </div>
+      <div className="absolute bottom-0 right-0 hidden translate-y-full pt-1 text-sm text-slate-500 group-hover:block group-hover:text-slate-900 group-hover:underline">
+        Go to reviews
+      </div>
+    </a>
   );
 }
 
