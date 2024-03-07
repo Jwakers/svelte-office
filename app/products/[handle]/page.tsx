@@ -18,6 +18,7 @@ import {
 } from 'lib/constants';
 import { getGenericFile, getProduct, getProductRecommendations } from 'lib/shopify';
 import { ShopifyVendors } from 'lib/shopify/types';
+import { getReviews } from 'lib/yotpo';
 import Link from 'next/link';
 import { Suspense } from 'react';
 import { Download, Star } from 'react-feather';
@@ -201,16 +202,29 @@ export default async function ProductPage({ params }: { params: { handle: string
 }
 
 async function Reviews({ productId }: { productId: string }) {
+  const id = productId.split('/').at(-1);
+  if (!id) return;
+
+  const {
+    response: {
+      bottomline: { average_score }
+    }
+  } = await getReviews(id);
+  const stars = Math.ceil(average_score);
+
+  if (average_score <= 3) return null;
+
   return (
     <a className="group relative block" href="#reviews" title="Go to reviews">
       <div className="flex gap-2">
-        <span>4.3</span>
+        <span>{average_score}</span>
         <div className="flex gap-1">
-          <Star className="fill-yellow-400 text-yellow-400" />
-          <Star className="hidden fill-yellow-400 text-yellow-400 sm:block" />
-          <Star className="hidden fill-yellow-400 text-yellow-400 sm:block" />
-          <Star className="hidden fill-yellow-400 text-yellow-400 sm:block" />
-          <Star className="hidden fill-yellow-400 text-yellow-400 sm:block" />
+          {[...Array(stars)].map((_, i) => (
+            <Star
+              className={clsx('fill-yellow-400 text-yellow-400', i && 'hidden sm:block')}
+              key={`star-${i}`}
+            />
+          ))}
         </div>
       </div>
       <div className="absolute bottom-0 right-0 hidden translate-y-full pt-1 text-sm text-slate-500 group-hover:block group-hover:text-slate-900 group-hover:underline">
