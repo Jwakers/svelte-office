@@ -57,7 +57,7 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
         </Suspense>
         <Suspense>
           <Providers>
-            <main>{children}</main>
+            <main className="scroll-smooth">{children}</main>
           </Providers>
         </Suspense>
         <Suspense>

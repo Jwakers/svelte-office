@@ -17,9 +17,11 @@ import {
   WARRANTY
 } from 'lib/constants';
 import { getGenericFile, getProduct, getProductRecommendations } from 'lib/shopify';
-import { ShopifyVendors } from 'lib/shopify/types';
+import { Product, ShopifyVendors } from 'lib/shopify/types';
+import { getPublicBaseUrl } from 'lib/utils';
 import { getReviews } from 'lib/yotpo';
 import Link from 'next/link';
+import Script from 'next/script';
 import { Suspense } from 'react';
 import { Download, Star } from 'react-feather';
 
@@ -138,7 +140,7 @@ export default async function ProductPage({ params }: { params: { handle: string
             <div className="flex flex-col">
               <div className="flex items-start justify-between">
                 <h1 className="font-serif text-2xl md:text-3xl">{product.title}</h1>
-                <Reviews productId={product.id} />
+                <ReviewsHead productId={product.id} />
               </div>
               <VariantSelector options={product.options} variants={product.variants} />
             </div>
@@ -194,6 +196,7 @@ export default async function ProductPage({ params }: { params: { handle: string
           </div>
         </div>
       </section>
+      <ReviewSection product={product} />
       <Suspense>
         <RelatedProducts id={product.id} />
       </Suspense>
@@ -201,7 +204,7 @@ export default async function ProductPage({ params }: { params: { handle: string
   );
 }
 
-async function Reviews({ productId }: { productId: string }) {
+async function ReviewsHead({ productId }: { productId: string }) {
   const id = productId.split('/').at(-1);
   if (!id) return;
 
@@ -210,6 +213,7 @@ async function Reviews({ productId }: { productId: string }) {
       bottomline: { average_score }
     }
   } = await getReviews(id);
+
   const stars = Math.ceil(average_score);
 
   if (average_score <= 3) return null;
@@ -231,6 +235,33 @@ async function Reviews({ productId }: { productId: string }) {
         Go to reviews
       </div>
     </a>
+  );
+}
+
+function ReviewSection({ product }: { product: Product }) {
+  const productId = product.id.split('/').at(-1);
+
+  return (
+    <>
+      <Script
+        strategy="afterInteractive"
+        dangerouslySetInnerHTML={{
+          __html: `
+      (function e(){var e=document.createElement("script");e.type="text/javascript",e.async=true,e.src="//staticw2.yotpo.com/${process.env.YOTPO_STORE_ID}/widget.js";var t=document.getElementsByTagName("script")[0];t.parentNode.insertBefore(e,t)})();
+      `
+        }}
+      />
+      <div
+        id="reviews"
+        className="yotpo yotpo-main-widget scroll-smooth"
+        data-product-id={productId}
+        data-price={product.priceRange.minVariantPrice.amount}
+        data-currency={product.priceRange.minVariantPrice.currencyCode}
+        data-name={product.title}
+        data-url={`${getPublicBaseUrl()}/products/${product.handle}`}
+        data-image-url={product.images[0]?.url}
+      ></div>
+    </>
   );
 }
 
