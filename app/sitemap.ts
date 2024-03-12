@@ -1,4 +1,6 @@
-import { getCollections, getPages, getProducts } from 'lib/shopify';
+import { getCollections, getPages } from 'lib/shopify';
+import getAllOfType from 'lib/shopify/rest/get-all-of-type';
+import { Product } from 'lib/shopify/rest/types';
 import { getPublicBaseUrl } from 'lib/utils';
 import { MetadataRoute } from 'next';
 
@@ -17,10 +19,10 @@ export default async function sitemap(): Promise<Promise<Promise<MetadataRoute.S
     }))
   );
 
-  const productsPromise = getProducts({}).then((products) =>
+  const productsPromise = getAllOfType<Product>('products').then((products) =>
     products.map((product) => ({
       url: `${baseUrl}/products/${product.handle}`,
-      lastModified: product.updatedAt
+      lastModified: product.updated_at
     }))
   );
 
