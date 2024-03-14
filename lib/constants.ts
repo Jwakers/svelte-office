@@ -37,6 +37,14 @@ export const FADE_ANIMATION = {
   exit: { opacity: 0 }
 };
 
+export const BREAKPOINTS = {
+  sm: 640,
+  md: 768,
+  lg: 1024,
+  xl: 1280,
+  '2xl': 1536
+};
+
 export type DeliveryTypes = {
   ND: string;
   '2M': string;
