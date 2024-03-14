@@ -34,7 +34,7 @@ export default function ReadMore({ children }: ReadMoreProps) {
       <div className="prose">
         {/* Set button in prose to maintain the same max-width as the prose used in product descriptions */}
         <button
-          className="ml-auto block text-slate-500 underline transition-colors hover:text-slate-900"
+          className="ml-auto block text-slate-700 underline transition-colors hover:text-slate-900"
           type="button"
           onClick={handleClick}
           aria-label={isExpanded ? 'Show less content' : 'Show more content'}

@@ -231,7 +231,7 @@ async function ReviewsHead({ productId }: { productId: string }) {
           ))}
         </div>
       </div>
-      <div className="absolute bottom-0 right-0 hidden translate-y-full pt-1 text-sm text-slate-500 group-hover:block group-hover:text-slate-900 group-hover:underline">
+      <div className="absolute bottom-0 right-0 hidden translate-y-full pt-1 text-sm text-slate-700 group-hover:block group-hover:text-slate-900 group-hover:underline">
         Go to reviews
       </div>
     </a>
