@@ -6,6 +6,7 @@ import { AddToCart } from 'components/cart/add-to-cart';
 import Accordion from 'components/product/accordion';
 import { Gallery } from 'components/product/gallery';
 import ProductTile from 'components/product/product-tile';
+import { ReviewStars } from 'components/product/review-stars';
 import { VariantSelector } from 'components/product/variant-selector';
 import Prose from 'components/prose';
 import ReadMore from 'components/read-more';
@@ -23,7 +24,7 @@ import { getReviews } from 'lib/yotpo';
 import Link from 'next/link';
 import Script from 'next/script';
 import { Suspense } from 'react';
-import { Download, Star } from 'react-feather';
+import { Download } from 'react-feather';
 
 export async function generateMetadata({
   params
@@ -214,23 +215,11 @@ async function ReviewsHead({ productId }: { productId: string }) {
     }
   } = await getReviews(id);
 
-  const stars = Math.ceil(average_score);
-
   if (average_score <= 3) return null;
 
   return (
     <a className="group relative block" href="#reviews" title="Go to reviews">
-      <div className="flex gap-2">
-        <span>{average_score}</span>
-        <div className="flex gap-1">
-          {[...Array(stars)].map((_, i) => (
-            <Star
-              className={clsx('fill-yellow-400 text-yellow-400', i && 'hidden sm:block')}
-              key={`star-${i}`}
-            />
-          ))}
-        </div>
-      </div>
+      <ReviewStars productId={productId} />
       <div className="absolute bottom-0 right-0 hidden translate-y-full pt-1 text-sm text-slate-700 group-hover:block group-hover:text-slate-900 group-hover:underline">
         Go to reviews
       </div>

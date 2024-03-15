@@ -86,14 +86,16 @@ export default function USPs() {
   );
 
   return (
-    <ul className="group flex md:grid md:grid-cols-3" ref={ref}>
-      {usps.map((item) => (
-        <ListItem item={item} key={`usp-${item.id}`} />
-      ))}
-      {/* Duplicate list for infinite ticker effect */}
-      {usps.map((item) => (
-        <ListItem item={item} className="md:hidden" key={`usp-${item.id + 10}`} />
-      ))}
-    </ul>
+    <div className="overflow-hidden">
+      <ul className="group flex md:grid md:grid-cols-3" ref={ref}>
+        {usps.map((item) => (
+          <ListItem item={item} key={`usp-${item.id}`} />
+        ))}
+        {/* Duplicate list for infinite ticker effect */}
+        {usps.map((item) => (
+          <ListItem item={item} className="md:hidden" key={`usp-${item.id + 10}`} />
+        ))}
+      </ul>
+    </div>
   );
 }

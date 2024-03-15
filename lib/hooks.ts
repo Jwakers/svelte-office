@@ -21,9 +21,14 @@ export function useIsBreakpoint(breakpoint: keyof typeof BREAKPOINTS = 'md') {
 
   useEffect(() => {
     const media = window.matchMedia(`(min-width: ${BREAKPOINTS[breakpoint]}px)`);
+    const callback = (media: MediaQueryListEvent) => setIsBreakpoint(media.matches);
     setIsBreakpoint(media.matches);
 
-    media.addEventListener('change', (media) => setIsBreakpoint(media.matches));
+    media.addEventListener('change', callback);
+
+    return () => {
+      media.removeEventListener('change', callback);
+    };
   }, []);
 
   return isBreakpoint;
