@@ -17,7 +17,7 @@ export default function Accordion({
     <Disclosure>
       {({ open }) => (
         <>
-          <Disclosure.Button className="group flex w-full items-center justify-between border-b border-slate-900 py-3 text-left">
+          <Disclosure.Button className="group flex w-full items-center justify-between border-b border-brand py-3 text-left">
             <span className="text-sm font-medium uppercase group-hover:underline">{heading}</span>
             <ChevronDown className={clsx('transition-transform', { '-scale-y-100': open })} />
           </Disclosure.Button>

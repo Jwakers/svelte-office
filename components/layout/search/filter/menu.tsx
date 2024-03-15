@@ -38,7 +38,7 @@ export default function SearchMenu({ children }: { children: React.ReactNode }) 
             leaveFrom="translate-x-0"
             leaveTo="translate-x-[-100%]"
           >
-            <Dialog.Panel className="fixed bottom-0 left-0 right-0 top-0 flex h-full w-full flex-col bg-white pb-6 dark:bg-slate-900">
+            <Dialog.Panel className="fixed bottom-0 left-0 right-0 top-0 flex h-full w-full flex-col bg-white pb-6 dark:bg-brand">
               <div className="flex flex-col p-4">
                 <button className="mb-4 ml-auto" onClick={closeMenu} aria-label="Close menu">
                   <X strokeWidth={1} />

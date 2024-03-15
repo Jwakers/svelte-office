@@ -22,7 +22,7 @@ export default async function SearchPage({
   return (
     <>
       {query ? (
-        <p className="mt-4 border-b border-slate-900 p-4 md:mt-0">
+        <p className="mt-4 border-b border-brand p-4 md:mt-0">
           {products.length === 0
             ? 'There are no products that match '
             : `Showing ${products.length} ${resultsText} for `}

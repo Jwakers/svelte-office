@@ -40,7 +40,7 @@ const vollkorn = Vollkorn({
 export default async function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en" className={clsx(workSans.variable, vollkorn.variable)}>
-      <body className="text-slate-900 selection:bg-yellow-400">
+      <body className="text-brand selection:bg-accent-yellow">
         <Banner />
         <Suspense>
           <Navbar />

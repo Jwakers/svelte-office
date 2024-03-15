@@ -19,7 +19,7 @@ export default function ProductTile({ product }: { product: Product }) {
         alt={product.featuredImage.altText}
         className="aspect-square w-full object-cover"
       />
-      <div className="flex h-full flex-col border-t border-slate-900 bg-white p-3">
+      <div className="flex h-full flex-col border-t border-brand bg-white p-3">
         <h2 className="font-serif text-lg uppercase md:text-xl">{product.title}</h2>
         {hasVariants && <span className="text-sm text-slate-700">Multiple options</span>}
         <div className="mt-auto flex justify-between">

@@ -132,8 +132,8 @@ export default async function ProductPage({ params }: { params: { handle: string
           __html: JSON.stringify(productJsonLd)
         }}
       />
-      <section className="-mt-[52px] md:mt-0 md:grid md:grid-cols-2">
-        <div className="flex flex-col border-slate-900 md:border-r">
+      <section className="-mt-[56px] md:mt-0 md:grid md:grid-cols-2">
+        <div className="flex flex-col border-brand md:border-r">
           <Gallery images={product.images.map(({ url, altText }) => ({ src: url, altText }))} />
         </div>
         <div className="relative">
@@ -160,7 +160,7 @@ export default async function ProductPage({ params }: { params: { handle: string
                           if (!spec) return null;
                           const value = JSON.parse(spec.value);
                           return (
-                            <tr className="border-b border-slate-900/20" key={spec.key}>
+                            <tr className="border-b border-brand/20" key={spec.key}>
                               <td className="py-2 capitalize">{spec.key}</td>
                               <td>
                                 {value.value} {UNIT_MAP[value.unit as keyof typeof UNIT_MAP] || ''}
@@ -220,7 +220,7 @@ async function ReviewsHead({ productId }: { productId: string }) {
   return (
     <a className="group relative block" href="#reviews" title="Go to reviews">
       <ReviewStars productId={productId} />
-      <div className="absolute bottom-0 right-0 hidden translate-y-full pt-1 text-sm text-slate-700 group-hover:block group-hover:text-slate-900 group-hover:underline">
+      <div className="absolute bottom-0 right-0 hidden translate-y-full pt-1 text-sm text-slate-700 group-hover:block group-hover:text-brand group-hover:underline">
         Go to reviews
       </div>
     </a>

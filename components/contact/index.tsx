@@ -54,7 +54,7 @@ export default function ContactForm() {
     if (!data?.errors) return null;
     const message = data.errors.find((err) => err.path === key);
 
-    return message ? <span className="text-sm text-red-500">{message.message}</span> : null;
+    return message ? <span className="text-sm text-error">{message.message}</span> : null;
   };
 
   return !isError ? (
@@ -67,7 +67,7 @@ export default function ContactForm() {
         <input
           type="text"
           id="name"
-          className="block w-full border border-slate-900 bg-white p-3 text-sm"
+          className="block w-full border border-brand bg-white p-3 text-sm"
           placeholder="John Smith"
           value={name}
           onChange={(e) => setName(e.target.value)}
@@ -82,7 +82,7 @@ export default function ContactForm() {
         <input
           type="email"
           id="email"
-          className="block w-full border border-slate-900 bg-white p-3 text-sm"
+          className="block w-full border border-brand bg-white p-3 text-sm"
           placeholder="name@gmail.com"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
@@ -97,7 +97,7 @@ export default function ContactForm() {
         <input
           type="text"
           id="subject"
-          className="block w-full border border-slate-900 bg-white p-3 text-sm"
+          className="block w-full border border-brand bg-white p-3 text-sm"
           placeholder="Let us know how we can help you"
           value={subject}
           onChange={(e) => setSubject(e.target.value)}
@@ -112,7 +112,7 @@ export default function ContactForm() {
         <textarea
           id="message"
           rows={6}
-          className="block w-full border border-slate-900 bg-white p-3 text-sm"
+          className="block w-full border border-brand bg-white p-3 text-sm"
           placeholder="Leave a comment..."
           value={message}
           onChange={(e) => setMessage(e.target.value)}

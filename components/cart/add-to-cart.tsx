@@ -52,10 +52,10 @@ export function AddToCart({
         });
       }}
       className={clsx(
-        'flex w-full items-center justify-center border border-slate-900 bg-slate-900 p-4 text-sm uppercase text-white',
+        'flex w-full items-center justify-center border border-primary bg-primary p-4 text-sm uppercase text-white hover:text-primary',
         {
           'cursor-not-allowed opacity-60': !availableForSale,
-          'transition-colors hover:bg-white hover:text-slate-900': availableForSale,
+          'transition-colors hover:bg-white hover:text-brand': availableForSale,
           'cursor-not-allowed': isPending
         },
         className

@@ -39,7 +39,7 @@ export default async function Collections() {
                   className="aspect-square w-full animate-fadeIn object-cover"
                 />
               ) : null}
-              <div className="flex h-full flex-col border-t border-slate-900 bg-white p-3">
+              <div className="flex h-full flex-col border-t border-brand bg-white p-3">
                 <h2 className="mb-2 font-serif text-lg uppercase md:text-xl">{collection.title}</h2>
                 <div className="mt-auto flex justify-between">
                   <IndexString

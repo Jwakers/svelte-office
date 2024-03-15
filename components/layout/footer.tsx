@@ -1,5 +1,6 @@
 import Link from 'next/link';
 
+import { Logo } from 'components/logo';
 import { getMenu } from 'lib/shopify';
 import { Menu } from 'lib/shopify/types';
 
@@ -9,13 +10,13 @@ export default async function Footer() {
   const menu = await getMenu('footer');
 
   return (
-    <footer className="border-t border-slate-900 bg-white pb-11 md:pb-0">
+    <footer className="border-t border-brand bg-white pb-11 md:pb-0">
       <div className="w-full px-4">
-        <div className="grid grid-cols-1 gap-8 border-b border-slate-900 py-12 transition-colors duration-150 lg:grid-cols-12">
+        <div className="grid grid-cols-1 gap-8 border-b border-brand py-12 transition-colors duration-150 lg:grid-cols-12">
           <div className="col-span-1 lg:col-span-3">
             <a className="flex flex-initial items-center font-serif font-bold md:mr-24" href="/">
               <span className="mr-2">
-                <span>SvelteOffice</span>
+                <Logo />
               </span>
             </a>
           </div>
