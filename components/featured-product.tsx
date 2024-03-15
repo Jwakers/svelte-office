@@ -14,7 +14,7 @@ export async function FeaturedProduct() {
   return (
     <Link
       href={`products/${product.handle}`}
-      className="group grid border-b border-slate-900 md:grid-cols-2"
+      className="group grid border-b border-brand md:grid-cols-2"
     >
       <div className="relative">
         <Image
@@ -25,7 +25,7 @@ export async function FeaturedProduct() {
           className="w-full border-b object-cover md:absolute md:h-full md:border-none"
         />
       </div>
-      <div className="h-full border-slate-900 p-3 md:border-l">
+      <div className="h-full border-brand p-4 md:border-l">
         <div className="flex justify-between">
           <div>
             <div className="text-sm text-slate-700">Featured product</div>

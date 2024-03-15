@@ -10,6 +10,6 @@
 
 @layer components {
   .button {
-    @apply border border-slate-900 px-4 py-2 text-center text-sm uppercase transition-colors hover:bg-slate-900 hover:text-white md:grow-0;
+    @apply border border-primary px-4 py-2 text-center text-sm uppercase text-primary transition-colors hover:bg-primary hover:text-white;
   }
 }

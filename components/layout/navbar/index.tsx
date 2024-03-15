@@ -1,6 +1,7 @@
 import Link from 'next/link';
 
 import Cart from 'components/cart';
+import { Logo } from 'components/logo';
 import { getMenu } from 'lib/shopify';
 import { Menu } from 'lib/shopify/types';
 import { Suspense } from 'react';
@@ -14,11 +15,11 @@ export default async function Navbar() {
   return (
     <header className="relative z-10">
       <Link href="/" aria-label="Go back home" className="relative z-50 block p-3 md:hidden">
-        <span className="font-serif text-lg font-bold md:text-xl">SvelteOffice</span>
+        <Logo className="text-2xl" />
       </Link>
-      <nav className="fixed bottom-0 left-0 z-20 grid w-full grid-cols-[1fr_auto] items-center justify-between border-t border-slate-900 bg-white px-4 md:static md:border-b md:border-t-0 md:bg-transparent">
+      <nav className="fixed bottom-0 left-0 z-20 grid w-full grid-cols-[1fr_auto] items-center justify-between border-t border-brand bg-white px-4 md:static md:border-b md:border-t-0 md:bg-transparent">
         <Link href="/" aria-label="Go back home" className="py-2">
-          <span className="font-serif text-lg font-bold md:text-2xl">SvelteOffice</span>
+          <Logo className="text-xl md:text-3xl" />
         </Link>
         <div className="flex h-full gap-4">
           {!!menu.length && (
@@ -32,7 +33,7 @@ export default async function Navbar() {
               ))}
             </ul>
           )}
-          <div className="border-l border-slate-900" />
+          <div className="border-l border-brand" />
           <div className="flex items-center gap-4">
             <Search className="hidden md:flex" />
             <Suspense fallback={<ShoppingBag strokeWidth={1} />}>

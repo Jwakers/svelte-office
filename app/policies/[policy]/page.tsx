@@ -10,7 +10,7 @@ export default async function PolicyPage({ params }: { params: { policy: string 
   if (data === undefined) notFound();
 
   return (
-    <section className="mx-auto h-full w-full border-slate-900 p-3 md:max-w-3xl md:border-l md:border-r">
+    <section className="mx-auto h-full w-full border-brand p-3 md:max-w-3xl md:border-l md:border-r">
       <h1 className="mb-4 font-serif text-3xl">{data.title}</h1>
       <Prose html={data.body} />
     </section>

@@ -18,7 +18,7 @@ export default function Carousel({ images }: { images: { src: string; altText: s
   const buttonClass = `flex h-12 w-12 items-center justify-center bg-white disabled:opacity-40`;
 
   return (
-    <div className="group relative animate-fadeIn border-r border-slate-900">
+    <div className="group relative animate-fadeIn border-r border-brand">
       <Swiper
         modules={[Pagination, Navigation]}
         navigation={{
@@ -40,7 +40,7 @@ export default function Carousel({ images }: { images: { src: string; altText: s
         ))}
       </Swiper>
       {images.length > 1 ? (
-        <div className="absolute bottom-0 right-0 z-10 flex content-end justify-between border border-b-0 border-r-0 border-slate-900 transition-opacity md:opacity-0 md:group-hover:opacity-100">
+        <div className="absolute bottom-0 right-0 z-10 flex content-end justify-between border border-b-0 border-r-0 border-brand transition-opacity md:opacity-0 md:group-hover:opacity-100">
           <button ref={previous} className={buttonClass} type="button" title="Previous">
             <ChevronLeft />
           </button>

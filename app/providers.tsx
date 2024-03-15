@@ -17,8 +17,8 @@ const Providers = ({ children }: { children: React.ReactNode }) => (
           show={t.visible}
           className={clsx(
             'flex transform items-center gap-2 rounded-none px-3 py-2 text-white shadow-sm transition-all',
-            { 'bg-green-500': t.type === 'success' },
-            { 'bg-red-500': t.type === 'error' }
+            { 'bg-success': t.type === 'success' },
+            { 'bg-error': t.type === 'error' }
           )}
           enter="transition-all duration-150"
           enterFrom="opacity-0 scale-50"

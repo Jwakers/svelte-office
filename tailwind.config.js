@@ -17,20 +17,24 @@ module.exports = {
         serif: ['var(--font-vollkorn)']
       },
       colors: {
-        gray: colors.neutral,
-        hotPink: '#FF1966',
-        dark: '#111111',
-        light: '#FAFAFA',
-        violetDark: '#4c2889'
+        brand: colors.slate[900],
+        primary: colors.slate[900],
+        secondary: colors.slate[700],
+        error: colors.red[500],
+        success: colors.green[500],
+        warning: colors.yellow[500],
+        accent: {
+          yellow: colors.yellow[400]
+        }
       },
       keyframes: {
         fadeIn: {
           from: { opacity: 0 },
           to: { opacity: 1 }
         },
-        marquee: {
+        ticker: {
           '0%': { transform: 'translateX(0%)' },
-          '100%': { transform: 'translateX(-100%)' }
+          '100%': { transform: 'translateX(-300%)' }
         },
         blink: {
           '0%': { opacity: 0.2 },
@@ -40,7 +44,7 @@ module.exports = {
       },
       animation: {
         fadeIn: 'fadeIn .3s ease-in-out',
-        carousel: 'marquee 60s linear infinite',
+        ticker: 'ticker 12s linear infinite',
         blink: 'blink 1.4s both infinite'
       }
     }

@@ -1,7 +1,6 @@
 import clsx from 'clsx';
 
-const dots =
-  'mx-[1px] inline-block h-1 w-1 animate-blink rounded-md border-slate-900 border bg-white';
+const dots = 'mx-[1px] inline-block h-1 w-1 animate-blink rounded-md border-brand border bg-white';
 
 const LoadingDots = () => {
   return (

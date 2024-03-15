@@ -34,8 +34,8 @@ export function Gallery({ images }: { images: { src: string; altText: string }[]
         modules={[Pagination]}
         pagination={{
           clickable: true,
-          bulletClass: 'rounded w-2 h-2 block border border-slate-900',
-          bulletActiveClass: 'bg-slate-900',
+          bulletClass: 'rounded w-2 h-2 block border border-brand',
+          bulletActiveClass: 'bg-brand',
           el: pagination.current
         }}
         wrapperClass="md:!block"
@@ -49,7 +49,7 @@ export function Gallery({ images }: { images: { src: string; altText: string }[]
               height={750}
               alt={altText || ''}
               priority={i < 2}
-              className="h-full w-full animate-fadeIn border-slate-900 object-cover md:border-b"
+              className="h-full w-full animate-fadeIn border-brand object-cover md:border-b"
             />
           </SwiperSlide>
         ))}

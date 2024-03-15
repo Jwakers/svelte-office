@@ -1,5 +1,4 @@
 'use client';
-import { useGSAP } from '@gsap/react';
 import clsx, { ClassValue } from 'clsx';
 import gsap from 'gsap';
 import { useIsBreakpoint } from 'lib/hooks';
@@ -43,35 +42,16 @@ export default function USPs() {
   const tl = useRef<gsap.core.Timeline>(gsap.timeline({ paused: true }));
   const isMd = useIsBreakpoint();
 
-  useGSAP(() => {
-    if (!ref.current) return;
-    tl.current.to(ref.current, {
-      xPercent: -(usps.length * 100),
-      duration: 4 * usps.length,
-      repeat: -1,
-      ease: 'none'
-    });
-  }, [ref]);
-
-  useGSAP(() => {
-    if (isMd) {
-      tl.current.progress(0);
-      tl.current.pause();
-    } else {
-      tl.current.play();
-    }
-  }, [isMd]);
-
   const ListItem = ({ item, className }: { item: (typeof usps)[0]; className?: ClassValue }) => (
     <li
       className={clsx(
-        'last:border-b-none relative w-full shrink-0 overflow-hidden border-b border-white/10 bg-slate-900 p-3 text-white md:border-r md:py-4 md:last:border-none',
+        'last:border-b-none relative w-full shrink-0 overflow-hidden border-b border-white/10 bg-brand p-3 text-white md:border-r md:py-4 md:last:border-none',
         className
       )}
     >
       <div className="flex h-full flex-col justify-between">
         <div>
-          <h4 className="flex justify-between gap-2 font-serif text-lg md:text-xl">
+          <h4 className="flex justify-between gap-2 md:text-lg">
             <span>{item.title}</span>
             <div className="bottom-3 right-3">{item.icon}</div>
           </h4>
@@ -87,7 +67,7 @@ export default function USPs() {
 
   return (
     <div className="overflow-hidden">
-      <ul className="group flex md:grid md:grid-cols-3" ref={ref}>
+      <ul className="group flex animate-ticker md:grid md:animate-none md:grid-cols-3" ref={ref}>
         {usps.map((item) => (
           <ListItem item={item} key={`usp-${item.id}`} />
         ))}

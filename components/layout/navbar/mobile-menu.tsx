@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { usePathname, useSearchParams } from 'next/navigation';
 import { Fragment, useEffect, useState } from 'react';
 
+import { Logo } from 'components/logo';
 import { Menu } from 'lib/shopify/types';
 import { Menu as MenuIcon, X } from 'react-feather';
 import Search from './search';
@@ -51,7 +52,7 @@ export default function MobileMenu({ menu }: { menu: Menu[] }) {
             leaveFrom="opacity-100 backdrop-blur-[.5px]"
             leaveTo="opacity-0 backdrop-blur-none"
           >
-            <div className="fixed inset-0 bg-slate-900/30" aria-hidden="true" />
+            <div className="fixed inset-0 bg-brand/30" aria-hidden="true" />
           </Transition.Child>
           <Transition.Child
             as={Fragment}
@@ -62,21 +63,21 @@ export default function MobileMenu({ menu }: { menu: Menu[] }) {
             leaveFrom="translate-x-0"
             leaveTo="translate-x-[-100%]"
           >
-            <Dialog.Panel className="fixed bottom-0 left-0 right-0 top-0 flex h-full w-full flex-col bg-white pb-6">
-              <div className="flex flex-col p-3">
-                <button
-                  className="mb-4 ml-auto"
-                  onClick={closeMobileMenu}
-                  aria-label="Close mobile menu"
-                  data-testid="close-mobile-menu"
-                >
-                  <X strokeWidth={1} />
-                </button>
+            <Dialog.Panel className="fixed bottom-0 left-0 right-0 top-0 flex h-full w-full flex-col bg-white">
+              <div className="flex h-full flex-col">
+                <div className="flex items-center justify-between border-b border-brand">
+                  <Logo className="ml-3 translate-y-[2px] text-xl leading-none" />
+                  <button
+                    className="border-l border-brand p-3"
+                    onClick={closeMobileMenu}
+                    aria-label="Close mobile menu"
+                    data-testid="close-mobile-menu"
+                  >
+                    <X strokeWidth={1} />
+                  </button>
+                </div>
                 {menu.length ? (
-                  <ul className="flex flex-col gap-6">
-                    <li>
-                      <Search />
-                    </li>
+                  <ul className="flex flex-col gap-6 p-3">
                     {menu.map((item: Menu) => (
                       <li key={item.title}>
                         <Link
@@ -90,6 +91,7 @@ export default function MobileMenu({ menu }: { menu: Menu[] }) {
                     ))}
                   </ul>
                 ) : null}
+                <Search className="mt-auto h-auto justify-end justify-self-end border-t border-brand p-3" />
               </div>
             </Dialog.Panel>
           </Transition.Child>
