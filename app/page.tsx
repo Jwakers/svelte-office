@@ -1,4 +1,5 @@
 import { CollectionPreview } from 'components/collections/collection-preview';
+import { FeaturedProduct } from 'components/featured-product';
 import { FeaturedHero } from 'components/hero';
 import LatestProducts from 'components/product/latest';
 import USPs from 'components/usps';
@@ -41,6 +42,7 @@ export default async function HomePage() {
           <CollectionPreview handle="bookcases-and-standing-shelves" />
           <CollectionPreview handle="coffee-tables" />
         </div>
+        <FeaturedProduct />
         <h2 className="border-slate-900 px-3 py-4 font-serif text-2xl uppercase md:border-b md:py-10 md:text-3xl">
           Latest products
         </h2>
