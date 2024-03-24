@@ -1,5 +1,4 @@
 import { SortFilterItem } from 'lib/constants';
-import FilterItemDropdown from './dropdown';
 import { FilterItem } from './item';
 
 export type ListItem = SortFilterItem | PathFilterItem;
@@ -19,13 +18,13 @@ export default function FilterList({ list, title }: { list: ListItem[]; title?: 
   return (
     <>
       <nav>
-        {title ? <h3 className="mb-2 font-serif uppercase">{title}</h3> : null}
+        {/* {title ? <h3 className="mb-2 font-serif uppercase">{title}</h3> : null}
         <ul className="flex-col gap-4 uppercase md:flex">
           <FilterItemList list={list} />
         </ul>
         <ul className="md:hidden">
           <FilterItemDropdown list={list} />
-        </ul>
+        </ul> */}
       </nav>
     </>
   );

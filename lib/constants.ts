@@ -79,3 +79,9 @@ export const UNIT_MAP = {
   CENTIMETERS: 'cm',
   KILOGRAMS: 'kg'
 };
+
+export const ALGOLIA = {
+  index: {
+    products: 'products'
+  }
+};

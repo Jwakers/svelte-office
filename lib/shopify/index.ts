@@ -26,6 +26,8 @@ import {
   getProductQuery,
   getProductRecommendationsQuery,
   getProductSkusQuery,
+  getProductTagsQuery,
+  getProductsForAlgoliaQuery,
   getProductsQuery
 } from './queries/product';
 import {
@@ -36,6 +38,7 @@ import {
   Menu,
   Page,
   Product,
+  ProductAlgolia,
   ShopifyAddToCartOperation,
   ShopifyCart,
   ShopifyCartOperation,
@@ -46,7 +49,9 @@ import {
   ShopifyCollectionsOperation,
   ShopifyCreateCartOperation,
   ShopifyGenericFileOperation,
+  ShopifyGetProductForAlgolia,
   ShopifyGetProductSkus,
+  ShopifyGetProductTags,
   ShopifyMenuOperation,
   ShopifyPageOperation,
   ShopifyPagesOperation,
@@ -62,8 +67,6 @@ import {
 const domain = `https://${process.env.SHOPIFY_STORE_DOMAIN!}`;
 const storefrontEndpoint = `${domain}${SHOPIFY_GRAPHQL_API_ENDPOINT}`;
 const adminEndpoint = `${domain}${SHOPIFY_GRAPHQL_ADMIN_API_ENDPOINT}`;
-
-const storefrontAccessToken = process.env.SHOPIFY_STOREFRONT_ACCESS_TOKEN!;
 const adminStockManagementAccessToken = process.env.SHOPIFY_STOCK_MANAGEMENT_ACCESS_TOKEN!;
 
 type ExtractVariables<T> = T extends { variables: object } ? T['variables'] : never;
@@ -74,7 +77,8 @@ export async function shopifyFetch<T>({
   query,
   tags,
   variables,
-  adminAccessToken
+  adminAccessToken,
+  storefontAccessToken = process.env.SHOPIFY_STOREFRONT_ACCESS_TOKEN!
 }: {
   cache?: RequestCache;
   headers?: HeadersInit;
@@ -82,6 +86,7 @@ export async function shopifyFetch<T>({
   tags?: string[];
   variables?: ExtractVariables<T>;
   adminAccessToken?: string;
+  storefontAccessToken?: string;
 }): Promise<{ status: number; body: T } | never> {
   try {
     const result = await fetch(adminAccessToken ? adminEndpoint : storefrontEndpoint, {
@@ -89,7 +94,7 @@ export async function shopifyFetch<T>({
       headers: {
         'Content-Type': 'application/json',
         [adminAccessToken ? 'X-Shopify-Access-Token' : 'X-Shopify-Storefront-Access-Token']:
-          adminAccessToken ? adminAccessToken : storefrontAccessToken,
+          adminAccessToken ? adminAccessToken : storefontAccessToken,
         ...headers
       },
       body: JSON.stringify({
@@ -456,6 +461,29 @@ export async function getProductSkus() {
       inventoryItemId: inventoryItem.id
     })
   );
+}
+
+export async function getProductTags() {
+  const res = await shopifyFetch<ShopifyGetProductTags>({
+    storefontAccessToken: process.env.SHOPIFY_PRODUCT_STOREFRONT_ACCESS_TOKEN,
+    query: getProductTagsQuery
+  });
+
+  return res.body.data.productTags.edges.map((item) => item.node);
+}
+
+export async function getProductsForAlgolia(): Promise<ProductAlgolia[]> {
+  const res = await shopifyFetch<ShopifyGetProductForAlgolia>({
+    query: getProductsForAlgoliaQuery,
+    cache: 'no-store'
+  });
+
+  const products = removeEdgesAndNodes(res.body.data.products).map((product) => ({
+    ...product,
+    collections: removeEdgesAndNodes(product.collections)
+  }));
+
+  return products;
 }
 
 export async function updateStock(inventoryItemId: string, quantity: number) {
