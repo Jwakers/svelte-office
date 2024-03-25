@@ -2,18 +2,32 @@
 
 import LoadingDots from 'components/loading-dots';
 import Price from 'components/price';
-import { getAlgoliaClient } from 'lib/algolia';
+import { singleIndex } from 'instantsearch.js/es/lib/stateMappings';
+import { getAlgoliaClient, parseHyphen, transformLabels } from 'lib/algolia';
 import { Record } from 'lib/algolia/types';
 import { ALGOLIA } from 'lib/constants';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useRef, useState } from 'react';
+import { useSearchParams } from 'next/navigation';
+import { useEffect, useRef, useState } from 'react';
 import { ArrowRight, Search } from 'react-feather';
+
+// TODO
+// Style price range
+// currentRefinements to display titles correctly
+// InfinitHits on mobile pagination on desktop
+// Mobile filters
+// Refactor code, move to sepearte files
+
 import {
+  ClearRefinements,
+  CurrentRefinements,
   Hits,
   InstantSearch,
   Pagination,
+  RangeInput,
   RefinementList,
+  useCurrentRefinements,
   useInstantSearch,
   useSearchBox,
   useStats
@@ -42,7 +56,7 @@ function Result({ hit }: { hit: Record }) {
         <div className="mt-auto flex justify-between">
           <div>
             {hasVariants && <span>from &nbsp;</span>}
-            <Price amount={String(hit.minPrice)} currencyCode={hit.currencyCode} />
+            <Price amount={String(hit.min_price)} currencyCode={hit.currency_code} />
           </div>
           <ArrowRight className="transition-all md:-translate-x-2 md:opacity-0 md:group-hover:translate-x-0 md:group-hover:opacity-100" />
         </div>
@@ -51,18 +65,21 @@ function Result({ hit }: { hit: Record }) {
   );
 }
 
-function VirtualSearch() {
-  const { query } = useSearchBox();
-
-  return null;
-}
-
 function SearchBar() {
   const { query, refine } = useSearchBox();
   const { nbHits } = useStats();
   const { status } = useInstantSearch();
   const [inputValue, setInputValue] = useState(query);
   const inputRef = useRef<HTMLInputElement>(null);
+  const searchParams = useSearchParams();
+  const currentRefinements = useCurrentRefinements();
+
+  useEffect(() => {
+    const query = searchParams.get('query');
+    if (!query) return;
+
+    refine(query);
+  }, [searchParams]);
 
   const isSearchStalled = status === 'stalled';
 
@@ -74,13 +91,6 @@ function SearchBar() {
 
   return (
     <div className="m-3 flex flex-col gap-4 md:flex-row md:items-center">
-      {/* <SearchBox
-        placeholder="Search..."
-        classNames={{
-          form: 'border-b border-brand',
-          input: 'p-2'
-        }}
-      /> */}
       <form
         action=""
         role="search"
@@ -116,24 +126,15 @@ function SearchBar() {
             maxLength={512}
             type="search"
             value={inputValue}
+            autoFocus
             onChange={(event) => {
               setQuery(event.currentTarget.value);
             }}
-            autoFocus
           />
           <button type="submit" title="Submit" className="border border-brand px-3">
             {isSearchStalled ? <LoadingDots /> : <Search strokeWidth={1} />}
           </button>
         </div>
-        {/* <button
-          type="reset"
-          hidden={inputValue.length === 0 || isSearchStalled}
-          title="Clear search query"
-        >
-          <X strokeWidth={1} />
-        </button> */}
-        {/* <span hidden={!isSearchStalled}>Searching…</span> */}
-        {/* Add loading dots like in add to cart */}
       </form>
       <div>
         {nbHits ? <span>{nbHits} Results</span> : null}
@@ -144,6 +145,26 @@ function SearchBar() {
           </span>
         ) : null}
       </div>
+      <CurrentRefinements
+        classNames={{
+          list: 'flex flex-col gap-2',
+          label: 'text-secondary text-xs hidden md:block',
+          item: 'flex gap-1 items-center',
+          category: 'rounded-full text-xs bg-primary text-white px-2 py-1 flex gap-1'
+        }}
+        // transformItems={(items) => items.map((item) => ({ ...item, label: item.label }))} // CAUSES CRASH
+      />
+
+      {currentRefinements.canRefine ? (
+        <ClearRefinements
+          classNames={{
+            button: 'underline cursor-pointer text-xs'
+          }}
+          translations={{
+            resetButtonText: 'Clear filters'
+          }}
+        />
+      ) : null}
     </div>
   );
 }
@@ -156,26 +177,9 @@ export default function Results() {
       future={{
         preserveSharedStateOnUnmount: true
       }}
-      routing
-      //   routing={{
-      //     stateMapping: {
-      //       stateToRoute(uiState) {
-      //         const indexUiState = uiState[ALGOLIA.index.products];
-      //         console.log({ uiState });
-      //         return {
-      //           q: indexUiState.query
-      //         };
-      //       },
-      //       routeToState(routeState) {
-      //         console.log({ routeState });
-      //         return {
-      //           [ALGOLIA.index.products]: {
-      //             query: routeState.q
-      //           }
-      //         };
-      //       }
-      //     }
-      //   }}
+      routing={{
+        stateMapping: singleIndex(ALGOLIA.index.products)
+      }}
     >
       <div className="relative grid md:grid-cols-[auto_200px]">
         <div>
@@ -206,8 +210,22 @@ export default function Results() {
             <RefinementList
               attribute="collections"
               transformItems={(items) =>
-                items.map((item) => ({ ...item, label: item.label.split('-').join(' ') }))
+                items.map((item) => ({
+                  ...item,
+                  label: parseHyphen(item.label)
+                }))
               }
+              classNames={{
+                list: 'space-y-1',
+                label: 'flex items-center gap-2',
+                labelText: 'capitalize',
+                count: 'border-brand/60 border-b text-xs text-brand/60'
+              }}
+            />
+            <div className="mb-2 text-lg">By desk type</div>
+            <RefinementList
+              attribute="desk_type"
+              transformItems={transformLabels}
               classNames={{
                 list: 'space-y-1',
                 label: 'flex items-center gap-2',
@@ -221,7 +239,13 @@ export default function Results() {
               limit={5}
               showMore
               transformItems={(items) =>
-                items.map((item) => ({ ...item, label: `${item.label}mm` })).sort()
+                items
+                  .map((item) => ({ ...item, label: `${item.label}mm` }))
+                  .sort((a, b) => {
+                    if (parseInt(a.value) > parseInt(b.value)) return 1;
+                    else if (parseInt(a.value) < parseInt(b.value)) return -1;
+                    return 0;
+                  })
               }
               classNames={{
                 list: 'space-y-1',
@@ -230,7 +254,8 @@ export default function Results() {
                 showMore: 'button'
               }}
             />
-            {/* <RangeInput attribute="minPrice" min={0} max={2000} /> */}
+            <div className="mb-2 text-lg">By price</div>
+            <RangeInput attribute="min_price" />
           </div>
         </div>
       </div>

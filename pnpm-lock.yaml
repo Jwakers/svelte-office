@@ -47,6 +47,9 @@ dependencies:
   gsap:
     specifier: ^3.12.5
     version: 3.12.5
+  instantsearch.js:
+    specifier: ^4.66.0
+    version: 4.66.0(algoliasearch@4.22.1)
   is-empty-iterable:
     specifier: ^3.0.0
     version: 3.0.0

@@ -36,7 +36,7 @@ export default async function Navbar() {
           </Link>
         </div>
         <div className="flex h-full items-center gap-4">
-          <Dropdown tags={tags} />
+          <Dropdown />
           {!!menu.length && (
             <ul className="hidden uppercase md:flex md:items-center md:gap-4">
               {menu.map((item: MenuType) => (

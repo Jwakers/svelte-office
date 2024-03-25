@@ -6,10 +6,10 @@ export type Record = {
   handle: string;
   tags: string[] | [];
   brand: string;
-  priceRange: string;
-  minPrice: number;
-  maxPrice: number;
-  currencyCode: string;
+  price_range: string;
+  min_price: number;
+  max_price: number;
+  currency_code: string;
   image: Pick<Image, 'url' | 'altText'>;
   width?: number;
   length?: number;
@@ -17,4 +17,5 @@ export type Record = {
   weight?: number;
   collections: string[] | [];
   options: { name: string; values: string[] }[];
+  desk_type: string[];
 };

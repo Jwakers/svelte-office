@@ -5,10 +5,15 @@ import { NextResponse } from 'next/server';
 const client = getAlgoliaIndex(true);
 
 function getNamedTags(tags: string[]) {
-  const namedTags = tags.map((tag) => {
-    const split = tag.split(':');
-    if (!split[0] || !split[1]) return;
-    return { [split[0]]: split[1].trim() };
+  const namedTags: { [key: string]: string[] } = {};
+  tags.forEach((tag) => {
+    const [key, val] = tag.split(':');
+    if (!key || !val) return;
+
+    const keyName = key.split(' ').join('_').toLowerCase();
+
+    if (Array.isArray(namedTags[keyName])) namedTags[keyName]?.push(val);
+    else namedTags[keyName] = [val];
   });
   return namedTags;
 }
@@ -48,7 +53,9 @@ function getSmallest(parentSize: number | null, sizes?: number[]) {
 }
 
 function getPriceRange(min: number, max: number) {
-  return `${Math.floor(min / 100) * 100}:${Math.ceil(max / 100) * 100}`;
+  const minRange = Math.floor(min / 100) * 100;
+  const maxRange = Math.ceil(max / 100) * 100;
+  return `${minRange}:${maxRange === minRange ? maxRange + 100 : maxRange}`;
 }
 
 export async function GET() {
@@ -60,20 +67,19 @@ export async function GET() {
       const widths = sizes?.map((size) => size.width);
       const lengths = sizes?.map((size) => size.length);
 
-      // TODO: Variant widths and option.size
       const record = {
         objectID: product.id.split('/').at(-1),
         title: product.title,
         handle: product.handle,
         tags: product.tags,
         brand: product.vendor,
-        priceRange: getPriceRange(
+        price_range: getPriceRange(
           parseFloat(product.priceRange.minVariantPrice.amount),
           parseFloat(product.priceRange.maxVariantPrice.amount)
-        ), // Note same with specs, e.g. widthRange?
-        minPrice: product.priceRange.minVariantPrice.amount,
-        maxPrice: product.priceRange.maxVariantPrice.amount,
-        currencyCode: product.priceRange.minVariantPrice.currencyCode,
+        ),
+        min_price: parseFloat(product.priceRange.minVariantPrice.amount),
+        max_price: parseFloat(product.priceRange.maxVariantPrice.amount),
+        currency_code: product.priceRange.minVariantPrice.currencyCode,
         image: { ...product.featuredImage },
         width: getSmallest(parseDimention(product.width?.value), widths),
         length: getSmallest(parseDimention(product.length?.value), lengths),
@@ -84,10 +90,11 @@ export async function GET() {
       };
 
       const namedTags = getNamedTags(product.tags);
-      const recordWithTags = Object.assign({}, record, ...namedTags);
 
-      return recordWithTags;
+      return { ...record, ...namedTags };
     });
+
+    // console.log(objectsToIndex.find((obj) => obj.objectID === '8519917469997'));
 
     client.saveObjects(objectsToIndex);
 

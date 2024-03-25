@@ -1,4 +1,5 @@
 import algoliasearch from 'algoliasearch';
+import { RefinementListItem } from 'instantsearch.js/es/connectors/refinement-list/connectRefinementList';
 import { ALGOLIA } from 'lib/constants';
 
 export function getAlgoliaClient(isAdmin?: boolean) {
@@ -15,4 +16,15 @@ export function getAlgoliaIndex(isAdmin?: boolean, indexName: string = ALGOLIA.i
   const index = client.initIndex(indexName);
 
   return index;
+}
+
+export function parseHyphen(label: string) {
+  return label.split('-').join(' ');
+}
+export function parseUnderscore(label: string) {
+  return label.split('_').join(' ');
+}
+
+export function transformLabels(items: RefinementListItem[]) {
+  return items.map((item) => ({ ...item, label: parseUnderscore(item.label) }));
 }
