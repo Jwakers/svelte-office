@@ -1,6 +1,7 @@
 import algoliasearch from 'algoliasearch';
 import { RefinementListItem } from 'instantsearch.js/es/connectors/refinement-list/connectRefinementList';
 import { ALGOLIA } from 'lib/constants';
+import { parseUnderscore } from 'lib/utils';
 
 export function getAlgoliaClient(isAdmin?: boolean) {
   const client = algoliasearch(
@@ -16,13 +17,6 @@ export function getAlgoliaIndex(isAdmin?: boolean, indexName: string = ALGOLIA.i
   const index = client.initIndex(indexName);
 
   return index;
-}
-
-export function parseHyphen(label: string) {
-  return label.split('-').join(' ');
-}
-export function parseUnderscore(label: string) {
-  return label.split('_').join(' ');
 }
 
 export function transformLabels(items: RefinementListItem[]) {

@@ -82,6 +82,8 @@ export const UNIT_MAP = {
 
 export const ALGOLIA = {
   index: {
-    products: 'products'
+    products: 'products',
+    productsPriceAsc: 'products_price_asc',
+    productsPriceDec: 'products_price_dec'
   }
 };

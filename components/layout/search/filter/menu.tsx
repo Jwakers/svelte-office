@@ -1,30 +1,40 @@
 'use client';
 
 import { Dialog, Transition } from '@headlessui/react';
+import clsx from 'clsx';
 import { useSearchParams } from 'next/navigation';
 import { Fragment, useEffect, useState } from 'react';
-import { X } from 'react-feather';
+import { ArrowRight, X } from 'react-feather';
 
 export default function SearchMenu({ children }: { children: React.ReactNode }) {
   const [isOpen, setIsOpen] = useState(false);
+  const [showResults, setShowResults] = useState(false);
   const openMenu = () => setIsOpen(true);
   const closeMenu = () => setIsOpen(false);
   const searchParams = useSearchParams();
 
   useEffect(() => {
-    // Close model on filter update
+    if (isOpen) return;
+    setShowResults(false);
+  }, [isOpen]);
+
+  useEffect(() => {
     if (isOpen) {
-      setIsOpen(false);
+      setShowResults(true);
     }
+
+    return () => {
+      setShowResults(false);
+    };
   }, [searchParams]);
 
   return (
     <>
       <button
         onClick={openMenu}
-        className="button sticky -bottom-40 top-4 z-10 mx-4 mb-4 bg-white md:my-0 md:hidden"
+        className="button sticky -bottom-40 top-4 z-10 mx-4 mb-4 flex justify-center gap-2 bg-white md:my-0 md:hidden"
       >
-        Filter
+        <span>Filter & Sort</span>
       </button>
 
       <Transition show={isOpen}>
@@ -38,12 +48,33 @@ export default function SearchMenu({ children }: { children: React.ReactNode }) 
             leaveFrom="translate-x-0"
             leaveTo="translate-x-[-100%]"
           >
-            <Dialog.Panel className="fixed bottom-0 left-0 right-0 top-0 flex h-full w-full flex-col bg-white pb-6 dark:bg-brand">
-              <div className="flex flex-col p-4">
-                <button className="mb-4 ml-auto" onClick={closeMenu} aria-label="Close menu">
-                  <X strokeWidth={1} />
-                </button>
+            <Dialog.Panel className="fixed bottom-0 left-0 right-0 top-0 flex h-full w-full flex-col bg-white dark:bg-brand">
+              <div className="flex flex-col overflow-auto">
+                <div className="flex items-center justify-between border-b border-brand">
+                  <span className="ml-3 translate-y-[2px] font-serif text-xl font-bold leading-none tracking-tight">
+                    SvelteOffice
+                  </span>
+                  <button
+                    className="border-l border-brand p-3"
+                    aria-label="Close menu"
+                    onClick={closeMenu}
+                  >
+                    <X strokeWidth={1} />
+                  </button>
+                </div>
                 {children}
+
+                <button
+                  className={clsx(
+                    'button sticky bottom-0 flex translate-y-full items-center justify-between gap-2 bg-white transition-transform',
+                    showResults && 'translate-y-0'
+                  )}
+                  aria-label="Close menu"
+                  onClick={closeMenu}
+                >
+                  <span>Show results</span>
+                  <ArrowRight strokeWidth={1} />
+                </button>
               </div>
             </Dialog.Panel>
           </Transition.Child>

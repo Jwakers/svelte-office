@@ -1,4 +1,4 @@
-import Results from 'components/layout/search/Results';
+import Results, { ResultsWrapper } from 'components/layout/search/Results';
 import { getAlgoliaIndex } from 'lib/algolia';
 
 export const dynamic = 'force-dynamic';
@@ -28,5 +28,9 @@ export default async function SearchPage({
   //   query: query ? decodeURI(query) : undefined
   // });
 
-  return <Results />;
+  return (
+    <ResultsWrapper>
+      <Results />
+    </ResultsWrapper>
+  );
 }
