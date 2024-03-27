@@ -1,4 +1,5 @@
-import Results, { ResultsWrapper } from 'components/layout/search/Results';
+import Results from 'components/layout/search/results';
+import SearchWrapper from 'components/layout/search/search-wrapper';
 import { getAlgoliaIndex } from 'lib/algolia';
 
 export const dynamic = 'force-dynamic';
@@ -10,27 +11,10 @@ export const metadata = {
   description: 'Search for products.'
 };
 
-export default async function SearchPage({
-  searchParams
-}: {
-  searchParams?: { [key: string]: string | string[] | undefined };
-}) {
-  const { sort, q: searchValue, brand, tag } = searchParams as { [key: string]: string };
-  // const { sortKey, reverse } = sorting.find((item) => item.slug === sort) || defaultSort;
-  // let query = searchValue;
-
-  // if (brand) query = `vendor:${brand}`;
-  // if (tag) query = `tag:${tag}`;
-
-  // const products = await getProducts({
-  //   sortKey,
-  //   reverse,
-  //   query: query ? decodeURI(query) : undefined
-  // });
-
+export default async function SearchPage() {
   return (
-    <ResultsWrapper>
+    <SearchWrapper>
       <Results />
-    </ResultsWrapper>
+    </SearchWrapper>
   );
 }

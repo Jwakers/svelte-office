@@ -66,7 +66,7 @@ export default function SearchMenu({ children }: { children: React.ReactNode }) 
 
                 <button
                   className={clsx(
-                    'button sticky bottom-0 flex translate-y-full items-center justify-between gap-2 bg-white transition-transform',
+                    'button sticky bottom-0 flex translate-y-full items-center justify-between gap-2 bg-brand text-white transition-transform',
                     showResults && 'translate-y-0'
                   )}
                   aria-label="Close menu"

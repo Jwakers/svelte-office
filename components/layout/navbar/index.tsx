@@ -2,8 +2,8 @@ import Link from 'next/link';
 
 import Cart from 'components/cart';
 import { Logo } from 'components/logo';
-import { getAlgoliaIndex } from 'lib/algolia';
-import { getMenu, getProductTags } from 'lib/shopify';
+import { getURIComponent } from 'lib/algolia';
+import { getMenu } from 'lib/shopify';
 import { Menu as MenuType } from 'lib/shopify/types';
 import { Suspense } from 'react';
 import { ShoppingBag } from 'react-feather';
@@ -11,18 +11,23 @@ import { Dropdown } from './dropdown';
 import MobileMenu from './mobile-menu';
 import Search from './search';
 
-const index = getAlgoliaIndex();
+const MENU_ITEMS = [
+  {
+    title: 'Chairs',
+    path: `/search?${getURIComponent('refinementList', 'collections', 'office-chairs')}`
+  },
+  {
+    title: 'All categories',
+    path: `/categories`
+  },
+  {
+    title: 'Contact us',
+    path: `/contact`
+  }
+];
 
 export default async function Navbar() {
   const menu = await getMenu('main-menu');
-  const tags = await getProductTags();
-  // index.search('', { facets: ['width > 200'], filters: 'collections:office-desks' }).then((res) => {
-  // const width = res.facets[widthFacet];
-  // console.log(res.facets);
-  // console.log(res.hits[0]);
-  // });
-
-  // console.log(tags);
 
   return (
     <header className="relative z-10">
@@ -37,17 +42,15 @@ export default async function Navbar() {
         </div>
         <div className="flex h-full items-center gap-4">
           <Dropdown />
-          {!!menu.length && (
-            <ul className="hidden uppercase md:flex md:items-center md:gap-4">
-              {menu.map((item: MenuType) => (
-                <li key={item.title}>
-                  <Link href={item.path} className="hover:underline">
-                    {item.title}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          )}
+          <ul className="hidden uppercase md:flex md:items-center md:gap-4">
+            {MENU_ITEMS.map((item: MenuType) => (
+              <li key={item.title}>
+                <Link href={item.path} className="hover:underline">
+                  {item.title}
+                </Link>
+              </li>
+            ))}
+          </ul>
           <div className="border-l border-brand" />
           <div className="flex items-center gap-4">
             <Search className="hidden md:flex" />

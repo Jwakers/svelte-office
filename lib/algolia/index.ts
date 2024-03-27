@@ -22,3 +22,7 @@ export function getAlgoliaIndex(isAdmin?: boolean, indexName: string = ALGOLIA.i
 export function transformLabels(items: RefinementListItem[]) {
   return items.map((item) => ({ ...item, label: parseUnderscore(item.label) }));
 }
+
+export function getURIComponent(type: 'range' | 'refinementList', facet: string, value: string) {
+  return `${encodeURIComponent(`${type}[${facet}]${type === 'range' ? '' : '[0]'}`)}=${value}`;
+}
