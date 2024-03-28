@@ -94,8 +94,6 @@ export async function GET() {
       return { ...record, ...namedTags };
     });
 
-    // console.log(objectsToIndex.find((obj) => obj.objectID === '8519917469997'));
-
     client.saveObjects(objectsToIndex);
 
     if (products.length >= 250)

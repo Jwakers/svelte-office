@@ -103,3 +103,49 @@ export const MENU_ITEMS = [
     path: `/contact`
   }
 ];
+
+export const WIDTH_LINKS = [
+  {
+    label: '< 1000mm',
+    value: ':1000'
+  },
+  {
+    label: '< 1200mm',
+    value: ':1200'
+  },
+  {
+    label: '< 1400mm',
+    value: ':1400'
+  },
+  {
+    label: '< 1600mm',
+    value: ':1600'
+  },
+  {
+    label: '1600mm+',
+    value: '1600:'
+  }
+];
+
+export const PRICE_LINKS = [
+  {
+    label: '< £200',
+    value: ':200'
+  },
+  {
+    label: '< £400',
+    value: ':400'
+  },
+  {
+    label: '< £600',
+    value: ':600'
+  },
+  {
+    label: '< £1000',
+    value: ':1000'
+  },
+  {
+    label: '£1000+',
+    value: '1000:'
+  }
+];

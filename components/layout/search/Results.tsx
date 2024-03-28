@@ -2,15 +2,10 @@
 
 import Price from 'components/price';
 import { Record } from 'lib/algolia/types';
+import { useIsBreakpoint } from 'lib/hooks';
 import Image from 'next/image';
 import Link from 'next/link';
 import { ArrowRight } from 'react-feather';
-
-// TODO
-// Mobile main menu
-// Add algolia logo to search page
-
-import { useIsBreakpoint } from 'lib/hooks';
 import { Configure, Hits, InfiniteHits, useStats } from 'react-instantsearch';
 import Filters from './filter/filters';
 import SearchMenu from './filter/menu';
