@@ -33,9 +33,9 @@ export default function Search({ className }: { className?: ClassValue }) {
     const newParams = new URLSearchParams(searchParams.toString());
 
     if (search.value) {
-      newParams.set('q', search.value);
+      newParams.set('query', search.value);
     } else {
-      newParams.delete('q');
+      newParams.delete('query');
     }
 
     router.push(createUrl('/search', newParams));
@@ -66,5 +66,8 @@ export default function Search({ className }: { className?: ClassValue }) {
         {isOpen ? <X strokeWidth={1} /> : <SearchIcon strokeWidth={1} />}
       </button>
     </form>
+    // <Link href="/search">
+    //   <SearchIcon strokeWidth={1} />
+    // </Link>
   );
 }

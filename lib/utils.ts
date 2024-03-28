@@ -34,3 +34,11 @@ export function getNextPageUrl(linkHeader: string | null) {
   const match = linkHeader.match(/<([^>]+)>;\s*rel="next"/);
   return match ? match[1] : null;
 }
+
+export function parseHyphen(label: string) {
+  return label.split('-').join(' ');
+}
+
+export function parseUnderscore(label: string) {
+  return label.split('_').join(' ');
+}

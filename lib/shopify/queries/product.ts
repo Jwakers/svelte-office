@@ -41,6 +41,71 @@ export const getGenericFileQuery = /* GraphQL */ `
   }
 `;
 
+export const getProductTagsQuery = /* GraphQL */ `
+  query {
+    productTags(first: 20) {
+      edges {
+        node
+      }
+    }
+  }
+`;
+
+export const getProductsForAlgoliaQuery = /* GraphQL */ `
+  query {
+    products(first: 250) {
+      edges {
+        node {
+          id
+          handle
+          description
+          vendor
+          priceRange {
+            minVariantPrice {
+              amount
+              currencyCode
+            }
+            maxVariantPrice {
+              amount
+              currencyCode
+            }
+          }
+          title
+          tags
+          featuredImage {
+            url
+            altText
+          }
+          options {
+            name
+            values
+          }
+          width: metafield(namespace: "specification", key: "width") {
+            value
+          }
+          length: metafield(namespace: "specification", key: "length") {
+            value
+          }
+          height: metafield(namespace: "specification", key: "height") {
+            value
+          }
+          weight: metafield(namespace: "specification", key: "weight") {
+            value
+          }
+          collections(first: 10) {
+            edges {
+              node {
+                handle
+                title
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+`;
+
 export const getProductSkusQuery = /* GraphQL */ `
   query getProductSkus {
     productVariants(first: 250) {

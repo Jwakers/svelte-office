@@ -93,6 +93,18 @@ export type ProductVariant = {
   price: Money;
 };
 
+export type ProductAlgolia = Pick<
+  Product,
+  'id' | 'handle' | 'description' | 'featuredImage' | 'priceRange' | 'tags' | 'title' | 'vendor'
+> & {
+  collections: { handle: string; title: string }[];
+  width: { value: string };
+  length: { value: string };
+  height: { value: string };
+  weight: { value: string };
+  options: { name: string; values: string[] }[];
+};
+
 export type SEO = {
   title: string;
   description: string;
@@ -322,6 +334,26 @@ export type ShopifyGetProductSkus = {
         id: string;
       };
     }>;
+  };
+};
+
+export type ShopifyGetProductTags = {
+  data: {
+    productTags: Connection<
+      {
+        node: string;
+      }[]
+    >;
+  };
+};
+
+export type ShopifyGetProductForAlgolia = {
+  data: {
+    products: Connection<
+      Omit<ProductAlgolia, 'collections'> & {
+        collections: Connection<ProductAlgolia['collections']>;
+      }
+    >;
   };
 };
 
