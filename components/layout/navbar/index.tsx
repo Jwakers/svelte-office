@@ -2,29 +2,13 @@ import Link from 'next/link';
 
 import Cart from 'components/cart';
 import { Logo } from 'components/logo';
-import { getURIComponent } from 'lib/algolia';
+import { MENU_ITEMS } from 'lib/constants';
 import { getMenu } from 'lib/shopify';
-import { Menu as MenuType } from 'lib/shopify/types';
 import { Suspense } from 'react';
 import { ShoppingBag } from 'react-feather';
 import { Dropdown } from './dropdown';
 import MobileMenu from './mobile-menu';
 import Search from './search';
-
-const MENU_ITEMS = [
-  {
-    title: 'Chairs',
-    path: `/search?${getURIComponent('refinementList', 'collections', 'office-chairs')}`
-  },
-  {
-    title: 'All categories',
-    path: `/categories`
-  },
-  {
-    title: 'Contact us',
-    path: `/contact`
-  }
-];
 
 export default async function Navbar() {
   const menu = await getMenu('main-menu');
@@ -43,7 +27,7 @@ export default async function Navbar() {
         <div className="flex h-full items-center gap-4">
           <Dropdown />
           <ul className="hidden uppercase md:flex md:items-center md:gap-4">
-            {MENU_ITEMS.map((item: MenuType) => (
+            {MENU_ITEMS.map((item) => (
               <li key={item.title}>
                 <Link href={item.path} className="hover:underline">
                   {item.title}
@@ -51,7 +35,7 @@ export default async function Navbar() {
               </li>
             ))}
           </ul>
-          <div className="border-l border-brand" />
+          <div className="h-full border-l border-brand" />
           <div className="flex items-center gap-4">
             <Search className="hidden md:flex" />
             <Suspense fallback={<ShoppingBag strokeWidth={1} />}>

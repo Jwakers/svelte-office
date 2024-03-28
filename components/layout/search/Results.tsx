@@ -89,7 +89,13 @@ export default function Results() {
               />
             )}
           </div>
-          {nbPages > 1 && isMd && <Pagination />}
+          <div className="flex items-center justify-between">
+            {nbPages > 1 && isMd && <Pagination />}
+            <div className="mx-auto flex flex-col items-center gap-2 p-3 md:ml-auto md:mr-0 md:items-end">
+              <span className="text-sm text-secondary">Search powered by</span>
+              <Image src="/algolia-logo.svg" alt="Algolia logo" width={100} height={22} />
+            </div>
+          </div>
         </div>
       </div>
     </>

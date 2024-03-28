@@ -1,3 +1,4 @@
+import { getURIComponent } from './algolia';
 import { ShopifyVendors } from './shopify/types';
 
 export type SortFilterItem = {
@@ -87,3 +88,18 @@ export const ALGOLIA = {
     productsPriceDec: 'products_price_dec'
   }
 };
+
+export const MENU_ITEMS = [
+  {
+    title: 'Chairs',
+    path: `/search?${getURIComponent('refinementList', 'collections', 'office-chairs')}`
+  },
+  {
+    title: 'All categories',
+    path: `/categories`
+  },
+  {
+    title: 'Contact us',
+    path: `/contact`
+  }
+];

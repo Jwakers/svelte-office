@@ -8,7 +8,7 @@ import { ChevronDown } from 'react-feather';
 import { useRefinementList } from 'react-instantsearch';
 import SearchWrapper from '../search/search-wrapper';
 
-const WIDTH_LINKS = [
+export const WIDTH_LINKS = [
   {
     label: '< 1000mm',
     value: ':1000'
@@ -31,7 +31,7 @@ const WIDTH_LINKS = [
   }
 ];
 
-const PRICE_LINKS = [
+export const PRICE_LINKS = [
   {
     label: '< £200',
     value: ':200'
@@ -54,7 +54,7 @@ const PRICE_LINKS = [
   }
 ];
 
-function List({
+export function List({
   attribute,
   title,
   close
@@ -89,7 +89,7 @@ function List({
   );
 }
 
-function RangeList({
+export function RangeList({
   items,
   label,
   attribute,
