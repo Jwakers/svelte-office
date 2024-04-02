@@ -7,6 +7,7 @@ import Footer from 'components/layout/footer';
 import Navbar from 'components/layout/navbar';
 import { getPublicBaseUrl } from 'lib/utils';
 import { Vollkorn, Work_Sans } from 'next/font/google';
+import Script from 'next/script';
 import { ReactNode, Suspense } from 'react';
 import './globals.css';
 import Providers from './providers';
@@ -57,6 +58,10 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
         <SpeedInsights />
         <GoogleTagManager gtmId="GTM-MCW4BTKJ" />
         <GoogleAnalytics gaId="AW-11314383640" />
+        <Script
+          src="//cdn.wishpond.net/connect.js?merchantId=1849473&amp;writeKey=53c8a5082846"
+          async
+        />
       </body>
     </html>
   );
