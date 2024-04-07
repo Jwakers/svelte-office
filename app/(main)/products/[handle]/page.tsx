@@ -31,7 +31,6 @@ export async function generateMetadata({
 }: {
   params: { handle: string };
 }): Promise<Metadata> {
-  console.log({ handle: params.handle });
   const product = await getProduct(params.handle);
 
   if (!product) notFound();
