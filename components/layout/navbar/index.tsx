@@ -1,5 +1,6 @@
 import Link from 'next/link';
 
+import clsx, { ClassValue } from 'clsx';
 import Cart from 'components/cart';
 import { Logo } from 'components/logo';
 import { MENU_ITEMS } from 'lib/constants';
@@ -10,11 +11,11 @@ import { Dropdown } from './dropdown';
 import MobileMenu from './mobile-menu';
 import Search from './search';
 
-export default async function Navbar() {
+export default async function Navbar({ className }: { className: ClassValue }) {
   const menu = await getMenu('main-menu');
 
   return (
-    <header className="relative z-10">
+    <header className={clsx('z-20', className)}>
       <Link href="/" aria-label="Go back home" className="relative z-50 block p-3 md:hidden">
         <Logo className="text-2xl" />
       </Link>
