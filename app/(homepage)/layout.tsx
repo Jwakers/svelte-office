@@ -1,6 +1,8 @@
 import { GoogleAnalytics, GoogleTagManager } from '@next/third-parties/google';
 import { Analytics } from '@vercel/analytics/react';
 import { SpeedInsights } from '@vercel/speed-insights/next';
+import 'app/globals.css';
+import Providers from 'app/providers';
 import clsx from 'clsx';
 import Banner from 'components/layout/banner';
 import Footer from 'components/layout/footer';
@@ -9,9 +11,6 @@ import { getPublicBaseUrl } from 'lib/utils';
 import { Vollkorn, Work_Sans } from 'next/font/google';
 import Script from 'next/script';
 import { ReactNode, Suspense } from 'react';
-import './globals.css';
-import Providers from './providers';
-
 const { SITE_NAME } = process.env;
 
 export const metadata = {
@@ -44,7 +43,7 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
       <body className="text-brand selection:bg-accent-yellow">
         <Banner />
         <Suspense>
-          <Navbar />
+          <Navbar className="absolute w-full" />
         </Suspense>
         <Suspense>
           <Providers>

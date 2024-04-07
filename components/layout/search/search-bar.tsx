@@ -16,17 +16,22 @@ export default function SearchBar() {
   const { query, refine } = useSearchBox();
   const { nbHits } = useStats();
   const { status } = useInstantSearch();
-  const [inputValue, setInputValue] = useState(query);
-  const inputRef = useRef<HTMLInputElement>(null);
   const searchParams = useSearchParams();
+  const [inputValue, setInputValue] = useState(query);
+  const [searchQuery, setSearchQuery] = useState(searchParams.get('query'));
+  const inputRef = useRef<HTMLInputElement>(null);
   const currentRefinements = useCurrentRefinements();
 
   useEffect(() => {
     const query = searchParams.get('query');
     if (!query) return;
-
-    refine(query);
+    setSearchQuery(query);
   }, [searchParams]);
+
+  useEffect(() => {
+    if (searchQuery === null) return;
+    setQuery(searchQuery);
+  }, [searchQuery]);
 
   const isSearchStalled = status === 'stalled';
 

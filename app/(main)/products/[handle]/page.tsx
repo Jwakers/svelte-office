@@ -132,7 +132,7 @@ export default async function ProductPage({ params }: { params: { handle: string
           __html: JSON.stringify(productJsonLd)
         }}
       />
-      <section className="-mt-[56px] md:mt-0 md:grid md:grid-cols-2">
+      <section className="md:grid md:grid-cols-2">
         <div className="flex flex-col border-brand md:border-r">
           <Gallery images={product.images.map(({ url, altText }) => ({ src: url, altText }))} />
         </div>

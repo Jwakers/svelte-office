@@ -78,6 +78,7 @@ export const WARRANTY: { [key in ShopifyVendors | 'default']: string } = {
 
 export const UNIT_MAP = {
   CENTIMETERS: 'cm',
+  MILLIMETERS: 'mm',
   KILOGRAMS: 'kg'
 };
 

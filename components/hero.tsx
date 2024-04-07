@@ -3,7 +3,7 @@ import Link from 'next/link';
 
 export const Hero = function () {
   return (
-    <section className="-mt-[56px] flex h-[calc(100dvh_-_77px)] max-h-[56rem] flex-col-reverse border-b border-brand md:mt-0 md:grid md:grid-cols-[370px_1fr]">
+    <section className="flex h-[calc(100dvh_-_77px)] max-h-[56rem] flex-col-reverse border-b border-brand md:mt-0 md:grid md:grid-cols-[370px_1fr]">
       <div className="flex max-w-xl flex-col justify-end gap-4 px-3 py-4">
         <h1 className="font-serif text-2xl uppercase leading-none md:text-5xl">
           Let your office reflect your ambitions.
@@ -32,7 +32,7 @@ export const Hero = function () {
 
 export const FeaturedHero = function () {
   return (
-    <section className="relative -mt-[51px] h-[calc(100vh-78px)] border-b border-b-brand md:-mt-[53px] md:h-[calc(100vh-32px)] md:max-h-[757px] md:min-h-[600px]">
+    <section className="relative h-[calc(100vh-78px)] border-b border-b-brand md:h-[calc(100vh-32px)] md:max-h-[757px] md:min-h-[600px]">
       <Image
         src="/lavoro-hero.jpg"
         alt="Desk in a light green room with a green backed chair"
