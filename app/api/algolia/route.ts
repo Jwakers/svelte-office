@@ -18,11 +18,11 @@ function getNamedTags(tags: string[]) {
   return namedTags;
 }
 
-function parseDimention(value?: string, multiplyer: number = 10) {
+function parseDimention(value?: string) {
   if (!value) return null;
   const props = JSON.parse(value);
 
-  return props.value ? parseFloat(props.value) * multiplyer : null;
+  return props.value ? parseFloat(props.value) : null;
 }
 
 function getSizes(options: { name: string; values: string[] }[]) {
@@ -84,7 +84,7 @@ export async function GET() {
         width: getSmallest(parseDimention(product.width?.value), widths),
         length: getSmallest(parseDimention(product.length?.value), lengths),
         height: parseDimention(product.height?.value),
-        weight: parseDimention(product.weight?.value, 1),
+        weight: parseDimention(product.weight?.value),
         collections: product.collections.map((collection) => collection.handle),
         options: product.options
       };
