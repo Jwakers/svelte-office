@@ -44,7 +44,7 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
       <body className="text-brand selection:bg-accent-yellow">
         <Banner />
         <Suspense>
-          <Navbar className="relative" />
+          <Navbar className="absolute w-full md:relative" />
         </Suspense>
         <Suspense>
           <Providers>
