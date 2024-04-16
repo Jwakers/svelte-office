@@ -24,7 +24,7 @@ export const CollectionPreview = async function ({ handle }: { handle: string })
             alt={collection.image.altText}
             width={400}
             height={400}
-            className="w-full object-cover"
+            className="h-full w-full object-cover"
           />
         </div>
       ) : null}
