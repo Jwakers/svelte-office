@@ -20,7 +20,7 @@ export function getPriceWithMargin(cost: string, marginPercentage: number = 30) 
   const costPrice = parseFloat(cost);
 
   let sellingPrice = costPrice / (1 - marginPercentage / 100);
-  // Round to the nearest 10
+  // Round to the nearest 5
   sellingPrice = Math.ceil(sellingPrice / 5) * 5;
 
   return `${sellingPrice.toFixed(2)}`;

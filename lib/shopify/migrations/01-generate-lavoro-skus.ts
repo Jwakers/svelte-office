@@ -3,7 +3,7 @@ import * as dotenv from 'dotenv';
 import { Product } from 'lib/shopify/rest/types';
 dotenv.config({ path: '.env.local' });
 
-// pnpm tsx migrations/01-generate-lavoro-skus.ts
+// pnpm tsx lib/shopify/migrations/01-generate-lavoro-skus.ts
 
 const client = createAdminRestApiClient({
   storeDomain: process.env.SHOPIFY_STORE_DOMAIN as string,
@@ -23,16 +23,16 @@ const SKU_MAP: {
     White: 'WDUO/'
   },
   size: {
-    '1000 x 600mm': 1000600,
-    '1200 x 800mm': 1200800,
-    '1400 x 800mm': 1400800,
-    '1600 x 800mm': 1600800,
-    '1800 x 800mm': 1800800,
-    '1200 x 700mm': 1200700,
-    '1400 x 700mm': 1400700,
-    '1600 x 700mm': 1600700,
-    '1600 x 1600mm': 16001600,
-    '1800 x 1600mm': 18001600
+    '1000 x 400 x 18mm': 100040018,
+    '1200 x 400 x 18mm': 120040018,
+    '1400 x 400 x 18mm': 140040018,
+    '1600 x 400 x 18mm': 160040018,
+    '1800 x 400 x 18mm': 180040018,
+    '1000 x 400 x 25mm': 100040025,
+    '1200 x 400 x 25mm': 120040025,
+    '1400 x 400 x 25mm': 140040025,
+    '1600 x 400 x 25mm': 160040025,
+    '1800 x 400 x 25mm': 180040025
   },
   decor: {
     Black: 'BLA',
@@ -57,13 +57,16 @@ const SKU_MAP: {
 };
 
 async function migrate() {
-  const productId = '9130590273837';
+  const productId = '9311168266541';
   const productResponse = await client.get(`products/${productId}`);
   const { product }: { product: Product } = await productResponse.json();
 
   const variantsToUpdate = product.variants.map((variant) => {
     const { option1, option2, option3 } = variant;
-    const sku = `${SKU_MAP.frame[option1]}${SKU_MAP.size[option2]}${SKU_MAP.decor[option3]}`;
+    // const sku = `${SKU_MAP.frame[option1]}${SKU_MAP.size[option2]}${SKU_MAP.decor[option3]}`;
+
+    // Used for accessories
+    const sku = `MP${SKU_MAP.size[option1]}/${SKU_MAP.decor[option2]}`;
 
     return {
       id: variant.id,

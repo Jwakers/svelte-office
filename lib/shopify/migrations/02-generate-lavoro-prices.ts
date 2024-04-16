@@ -11,13 +11,16 @@ const client = createAdminRestApiClient({
 });
 
 const COST_MAP: { [key: string]: string } = {
-  '1200 x 800mm': '817.00',
-  '1400 x 800mm': '824.00',
-  '1600 x 800mm': '831.00',
-  '1800 x 800mm': '838.00',
-  '1200 x 700mm': '817.00',
-  '1400 x 700mm': '824.00',
-  '1600 x 700mm': '831.00'
+  '1000 x 400 x 18mm': '53.00',
+  '1200 x 400 x 18mm': '55.00',
+  '1400 x 400 x 18mm': '57.00',
+  '1600 x 400 x 18mm': '59.00',
+  '1800 x 400 x 18mm': '61.00',
+  '1000 x 400 x 25mm': '53.00',
+  '1200 x 400 x 25mm': '55.00',
+  '1400 x 400 x 25mm': '57.00',
+  '1600 x 400 x 25mm': '59.00',
+  '1800 x 400 x 25mm': '61.00'
 };
 
 async function getProduct(id: string) {
@@ -28,16 +31,18 @@ async function getProduct(id: string) {
 }
 
 async function migrate() {
-  const productId = '9130590273837';
+  const productId = '9311168266541';
   const product = await getProduct(productId);
   const inventoryIds = product.variants.map((variant) => ({
     inventoryId: variant.inventory_item_id,
     variantId: variant.id,
-    size: variant.option2
+    size: variant.option1
   }));
 
   for (const item of inventoryIds) {
     const cost = COST_MAP[item.size];
+    console.log(cost);
+    console.log(item.size);
     let data;
 
     const invRes = await client.put(`inventory_items/${item.inventoryId}`, {

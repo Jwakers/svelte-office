@@ -1,3 +1,4 @@
+import { getURIComponent } from 'lib/algolia';
 import { getCollection } from 'lib/shopify';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -9,7 +10,7 @@ export const CollectionPreview = async function ({ handle }: { handle: string })
   if (!collection) return;
   return (
     <Link
-      href={`/categories/${collection.handle}`}
+      href={`/search?${getURIComponent('refinementList', 'collections', handle)}`}
       className="group relative grid border-b border-brand md:flex"
     >
       <div className="sticky top-0 z-10 flex items-center gap-1 self-end border-b border-brand bg-white px-4 py-2 transition-all group-hover:gap-4 md:hidden">
@@ -17,13 +18,13 @@ export const CollectionPreview = async function ({ handle }: { handle: string })
         <ArrowRight />
       </div>
       {collection.image ? (
-        <div className="md:border-l md:border-r md:border-brand">
+        <div className="aspect-square md:border-l md:border-r md:border-brand">
           <Image
             src={collection.image.url}
             alt={collection.image.altText}
             width={400}
             height={400}
-            className="aspect-square w-full object-cover"
+            className="w-full object-cover"
           />
         </div>
       ) : null}
