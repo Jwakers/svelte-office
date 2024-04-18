@@ -2,6 +2,8 @@ import { getAlgoliaIndex } from 'lib/algolia';
 import { getProductsForAlgolia } from 'lib/shopify';
 import { NextResponse } from 'next/server';
 
+export const dynamic = 'force-dynamic'; // Prevents route running during build
+
 const client = getAlgoliaIndex(true);
 
 function getNamedTags(tags: string[]) {

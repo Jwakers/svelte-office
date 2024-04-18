@@ -49,7 +49,7 @@ export default function SearchMenu({ children }: { children: React.ReactNode }) 
           leaveTo="translate-x-[-100%]"
           unmount={false}
         >
-          <div className="fixed bottom-0 left-0 right-0 top-0 z-10 flex h-full w-full flex-col bg-white dark:bg-brand">
+          <div className="fixed bottom-0 left-0 right-0 top-0 z-20 flex h-full w-full flex-col bg-white dark:bg-brand">
             <div className="flex flex-col overflow-auto">
               <div className="flex items-center justify-between border-b border-brand">
                 <span className="ml-3 translate-y-[2px] font-serif text-xl font-bold leading-none tracking-tight">
