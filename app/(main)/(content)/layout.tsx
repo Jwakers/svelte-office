@@ -5,12 +5,12 @@ import Footer from 'components/layout/footer';
 import Navbar from 'components/layout/navbar';
 import { ReactNode, Suspense } from 'react';
 
-export default function RootLayout({ children }: { children: ReactNode }) {
+export default function Layout({ children }: { children: ReactNode }) {
   return (
     <>
       <Banner />
       <Suspense>
-        <Navbar className="absolute w-full" />
+        <Navbar className="relative" />
       </Suspense>
       <Suspense>
         <Providers>
