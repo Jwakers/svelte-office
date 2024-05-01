@@ -35,9 +35,12 @@ export default async function Footer() {
           ) : null}
         </div>
         <div className="flex flex-col pb-10 pt-6 text-xs">
-          <p>&copy; {copyrightDate} by Wakeham Retail LTD. All rights reserved.</p>
+          <p>
+            Svelte Office<sup>&reg;</sup> is a registered trademark of Wakeham Retail LTD
+          </p>
           <p>Company Reg No: 15004801</p>
           <p>Registered Address: 28 St Pauls Road, Gloucester, Gloucestershire, GL1 5AR</p>
+          <p>&copy; {copyrightDate}</p>
         </div>
       </div>
     </footer>
