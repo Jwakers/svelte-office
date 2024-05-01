@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { Logo } from 'components/logo';
 import { getMenu } from 'lib/shopify';
 import { Menu } from 'lib/shopify/types';
+import { Facebook, Instagram } from 'react-feather';
 
 export default async function Footer() {
   const currentYear = new Date().getFullYear();
@@ -12,7 +13,7 @@ export default async function Footer() {
   return (
     <footer className="border-t border-brand bg-white pb-11 md:pb-0">
       <div className="w-full px-4">
-        <div className="grid grid-cols-1 gap-8 border-b border-brand py-12 transition-colors duration-150 lg:grid-cols-12">
+        <div className="grid grid-cols-1 gap-x-8 gap-y-6 border-b border-brand py-12 transition-colors duration-150 md:gap-y-0 lg:grid-cols-12">
           <div className="col-span-1 lg:col-span-3">
             <a className="flex flex-initial items-center font-serif font-bold md:mr-24" href="/">
               <span className="mr-2">
@@ -33,6 +34,22 @@ export default async function Footer() {
               </ul>
             </nav>
           ) : null}
+          <div className="flex gap-4 md:col-span-3">
+            <a
+              href="https://www.facebook.com/people/Svelte-Office/61557356429541/"
+              title="Svelte Office Facebook"
+              target="_blank"
+            >
+              <Facebook />
+            </a>
+            <a
+              href="https://www.instagram.com/svelteoffice/"
+              title="Svelte Office Instagram"
+              target="_blank"
+            >
+              <Instagram />
+            </a>
+          </div>
         </div>
         <div className="flex flex-col pb-10 pt-6 text-xs">
           <p>
