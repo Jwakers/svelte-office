@@ -23,6 +23,7 @@ type OptimizedVariant = {
 type PriceSectionProps = {
   selectedVariant?: OptimizedVariant;
   fromPrice: ProductVariant;
+  hasVariants: boolean;
 };
 
 export function VariantSelector({
@@ -94,12 +95,22 @@ export function VariantSelector({
   }, []);
 
   if (hasNoOptionsOrJustOneOption) {
-    return <PriceSection selectedVariant={selectedVariant} fromPrice={fromPrice} />;
+    return (
+      <PriceSection
+        selectedVariant={selectedVariant}
+        fromPrice={fromPrice}
+        hasVariants={!hasNoOptionsOrJustOneOption}
+      />
+    );
   }
 
   return (
     <>
-      <PriceSection selectedVariant={selectedVariant} fromPrice={fromPrice} />
+      <PriceSection
+        selectedVariant={selectedVariant}
+        fromPrice={fromPrice}
+        hasVariants={!hasNoOptionsOrJustOneOption}
+      />
       <div className="flex flex-col gap-2">
         {options.map((option) => (
           <dl key={option.id}>
@@ -149,9 +160,9 @@ export function VariantSelector({
   );
 }
 
-const PriceSection = ({ selectedVariant, fromPrice }: PriceSectionProps) => (
+const PriceSection = ({ selectedVariant, fromPrice, hasVariants }: PriceSectionProps) => (
   <div className="mb-4 flex flex-col gap-1">
-    {!selectedVariant ? <span className="text-xs leading-none opacity-80">from</span> : null}
+    {hasVariants ? <span className="text-xs leading-none opacity-80">from</span> : null}
     <Price
       amount={(selectedVariant || fromPrice).price.amount || '0'}
       currencyCode={(selectedVariant || fromPrice).price.currencyCode || 'GBP'}
