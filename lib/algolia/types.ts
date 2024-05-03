@@ -12,7 +12,7 @@ export type Record = {
   currency_code: string;
   image: Pick<Image, 'url' | 'altText'>;
   width?: number;
-  length?: number;
+  depth?: number;
   height?: number;
   weight?: number;
   collections: string[] | [];

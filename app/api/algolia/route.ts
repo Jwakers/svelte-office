@@ -38,12 +38,12 @@ function getSizes(options: { name: string; values: string[] }[]) {
 
       return {
         width: parseInt(split[0]),
-        length: parseInt(split[1])
+        depth: parseInt(split[1])
       };
     })
     .filter((item) => item !== null);
 
-  return dimentions as { width: number; length: number }[];
+  return dimentions as { width: number; depth: number }[];
 }
 
 function getSmallest(parentSize: number | null, sizes?: number[]) {
@@ -67,7 +67,7 @@ export async function GET() {
     const objectsToIndex = products.map((product) => {
       const sizes = getSizes(product.options);
       const widths = sizes?.map((size) => size.width);
-      const lengths = sizes?.map((size) => size.length);
+      const depths = sizes?.map((size) => size.depth);
 
       const record = {
         objectID: product.id.split('/').at(-1),
@@ -84,7 +84,7 @@ export async function GET() {
         currency_code: product.priceRange.minVariantPrice.currencyCode,
         image: { ...product.featuredImage },
         width: getSmallest(parseDimention(product.width?.value), widths),
-        length: getSmallest(parseDimention(product.length?.value), lengths),
+        depth: getSmallest(parseDimention(product.depth?.value), depths),
         height: parseDimention(product.height?.value),
         weight: parseDimention(product.weight?.value),
         collections: product.collections.map((collection) => collection.handle),

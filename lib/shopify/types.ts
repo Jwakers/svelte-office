@@ -99,7 +99,7 @@ export type ProductAlgolia = Pick<
 > & {
   collections: { handle: string; title: string }[];
   width: { value: string };
-  length: { value: string };
+  depth: { value: string };
   height: { value: string };
   weight: { value: string };
   options: { name: string; values: string[] }[];
