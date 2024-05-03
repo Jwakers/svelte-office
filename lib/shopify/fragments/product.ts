@@ -16,7 +16,7 @@ const productFragment = /* GraphQL */ `
     specification: metafields(
       identifiers: [
         { namespace: "specification", key: "width" }
-        { namespace: "specification", key: "length" }
+        { namespace: "specification", key: "depth" }
         { namespace: "specification", key: "height" }
         { namespace: "specification", key: "weight" }
       ]

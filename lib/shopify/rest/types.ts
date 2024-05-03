@@ -84,6 +84,20 @@ export type InventoryItem = {
   requires_shipping: boolean;
 };
 
+export type Metafield = {
+  id: number;
+  namespace: string;
+  key: string;
+  value: string;
+  description: string;
+  owner_id: string;
+  created_at: string;
+  updated_at: string;
+  owner_resource: string;
+  type: string;
+  admin_graphql_api_id: string;
+};
+
 export type CountryHarmonizedSystemCode = {
   harmonized_system_code: string;
   country_code: string;

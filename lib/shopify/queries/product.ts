@@ -83,7 +83,7 @@ export const getProductsForAlgoliaQuery = /* GraphQL */ `
           width: metafield(namespace: "specification", key: "width") {
             value
           }
-          length: metafield(namespace: "specification", key: "length") {
+          depth: metafield(namespace: "specification", key: "depth") {
             value
           }
           height: metafield(namespace: "specification", key: "height") {
@@ -177,7 +177,7 @@ export const googleMerchantFeedDataQuery = /* GraphQL */ `
           width: metafield(namespace: "specification", key: "width") {
             value
           }
-          length: metafield(namespace: "specification", key: "length") {
+          depth: metafield(namespace: "specification", key: "depth") {
             value
           }
           height: metafield(namespace: "specification", key: "height") {
