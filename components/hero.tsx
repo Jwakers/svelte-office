@@ -40,7 +40,7 @@ export const FeaturedHero = function () {
         src={lavoroHero}
         alt="Desk in a light green room with a green backed chair"
         className="max-h-full -scale-x-100 object-cover md:object-right-bottom"
-        layout="responsive"
+        fill
         priority
       />
       <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,_rgba(255,255,255,1)_40%,_transparent_60%)] md:bg-[linear-gradient(135deg,_rgba(255,255,255,1)_20%,_transparent_50%)]" />

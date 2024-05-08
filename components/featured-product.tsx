@@ -16,11 +16,13 @@ export async function FeaturedProduct() {
       href={`products/${product.handle}`}
       className="group grid border-b border-brand md:grid-cols-2"
     >
-      <div className="relative aspect-video md:aspect-auto">
+      <div className="relative">
         <Image
           src={product.featuredImage.url}
           alt={product.featuredImage.altText}
-          fill
+          width={product.featuredImage.width}
+          height={product.featuredImage.height}
+          sizes="(max-width: 768px) 100vw, 50vw"
           className="w-full border-b object-cover md:absolute md:h-full md:border-none"
         />
       </div>
