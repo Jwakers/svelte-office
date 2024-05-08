@@ -31,6 +31,7 @@ function Result({ hit }: ResultProps) {
         width={hit.image.width}
         height={hit.image.height}
         alt={hit.image.altText}
+        layout="responsive"
         className="aspect-square w-full object-cover"
       />
       <div className="flex h-full flex-col border-t border-brand bg-white p-3">
@@ -94,7 +95,7 @@ export default function Results() {
             }
             <div className="mx-auto flex flex-col items-center gap-2 p-3 md:ml-auto md:mr-0 md:items-end">
               <span className="text-sm text-secondary">Search powered by</span>
-              <Image src={algoliaLogo} alt="Algolia logo" className="w-24" />
+              <Image src={algoliaLogo} alt="Algolia logo" className="max-w-[6rem]" />
             </div>
           </div>
         </div>

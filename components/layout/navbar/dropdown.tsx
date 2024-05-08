@@ -98,6 +98,7 @@ export async function Dropdown() {
                 fill
                 className="h-full w-full border border-brand object-cover"
                 alt="Sit/stand desk against light brown wall"
+                layout="responsive"
               />
             </div>
             <div className="flex flex-col gap-10 p-3">

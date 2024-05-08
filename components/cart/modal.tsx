@@ -131,6 +131,7 @@ export default function CartModal({ cart, cartIdUpdated }: { cart: Cart; cartIdU
                             <div className="relative h-16 w-16 cursor-pointer overflow-hidden bg-white">
                               <Image
                                 className="h-full w-full object-cover"
+                                layout="responsive"
                                 width={item.merchandise.product.featuredImage.width}
                                 height={item.merchandise.product.featuredImage.height}
                                 alt={

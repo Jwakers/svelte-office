@@ -24,6 +24,7 @@ export const Hero = function () {
           src={manhattanDeskHero}
           alt="Large l-shaped desk in a studio apartment office"
           className="object-cover mix-blend-multiply"
+          layout="responsive"
           priority
           fill
         />
@@ -38,7 +39,8 @@ export const FeaturedHero = function () {
       <Image
         src={lavoroHero}
         alt="Desk in a light green room with a green backed chair"
-        className="h-full w-full -scale-x-100 object-cover md:object-right-bottom"
+        className="max-h-full -scale-x-100 object-cover md:object-right-bottom"
+        layout="responsive"
         priority
       />
       <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,_rgba(255,255,255,1)_40%,_transparent_60%)] md:bg-[linear-gradient(135deg,_rgba(255,255,255,1)_20%,_transparent_50%)]" />

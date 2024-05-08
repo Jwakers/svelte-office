@@ -68,7 +68,7 @@ export default function SearchMenu({ children }: { children: React.ReactNode }) 
 
               <div className="mx-auto my-2 flex flex-col items-center gap-2">
                 <span className="text-sm text-secondary">Search powered by</span>
-                <Image src={algoliaLogo} alt="Algolia logo" className="w-24" />
+                <Image src={algoliaLogo} alt="Algolia logo" className="max-w-[6rem]" />
               </div>
               <button
                 className={clsx(

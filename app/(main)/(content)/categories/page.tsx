@@ -36,6 +36,7 @@ export default async function Collections() {
                   width={collection.image.width}
                   height={collection.image.height}
                   alt={collection.image.altText}
+                  layout="responsive"
                   className="aspect-square w-full animate-fadeIn object-cover"
                 />
               ) : null}

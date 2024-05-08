@@ -14,9 +14,10 @@ export default function ProductTile({ product }: { product: Product }) {
     >
       <Image
         src={product.featuredImage.url}
-        width={640}
-        height={320}
+        width={product.featuredImage.width}
+        height={product.featuredImage.height}
         alt={product.featuredImage.altText}
+        layout="responsive"
         className="aspect-square w-full object-cover"
       />
       <div className="flex h-full flex-col border-t border-brand bg-white p-3">
