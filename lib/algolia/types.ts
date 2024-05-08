@@ -10,7 +10,7 @@ export type Record = {
   min_price: number;
   max_price: number;
   currency_code: string;
-  image: Pick<Image, 'url' | 'altText'>;
+  image: Image;
   width?: number;
   depth?: number;
   height?: number;

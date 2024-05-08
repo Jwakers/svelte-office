@@ -134,7 +134,7 @@ export default async function ProductPage({ params }: { params: { handle: string
       />
       <section className="md:grid md:grid-cols-2">
         <div className="flex flex-col border-brand md:border-r">
-          <Gallery images={product.images.map(({ url, altText }) => ({ src: url, altText }))} />
+          <Gallery images={product.images} />
         </div>
         <div className="relative">
           <div className="sticky top-0 flex flex-col gap-4 p-3 md:h-screen md:overflow-auto">

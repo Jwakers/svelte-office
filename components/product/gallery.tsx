@@ -6,10 +6,11 @@ import 'swiper/css/pagination';
 import { Pagination } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
 
+import { Image as TImage } from 'lib/shopify/types';
 import Image from 'next/image';
 import { useEffect, useRef, useState } from 'react';
 
-export function Gallery({ images }: { images: { src: string; altText: string }[] }) {
+export function Gallery({ images }: { images: TImage[] }) {
   const [swiper, setSwiper] = useState<TSwiper | undefined>(undefined);
   const pagination = useRef(null);
 
@@ -41,12 +42,12 @@ export function Gallery({ images }: { images: { src: string; altText: string }[]
         wrapperClass="md:!block"
         onSwiper={(swiper: TSwiper) => setSwiper(swiper)}
       >
-        {images.map(({ src, altText }, i) => (
-          <SwiperSlide key={`slide-${src}`} className="aspect-square md:aspect-auto">
+        {images.map(({ url, width, height, altText }, i) => (
+          <SwiperSlide key={`slide-${url}`} className="aspect-square md:aspect-auto">
             <Image
-              src={src}
-              width={750}
-              height={750}
+              src={url}
+              width={width}
+              height={height}
               alt={altText || ''}
               priority={i < 2}
               className="h-full w-full animate-fadeIn border-brand object-cover md:border-b"

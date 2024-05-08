@@ -49,8 +49,8 @@ export default async function Collection({ params }: { params: { handle: string 
             <Image
               className="h-full w-full object-cover"
               src={image.url}
-              width={736}
-              height={384}
+              width={image.width}
+              height={image.height}
               alt={image.altText}
               priority
             />

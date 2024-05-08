@@ -20,8 +20,8 @@ export async function FeaturedProduct() {
         <Image
           src={product.featuredImage.url}
           alt={product.featuredImage.altText}
-          width={720}
-          height={300}
+          width={product.featuredImage.width}
+          height={product.featuredImage.height}
           className="w-full border-b object-cover md:absolute md:h-full md:border-none"
         />
       </div>

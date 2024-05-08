@@ -75,6 +75,8 @@ export const getProductsForAlgoliaQuery = /* GraphQL */ `
           featuredImage {
             url
             altText
+            width
+            height
           }
           options {
             name

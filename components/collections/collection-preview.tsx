@@ -22,8 +22,8 @@ export const CollectionPreview = async function ({ handle }: { handle: string })
           <Image
             src={collection.image.url}
             alt={collection.image.altText}
-            width={400}
-            height={400}
+            width={collection.image.width}
+            height={collection.image.height}
             className="h-full w-full object-cover"
           />
         </div>

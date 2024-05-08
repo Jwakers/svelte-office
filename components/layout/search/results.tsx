@@ -6,6 +6,7 @@ import { Record } from 'lib/algolia/types';
 import { useIsBreakpoint } from 'lib/hooks';
 import Image from 'next/image';
 import Link from 'next/link';
+import algoliaLogo from 'public/algolia-logo.svg';
 import { ArrowRight } from 'react-feather';
 import { Configure, Hits, InfiniteHits, useStats } from 'react-instantsearch';
 import Filters from './filter/filters';
@@ -27,8 +28,8 @@ function Result({ hit }: ResultProps) {
     >
       <Image
         src={hit.image.url}
-        width={640}
-        height={320}
+        width={hit.image.width}
+        height={hit.image.height}
         alt={hit.image.altText}
         className="aspect-square w-full object-cover"
       />
@@ -93,7 +94,7 @@ export default function Results() {
             }
             <div className="mx-auto flex flex-col items-center gap-2 p-3 md:ml-auto md:mr-0 md:items-end">
               <span className="text-sm text-secondary">Search powered by</span>
-              <Image src="/algolia-logo.svg" alt="Algolia logo" width={100} height={22} />
+              <Image src={algoliaLogo} alt="Algolia logo" className="w-24" />
             </div>
           </div>
         </div>
