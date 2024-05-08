@@ -4,6 +4,7 @@ import { Transition } from '@headlessui/react';
 import clsx from 'clsx';
 import Image from 'next/image';
 import { useSearchParams } from 'next/navigation';
+import algoliaLogo from 'public/algolia-logo.svg';
 import { Fragment, useEffect, useState } from 'react';
 import { ArrowRight, X } from 'react-feather';
 
@@ -67,7 +68,7 @@ export default function SearchMenu({ children }: { children: React.ReactNode }) 
 
               <div className="mx-auto my-2 flex flex-col items-center gap-2">
                 <span className="text-sm text-secondary">Search powered by</span>
-                <Image src="/algolia-logo.svg" alt="Algolia logo" width={100} height={22} />
+                <Image src={algoliaLogo} alt="Algolia logo" className="max-w-[6rem]" />
               </div>
               <button
                 className={clsx(

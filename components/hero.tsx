@@ -1,5 +1,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
+import lavoroHero from 'public/lavoro-hero.jpg';
+import manhattanDeskHero from 'public/manhattan-desk-hero.jpeg';
 
 export const Hero = function () {
   return (
@@ -19,9 +21,10 @@ export const Hero = function () {
       </div>
       <div className="relative min-h-[180px] grow animate-fadeIn border-b border-brand md:border-b-0 md:border-l">
         <Image
-          src="/manhattan-desk-hero.jpeg"
+          src={manhattanDeskHero}
           alt="Large l-shaped desk in a studio apartment office"
           className="object-cover mix-blend-multiply"
+          layout="responsive"
           priority
           fill
         />
@@ -34,12 +37,11 @@ export const FeaturedHero = function () {
   return (
     <section className="relative h-[calc(100vh-78px)] border-b border-b-brand md:h-[calc(100vh-32px)] md:max-h-[757px] md:min-h-[600px]">
       <Image
-        src="/lavoro-hero.jpg"
+        src={lavoroHero}
         alt="Desk in a light green room with a green backed chair"
-        className="h-full w-full -scale-x-100 object-cover md:object-right-bottom"
+        className="max-h-full -scale-x-100 object-cover md:object-right-bottom"
+        fill
         priority
-        width={1200}
-        height={757}
       />
       <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,_rgba(255,255,255,1)_40%,_transparent_60%)] md:bg-[linear-gradient(135deg,_rgba(255,255,255,1)_20%,_transparent_50%)]" />
       <div className="absolute inset-0 p-3 pt-16 md:p-4 md:pt-24">

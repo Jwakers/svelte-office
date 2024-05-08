@@ -38,7 +38,7 @@ export default async function Collection({ params }: { params: { handle: string 
 
   return (
     <section>
-      <div className="border-b border-brand md:flex md:h-[clamp(400px,_calc(100vh_-_44px),_700px)]">
+      <div className="border-b border-brand md:flex">
         <div className="flex flex-col justify-end border-r border-brand p-3 md:w-1/2">
           <h1 className="font-serif text-3xl uppercase">{title}</h1>
           <IndexString value={productsCount} text="products in this category" />
@@ -49,9 +49,10 @@ export default async function Collection({ params }: { params: { handle: string 
             <Image
               className="h-full w-full object-cover"
               src={image.url}
-              width={736}
-              height={384}
+              width={image.width}
+              height={image.height}
               alt={image.altText}
+              layout="responsive"
               priority
             />
           </div>

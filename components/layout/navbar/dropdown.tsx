@@ -5,6 +5,7 @@ import { getURIComponent } from 'lib/algolia';
 import { PRICE_LINKS, WIDTH_LINKS } from 'lib/constants';
 import Image from 'next/image';
 import Link from 'next/link';
+import deskDropdownImage from 'public/desk-dropdown.jpg';
 import { ChevronDown } from 'react-feather';
 import { useRefinementList } from 'react-instantsearch';
 import SearchWrapper from '../search/search-wrapper';
@@ -93,10 +94,11 @@ export async function Dropdown() {
           <SearchWrapper>
             <div className="relative m-3 hidden xl:block">
               <Image
-                src="https://cdn.shopify.com/s/files/1/0784/9138/6157/files/ForgeDeskLifestyle.jpg?v=1706731389"
-                layout="fill"
+                src={deskDropdownImage}
+                fill
                 className="h-full w-full border border-brand object-cover"
                 alt="Sit/stand desk against light brown wall"
+                layout="responsive"
               />
             </div>
             <div className="flex flex-col gap-10 p-3">
