@@ -2,6 +2,7 @@ import IndexString from 'components/index-string';
 import ProductTile from 'components/product/product-tile';
 import Prose from 'components/prose';
 import { getCollection, getCollectionWithProducts } from 'lib/shopify';
+import { getImageSizes } from 'lib/utils';
 import { Metadata } from 'next';
 import { headers } from 'next/headers';
 import Image from 'next/image';
@@ -52,7 +53,7 @@ export default async function Collection({ params }: { params: { handle: string 
               width={image.width}
               height={image.height}
               alt={image.altText}
-              layout="responsive"
+              sizes={getImageSizes({ md: '50vw' })}
               priority
             />
           </div>

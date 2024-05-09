@@ -7,7 +7,7 @@ import Link from 'next/link';
 import Price from 'components/price';
 import { DEFAULT_OPTION } from 'lib/constants';
 import type { Cart } from 'lib/shopify/types';
-import { createUrl } from 'lib/utils';
+import { createUrl, getImageSizes } from 'lib/utils';
 import { Fragment, useEffect, useRef, useState } from 'react';
 import { useCookies } from 'react-cookie';
 import { Lock, ShoppingBag, X } from 'react-feather';
@@ -131,7 +131,7 @@ export default function CartModal({ cart, cartIdUpdated }: { cart: Cart; cartIdU
                             <div className="relative h-16 w-16 cursor-pointer overflow-hidden bg-white">
                               <Image
                                 className="h-full w-full object-cover"
-                                layout="responsive"
+                                sizes={getImageSizes({ sm: '4rem' })}
                                 width={item.merchandise.product.featuredImage.width}
                                 height={item.merchandise.product.featuredImage.height}
                                 alt={

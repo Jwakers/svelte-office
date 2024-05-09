@@ -1,5 +1,6 @@
 import IndexString from 'components/index-string';
 import { getCollections } from 'lib/shopify';
+import { getImageSizes } from 'lib/utils';
 import { Metadata } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -36,7 +37,7 @@ export default async function Collections() {
                   width={collection.image.width}
                   height={collection.image.height}
                   alt={collection.image.altText}
-                  layout="responsive"
+                  sizes={getImageSizes({ sm: '100vw', md: '50vw', lg: '33vw', xl: '25vw' })}
                   className="aspect-square w-full animate-fadeIn object-cover"
                 />
               ) : null}

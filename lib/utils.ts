@@ -1,4 +1,5 @@
 import { ReadonlyURLSearchParams } from 'next/navigation';
+import { BREAKPOINTS } from './constants';
 
 export const createUrl = (pathname: string, params: URLSearchParams | ReadonlyURLSearchParams) => {
   const paramsString = params.toString();
@@ -41,4 +42,19 @@ export function parseHyphen(label: string) {
 
 export function parseUnderscore(label: string) {
   return label.split('_').join(' ');
+}
+
+type BreakpointKeys = keyof typeof BREAKPOINTS;
+
+export function getImageSizes(sizes: { [key in BreakpointKeys]?: string }) {
+  let sizesString = '';
+  const pairs = Object.entries(sizes);
+  ('(max-width: 769) 100vw, (max-width: 1025) 50vw,');
+
+  pairs.forEach(([key, val], i) => {
+    if (i < pairs.length - 1)
+      sizesString += `(max-width: ${BREAKPOINTS[key as BreakpointKeys] - 1}px) ${val}, `;
+    else sizesString += val;
+  });
+  return sizesString;
 }

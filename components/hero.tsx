@@ -24,7 +24,6 @@ export const Hero = function () {
           src={manhattanDeskHero}
           alt="Large l-shaped desk in a studio apartment office"
           className="object-cover mix-blend-multiply"
-          layout="responsive"
           priority
           fill
         />

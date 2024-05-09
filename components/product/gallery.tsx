@@ -6,6 +6,7 @@ import { Pagination } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
 
 import { Image as TImage } from 'lib/shopify/types';
+import { getImageSizes } from 'lib/utils';
 import Image from 'next/image';
 import { useRef } from 'react';
 
@@ -32,8 +33,8 @@ export function Gallery({ images }: { images: TImage[] }) {
                 width={width}
                 height={height}
                 alt={altText || ''}
-                priority={i < 2}
-                layout="responsive"
+                priority={i === 0}
+                sizes={getImageSizes({ sm: '100vw' })}
                 className="h-full w-full animate-fadeIn object-cover"
               />
             </SwiperSlide>
@@ -48,9 +49,9 @@ export function Gallery({ images }: { images: TImage[] }) {
             width={width}
             height={height}
             alt={altText || ''}
-            priority={i < 2}
-            layout="responsive"
-            className="h-full w-full animate-fadeIn border-b border-brand object-cover"
+            priority={i === 0}
+            sizes={getImageSizes({ sm: '50vw' })}
+            className="w-full animate-fadeIn border-b border-brand object-cover"
           />
         ))}
       </div>

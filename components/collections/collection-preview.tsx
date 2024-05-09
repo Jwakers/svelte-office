@@ -1,5 +1,6 @@
 import { getURIComponent } from 'lib/algolia';
 import { getCollection } from 'lib/shopify';
+import { getImageSizes } from 'lib/utils';
 import Image from 'next/image';
 import Link from 'next/link';
 import { ArrowRight } from 'react-feather';
@@ -22,6 +23,7 @@ export const CollectionPreview = async function ({ handle }: { handle: string })
           <Image
             src={collection.image.url}
             alt={collection.image.altText}
+            sizes={getImageSizes({ md: '100vw', lg: '15vw' })}
             fill
             className="block object-cover"
           />
@@ -29,7 +31,7 @@ export const CollectionPreview = async function ({ handle }: { handle: string })
       ) : null}
       <div className="hidden h-full w-full content-end p-4 md:flex">
         <div className="flex w-full items-center gap-1 self-end">
-          <h2 className="max-w-[90%] font-serif text-3xl">{collection.title}</h2>
+          <h2 className="max-w-[90%] font-serif text-2xl lg:text-3xl">{collection.title}</h2>
           <ArrowRight className="transition-transform group-hover:translate-x-2" />
         </div>
       </div>
