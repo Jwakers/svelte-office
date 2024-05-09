@@ -4,6 +4,7 @@ import clsx from 'clsx';
 import Price from 'components/price';
 import { Record } from 'lib/algolia/types';
 import { useIsBreakpoint } from 'lib/hooks';
+import { getImageSizes } from 'lib/utils';
 import Image from 'next/image';
 import Link from 'next/link';
 import algoliaLogo from 'public/algolia-logo.svg';
@@ -31,7 +32,7 @@ function Result({ hit }: ResultProps) {
         width={hit.image.width}
         height={hit.image.height}
         alt={hit.image.altText}
-        layout="responsive"
+        sizes={getImageSizes({ sm: '100vw', md: '50vw', lg: '33vw', xl: '25vw' })}
         className="aspect-square w-full object-cover"
       />
       <div className="flex h-full flex-col border-t border-brand bg-white p-3">
@@ -77,8 +78,8 @@ export default function Results() {
               <InfiniteHits
                 hitComponent={Result}
                 classNames={{
-                  root: 'flex flex-col items-center',
-                  list: 'grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4',
+                  root: 'flex flex-col items-center w-screen',
+                  list: 'grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 w-full',
                   loadMore: 'button my-4',
                   loadPrevious: 'button my-4',
                   disabledLoadPrevious: 'hidden',

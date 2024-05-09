@@ -1,4 +1,5 @@
 import { getProduct } from 'lib/shopify';
+import { getImageSizes } from 'lib/utils';
 import Image from 'next/image';
 import Link from 'next/link';
 import { ArrowRight } from 'react-feather';
@@ -22,7 +23,7 @@ export async function FeaturedProduct() {
           alt={product.featuredImage.altText}
           width={product.featuredImage.width}
           height={product.featuredImage.height}
-          sizes="(max-width: 768px) 100vw, 50vw"
+          sizes={getImageSizes({ md: '100vw', lg: '50vw' })}
           className="w-full border-b object-cover md:absolute md:h-full md:border-none"
         />
       </div>

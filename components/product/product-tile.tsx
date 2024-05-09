@@ -1,5 +1,6 @@
 import Price from 'components/price';
 import { Product } from 'lib/shopify/types';
+import { getImageSizes } from 'lib/utils';
 import Image from 'next/image';
 import Link from 'next/link';
 import { ArrowRight } from 'react-feather';
@@ -17,7 +18,7 @@ export default function ProductTile({ product }: { product: Product }) {
         width={product.featuredImage.width}
         height={product.featuredImage.height}
         alt={product.featuredImage.altText}
-        layout="responsive"
+        sizes={getImageSizes({ sm: '100vw', md: '50vw', lg: '33vw', xl: '25vw' })}
         className="aspect-square w-full object-cover"
       />
       <div className="flex h-full flex-col border-t border-brand bg-white p-3">

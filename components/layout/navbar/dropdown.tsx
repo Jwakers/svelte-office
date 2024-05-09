@@ -3,6 +3,7 @@
 import { Popover } from '@headlessui/react';
 import { getURIComponent } from 'lib/algolia';
 import { PRICE_LINKS, WIDTH_LINKS } from 'lib/constants';
+import { getImageSizes } from 'lib/utils';
 import Image from 'next/image';
 import Link from 'next/link';
 import deskDropdownImage from 'public/desk-dropdown.jpg';
@@ -98,7 +99,7 @@ export async function Dropdown() {
                 fill
                 className="h-full w-full border border-brand object-cover"
                 alt="Sit/stand desk against light brown wall"
-                layout="responsive"
+                sizes={getImageSizes({ sm: '50vw' })}
               />
             </div>
             <div className="flex flex-col gap-10 p-3">
