@@ -2,8 +2,6 @@ import { getAlgoliaIndex } from 'lib/algolia';
 import { getProductsForAlgolia } from 'lib/shopify';
 import { NextResponse } from 'next/server';
 
-export const dynamic = 'force-dynamic'; // Prevents route running during build
-
 const client = getAlgoliaIndex(true);
 
 function getNamedTags(tags: string[]) {
@@ -46,20 +44,6 @@ function getSizes(options: { name: string; values: string[] }[]) {
   return dimentions as { width: number; depth: number }[];
 }
 
-function getSmallest(parentSize: number | null, sizes?: number[]) {
-  if (sizes) {
-    if (parentSize) sizes.push(parentSize);
-    return Math.min(...sizes);
-  }
-  return parentSize;
-}
-
-function getPriceRange(min: number, max: number) {
-  const minRange = Math.floor(min / 100) * 100;
-  const maxRange = Math.ceil(max / 100) * 100;
-  return `${minRange}:${maxRange === minRange ? maxRange + 100 : maxRange}`;
-}
-
 export async function GET() {
   try {
     const products = await getProductsForAlgolia();
@@ -68,6 +52,9 @@ export async function GET() {
       const sizes = getSizes(product.options);
       const widths = sizes?.map((size) => size.width);
       const depths = sizes?.map((size) => size.depth);
+      const prices = Array.from(
+        new Set(product.variants.map((variant) => parseFloat(variant.price.amount)))
+      );
 
       const record = {
         objectID: product.id.split('/').at(-1),
@@ -75,16 +62,11 @@ export async function GET() {
         handle: product.handle,
         tags: product.tags,
         brand: product.vendor,
-        price_range: getPriceRange(
-          parseFloat(product.priceRange.minVariantPrice.amount),
-          parseFloat(product.priceRange.maxVariantPrice.amount)
-        ),
-        min_price: parseFloat(product.priceRange.minVariantPrice.amount),
-        max_price: parseFloat(product.priceRange.maxVariantPrice.amount),
+        price: prices,
         currency_code: product.priceRange.minVariantPrice.currencyCode,
         image: { ...product.featuredImage },
-        width: getSmallest(parseDimention(product.width?.value), widths),
-        depth: getSmallest(parseDimention(product.depth?.value), depths),
+        width: widths,
+        depth: depths,
         height: parseDimention(product.height?.value),
         weight: parseDimention(product.weight?.value),
         collections: product.collections.map((collection) => collection.handle),

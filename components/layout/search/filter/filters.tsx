@@ -12,7 +12,7 @@ export default function Filters({ className }: { className?: ClassValue }) {
           <RefinementList attribute="desk_type" label="By desk type" />
           <RangeInput attribute="width" label="By width" />
           <RangeInput attribute="height" label="By height" />
-          <RangeInput attribute="min_price" label="By price" />
+          <RangeInput attribute="price" label="By price" />
         </div>
       </div>
     </div>
