@@ -109,8 +109,8 @@ export const getProductsForAlgoliaQuery = /* GraphQL */ `
 `;
 
 export const getProductSkusQuery = /* GraphQL */ `
-  query getProductSkus {
-    productVariants(first: 250) {
+  query getProductSkus($query: String) {
+    productVariants(first: 250, query: $query) {
       edges {
         node {
           sku

@@ -2,7 +2,8 @@ import {
   HIDDEN_PRODUCT_TAG,
   SHOPIFY_GRAPHQL_ADMIN_API_ENDPOINT,
   SHOPIFY_GRAPHQL_API_ENDPOINT,
-  TAGS
+  TAGS,
+  vendors
 } from 'lib/constants';
 import { isShopifyError } from 'lib/type-guards';
 import {
@@ -450,7 +451,10 @@ export async function getProducts({
 export async function getProductSkus() {
   const res = await shopifyFetch<ShopifyGetProductSkus>({
     adminAccessToken: adminStockManagementAccessToken,
-    query: getProductSkusQuery
+    query: getProductSkusQuery,
+    variables: {
+      query: `vendor:${vendors.teknik || ''}`
+    }
   });
 
   return removeEdgesAndNodes(res.body.data.productVariants).map(

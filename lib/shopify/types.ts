@@ -335,6 +335,9 @@ export type ShopifyGetProductSkus = {
       };
     }>;
   };
+  variables: {
+    query?: string;
+  };
 };
 
 export type ShopifyGetProductTags = {
