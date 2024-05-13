@@ -352,8 +352,7 @@ export async function getCollections(): Promise<CollectionWithProducts[]> {
     const products = removeEdgesAndNodes(collection.products).filter(showInProd);
     return {
       ...collection,
-      products,
-      path: `/categories/${collection.handle}`
+      products
     };
   });
 
