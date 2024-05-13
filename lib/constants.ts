@@ -51,30 +51,36 @@ export type DeliveryTypes = {
   '2M': string;
 };
 
-export const DELIVERY_OPTIONS: { [key in ShopifyVendors]: DeliveryTypes } = {
-  Teknik: {
+export const vendors: { [key: string]: ShopifyVendors } = {
+  teknik: 'Teknik',
+  hillInteriors: 'Hill Interiors',
+  lavoro: 'Lavoro'
+};
+
+export const DELIVERY_OPTIONS = {
+  [vendors.teknik!]: {
     ND: 'If this order is placed before 1pm it will be dispatched for next working day delivery.',
     '2M': 'This product is delivered by a two person team. You will be contacted to discuss a delivery date and time, typically delivered within 10 working days.'
   },
-  'Hill Interiors': {
+  [vendors.hillInteriors!]: {
     ND: 'If this order is placed before 1pm it will be dispatched for next working day delivery.',
     '2M': 'This product is delivered by a two person team. You will be contacted to discuss a delivery date and time, typically delivered within 10 working days.'
   },
-  Lavoro: {
+  [vendors.lavoro!]: {
     ND: 'If this order is placed before 1pm it will be dispatched for next working day delivery.',
     '2M': 'This product is delivered by a two person team. You will be contacted to discuss a delivery date and time, typically delivered within 10 working days.'
   }
-};
+} as { [key in ShopifyVendors]: DeliveryTypes };
 
-export const WARRANTY: { [key in ShopifyVendors | 'default']: string } = {
+export const WARRANTY = {
   default:
     'All products have a two year mechanical parts replacement warranty (subject to fair use).',
-  Teknik:
+  [vendors.teknik!]:
     'All products have a two year mechanical parts replacement warranty (subject to fair use).',
-  'Hill Interiors':
+  [vendors.hillInteriors!]:
     'All products have a two year mechanical parts replacement warranty (subject to fair use).',
-  Lavoro: '5 year guarantee.'
-};
+  [vendors.lavoro!]: '5 year guarantee.'
+} as { [key in ShopifyVendors | 'default']: string };
 
 export const UNIT_MAP = {
   CENTIMETERS: 'cm',

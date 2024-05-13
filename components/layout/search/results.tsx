@@ -37,7 +37,7 @@ function Result({ hit }: ResultProps) {
       />
       <div className="flex h-full flex-col border-t border-brand bg-white p-3">
         <h2 className="font-serif text-lg uppercase md:text-xl">{hit.title}</h2>
-        {hasVariants && <span className="text-sm text-slate-700">Multiple options</span>}
+        {hasVariants && <span className="text-sm text-secondary">Multiple options</span>}
         <div className="mt-auto flex justify-between">
           <div>
             {hasVariants && <span>from &nbsp;</span>}

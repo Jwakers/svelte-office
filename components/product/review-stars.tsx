@@ -8,7 +8,7 @@ export async function ReviewStars({ productId }: { productId: string }) {
 
   const {
     response: {
-      bottomline: { average_score }
+      bottomline: { average_score, total_review }
     }
   } = await getReviews(id);
 
@@ -18,10 +18,13 @@ export async function ReviewStars({ productId }: { productId: string }) {
 
   return (
     <div className="flex gap-2">
-      <span>{average_score}</span>
+      <span className="text-sm text-secondary">({total_review})</span>
       <div className="flex gap-1">
         {[...Array(stars)].map((_, i) => (
-          <Star className={clsx('fill-accent-yellow', i && 'hidden sm:block')} key={`star-${i}`} />
+          <Star
+            className={clsx('fill-accent-yellow text-accent-yellow', i && 'hidden sm:block')}
+            key={`star-${i}`}
+          />
         ))}
       </div>
     </div>
