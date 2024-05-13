@@ -30,7 +30,7 @@ export async function FeaturedProduct() {
       <div className="h-full border-brand p-4 md:border-l">
         <div className="flex justify-between">
           <div>
-            <div className="text-sm text-slate-700">Featured product</div>
+            <div className="text-sm text-secondary">Featured product</div>
             <h4 className="font-serif text-3xl md:text-4xl">{product.title}</h4>
           </div>
           <ReviewStars productId={id} />
@@ -44,7 +44,7 @@ export async function FeaturedProduct() {
             for premium performance.
           </p>
         </div>
-        <div className="mt-10 flex justify-between text-slate-700 md:mt-16">
+        <div className="mt-10 flex justify-between text-secondary md:mt-16">
           <span>
             From{' '}
             <Price
