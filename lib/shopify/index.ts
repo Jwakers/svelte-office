@@ -483,6 +483,7 @@ export async function getProductsForAlgolia(): Promise<ProductAlgolia[]> {
 
   const products = removeEdgesAndNodes(res.body.data.products).map((product) => ({
     ...product,
+    variants: removeEdgesAndNodes(product.variants),
     collections: removeEdgesAndNodes(product.collections)
   }));
 

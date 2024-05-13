@@ -94,6 +94,16 @@ export const getProductsForAlgoliaQuery = /* GraphQL */ `
           weight: metafield(namespace: "specification", key: "weight") {
             value
           }
+          variants(first: 100) {
+            edges {
+              node {
+                price {
+                  amount
+                  currencyCode
+                }
+              }
+            }
+          }
           collections(first: 10) {
             edges {
               node {

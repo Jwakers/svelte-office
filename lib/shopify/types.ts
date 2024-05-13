@@ -95,14 +95,24 @@ export type ProductVariant = {
 
 export type ProductAlgolia = Pick<
   Product,
-  'id' | 'handle' | 'description' | 'featuredImage' | 'priceRange' | 'tags' | 'title' | 'vendor'
+  | 'id'
+  | 'handle'
+  | 'description'
+  | 'featuredImage'
+  | 'priceRange'
+  | 'tags'
+  | 'title'
+  | 'vendor'
+  | 'options'
 > & {
   collections: { handle: string; title: string }[];
   width: { value: string };
   depth: { value: string };
   height: { value: string };
   weight: { value: string };
-  options: { name: string; values: string[] }[];
+  variants: {
+    price: Money;
+  }[];
 };
 
 export type SEO = {
