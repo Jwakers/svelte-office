@@ -41,7 +41,7 @@ function Result({ hit }: ResultProps) {
         <div className="mt-auto flex justify-between">
           <div>
             {hasVariants && <span>from &nbsp;</span>}
-            <Price amount={String(hit.min_price)} currencyCode={hit.currency_code} />
+            <Price amount={String(Math.min(...hit.price))} currencyCode={hit.currency_code} />
           </div>
           <ArrowRight className="transition-all md:-translate-x-2 md:opacity-0 md:group-hover:translate-x-0 md:group-hover:opacity-100" />
         </div>
