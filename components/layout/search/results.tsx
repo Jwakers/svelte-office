@@ -41,7 +41,7 @@ function Result({ hit }: ResultProps) {
         <div className="mt-auto flex justify-between">
           <div>
             {hasVariants && <span>from &nbsp;</span>}
-            <Price amount={String(hit.min_price)} currencyCode={hit.currency_code} />
+            <Price amount={String(Math.min(...hit.price))} currencyCode={hit.currency_code} />
           </div>
           <ArrowRight className="transition-all md:-translate-x-2 md:opacity-0 md:group-hover:translate-x-0 md:group-hover:opacity-100" />
         </div>
@@ -68,26 +68,24 @@ export default function Results() {
         {isMd && <Filters className="hidden md:block" />}
         <div>
           {isMd && <SearchBar />}
-          <div className="grid grid-cols-[auto_1fr]">
-            {isMd ? (
-              <Hits
-                hitComponent={Result}
-                classNames={{ list: 'grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4' }}
-              />
-            ) : (
-              <InfiniteHits
-                hitComponent={Result}
-                classNames={{
-                  root: 'flex flex-col items-center w-screen',
-                  list: 'grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 w-full',
-                  loadMore: 'button my-4',
-                  loadPrevious: 'button my-4',
-                  disabledLoadPrevious: 'hidden',
-                  disabledLoadMore: 'hidden'
-                }}
-              />
-            )}
-          </div>
+          {isMd ? (
+            <Hits
+              hitComponent={Result}
+              classNames={{ list: 'grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4' }}
+            />
+          ) : (
+            <InfiniteHits
+              hitComponent={Result}
+              classNames={{
+                root: 'flex flex-col items-center w-screen',
+                list: 'grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 w-full',
+                loadMore: 'button my-4',
+                loadPrevious: 'button my-4',
+                disabledLoadPrevious: 'hidden',
+                disabledLoadMore: 'hidden'
+              }}
+            />
+          )}
           <div className="flex items-center justify-between">
             {
               <div className={clsx((nbPages <= 1 || !isMd) && 'hidden')}>

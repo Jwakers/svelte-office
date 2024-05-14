@@ -6,14 +6,12 @@ export type Record = {
   handle: string;
   tags: string[] | [];
   brand: string;
-  price_range: string;
-  min_price: number;
-  max_price: number;
+  price: number[];
   currency_code: string;
   image: Image;
-  width?: number;
+  width?: number[];
   depth?: number;
-  height?: number;
+  height?: number[];
   weight?: number;
   collections: string[] | [];
   options: { name: string; values: string[] }[];

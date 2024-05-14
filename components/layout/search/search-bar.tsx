@@ -42,7 +42,7 @@ export default function SearchBar() {
   }
 
   return (
-    <div className="m-3 flex flex-col gap-4 md:flex-row md:items-center">
+    <div className="m-3 flex flex-col flex-wrap gap-4 md:flex-row md:items-center">
       <form
         action=""
         role="search"
