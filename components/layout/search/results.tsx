@@ -68,26 +68,24 @@ export default function Results() {
         {isMd && <Filters className="hidden md:block" />}
         <div>
           {isMd && <SearchBar />}
-          <div className="grid grid-cols-[auto_1fr]">
-            {isMd ? (
-              <Hits
-                hitComponent={Result}
-                classNames={{ list: 'grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4' }}
-              />
-            ) : (
-              <InfiniteHits
-                hitComponent={Result}
-                classNames={{
-                  root: 'flex flex-col items-center w-screen',
-                  list: 'grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 w-full',
-                  loadMore: 'button my-4',
-                  loadPrevious: 'button my-4',
-                  disabledLoadPrevious: 'hidden',
-                  disabledLoadMore: 'hidden'
-                }}
-              />
-            )}
-          </div>
+          {isMd ? (
+            <Hits
+              hitComponent={Result}
+              classNames={{ list: 'grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4' }}
+            />
+          ) : (
+            <InfiniteHits
+              hitComponent={Result}
+              classNames={{
+                root: 'flex flex-col items-center w-screen',
+                list: 'grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 w-full',
+                loadMore: 'button my-4',
+                loadPrevious: 'button my-4',
+                disabledLoadPrevious: 'hidden',
+                disabledLoadMore: 'hidden'
+              }}
+            />
+          )}
           <div className="flex items-center justify-between">
             {
               <div className={clsx((nbPages <= 1 || !isMd) && 'hidden')}>
