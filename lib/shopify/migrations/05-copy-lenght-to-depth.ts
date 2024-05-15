@@ -5,6 +5,7 @@
 
 import { createAdminRestApiClient } from '@shopify/admin-api-client';
 import * as dotenv from 'dotenv';
+import { ROUTES } from 'lib/constants';
 import getAllOfType from '../rest/get-all-of-type';
 import { Metafield, Product } from '../rest/types';
 
@@ -21,7 +22,7 @@ async function migrate() {
   const depthFieldId = 33820041117997;
 
   for (const product of products) {
-    const res = await client.get(`products/${product.id}/metafields`, {
+    const res = await client.get(`${ROUTES.products}/${product.id}/metafields`, {
       searchParams: {
         namespace: 'specification',
         key: 'length'
@@ -33,7 +34,7 @@ async function migrate() {
     const [length] = data?.metafields;
     console.log(length?.value);
 
-    // const update = await client.put(`products/${product.id}/metafields/${depthFieldId}`, {
+    // const update = await client.put(`${ROUTES.products}/${product.id}/metafields/${depthFieldId}`, {
     //   data: {
     //     metafield: {
     //       product_id: product.id,

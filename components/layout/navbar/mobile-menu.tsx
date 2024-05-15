@@ -6,7 +6,7 @@ import { Fragment, useEffect, useState } from 'react';
 
 import { Logo } from 'components/logo';
 import { getURIComponent } from 'lib/algolia';
-import { MENU_ITEMS } from 'lib/constants';
+import { MENU_ITEMS, ROUTES } from 'lib/constants';
 import { Menu } from 'lib/shopify/types';
 import Link from 'next/link';
 import { Menu as MenuIcon, X } from 'react-feather';
@@ -84,7 +84,7 @@ export default function MobileMenu({ menu }: { menu: Menu[] }) {
                   <div className="flex flex-col gap-4 p-3">
                     <List attribute="desk_type" title="Desk type" close={closeMobileMenu} />
                     <Link
-                      href={`/search?${getURIComponent(
+                      href={`/${ROUTES.search}?${getURIComponent(
                         'refinementList',
                         'collections',
                         'office-desks'

@@ -3,6 +3,7 @@
 import clsx from 'clsx';
 import Price from 'components/price';
 import { Record } from 'lib/algolia/types';
+import { ROUTES } from 'lib/constants';
 import { useIsBreakpoint } from 'lib/hooks';
 import { getImageSizes } from 'lib/utils';
 import Image from 'next/image';
@@ -24,7 +25,7 @@ function Result({ hit }: ResultProps) {
 
   return (
     <Link
-      href={`/products/${hit.handle}`}
+      href={`/${ROUTES.products}/${hit.handle}`}
       className="group flex h-full flex-col outline outline-1 outline-black"
     >
       <Image

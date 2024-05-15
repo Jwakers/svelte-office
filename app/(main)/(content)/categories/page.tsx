@@ -1,5 +1,6 @@
 import IndexString from 'components/index-string';
 import { getURIComponent } from 'lib/algolia';
+import { ROUTES } from 'lib/constants';
 import { getCollections } from 'lib/shopify';
 import { getImageSizes } from 'lib/utils';
 import { Metadata } from 'next';
@@ -28,7 +29,7 @@ export default async function Collections() {
         {collections.map((collection) =>
           collection.products.length ? (
             <Link
-              href={`/search?${getURIComponent(
+              href={`/${ROUTES.search}?${getURIComponent(
                 'refinementList',
                 'collections',
                 collection.handle

@@ -2,7 +2,7 @@
 
 import { Popover } from '@headlessui/react';
 import { getURIComponent } from 'lib/algolia';
-import { PRICE_LINKS, WIDTH_LINKS } from 'lib/constants';
+import { PRICE_LINKS, ROUTES, WIDTH_LINKS } from 'lib/constants';
 import { getImageSizes } from 'lib/utils';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -30,7 +30,7 @@ export function List({
           return (
             <li key={item.value}>
               <Link
-                href={`/search?${encodeURIComponent(`refinementList[${attribute}][0]`)}=${
+                href={`/${ROUTES.search}?${encodeURIComponent(`refinementList[${attribute}][0]`)}=${
                   item.value
                 }`}
                 onClick={() => close()}
@@ -65,7 +65,7 @@ export function RangeList({
           return (
             <li key={item.value}>
               <Link
-                href={`/search?${getURIComponent(
+                href={`/${ROUTES.search}?${getURIComponent(
                   'refinementList',
                   'collections',
                   'office-desks'
@@ -109,7 +109,11 @@ export async function Dropdown() {
                 <RangeList items={PRICE_LINKS} label="Price" attribute="min_price" close={close} />
               </div>
               <Link
-                href={`/search?${getURIComponent('refinementList', 'collections', 'office-desks')}`}
+                href={`/${ROUTES.search}?${getURIComponent(
+                  'refinementList',
+                  'collections',
+                  'office-desks'
+                )}`}
                 className="button"
                 onClick={() => close()}
               >

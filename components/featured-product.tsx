@@ -1,3 +1,4 @@
+import { ROUTES } from 'lib/constants';
 import { getProduct } from 'lib/shopify';
 import { getImageSizes } from 'lib/utils';
 import Image from 'next/image';
@@ -14,7 +15,7 @@ export async function FeaturedProduct() {
 
   return (
     <Link
-      href={`products/${product.handle}`}
+      href={`${ROUTES.products}/${product.handle}`}
       className="group grid border-b border-brand md:grid-cols-2"
     >
       <div className="relative">

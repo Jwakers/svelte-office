@@ -29,9 +29,7 @@ export type CartItem = {
   };
 };
 
-export type Collection = ShopifyCollection & {
-  path: string;
-};
+export type Collection = ShopifyCollection;
 
 export type CollectionWithProducts = ShopifyCollection & {
   products: Product[];

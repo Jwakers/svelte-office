@@ -3,6 +3,7 @@ import { FeaturedProduct } from 'components/featured-product';
 import { FeaturedHero } from 'components/hero';
 import LatestProducts from 'components/product/latest';
 import USPs from 'components/usps';
+import { ROUTES } from 'lib/constants';
 import { getPublicBaseUrl } from 'lib/utils';
 import { Suspense } from 'react';
 
@@ -35,7 +36,7 @@ export default async function HomePage() {
       '@type': 'SearchAction',
       target: {
         '@type': 'EntryPoint',
-        urlTemplate: `${BASE_URL}/search?q={search_term_string`
+        urlTemplate: `${BASE_URL}/${ROUTES.search}?q={search_term_string`
       },
       'query-input': 'required name=search_term_string'
     }

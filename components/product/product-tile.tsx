@@ -1,4 +1,5 @@
 import Price from 'components/price';
+import { ROUTES } from 'lib/constants';
 import { Product } from 'lib/shopify/types';
 import { getImageSizes } from 'lib/utils';
 import Image from 'next/image';
@@ -10,7 +11,7 @@ export default function ProductTile({ product }: { product: Product }) {
 
   return (
     <Link
-      href={`/products/${product.handle}`}
+      href={`/${ROUTES.products}/${product.handle}`}
       className="group flex h-full flex-col outline outline-1 outline-black"
     >
       <Image

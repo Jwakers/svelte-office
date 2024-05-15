@@ -5,7 +5,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 
 import Price from 'components/price';
-import { DEFAULT_OPTION } from 'lib/constants';
+import { DEFAULT_OPTION, ROUTES } from 'lib/constants';
 import type { Cart } from 'lib/shopify/types';
 import { createUrl, getImageSizes } from 'lib/utils';
 import { Fragment, useEffect, useRef, useState } from 'react';
@@ -117,7 +117,7 @@ export default function CartModal({ cart, cartIdUpdated }: { cart: Cart; cartIdU
                       });
 
                       const merchandiseUrl = createUrl(
-                        `/products/${item.merchandise.product.handle}`,
+                        `/${ROUTES.products}/${item.merchandise.product.handle}`,
                         new URLSearchParams(merchandiseSearchParams)
                       );
 

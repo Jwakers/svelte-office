@@ -1,3 +1,4 @@
+import { ROUTES } from 'lib/constants';
 import getAllOfType from 'lib/shopify/rest/get-all-of-type';
 import getRestClient from 'lib/shopify/rest/get-rest-client';
 import { Product } from 'lib/shopify/rest/types';
@@ -56,7 +57,7 @@ const iterateImages = async function () {
         const altText = await generateAltText(image.src);
         if (altText) {
           try {
-            await client.put(`products/${product.id}/images/${image.id}`, {
+            await client.put(`${ROUTES.products}/${product.id}/images/${image.id}`, {
               data: {
                 image: {
                   alt: altText

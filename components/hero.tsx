@@ -1,3 +1,4 @@
+import { ROUTES } from 'lib/constants';
 import Image from 'next/image';
 import Link from 'next/link';
 import lavoroHero from 'public/lavoro-hero.jpg';
@@ -11,10 +12,10 @@ export const Hero = function () {
           Let your office reflect your ambitions.
         </h1>
         <div className="flex flex-col gap-2 md:flex-row md:gap-4">
-          <Link href="/categories/office-desks" className="button grow">
+          <Link href={`/${ROUTES.categories}/office-desks`} className="button grow">
             Shop desks
           </Link>
-          <Link href="/categories/office-chairs" className="button grow">
+          <Link href={`/${ROUTES.categories}/office-chairs`} className="button grow">
             Shop chairs
           </Link>
         </div>
@@ -61,7 +62,10 @@ export const FeaturedHero = function () {
               to last using premium European materials, with a 5-year warranty on all parts.
             </p>
             <div className="flex flex-col gap-1 sm:flex-row">
-              <Link className="button block" href="/search?sortBy=products_price_dec&query=Lavoro">
+              <Link
+                className="button block"
+                href={`/${ROUTES.search}?sortBy=products_price_dec&query=Lavoro`}
+              >
                 View Lavoro products
               </Link>
             </div>

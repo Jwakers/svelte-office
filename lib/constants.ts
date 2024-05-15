@@ -96,18 +96,26 @@ export const ALGOLIA = {
   }
 };
 
+export const ROUTES = {
+  products: 'products',
+  categories: 'categories',
+  search: 'search',
+  contact: 'contact',
+  policies: 'policies'
+};
+
 export const MENU_ITEMS = [
   {
     title: 'Chairs',
-    path: `/search?${getURIComponent('refinementList', 'collections', 'office-chairs')}`
+    path: `/${ROUTES.search}?${getURIComponent('refinementList', 'collections', 'office-chairs')}`
   },
   {
     title: 'All categories',
-    path: `/categories`
+    path: `/${ROUTES.categories}`
   },
   {
     title: 'Contact us',
-    path: `/contact`
+    path: `/${ROUTES.contact}`
   }
 ];
 

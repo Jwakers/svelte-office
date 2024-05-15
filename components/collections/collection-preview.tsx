@@ -1,4 +1,5 @@
 import { getURIComponent } from 'lib/algolia';
+import { ROUTES } from 'lib/constants';
 import { getCollection } from 'lib/shopify';
 import { getImageSizes } from 'lib/utils';
 import Image from 'next/image';
@@ -11,7 +12,7 @@ export const CollectionPreview = async function ({ handle }: { handle: string })
   if (!collection) return;
   return (
     <Link
-      href={`/search?${getURIComponent('refinementList', 'collections', handle)}`}
+      href={`/${ROUTES.search}?${getURIComponent('refinementList', 'collections', handle)}`}
       className="group relative grid border-b border-brand md:grid-cols-[30%_1fr]"
     >
       <div className="sticky top-0 z-10 flex items-center gap-1 self-end border-b border-brand bg-white px-4 py-2 transition-all group-hover:gap-4 md:hidden">

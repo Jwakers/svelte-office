@@ -14,6 +14,7 @@ import {
   DELIVERY_OPTIONS,
   DeliveryTypes,
   HIDDEN_PRODUCT_TAG,
+  ROUTES,
   UNIT_MAP,
   WARRANTY
 } from 'lib/constants';
@@ -247,7 +248,7 @@ function ReviewSection({ product }: { product: Product }) {
         data-price={product.priceRange.minVariantPrice.amount}
         data-currency={product.priceRange.minVariantPrice.currencyCode}
         data-name={product.title}
-        data-url={`${getPublicBaseUrl()}/products/${product.handle}`}
+        data-url={`${getPublicBaseUrl()}/${ROUTES.products}/${product.handle}`}
         data-image-url={product.images[0]?.url}
       ></div>
     </>

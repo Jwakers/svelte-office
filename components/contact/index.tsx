@@ -21,7 +21,7 @@ export default function ContactForm() {
   const router = useRouter();
 
   const postContactData = async () => {
-    const res = await fetch('api/contact', {
+    const res = await fetch(`api/contact`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
