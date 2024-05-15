@@ -360,14 +360,25 @@ export type ShopifyGetProductTags = {
   };
 };
 
-export type ShopifyGetProductForAlgolia = {
+export type ShopifyGetProductsForAlgolia = {
   data: {
     products: Connection<
       Omit<ProductAlgolia, 'collections'> & {
         collections: Connection<ProductAlgolia['collections']>;
+        variants: Connection<ProductAlgolia['variants']>;
       }
     >;
   };
+};
+
+export type ShopifyGetProductForAlgolia = {
+  data: {
+    product: Omit<ProductAlgolia, 'collections' | 'variants'> & {
+      collections: Connection<ProductAlgolia['collections']>;
+      variants: Connection<ProductAlgolia['variants']>;
+    };
+  };
+  variables: { id: string };
 };
 
 export type ShopifyUpdateStockOperation = {

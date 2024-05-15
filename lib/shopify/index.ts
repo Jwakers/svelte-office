@@ -24,6 +24,7 @@ import { getMenuQuery } from './queries/menu';
 import { getPageQuery, getPagesQuery, getPoliciesQuery } from './queries/page';
 import {
   getGenericFileQuery,
+  getProductForAlgoliaQuery,
   getProductQuery,
   getProductRecommendationsQuery,
   getProductSkusQuery,
@@ -53,6 +54,7 @@ import {
   ShopifyGetProductForAlgolia,
   ShopifyGetProductSkus,
   ShopifyGetProductTags,
+  ShopifyGetProductsForAlgolia,
   ShopifyMenuOperation,
   ShopifyPageOperation,
   ShopifyPagesOperation,
@@ -476,7 +478,7 @@ export async function getProductTags() {
 }
 
 export async function getProductsForAlgolia(): Promise<ProductAlgolia[]> {
-  const res = await shopifyFetch<ShopifyGetProductForAlgolia>({
+  const res = await shopifyFetch<ShopifyGetProductsForAlgolia>({
     query: getProductsForAlgoliaQuery,
     cache: 'no-store'
   });
@@ -488,6 +490,22 @@ export async function getProductsForAlgolia(): Promise<ProductAlgolia[]> {
   }));
 
   return products;
+}
+
+export async function getProductForAlgolia(id: string): Promise<ProductAlgolia> {
+  const res = await shopifyFetch<ShopifyGetProductForAlgolia>({
+    query: getProductForAlgoliaQuery,
+    cache: 'no-store',
+    variables: { id }
+  });
+
+  const { product } = res.body.data;
+
+  return {
+    ...product,
+    variants: removeEdgesAndNodes(product.variants),
+    collections: removeEdgesAndNodes(product.collections)
+  };
 }
 
 export async function updateStock(inventoryItemId: string, quantity: number) {
