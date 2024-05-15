@@ -1,7 +1,7 @@
 import imageFragment from './image';
 import seoFragment from './seo';
 
-const productFragment = /* GraphQL */ `
+export const productFragment = /* GraphQL */ `
   fragment product on Product {
     id
     handle
@@ -80,4 +80,63 @@ const productFragment = /* GraphQL */ `
   ${seoFragment}
 `;
 
-export default productFragment;
+export const productAlgolia = /* GraphQL */ `
+  fragment productAlgolia on Product {
+    id
+    handle
+    description
+    vendor
+    priceRange {
+      minVariantPrice {
+        amount
+        currencyCode
+      }
+      maxVariantPrice {
+        amount
+        currencyCode
+      }
+    }
+    title
+    tags
+    featuredImage {
+      url
+      altText
+      width
+      height
+    }
+    options {
+      name
+      values
+    }
+    width: metafield(namespace: "specification", key: "width") {
+      value
+    }
+    depth: metafield(namespace: "specification", key: "depth") {
+      value
+    }
+    height: metafield(namespace: "specification", key: "height") {
+      value
+    }
+    weight: metafield(namespace: "specification", key: "weight") {
+      value
+    }
+    variants(first: 100) {
+      edges {
+        node {
+          price {
+            amount
+            currencyCode
+          }
+        }
+      }
+    }
+    collections(first: 10) {
+      edges {
+        node {
+          handle
+          title
+        }
+      }
+    }
+  }
+`;

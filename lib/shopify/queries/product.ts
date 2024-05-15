@@ -1,4 +1,4 @@
-import productFragment from '../fragments/product';
+import { productAlgolia, productFragment } from '../fragments/product';
 
 export const getProductQuery = /* GraphQL */ `
   query getProduct($handle: String!) {
@@ -56,66 +56,21 @@ export const getProductsForAlgoliaQuery = /* GraphQL */ `
     products(first: 250) {
       edges {
         node {
-          id
-          handle
-          description
-          vendor
-          priceRange {
-            minVariantPrice {
-              amount
-              currencyCode
-            }
-            maxVariantPrice {
-              amount
-              currencyCode
-            }
-          }
-          title
-          tags
-          featuredImage {
-            url
-            altText
-            width
-            height
-          }
-          options {
-            name
-            values
-          }
-          width: metafield(namespace: "specification", key: "width") {
-            value
-          }
-          depth: metafield(namespace: "specification", key: "depth") {
-            value
-          }
-          height: metafield(namespace: "specification", key: "height") {
-            value
-          }
-          weight: metafield(namespace: "specification", key: "weight") {
-            value
-          }
-          variants(first: 100) {
-            edges {
-              node {
-                price {
-                  amount
-                  currencyCode
-                }
-              }
-            }
-          }
-          collections(first: 10) {
-            edges {
-              node {
-                handle
-                title
-              }
-            }
-          }
+          ...productAlgolia
         }
       }
     }
   }
+  ${productAlgolia}
+`;
+
+export const getProductForAlgoliaQuery = /* GraphQL */ `
+  query getProduct($id: ID!) {
+    product(id: $id) {
+      ...productAlgolia
+    }
+  }
+  ${productAlgolia}
 `;
 
 export const getProductSkusQuery = /* GraphQL */ `
