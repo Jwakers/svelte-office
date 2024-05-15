@@ -6,9 +6,11 @@ import USPs from 'components/usps';
 import { getPublicBaseUrl } from 'lib/utils';
 import { Suspense } from 'react';
 
+const BASE_URL = getPublicBaseUrl();
+
 export const metadata = {
   alternates: {
-    canonical: getPublicBaseUrl()
+    canonical: BASE_URL
   },
   description:
     'Upgrade your workspace with premium office furniture. Shop our exclusive collection of ergonomic chairs, modern desks, and storage solutions. Transform your office into a stylish and efficient hub today.',
@@ -25,8 +27,26 @@ export const metadata = {
 };
 
 export default async function HomePage() {
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    url: BASE_URL,
+    potentialAction: {
+      '@type': 'SearchAction',
+      target: {
+        '@type': 'EntryPoint',
+        urlTemplate: `${BASE_URL}/search?q={search_term_string`
+      },
+      'query-input': 'required name=search_term_string'
+    }
+  };
+
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <Suspense>
         {/* <Hero /> */}
         <FeaturedHero />
