@@ -11,7 +11,7 @@ const usps = [
     id: 1,
     title: 'Next day delivery',
     copy: [
-      'We offer next day delivery on most of our products. Or two person, named day delivery. ',
+      "Need it fast? Order by 2 PM for next day delivery! Shop now and get your items tomorrow. Don't wait—buy today. ",
       <Link href="/delivery" className="underline">
         Find out more.
       </Link>
@@ -22,7 +22,7 @@ const usps = [
     id: 3,
     title: 'Price match promise',
     copy: [
-      `If you find one of our products cheaper elsewhere, we will match the price and give a discount on your next order. `,
+      "Find it cheaper elsewhere? We'll match it! Get the best price with our price match promise. Click here to save now. ",
       <Link href="/price-match-promise" className="underline">
         Find out more.
       </Link>
@@ -32,7 +32,9 @@ const usps = [
   {
     id: 2,
     title: 'Based in the UK',
-    copy: ['All of our products are sourced, and delivered from the UK'],
+    copy: [
+      'Proudly based in the UK! Enjoy fast shipping and excellent service. Support local—shop with us today. '
+    ],
     icon: <Umbrella />
   }
 ];
@@ -51,11 +53,11 @@ export default function USPs() {
     >
       <div className="flex h-full flex-col justify-between">
         <div>
-          <h4 className="flex justify-between gap-2 md:text-lg">
+          <h4 className="flex justify-between gap-2 font-serif md:text-lg">
             <span>{item.title}</span>
             <div className="bottom-3 right-3">{item.icon}</div>
           </h4>
-          <p className="hidden max-h-[0px] overflow-hidden transition-[max-height] group-hover:max-h-[140px] group-hover:pt-2 md:block">
+          <p className="hidden overflow-hidden pt-2 text-white/80 md:block">
             {item.copy.map((line) => (
               <Fragment key={`${item.id}${line}`}>{line}</Fragment>
             ))}
