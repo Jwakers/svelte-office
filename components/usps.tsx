@@ -34,7 +34,7 @@ const usps = [
     id: 2,
     title: 'Based in the UK',
     copy: [
-      'Proudly based in the UK! Enjoy fast shipping and excellent service. Support local—shop with us today. '
+      'Proudly based in the UK! Enjoy fast shipping and excellent service. Support local - shop with us today. '
     ],
     icon: <Umbrella />
   }
