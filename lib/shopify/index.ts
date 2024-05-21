@@ -1,5 +1,6 @@
 import {
   HIDDEN_PRODUCT_TAG,
+  ROUTES,
   SHOPIFY_GRAPHQL_ADMIN_API_ENDPOINT,
   SHOPIFY_GRAPHQL_API_ENDPOINT,
   TAGS,
@@ -160,8 +161,7 @@ const reshapeCollection = (collection: ShopifyCollection): Collection | undefine
   }
 
   return {
-    ...collection,
-    path: `/search/${collection.handle}`
+    ...collection
   };
 };
 
@@ -339,7 +339,7 @@ export async function getCollectionWithProducts({
   return {
     ...collection,
     products: reshapeProducts(removeEdgesAndNodes(collection.products)),
-    path: `/categories/${collection.handle}`
+    path: `/${ROUTES.categories}/${collection.handle}`
   };
 }
 

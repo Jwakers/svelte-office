@@ -14,7 +14,7 @@ export async function POST(req: NextRequest): Promise<Response> {
 
     const record = getRecord(product);
 
-    client.saveObject(record);
+    await client.saveObject(record);
 
     return NextResponse.json({ status: 200 });
   } catch (err) {

@@ -1,4 +1,5 @@
 import { content_v2_1 } from 'googleapis';
+import { ROUTES } from 'lib/constants';
 import { Product, Variant } from 'lib/shopify/rest/types';
 
 type Options = {
@@ -11,7 +12,7 @@ const SITE_URL = `https://${process.env.NEXT_PUBLIC_SITE_URL}`;
 
 export function getRequestBody(product: Product, variant: Variant, options: Options) {
   const { isVariant, availableForSale, hasColourVariants } = options;
-  const url = `${SITE_URL}/products/${product.handle}`;
+  const url = `${SITE_URL}/${ROUTES.products}/${product.handle}`;
   let title = product.title;
   let availability = availableForSale ? 'in_stock' : 'out_of_stock';
 

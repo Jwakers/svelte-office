@@ -3,6 +3,7 @@
 import { useRouter, useSearchParams } from 'next/navigation';
 
 import clsx, { ClassValue } from 'clsx';
+import { ROUTES } from 'lib/constants';
 import { useOutsideClick } from 'lib/hooks';
 import { createUrl } from 'lib/utils';
 import { useEffect, useRef, useState } from 'react';
@@ -38,7 +39,7 @@ export default function Search({ className }: { className?: ClassValue }) {
       newParams.delete('query');
     }
 
-    router.push(createUrl('/search', newParams));
+    router.push(createUrl(`/${ROUTES.search}`, newParams));
     close();
   }
 
@@ -66,8 +67,5 @@ export default function Search({ className }: { className?: ClassValue }) {
         {isOpen ? <X strokeWidth={1} /> : <SearchIcon strokeWidth={1} />}
       </button>
     </form>
-    // <Link href="/search">
-    //   <SearchIcon strokeWidth={1} />
-    // </Link>
   );
 }

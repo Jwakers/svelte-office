@@ -1,5 +1,6 @@
 import { createAdminRestApiClient } from '@shopify/admin-api-client';
 import * as dotenv from 'dotenv';
+import { ROUTES } from 'lib/constants';
 import { Product } from 'lib/shopify/rest/types';
 dotenv.config({ path: '.env.local' });
 
@@ -58,7 +59,7 @@ const SKU_MAP: {
 
 async function migrate() {
   const productId = '9311168266541';
-  const productResponse = await client.get(`products/${productId}`);
+  const productResponse = await client.get(`${ROUTES.products}/${productId}`);
   const { product }: { product: Product } = await productResponse.json();
 
   const variantsToUpdate = product.variants.map((variant) => {
@@ -75,7 +76,7 @@ async function migrate() {
     };
   });
 
-  const response = await client.put(`products/${productId}`, {
+  const response = await client.put(`${ROUTES.products}/${productId}`, {
     data: {
       product: {
         variants: variantsToUpdate

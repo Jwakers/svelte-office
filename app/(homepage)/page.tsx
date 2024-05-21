@@ -1,8 +1,10 @@
 import { CollectionPreview } from 'components/collections/collection-preview';
+import DeliveryBanner from 'components/delivery-banner';
 import { FeaturedProduct } from 'components/featured-product';
 import { FeaturedHero } from 'components/hero';
 import LatestProducts from 'components/product/latest';
 import USPs from 'components/usps';
+import { ROUTES } from 'lib/constants';
 import { getPublicBaseUrl } from 'lib/utils';
 import { Suspense } from 'react';
 
@@ -35,7 +37,7 @@ export default async function HomePage() {
       '@type': 'SearchAction',
       target: {
         '@type': 'EntryPoint',
-        urlTemplate: `${BASE_URL}/search?q={search_term_string`
+        urlTemplate: `${BASE_URL}/${ROUTES.search}?q={search_term_string`
       },
       'query-input': 'required name=search_term_string'
     }
@@ -62,6 +64,7 @@ export default async function HomePage() {
           <CollectionPreview handle="bookcases-and-standing-shelves" />
           <CollectionPreview handle="coffee-tables" />
         </div>
+        <DeliveryBanner />
         <FeaturedProduct />
         <h2 className="border-brand px-3 py-4 font-serif text-2xl uppercase md:border-b md:py-10 md:text-3xl">
           Latest products

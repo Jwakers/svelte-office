@@ -1,5 +1,6 @@
 import { createAdminRestApiClient } from '@shopify/admin-api-client';
 import * as dotenv from 'dotenv';
+import { ROUTES } from 'lib/constants';
 import { Product } from 'lib/shopify/rest/types';
 import { getPriceWithMargin, wait } from 'lib/utils';
 dotenv.config({ path: '.env.local' });
@@ -24,7 +25,7 @@ const COST_MAP: { [key: string]: string } = {
 };
 
 async function getProduct(id: string) {
-  const response = await client.get(`products/${id}`);
+  const response = await client.get(`${ROUTES.products}/${id}`);
   const { product }: { product: Product } = await response.json();
 
   return product;

@@ -10,7 +10,7 @@ export async function GET() {
 
     const objectsToIndex = products.map(getRecord);
 
-    client.replaceAllObjects(objectsToIndex);
+    await client.replaceAllObjects(objectsToIndex);
 
     if (products.length >= 250)
       console.warn('Reached product fetch limit of 250. Not all products will be indexed.');
