@@ -57,7 +57,7 @@ export default function Results() {
   return (
     <>
       <div className="relative grid md:grid-cols-[14rem_1fr]">
-        <Configure hitsPerPage={12} />
+        <Configure hitsPerPage={12} analytics={process.env.NODE_ENV === 'production'} />
         <SearchMenu>
           {!isMd && (
             <>
