@@ -101,7 +101,9 @@ export const ROUTES = {
   categories: 'categories',
   search: 'search',
   contact: 'contact',
-  policies: 'policies'
+  policies: 'policies',
+  delivery: 'delivery',
+  priceMatch: 'price-match-promise'
 };
 
 export const MENU_ITEMS = [

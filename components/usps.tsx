@@ -1,6 +1,7 @@
 'use client';
 import clsx, { ClassValue } from 'clsx';
 import gsap from 'gsap';
+import { ROUTES } from 'lib/constants';
 import { useIsBreakpoint } from 'lib/hooks';
 import Link from 'next/link';
 import { Fragment, useRef } from 'react';
@@ -12,7 +13,7 @@ const usps = [
     title: 'Next day delivery',
     copy: [
       "Need it fast? Order by 2 PM for next day delivery! Shop now and get your items tomorrow. Don't wait—buy today. ",
-      <Link href="/delivery" className="underline">
+      <Link href={`/${ROUTES.delivery}`} className="underline">
         Find out more.
       </Link>
     ],
@@ -23,7 +24,7 @@ const usps = [
     title: 'Price match promise',
     copy: [
       "Find it cheaper elsewhere? We'll match it! Get the best price with our price match promise. Click here to save now. ",
-      <Link href="/price-match-promise" className="underline">
+      <Link href={`/${ROUTES.priceMatch}`} className="underline">
         Find out more.
       </Link>
     ],
