@@ -5,13 +5,11 @@ import { usePathname, useSearchParams } from 'next/navigation';
 import { Fragment, useEffect, useState } from 'react';
 
 import { Logo } from 'components/logo';
-import { getURIComponent } from 'lib/algolia';
-import { MENU_ITEMS, ROUTES } from 'lib/constants';
+import { MENU_ITEMS } from 'lib/constants';
 import { Menu } from 'lib/shopify/types';
 import Link from 'next/link';
 import { Menu as MenuIcon, X } from 'react-feather';
 import SearchWrapper from '../search/search-wrapper';
-import { List } from './dropdown';
 import Search from './search';
 
 export default function MobileMenu({ menu }: { menu: Menu[] }) {
@@ -81,29 +79,15 @@ export default function MobileMenu({ menu }: { menu: Menu[] }) {
                   </button>
                 </div>
                 <SearchWrapper>
-                  <div className="flex flex-col gap-4 p-3">
-                    <List attribute="desk_type" title="Desk type" close={closeMobileMenu} />
-                    <Link
-                      href={`/${ROUTES.search}?${getURIComponent(
-                        'refinementList',
-                        'collections',
-                        'office-desks'
-                      )}`}
-                      className="button"
-                      onClick={() => close()}
-                    >
-                      View all desks
-                    </Link>
-                    <ul className="space-y-4 font-serif text-lg">
-                      {MENU_ITEMS.map((item) => (
-                        <li key={item.title}>
-                          <Link href={item.path} className="hover:underline">
-                            {item.title}
-                          </Link>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
+                  <ul className="space-y-4 p-3 font-serif text-lg">
+                    {MENU_ITEMS.map((item) => (
+                      <li key={item.title}>
+                        <Link href={item.path} className="hover:underline">
+                          {item.title}
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
                 </SearchWrapper>
                 <Search className="mt-auto h-auto justify-end justify-self-end border-t border-brand p-3" />
               </div>
