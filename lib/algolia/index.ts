@@ -90,7 +90,8 @@ export function getRecord(product: ProductAlgolia) {
     height: parseDimention(product.height?.value),
     weight: parseDimention(product.weight?.value),
     collections: product.collections.map((collection) => collection.handle),
-    options: product.options
+    options: product.options,
+    availableForSale: product.availableForSale
   };
 
   const namedTags = getNamedTags(product.tags);

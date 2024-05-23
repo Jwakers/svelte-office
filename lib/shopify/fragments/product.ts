@@ -86,6 +86,7 @@ export const productAlgolia = /* GraphQL */ `
     handle
     description
     vendor
+    availableForSale
     priceRange {
       minVariantPrice {
         amount

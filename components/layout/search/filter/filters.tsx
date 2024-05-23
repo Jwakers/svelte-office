@@ -1,6 +1,7 @@
 import clsx, { ClassValue } from 'clsx';
 import RangeInput from './range-input';
 import RefinementList from './refinement-list';
+import StockSwitch from './stock-switch';
 
 export default function Filters({ className }: { className?: ClassValue }) {
   return (
@@ -13,6 +14,7 @@ export default function Filters({ className }: { className?: ClassValue }) {
           <RangeInput attribute="width" label="By width" />
           <RangeInput attribute="height" label="By height" />
           <RangeInput attribute="price" label="By price" />
+          <StockSwitch />
         </div>
       </div>
     </div>
