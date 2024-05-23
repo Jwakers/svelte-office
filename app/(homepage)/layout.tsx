@@ -14,7 +14,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
       </Suspense>
       <Suspense>
         <Providers>
-          <main>{children}</main>
+          <main className="animate-fadeIn">{children}</main>
         </Providers>
       </Suspense>
       <Suspense>

@@ -14,7 +14,7 @@ export default function StockSwitch() {
         <Switch
           checked={hideOutOfStock}
           onChange={setHideOutOfStock}
-          className="flex h-6 w-11 cursor-pointer items-center bg-brand/10"
+          className="flex h-6 w-11 cursor-pointer items-center border border-brand bg-brand/10"
         >
           {({ checked }) => (
             <span

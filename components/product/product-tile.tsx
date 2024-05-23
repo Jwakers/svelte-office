@@ -33,7 +33,10 @@ export default function ProductTile({ product }: { product: Product }) {
               currencyCode={product.priceRange.minVariantPrice.currencyCode}
             />
           </div>
-          <ArrowRight className="transition-all md:-translate-x-2 md:opacity-0 md:group-hover:translate-x-0 md:group-hover:opacity-100" />
+          <div className="flex items-center gap-1 text-xs transition-all md:-translate-x-2 md:opacity-0 md:group-hover:translate-x-0 md:group-hover:opacity-100">
+            <span className="font-medium">View product</span>
+            <ArrowRight />
+          </div>
         </div>
       </div>
     </Link>

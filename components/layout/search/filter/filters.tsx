@@ -5,7 +5,7 @@ import StockSwitch from './stock-switch';
 
 export default function Filters({ className }: { className?: ClassValue }) {
   return (
-    <div className={clsx('p-3 md:block md:border-r md:border-brand', className)}>
+    <div className={clsx('p-3', className)}>
       <div>
         <h2 className="mb-2 font-serif text-xl">Filtering</h2>
         <div className="space-y-5">

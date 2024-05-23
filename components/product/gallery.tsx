@@ -35,7 +35,7 @@ export function Gallery({ images }: { images: TImage[] }) {
                 alt={altText || ''}
                 priority={i === 0}
                 sizes={getImageSizes({ sm: '100vw' })}
-                className="h-full w-full animate-fadeIn object-cover"
+                className="h-full w-full object-cover"
               />
             </SwiperSlide>
           ))}
@@ -51,7 +51,7 @@ export function Gallery({ images }: { images: TImage[] }) {
             alt={altText || ''}
             priority={i === 0}
             sizes={getImageSizes({ sm: '50vw' })}
-            className="w-full animate-fadeIn border-b border-brand object-cover"
+            className="w-full border-b border-brand object-cover"
           />
         ))}
       </div>

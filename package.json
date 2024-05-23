@@ -47,6 +47,7 @@
     "react-feather": "^2.0.10",
     "react-hot-toast": "^2.4.1",
     "react-instantsearch": "^7.7.0",
+    "react-instantsearch-nextjs": "^0.2.5",
     "rss": "^1.2.2",
     "swiper": "^10.0.3",
     "zod": "^3.21.4"

@@ -20,7 +20,7 @@ export const Hero = function () {
           </Link>
         </div>
       </div>
-      <div className="relative min-h-[180px] grow animate-fadeIn border-b border-brand md:border-b-0 md:border-l">
+      <div className="relative min-h-[180px] grow border-b border-brand md:border-b-0 md:border-l">
         <Image
           src={manhattanDeskHero}
           alt="Large l-shaped desk in a studio apartment office"

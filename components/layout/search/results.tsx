@@ -10,7 +10,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import algoliaLogo from 'public/algolia-logo.svg';
 import { ArrowRight } from 'react-feather';
-import { Configure, Hits, InfiniteHits, useStats } from 'react-instantsearch';
+import { Hits, InfiniteHits, useStats } from 'react-instantsearch';
 import Filters from './filter/filters';
 import SearchMenu from './filter/menu';
 import Pagination from './pagination';
@@ -44,7 +44,10 @@ function Result({ hit }: ResultProps) {
             {hasVariants && <span>from &nbsp;</span>}
             <Price amount={String(Math.min(...hit.price))} currencyCode={hit.currency_code} />
           </div>
-          <ArrowRight className="transition-all md:-translate-x-2 md:opacity-0 md:group-hover:translate-x-0 md:group-hover:opacity-100" />
+          <div className="flex items-center gap-1 text-xs transition-all md:-translate-x-2 md:opacity-0 md:group-hover:translate-x-0 md:group-hover:opacity-100">
+            <span className="font-medium">View product</span>
+            <ArrowRight />
+          </div>
         </div>
       </div>
     </Link>
@@ -54,21 +57,21 @@ function Result({ hit }: ResultProps) {
 export default function Results() {
   const isMd = useIsBreakpoint('md');
   const { nbPages } = useStats();
+
   return (
     <>
-      <div className="relative grid md:grid-cols-[14rem_1fr]">
-        <Configure hitsPerPage={12} analytics={process.env.NODE_ENV === 'production'} />
-        <SearchMenu>
-          {!isMd && (
-            <>
-              <SearchBar />
-              <Filters />
-            </>
-          )}
-        </SearchMenu>
-        {isMd && <Filters className="hidden md:block" />}
+      <div className="relative grid animate-fadeIn md:grid-cols-[14rem_1fr]">
+        {!isMd && (
+          <SearchMenu>
+            <SearchBar />
+            <Filters />
+          </SearchMenu>
+        )}
+        <div className="md:border-r md:border-brand">
+          {isMd && <Filters className="min-w-[1px]" />}
+        </div>
         <div>
-          {isMd && <SearchBar />}
+          <div className="my-3 hidden min-h-[46px] md:block">{isMd && <SearchBar />}</div>
           {isMd ? (
             <Hits
               hitComponent={Result}
