@@ -102,6 +102,7 @@ export type ProductAlgolia = Pick<
   | 'title'
   | 'vendor'
   | 'options'
+  | 'availableForSale'
 > & {
   collections: { handle: string; title: string }[];
   width: { value: string };

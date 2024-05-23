@@ -52,8 +52,7 @@ export default async function Collections() {
                 <div className="mt-auto flex justify-between">
                   <IndexString
                     value={collection.products.length}
-                    text="products in
-                  this category"
+                    text="products in this category"
                   />
                   <ArrowRight className="transition-all md:-translate-x-2 md:opacity-0 md:group-hover:translate-x-0 md:group-hover:opacity-100" />
                 </div>
