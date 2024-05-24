@@ -133,7 +133,7 @@ export default async function ProductPage({ params }: { params: { handle: string
           __html: JSON.stringify(productJsonLd)
         }}
       />
-      <section className="md:grid md:grid-cols-2">
+      <section className="animate-fadeIn md:grid md:grid-cols-2">
         <div className="flex flex-col border-brand md:border-r">
           <Gallery images={product.images} />
         </div>
