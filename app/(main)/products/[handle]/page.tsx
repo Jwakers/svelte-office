@@ -133,69 +133,67 @@ export default async function ProductPage({ params }: { params: { handle: string
           __html: JSON.stringify(productJsonLd)
         }}
       />
-      <section className="animate-fadeIn md:grid md:grid-cols-2">
-        <div className="flex flex-col border-brand md:border-r">
+      <section className="animate-fadeIn border-b border-brand md:grid md:grid-cols-2">
+        <div className="relative flex flex-col border-brand md:border-r">
           <Gallery images={product.images} />
         </div>
-        <div className="relative">
-          <div className="sticky top-0 flex flex-col gap-4 p-3 md:h-screen md:overflow-auto">
-            <div className="flex flex-col">
-              <div className="flex items-start justify-between">
-                <h1 className="font-serif text-2xl md:text-3xl">{product.title}</h1>
-                <ReviewsHead productId={product.id} />
-              </div>
-              <VariantSelector options={product.options} variants={product.variants} />
+        <div className="flex flex-col gap-4 p-3">
+          <div className="flex flex-col">
+            <div className="flex items-start justify-between">
+              <h1 className="font-serif text-2xl md:text-3xl">{product.title}</h1>
+              <ReviewsHead productId={product.id} />
             </div>
-            {product.descriptionHtml ? (
-              <ReadMore>
-                <Prose className="" html={product.descriptionHtml} />
-              </ReadMore>
-            ) : null}
-            <div>
-              {specSheet ? (
-                <Accordion heading="Specification">
-                  {product.specification.length && (
-                    <table className="py-2">
-                      <tbody>
-                        {product.specification.map((spec) => {
-                          if (!spec) return null;
-                          const value = JSON.parse(spec.value);
-                          return (
-                            <tr className="border-b border-brand/20" key={spec.key}>
-                              <td className="py-2 capitalize">{spec.key}</td>
-                              <td>
-                                {value.value} {UNIT_MAP[value.unit as keyof typeof UNIT_MAP] || ''}
-                              </td>
-                            </tr>
-                          );
-                        })}
-                      </tbody>
-                    </table>
-                  )}
-                  <a
-                    className="button mb-4 mt-2 flex items-center justify-center gap-2"
-                    href={specSheet}
-                    target="_black"
-                  >
-                    <span>Download full specification</span>
-                    <Download width={18} />
-                  </a>
-                </Accordion>
-              ) : null}
-              <DeliverySection
-                vendor={product.vendor as ShopifyVendors}
-                deliveryType={product.deliveryType.value as keyof DeliveryTypes}
-              />
-              <Accordion heading="Warranty">
-                <p className="py-2">{WARRANTY[product.vendor]}</p>
-              </Accordion>
-            </div>
-            <AddToCart
-              variants={product.variants}
-              availableForSale={product.availableForSale}
-              className={clsx({ 'sticky bottom-14 md:bottom-0': product.availableForSale })}
-            />
+            <VariantSelector options={product.options} variants={product.variants} />
           </div>
+          {product.descriptionHtml ? (
+            <ReadMore>
+              <Prose className="" html={product.descriptionHtml} />
+            </ReadMore>
+          ) : null}
+          <div>
+            {specSheet ? (
+              <Accordion heading="Specification">
+                {product.specification.length && (
+                  <table className="py-2">
+                    <tbody>
+                      {product.specification.map((spec) => {
+                        if (!spec) return null;
+                        const value = JSON.parse(spec.value);
+                        return (
+                          <tr className="border-b border-brand/20" key={spec.key}>
+                            <td className="py-2 capitalize">{spec.key}</td>
+                            <td>
+                              {value.value} {UNIT_MAP[value.unit as keyof typeof UNIT_MAP] || ''}
+                            </td>
+                          </tr>
+                        );
+                      })}
+                    </tbody>
+                  </table>
+                )}
+                <a
+                  className="button mb-4 mt-2 flex items-center justify-center gap-2"
+                  href={specSheet}
+                  target="_black"
+                >
+                  <span>Download full specification</span>
+                  <Download width={18} />
+                </a>
+              </Accordion>
+            ) : null}
+            <DeliverySection
+              vendor={product.vendor as ShopifyVendors}
+              deliveryType={product.deliveryType.value as keyof DeliveryTypes}
+            />
+            <Accordion heading="Warranty">
+              <p className="py-2">{WARRANTY[product.vendor]}</p>
+            </Accordion>
+          </div>
+          <AddToCart
+            variants={product.variants}
+            availableForSale={product.availableForSale}
+            className={clsx({ 'sticky bottom-14 md:bottom-4': product.availableForSale })}
+          />
         </div>
       </section>
       <ReviewSection product={product} />

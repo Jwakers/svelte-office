@@ -2,59 +2,72 @@
 
 import 'swiper/css';
 import 'swiper/css/pagination';
-import { Pagination } from 'swiper/modules';
+import { Navigation, Pagination } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
 
 import { Image as TImage } from 'lib/shopify/types';
 import { getImageSizes } from 'lib/utils';
 import Image from 'next/image';
 import { useRef } from 'react';
+import { ArrowLeft, ArrowRight } from 'react-feather';
 
 export function Gallery({ images }: { images: TImage[] }) {
-  const pagination = useRef(null);
+  const paginationRef = useRef(null);
+  const nextRef = useRef(null);
+  const prevRef = useRef(null);
 
   return (
-    <>
-      <div className="md:hidden">
-        <Swiper
-          modules={[Pagination]}
-          autoHeight
-          pagination={{
-            clickable: true,
-            bulletClass: 'rounded w-2 h-2 block border border-brand',
-            bulletActiveClass: 'bg-brand',
-            el: pagination.current
-          }}
-        >
-          {images.map(({ url, width, height, altText }, i) => (
-            <SwiperSlide key={`slide-${url}`}>
-              <Image
-                src={url}
-                width={width}
-                height={height}
-                alt={altText || ''}
-                priority={i === 0}
-                sizes={getImageSizes({ sm: '100vw' })}
-                className="h-full w-full object-cover"
-              />
-            </SwiperSlide>
-          ))}
-        </Swiper>
-        <div className="flex gap-1 px-3 pt-4" ref={pagination}></div>
-      </div>
-      <div className="hidden md:block">
+    <div className="sticky top-0">
+      <Swiper
+        modules={[Pagination, Navigation]}
+        autoHeight
+        navigation={{
+          nextEl: nextRef.current,
+          prevEl: prevRef.current
+        }}
+        pagination={{
+          clickable: true,
+          bulletClass: 'rounded w-2 h-2 block border border-brand',
+          bulletActiveClass: 'bg-brand',
+          type: 'bullets',
+          el: paginationRef.current
+        }}
+      >
         {images.map(({ url, width, height, altText }, i) => (
-          <Image
-            src={url}
-            width={width}
-            height={height}
-            alt={altText || ''}
-            priority={i === 0}
-            sizes={getImageSizes({ sm: '50vw' })}
-            className="w-full border-b border-brand object-cover"
-          />
+          <SwiperSlide key={`slide-${url}`}>
+            <Image
+              src={url}
+              width={width}
+              height={height}
+              alt={altText || ''}
+              priority={i === 0}
+              sizes={getImageSizes({ sm: '100vw', md: '50vw' })}
+              className="h-full w-full object-cover"
+            />
+          </SwiperSlide>
         ))}
+      </Swiper>
+      <div className="flex items-center justify-between gap-2 border-t border-brand px-4 py-4 md:items-start">
+        <div className="flex gap-1" ref={paginationRef}></div>
+        <div className="hidden gap-1 md:flex">
+          <button
+            type="button"
+            title="Previous slide"
+            ref={prevRef}
+            className="border border-brand p-2 disabled:opacity-20"
+          >
+            <ArrowLeft />
+          </button>
+          <button
+            type="button"
+            title="Next slide"
+            ref={nextRef}
+            className=" border border-brand p-2 disabled:opacity-20"
+          >
+            <ArrowRight />
+          </button>
+        </div>
       </div>
-    </>
+    </div>
   );
 }
