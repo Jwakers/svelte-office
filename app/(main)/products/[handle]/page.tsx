@@ -258,11 +258,13 @@ async function RelatedProducts({ id }: { id: string }) {
 
   if (!relatedProducts.length) return null;
 
+  const products = relatedProducts.slice(0, 4);
+
   return (
     <div className="py-8">
       <div className="mb-4 px-3 font-serif text-3xl">Related Products</div>
       <ul className="grid sm:grid-cols-2 md:grid-cols-4">
-        {relatedProducts.map((product) => (
+        {products.map((product) => (
           <ProductTile product={product} />
         ))}
       </ul>
