@@ -11,21 +11,27 @@ export default async function ({
   fromLabel?: string;
   to?: string;
 }) {
-  const transporter = nodemailer.createTransport({
-    port: 465,
-    host: 'smtp.hostinger.com',
-    auth: {
-      user: process.env.HOSTINGER_CONTACT_EMAIL,
-      pass: process.env.HOSTINGER_CONTACT_PASSWORD
-    }
-  });
+  try {
+    const transporter = nodemailer.createTransport({
+      port: 465,
+      secure: true,
+      host: 'smtp.hostinger.com',
+      auth: {
+        user: process.env.HOSTINGER_CONTACT_EMAIL,
+        pass: process.env.HOSTINGER_CONTACT_PASSWORD
+      }
+    });
 
-  const mailData = {
-    from: `${fromLabel} <${process.env.HOSTINGER_CONTACT_EMAIL}>`,
-    to,
-    subject,
-    html
-  };
+    const mailData = {
+      from: `${fromLabel} <${process.env.HOSTINGER_CONTACT_EMAIL}>`,
+      to,
+      subject,
+      html
+    };
 
-  return await transporter.sendMail(mailData);
+    return await transporter.sendMail(mailData);
+  } catch (err) {
+    console.error(err);
+    throw err;
+  }
 }

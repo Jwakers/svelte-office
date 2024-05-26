@@ -16,7 +16,7 @@ export async function POST(request: Request) {
 
   try {
     contactFormSchema.parse(data);
-    sendEmail({
+    const res = await sendEmail({
       subject: `${data.subject}`,
       fromLabel: 'Svelte office contact form',
       html: `
@@ -26,6 +26,10 @@ export async function POST(request: Request) {
     <p><strong>Message:</strong> ${data.message}</p>
   `
     });
+
+    console.log(res);
+
+    if (res?.responseCode && res?.responseCode !== 200) throw Error(res.response);
 
     return NextResponse.json({ message: 'Message sent, thank you!' }, { status: 200 });
   } catch (err) {
