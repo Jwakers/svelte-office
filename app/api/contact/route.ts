@@ -18,7 +18,7 @@ export async function POST(request: Request) {
     contactFormSchema.parse(data);
     const res = await sendEmail({
       subject: `${data.subject}`,
-      fromLabel: 'Svelte office contact form',
+      fromLabel: 'Svelte Office contact form',
       html: `
     <p><strong>Name:</strong> ${data.name}</p>
     <p><strong>Email:</strong> ${data.email}</p>
@@ -35,12 +35,15 @@ export async function POST(request: Request) {
   } catch (err) {
     console.log(err);
     if (err instanceof z.ZodError) {
-      return NextResponse.json({
-        errors: err.issues.map((e) => ({
-          message: e.message,
-          path: e.path[0]
-        }))
-      });
+      return NextResponse.json(
+        {
+          errors: err.issues.map((e) => ({
+            message: e.message,
+            path: e.path[0]
+          }))
+        },
+        { status: 500 }
+      );
     }
     return NextResponse.json({ message: 'There was an error', error: err }, { status: 500 });
   }
