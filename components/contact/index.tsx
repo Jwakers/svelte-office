@@ -11,6 +11,7 @@ import { toast } from 'react-hot-toast';
 type MutationResponse = {
   message?: string;
   errors?: { message: string; path: string }[];
+  error?: string;
 };
 
 export default function ContactForm() {
@@ -18,6 +19,7 @@ export default function ContactForm() {
   const [email, setEmail] = useState('');
   const [subject, setSubject] = useState('');
   const [message, setMessage] = useState('');
+  const [error, setError] = useState(false);
   const router = useRouter();
 
   const postContactData = async () => {
@@ -32,10 +34,12 @@ export default function ContactForm() {
     const data: MutationResponse = await res.json();
 
     if (!data?.errors && res.ok) {
+      setError(false);
       toast.success(data?.message || 'Message sent');
       return router.push('/');
     }
 
+    if (data.error) setError(true);
     toast.error(data?.message || 'Error');
 
     return data;
@@ -43,7 +47,7 @@ export default function ContactForm() {
 
   const mutation = useMutation(postContactData);
 
-  const { isLoading, data, isError } = mutation;
+  const { isLoading, data } = mutation;
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -57,79 +61,89 @@ export default function ContactForm() {
     return message ? <span className="text-sm text-error">{message.message}</span> : null;
   };
 
-  return !isError ? (
-    <form action="#" className="space-y-4" onSubmit={handleSubmit}>
-      <div>
-        <label htmlFor="email" className="mb-2 block text-sm uppercase">
-          Your name
-        </label>
-        {renderError('name')}
-        <input
-          type="text"
-          id="name"
-          className="block w-full border border-brand bg-white p-3 text-sm"
-          placeholder="John Smith"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          required
-        />
-      </div>
-      <div>
-        <label htmlFor="email" className="mb-2 block text-sm uppercase">
-          Your email
-        </label>
-        {renderError('email')}
-        <input
-          type="email"
-          id="email"
-          className="block w-full border border-brand bg-white p-3 text-sm"
-          placeholder="name@gmail.com"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
-        />
-      </div>
-      <div>
-        <label htmlFor="subject" className="mb-2 block text-sm uppercase">
-          Subject
-        </label>
-        {renderError('subject')}
-        <input
-          type="text"
-          id="subject"
-          className="block w-full border border-brand bg-white p-3 text-sm"
-          placeholder="Let us know how we can help you"
-          value={subject}
-          onChange={(e) => setSubject(e.target.value)}
-          required
-        />
-      </div>
-      <div className="sm:col-span-2">
-        <label htmlFor="message" className="mb-2 block text-sm uppercase">
-          Your message
-        </label>
-        {renderError('message')}
-        <textarea
-          id="message"
-          rows={6}
-          className="block w-full border border-brand bg-white p-3 text-sm"
-          placeholder="Leave a comment..."
-          value={message}
-          onChange={(e) => setMessage(e.target.value)}
-          required
-        ></textarea>
-      </div>
-      <button
-        type="submit"
-        className={clsx('button inline-flex items-center', {
-          'pointer-events-none cursor-not-allowed': isLoading
-        })}
-      >
-        <span>Send message</span>
-        {isLoading ? <LoadingDots /> : null}
-      </button>
-    </form>
-  ) : (
-    <p>There was an error, please try again later.</p>
+  return (
+    <>
+      <form action="#" className="space-y-4" onSubmit={handleSubmit}>
+        <div>
+          <label htmlFor="email" className="mb-2 block text-sm uppercase">
+            Your name
+          </label>
+          {renderError('name')}
+          <input
+            type="text"
+            id="name"
+            className="block w-full border border-brand bg-white p-3 text-sm"
+            placeholder="John Smith"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            required
+          />
+        </div>
+        <div>
+          <label htmlFor="email" className="mb-2 block text-sm uppercase">
+            Your email
+          </label>
+          {renderError('email')}
+          <input
+            type="email"
+            id="email"
+            className="block w-full border border-brand bg-white p-3 text-sm"
+            placeholder="name@gmail.com"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+          />
+        </div>
+        <div>
+          <label htmlFor="subject" className="mb-2 block text-sm uppercase">
+            Subject
+          </label>
+          {renderError('subject')}
+          <input
+            type="text"
+            id="subject"
+            className="block w-full border border-brand bg-white p-3 text-sm"
+            placeholder="Let us know how we can help you"
+            value={subject}
+            onChange={(e) => setSubject(e.target.value)}
+            required
+          />
+        </div>
+        <div className="sm:col-span-2">
+          <label htmlFor="message" className="mb-2 block text-sm uppercase">
+            Your message
+          </label>
+          {renderError('message')}
+          <textarea
+            id="message"
+            rows={6}
+            className="block w-full border border-brand bg-white p-3 text-sm"
+            placeholder="Leave a comment..."
+            value={message}
+            onChange={(e) => setMessage(e.target.value)}
+            required
+          ></textarea>
+        </div>
+        <button
+          type="submit"
+          className={clsx('button inline-flex items-center', {
+            'pointer-events-none cursor-not-allowed': isLoading
+          })}
+        >
+          <span>Send message</span>
+          {isLoading ? <LoadingDots /> : null}
+        </button>
+      </form>
+      {error ? (
+        <p className="py-4">
+          Sorry, it looks like we are having trouble with our form. You can contact us directly
+          using{' '}
+          <a href="mailto:contact@svelteoffice.com" className="underline">
+            contact@svelteoffice.com
+          </a>
+          .
+        </p>
+      ) : null}
+    </>
   );
 }

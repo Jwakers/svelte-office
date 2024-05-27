@@ -21,11 +21,11 @@ export default function DeliveryBanner() {
           <p>
             Need it fast? We've got you covered! With our next day delivery service, you can have
             your order at your doorstep in no time. Simply place your order before 2 PM, and we'll
-            ensure it arrives the very next day. Don't wait—shop now and enjoy the speed and
+            ensure it arrives the very next day. Don't wait — shop now and enjoy the speed and
             convenience of our express delivery!
           </p>
           <p>
-            Some of our product require 2 person deliver and will be aranged for a date and time
+            Some of our product require 2 person delivery and will be aranged for a date and time
             that suits you.
           </p>
           <p>
