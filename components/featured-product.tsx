@@ -16,7 +16,7 @@ export async function FeaturedProduct() {
   return (
     <Link
       href={`${ROUTES.products}/${product.handle}`}
-      className="group grid border-b border-brand md:grid-cols-2"
+      className="group grid border-b border-brand transition-colors md:grid-cols-2"
     >
       <div className="relative">
         <Image
@@ -53,7 +53,10 @@ export async function FeaturedProduct() {
               currencyCode={product.priceRange.minVariantPrice.currencyCode}
             />
           </span>
-          <ArrowRight className="transition-transform group-hover:translate-x-2" />
+          <div className="flex items-center gap-1 text-xs transition-all md:-translate-x-2 md:opacity-0 md:group-hover:translate-x-0 md:group-hover:opacity-100">
+            <span className="font-medium">View product</span>
+            <ArrowRight />
+          </div>
         </div>
       </div>
     </Link>
