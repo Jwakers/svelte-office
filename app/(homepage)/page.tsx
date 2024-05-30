@@ -1,7 +1,7 @@
 import { CollectionPreview } from 'components/collections/collection-preview';
 import DeliveryBanner from 'components/delivery-banner';
 import { FeaturedProduct } from 'components/featured-product';
-import { FeaturedHero } from 'components/hero';
+import HeroCarousel from 'components/hero-carousel';
 import LatestProducts from 'components/product/latest';
 import USPs from 'components/usps';
 import { ROUTES } from 'lib/constants';
@@ -53,7 +53,8 @@ export default async function HomePage() {
       />
       <Suspense>
         {/* <Hero /> */}
-        <FeaturedHero />
+        {/* <FeaturedHero /> */}
+        <HeroCarousel />
       </Suspense>
       <Suspense>
         <USPs />

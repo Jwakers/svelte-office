@@ -22,15 +22,15 @@ export function Gallery({ images }: { images: TImage[] }) {
         modules={[Pagination, Navigation]}
         autoHeight
         navigation={{
-          nextEl: nextRef.current,
-          prevEl: prevRef.current
+          nextEl: '.next',
+          prevEl: '.prev'
         }}
         pagination={{
           clickable: true,
           bulletClass: 'rounded w-2 h-2 block border border-brand',
           bulletActiveClass: 'bg-brand',
           type: 'bullets',
-          el: paginationRef.current
+          el: '.pagination'
         }}
       >
         {images.map(({ url, width, height, altText }, i) => (
@@ -48,21 +48,19 @@ export function Gallery({ images }: { images: TImage[] }) {
         ))}
       </Swiper>
       <div className="flex items-center justify-between gap-2 border-t border-brand px-4 py-4 md:items-start">
-        <div className="flex gap-1" ref={paginationRef}></div>
+        <div className="pagination flex gap-1" />
         <div className="hidden gap-1 md:flex">
           <button
             type="button"
             title="Previous slide"
-            ref={prevRef}
-            className="border border-brand p-2 disabled:opacity-20"
+            className="prev border border-brand p-2 disabled:opacity-20"
           >
             <ArrowLeft />
           </button>
           <button
             type="button"
             title="Next slide"
-            ref={nextRef}
-            className=" border border-brand p-2 disabled:opacity-20"
+            className="next border border-brand p-2 disabled:opacity-20"
           >
             <ArrowRight />
           </button>
