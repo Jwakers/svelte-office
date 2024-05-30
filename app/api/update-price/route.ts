@@ -26,4 +26,7 @@ export async function GET() {
   //   console.error(JSON.stringify(error, null, 2));
   //   return Response.json({ error: error, status: 500 });
   // }
+  return Response.json({
+    message: 'Route disabled'
+  });
 }
