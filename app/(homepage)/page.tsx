@@ -1,12 +1,14 @@
 import { CollectionPreview } from 'components/collections/collection-preview';
 import DeliveryBanner from 'components/delivery-banner';
 import { FeaturedProduct } from 'components/featured-product';
-import { FeaturedHero } from 'components/hero';
+import HeroCarousel from 'components/hero-carousel';
 import LatestProducts from 'components/product/latest';
 import USPs from 'components/usps';
 import { ROUTES } from 'lib/constants';
 import { getPublicBaseUrl } from 'lib/utils';
+import Link from 'next/link';
 import { Suspense } from 'react';
+import { ArrowRight } from 'react-feather';
 
 const BASE_URL = getPublicBaseUrl();
 
@@ -51,7 +53,8 @@ export default async function HomePage() {
       />
       <Suspense>
         {/* <Hero /> */}
-        <FeaturedHero />
+        {/* <FeaturedHero /> */}
+        <HeroCarousel />
       </Suspense>
       <Suspense>
         <USPs />
@@ -62,7 +65,22 @@ export default async function HomePage() {
           <CollectionPreview handle="office-desks" />
           <CollectionPreview handle="office-chairs" />
           <CollectionPreview handle="bookcases-and-standing-shelves" />
-          <CollectionPreview handle="coffee-tables" />
+          <Link
+            href={`/${ROUTES.categories}`}
+            className="group relative border-b border-brand transition-colors hover:bg-brand hover:text-white md:grid-cols-[30%_1fr] md:border-l"
+          >
+            <div className="sticky top-0 z-10 flex items-center gap-1 self-end border-b border-brand bg-white px-4 py-2 transition-all group-hover:gap-4 md:hidden">
+              <h2 className="font-serif text-2xl">View all categories</h2>
+              <ArrowRight />
+            </div>
+
+            <div className="hidden h-full w-full content-end p-4 md:flex">
+              <div className="flex w-full items-center gap-1 self-end">
+                <h2 className="max-w-[90%] font-serif text-2xl lg:text-3xl">View all categories</h2>
+                <ArrowRight className="transition-transform group-hover:translate-x-2" />
+              </div>
+            </div>
+          </Link>
         </div>
         <DeliveryBanner />
         <FeaturedProduct />
