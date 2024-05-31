@@ -13,7 +13,7 @@ export default function Sort() {
         items={[
           { label: 'Default', value: ALGOLIA.index.products },
           { label: 'Price - Low to high', value: ALGOLIA.index.productsPriceAsc },
-          { label: 'Price - High to low', value: ALGOLIA.index.productsPriceDec }
+          { label: 'Price - High to low', value: ALGOLIA.index.productsPriceDesc }
         ]}
       />
       <ChevronDown
