@@ -1,11 +1,16 @@
 'use client';
 
+import { getURIComponent } from 'lib/algolia';
 import { ROUTES } from 'lib/constants';
 import { getImageSizes } from 'lib/utils';
 import Image from 'next/image';
 import Link from 'next/link';
 import advanceDeskHeroImage from 'public/advance-lifestyle.jpg';
+import cityCenterHeroImage from 'public/city-center-coffee-table-lifestyle.jpg';
+import cromoCornerHeroImage from 'public/cromo-corner-desk-lifestyle.jpg';
 import forgeDeskHeroImage from 'public/forge-corner-lifestyle.jpg';
+import hampsteadParkDeskHeroImage from 'public/hampstead-park-desk-lifestyle.jpg';
+import hytheHelfBookcaseHeroImage from 'public/hythe-shelf-bookcase-lifestyle.jpg';
 import { ArrowLeft, ArrowRight } from 'react-feather';
 import 'swiper/css';
 import 'swiper/css/effect-fade';
@@ -46,6 +51,9 @@ export default function HeroCarousel() {
         <SwiperSlide className='className="size-full"'>
           <FeaturedProductSlide />
         </SwiperSlide>
+        <SwiperSlide>
+          <FourImageSlide />
+        </SwiperSlide>
       </Swiper>
       <div className="pointer-events-none absolute bottom-4 right-0 z-20 mx-4 flex -translate-y-4 justify-between gap-4 opacity-0 transition-[opacity,transform] duration-500 group-hover:pointer-events-auto group-hover:translate-y-0 group-hover:opacity-100">
         <button className="prev border border-brand bg-white/50 p-2 transition-colors hover:bg-white">
@@ -68,6 +76,7 @@ function GradientSlide() {
         src={forgeDeskHeroImage}
         alt="Corner desk infront of large window on a sunny day"
         priority
+        placeholder="blur"
         fill
         sizes={getImageSizes({ sm: '100vw' })}
         className="size-full object-cover"
@@ -123,9 +132,79 @@ function FeaturedProductSlide() {
         <Image
           src={advanceDeskHeroImage}
           alt="Corner desk infront of large window on a sunny day"
+          placeholder="blur"
           sizes={getImageSizes({ sm: '100vw', md: '70vw' })}
           className="size-full object-cover"
         />
+      </div>
+    </div>
+  );
+}
+
+function FourImageSlide() {
+  return (
+    <div className="relative grid size-full grid-cols-2 grid-rows-2">
+      <div className="absolute inset-x-0 top-0 h-32 w-full self-start bg-gradient-to-b from-white/60"></div>
+      <Image
+        src={hampsteadParkDeskHeroImage}
+        alt="Corner desk infront of large window on a sunny day"
+        sizes={getImageSizes({ sm: '50vw' })}
+        className="size-full object-cover shadow-border"
+        placeholder="blur"
+      />
+      <Image
+        src={cityCenterHeroImage}
+        alt="Corner desk infront of large window on a sunny day"
+        sizes={getImageSizes({ sm: '50vw' })}
+        className="size-full object-cover shadow-border"
+        placeholder="blur"
+      />
+      <Image
+        src={hytheHelfBookcaseHeroImage}
+        alt="Corner desk infront of large window on a sunny day"
+        sizes={getImageSizes({ sm: '50vw' })}
+        className="size-full object-cover shadow-border"
+        placeholder="blur"
+      />
+      <Image
+        src={cromoCornerHeroImage}
+        alt="Corner desk infront of large window on a sunny day"
+        sizes={getImageSizes({ sm: '50vw' })}
+        className="size-full object-cover shadow-border"
+        placeholder="blur"
+      />
+      <div className="absolute inset-0 flex items-center justify-center">
+        <div className="max-w-[calc(100%-32px)] space-y-2 bg-brand p-6 text-center text-white md:max-w-[40rem] md:space-y-4 md:p-10">
+          <h2 className="font-serif text-3xl md:text-5xl">
+            Create your dream
+            <br />
+            home office
+          </h2>
+          <p>
+            Our product range can help tailor every part of your home office. With premium office
+            desks, ergonomic chairs, stylish coffee tables, versatile shelving units and much more.
+            Transform your office into a haven of productivity and elegance. Experience refined
+            workspace living.
+          </p>
+          <div className="flex flex-col justify-center gap-2 md:flex-row">
+            <Link
+              className="button block w-full border-white text-white transition-colors hover:bg-white hover:text-brand sm:w-auto"
+              href={`/${ROUTES.search}?${getURIComponent(
+                'refinementList',
+                'collections',
+                'office-desks'
+              )}`}
+            >
+              Find your perfect desk
+            </Link>
+            <Link
+              className="button hover block w-full border-white text-white transition-colors hover:bg-white hover:text-brand sm:w-auto"
+              href={`/${ROUTES.categories}`}
+            >
+              Explore product categories
+            </Link>
+          </div>
+        </div>
       </div>
     </div>
   );

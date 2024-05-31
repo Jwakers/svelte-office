@@ -27,6 +27,9 @@ module.exports = {
           yellow: colors.yellow[400]
         }
       },
+      boxShadow: {
+        border: `0 0 0 1px ${colors.slate[900]}`
+      },
       keyframes: {
         fadeIn: {
           from: { opacity: 0 },
