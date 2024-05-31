@@ -92,7 +92,7 @@ export const ALGOLIA = {
   index: {
     products: 'products',
     productsPriceAsc: 'products_price_asc',
-    productsPriceDec: 'products_price_dec'
+    productsPriceDesc: 'products_price_desc'
   }
 };
 
