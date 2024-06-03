@@ -5,7 +5,8 @@ import { ContactFormSchema } from 'app/api/contact/route';
 import clsx from 'clsx';
 import LoadingDots from 'components/loading-dots';
 import { useRouter } from 'next/navigation';
-import { FormEvent, useState } from 'react';
+import { FormEvent, useCallback, useEffect, useState } from 'react';
+import { GoogleReCaptchaProvider, useGoogleReCaptcha } from 'react-google-recaptcha-v3';
 import { toast } from 'react-hot-toast';
 
 type MutationResponse = {
@@ -14,13 +15,33 @@ type MutationResponse = {
   error?: string;
 };
 
-export default function ContactForm() {
+export default function CaptchaWrapper() {
+  const recaptchaKey: string | undefined = process?.env?.NEXT_PUBLIC_RECAPTCHA_SITE_KEY;
+
+  return (
+    <GoogleReCaptchaProvider
+      reCaptchaKey={recaptchaKey ?? 'NOT DEFINED'}
+      scriptProps={{
+        async: false,
+        defer: false,
+        appendTo: 'head',
+        nonce: undefined
+      }}
+    >
+      <ContactForm />
+    </GoogleReCaptchaProvider>
+  );
+}
+
+function ContactForm() {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [subject, setSubject] = useState('');
   const [message, setMessage] = useState('');
+  const [gReCaptchaToken, setGReCaptchaToken] = useState('');
   const [error, setError] = useState(false);
   const router = useRouter();
+  const { executeRecaptcha } = useGoogleReCaptcha();
 
   const postContactData = async () => {
     const res = await fetch(`api/contact`, {
@@ -28,7 +49,7 @@ export default function ContactForm() {
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({ name, email, subject, message })
+      body: JSON.stringify({ name, email, subject, message, gReCaptchaToken })
     });
 
     const data: MutationResponse = await res.json();
@@ -51,7 +72,7 @@ export default function ContactForm() {
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    mutation.mutate();
+    await handleReCaptchaVerify();
   };
 
   const renderError = (key: keyof ContactFormSchema) => {
@@ -60,6 +81,21 @@ export default function ContactForm() {
 
     return message ? <span className="text-sm text-error">{message.message}</span> : null;
   };
+
+  const handleReCaptchaVerify = useCallback(async () => {
+    if (!executeRecaptcha) {
+      console.log('Execute recaptcha not yet available');
+      return;
+    }
+
+    const token = await executeRecaptcha('contactForm');
+    setGReCaptchaToken(token);
+  }, [executeRecaptcha]);
+
+  useEffect(() => {
+    if (!gReCaptchaToken) return;
+    mutation.mutate();
+  }, [gReCaptchaToken]);
 
   return (
     <>
