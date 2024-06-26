@@ -90,14 +90,14 @@ function StandingDeskPromoSlide() {
           <h1 className="font-serif text-4xl capitalize md:text-6xl">
             15% Off all sit/stand desks
             <br />
-            Ends July 31st
+            <span className="text-3xl md:text-5xl">Ends July 31st</span>
           </h1>
           <p>
             Limited time offer. Just use code{' '}
             <span className="inline-block border border-white p-1">STANDING</span> when you
             checkout.
           </p>
-          <p className="mb-20">
+          <p className="mb-6 md:mb-20">
             Transform your workspace with our sit/stand desks and enjoy a healthier, more productive
             workday. For a limited time, get 15% off on all sit/stand desks. Don't miss out, upgrade
             your desk today.
