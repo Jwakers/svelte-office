@@ -1,4 +1,3 @@
-import clsx from 'clsx';
 import { getReviews } from 'lib/yotpo';
 import { Star } from 'react-feather';
 
@@ -21,10 +20,7 @@ export async function ReviewStars({ productId }: { productId: string }) {
       <span className="text-sm text-secondary">({total_review})</span>
       <div className="flex gap-1">
         {[...Array(stars)].map((_, i) => (
-          <Star
-            className={clsx('fill-accent-yellow text-accent-yellow', i && 'hidden sm:block')}
-            key={`star-${i}`}
-          />
+          <Star className="fill-accent-yellow text-accent-yellow" key={`star-${i}`} />
         ))}
       </div>
     </div>
