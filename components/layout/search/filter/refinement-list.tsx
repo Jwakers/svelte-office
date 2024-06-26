@@ -1,7 +1,10 @@
 import { transformLabels } from 'lib/algolia';
-import { RefinementList as AlgoliaRefinementList } from 'react-instantsearch';
+import { RefinementList as AlgoliaRefinementList, useRefinementList } from 'react-instantsearch';
 
 export default function RefinementList({ attribute, label }: { attribute: string; label: string }) {
+  const { items } = useRefinementList({ attribute });
+
+  if (!items.length) return null;
   return (
     <div>
       <div className="mb-2 text-lg">{label}</div>

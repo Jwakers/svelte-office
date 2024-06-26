@@ -1,6 +1,9 @@
-import { RangeInput as AlgoliaRangeInput } from 'react-instantsearch';
+import { RangeInput as AlgoliaRangeInput, useRefinementList } from 'react-instantsearch';
 
 export default function RangeInput({ attribute, label }: { attribute: string; label: string }) {
+  const { items } = useRefinementList({ attribute });
+
+  if (!items.length) return null;
   return (
     <div>
       <div className="mb-2 text-lg">{label}</div>
