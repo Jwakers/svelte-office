@@ -1,11 +1,13 @@
 import { Switch } from '@headlessui/react';
 import clsx from 'clsx';
 import { useState } from 'react';
-import { Configure } from 'react-instantsearch';
+import { Configure, useHits } from 'react-instantsearch';
 
 export default function StockSwitch() {
   const [hideOutOfStock, setHideOutOfStock] = useState(false);
+  const { hits } = useHits();
 
+  if (!hits.length) return null;
   return (
     <>
       <Configure filters={hideOutOfStock ? 'availableForSale:true' : undefined} />
