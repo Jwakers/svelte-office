@@ -180,7 +180,7 @@ const PriceSection = ({ selectedVariant, fromPrice, hasVariants }: PriceSectionP
           <Price
             amount={priceItem.price.amount || '0'}
             currencyCode={priceItem.price.currencyCode || 'GBP'}
-            className="text-sm leading-none text-brand/80 line-through"
+            className="text-sm leading-none line-through opacity-80"
           />
         ) : null}
       </div>

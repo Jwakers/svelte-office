@@ -132,6 +132,10 @@ export const productAlgolia = /* GraphQL */ `
             amount
             currencyCode
           }
+          compareAtPrice {
+            amount
+            currencyCode
+          }
         }
       }
     }

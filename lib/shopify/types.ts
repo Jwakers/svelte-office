@@ -112,6 +112,7 @@ export type ProductAlgolia = Pick<
   weight: { value: string };
   variants: {
     price: Money;
+    compareAtPrice: Money;
   }[];
 };
 
