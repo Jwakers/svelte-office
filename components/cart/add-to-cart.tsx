@@ -37,7 +37,7 @@ export function AddToCart({
   return (
     <button
       aria-label="Add item to cart"
-      disabled={isPending}
+      disabled={isPending || !availableForSale}
       onClick={() => {
         if (!availableForSale) return;
         startTransition(async () => {
@@ -54,7 +54,7 @@ export function AddToCart({
       className={clsx(
         'flex w-full items-center justify-center border border-primary bg-primary p-4 text-sm uppercase text-white hover:text-primary',
         {
-          'cursor-not-allowed opacity-60': !availableForSale,
+          'cursor-not-allowed opacity-60 hover:text-white': !availableForSale,
           'transition-colors hover:bg-white hover:text-brand': availableForSale,
           'cursor-not-allowed': isPending
         },
