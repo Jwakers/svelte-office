@@ -89,6 +89,7 @@ export type ProductVariant = {
     value: string;
   }[];
   price: Money;
+  compareAtPrice: Money;
 };
 
 export type ProductAlgolia = Pick<
@@ -111,6 +112,7 @@ export type ProductAlgolia = Pick<
   weight: { value: string };
   variants: {
     price: Money;
+    compareAtPrice: Money;
   }[];
 };
 

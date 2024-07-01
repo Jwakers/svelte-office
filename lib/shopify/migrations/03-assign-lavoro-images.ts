@@ -13,7 +13,7 @@ const client = createAdminRestApiClient({
 
 async function migrate() {
   const productId = '9130590273837';
-  const res = await client.get(`${ROUTES.products}/${productId}`);
+  const res = await client.get(`products/${productId}`);
   const { product }: { product: Product } = await res.json();
 
   const imageIds = product.images.map((image) => ({
