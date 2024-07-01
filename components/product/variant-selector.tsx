@@ -165,7 +165,8 @@ export function VariantSelector({
 const PriceSection = ({ selectedVariant, fromPrice, hasVariants }: PriceSectionProps) => {
   const priceItem = selectedVariant || fromPrice;
   const compareAtPrice = priceItem.compareAtPrice;
-  const showCompareAtPrice = compareAtPrice && compareAtPrice.amount > priceItem.price.amount;
+  const showCompareAtPrice =
+    compareAtPrice && parseFloat(compareAtPrice.amount) > parseFloat(priceItem.price.amount);
 
   return (
     <div className="mb-4 flex flex-col gap-1">
@@ -178,8 +179,8 @@ const PriceSection = ({ selectedVariant, fromPrice, hasVariants }: PriceSectionP
         />
         {showCompareAtPrice ? (
           <Price
-            amount={priceItem.price.amount || '0'}
-            currencyCode={priceItem.price.currencyCode || 'GBP'}
+            amount={priceItem.compareAtPrice.amount || '0'}
+            currencyCode={priceItem.compareAtPrice.currencyCode || 'GBP'}
             className="text-sm leading-none line-through opacity-80"
           />
         ) : null}
