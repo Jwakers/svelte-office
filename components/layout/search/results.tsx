@@ -22,12 +22,20 @@ type ResultProps = {
 
 function Result({ hit }: ResultProps) {
   const hasVariants = hit.options.length > 1;
+  const minPrice = Math.min(...hit.price);
+  const minComparePrice = hit.compareAtPrice.length ? Math.min(...hit.compareAtPrice) : null;
+  const showComparePrice = minComparePrice && minPrice < minComparePrice;
 
   return (
     <Link
       href={`/${ROUTES.products}/${hit.handle}`}
-      className="group flex h-full flex-col outline outline-1 outline-black"
+      className="group relative flex h-full flex-col outline outline-1 outline-black"
     >
+      {showComparePrice ? (
+        <span className="absolute right-2 top-2 block bg-brand p-1 text-xs text-white">
+          Discount
+        </span>
+      ) : null}
       <Image
         src={hit.image.url}
         width={hit.image.width}
@@ -40,9 +48,18 @@ function Result({ hit }: ResultProps) {
         <h2 className="font-serif text-lg uppercase md:text-xl">{hit.title}</h2>
         {hasVariants && <span className="text-sm text-secondary">Multiple options</span>}
         <div className="mt-auto flex justify-between">
-          <div>
+          <div className="flex items-end">
             {hasVariants && <span>from &nbsp;</span>}
-            <Price amount={String(Math.min(...hit.price))} currencyCode={hit.currency_code} />
+            <div className="flex flex-col">
+              {showComparePrice ? (
+                <Price
+                  amount={String(minComparePrice)}
+                  currencyCode={hit.currencyCode}
+                  className="text-sm line-through opacity-80"
+                />
+              ) : null}
+              <Price amount={String(minPrice)} currencyCode={hit.currencyCode} />
+            </div>
           </div>
           <div className="flex items-center gap-1 text-xs transition-all md:-translate-x-2 md:opacity-0 md:group-hover:translate-x-0 md:group-hover:opacity-100">
             <span className="font-medium">View product</span>

@@ -75,6 +75,13 @@ export function getRecord(product: ProductAlgolia) {
   const prices = Array.from(
     new Set(product.variants.map((variant) => parseFloat(variant.price.amount)))
   );
+  const compareAtPrices = Array.from(
+    new Set(
+      product.variants
+        .filter((v) => v.compareAtPrice)
+        .map((variant) => parseFloat(variant.compareAtPrice.amount))
+    )
+  );
 
   const record = {
     objectID: product.id.split('/').at(-1),
@@ -83,7 +90,9 @@ export function getRecord(product: ProductAlgolia) {
     tags: product.tags,
     brand: product.vendor,
     price: prices,
-    currency_code: product.priceRange.minVariantPrice.currencyCode,
+    compareAtPrice: compareAtPrices,
+    currency_code: product.priceRange.minVariantPrice.currencyCode, // Legacy can be deleted after deployment
+    currencyCode: product.priceRange.minVariantPrice.currencyCode,
     image: { ...product.featuredImage },
     width: widths,
     depth: depths,

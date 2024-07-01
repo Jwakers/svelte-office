@@ -8,6 +8,7 @@ import Link from 'next/link';
 import advanceDeskHeroImage from 'public/advance-lifestyle.jpg';
 import cityCenterHeroImage from 'public/city-center-coffee-table-lifestyle.jpg';
 import cromoCornerHeroImage from 'public/cromo-corner-desk-lifestyle.jpg';
+import crownDeskImage from 'public/crown-desk-lifestyle.jpg';
 import forgeDeskHeroImage from 'public/forge-corner-lifestyle.jpg';
 import hampsteadParkDeskHeroImage from 'public/hampstead-park-desk-lifestyle.jpg';
 import hytheHelfBookcaseHeroImage from 'public/hythe-shelf-bookcase-lifestyle.jpg';
@@ -33,7 +34,7 @@ export default function HeroCarousel() {
         autoplay={{
           delay: 5000,
           pauseOnMouseEnter: true,
-          disableOnInteraction: false
+          disableOnInteraction: true
         }}
         pagination={{
           clickable: true,
@@ -46,12 +47,15 @@ export default function HeroCarousel() {
         wrapperClass="h-full"
       >
         <SwiperSlide className="size-full">
+          <StandingDeskPromoSlide />
+        </SwiperSlide>
+        <SwiperSlide className="size-full">
           <GradientSlide />
         </SwiperSlide>
-        <SwiperSlide className='className="size-full"'>
+        <SwiperSlide className="size-full">
           <FeaturedProductSlide />
         </SwiperSlide>
-        <SwiperSlide>
+        <SwiperSlide className="size-full">
           <FourImageSlide />
         </SwiperSlide>
       </Swiper>
@@ -64,6 +68,61 @@ export default function HeroCarousel() {
         </button>
       </div>
       <div className="pagination absolute !bottom-0 z-10 flex gap-1 p-4" />
+    </div>
+  );
+}
+
+function StandingDeskPromoSlide() {
+  return (
+    <div className="grid-stack relative size-full">
+      <div className="z-10 h-32 w-full self-start bg-gradient-to-b from-white/60"></div>
+      <Image
+        src={crownDeskImage}
+        alt="Crown standing desk in large modern grey office"
+        priority
+        placeholder="blur"
+        fill
+        sizes={getImageSizes({ sm: '100vw' })}
+        className="size-full -scale-x-100 object-cover"
+      />
+      <div className="md:l-10 z-10 ml-4 self-center justify-self-start bg-gradient-to-r from-brand p-6 text-white md:min-w-[44rem] md:p-10">
+        <div className="flex h-full max-w-[32rem] flex-col gap-4">
+          <h1 className="font-serif text-4xl capitalize md:text-6xl">
+            15% Off all sit/stand desks
+            <br />
+            <span className="text-3xl md:text-5xl">Ends July 31st</span>
+          </h1>
+          <p>
+            Limited time offer. Just use code{' '}
+            <span className="inline-block border border-white p-1">STANDING</span> when you
+            checkout.
+          </p>
+          <p className="mb-6 md:mb-20">
+            Transform your workspace with our sit/stand desks and enjoy a healthier, more productive
+            workday. For a limited time, get 15% off on all sit/stand desks. Don't miss out, upgrade
+            your desk today.
+          </p>
+
+          <div className="mt-auto flex flex-wrap gap-2">
+            <Link
+              className="button block w-full border-white text-white sm:w-auto"
+              href={`/${ROUTES.search}?${getURIComponent(
+                'refinementList',
+                'desk_type',
+                'sit/stand'
+              )}`}
+            >
+              View all sit/stand desks
+            </Link>
+            <Link
+              className="button block w-full border-white text-white sm:w-auto"
+              href={`/${ROUTES.products}/crown`}
+            >
+              View Crown desk
+            </Link>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }

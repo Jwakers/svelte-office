@@ -7,7 +7,8 @@ export type Record = {
   tags: string[] | [];
   brand: string;
   price: number[];
-  currency_code: string;
+  compareAtPrice: number[] | [];
+  currencyCode: string;
   image: Image;
   width?: number[];
   depth?: number;

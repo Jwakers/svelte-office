@@ -17,6 +17,7 @@ type OptimizedVariant = {
   availableForSale: boolean;
   params: URLSearchParams;
   price: Money;
+  compareAtPrice: Money;
   [key: string]: string | boolean | URLSearchParams | Money; // ie. { color: 'Red', size: 'Large', ... }
 };
 
@@ -55,7 +56,8 @@ export function VariantSelector({
       id: variant.id,
       availableForSale: variant.availableForSale,
       params: new URLSearchParams(),
-      price: variant.price
+      price: variant.price,
+      compareAtPrice: variant.compareAtPrice
     };
 
     variant.selectedOptions.forEach((selectedOption) => {
@@ -160,13 +162,29 @@ export function VariantSelector({
   );
 }
 
-const PriceSection = ({ selectedVariant, fromPrice, hasVariants }: PriceSectionProps) => (
-  <div className="mb-4 flex flex-col gap-1">
-    {hasVariants ? <span className="text-xs leading-none opacity-80">from</span> : null}
-    <Price
-      amount={(selectedVariant || fromPrice).price.amount || '0'}
-      currencyCode={(selectedVariant || fromPrice).price.currencyCode || 'GBP'}
-      className="leading-none"
-    />
-  </div>
-);
+const PriceSection = ({ selectedVariant, fromPrice, hasVariants }: PriceSectionProps) => {
+  const priceItem = selectedVariant || fromPrice;
+  const compareAtPrice = priceItem.compareAtPrice;
+  const showCompareAtPrice =
+    compareAtPrice && parseFloat(compareAtPrice.amount) > parseFloat(priceItem.price.amount);
+
+  return (
+    <div className="mb-4 flex flex-col gap-1">
+      {hasVariants ? <span className="text-xs leading-none opacity-80">from</span> : null}
+      <div className="flex gap-2">
+        <Price
+          amount={priceItem.price.amount || '0'}
+          currencyCode={priceItem.price.currencyCode || 'GBP'}
+          className="leading-none"
+        />
+        {showCompareAtPrice ? (
+          <Price
+            amount={priceItem.compareAtPrice.amount || '0'}
+            currencyCode={priceItem.compareAtPrice.currencyCode || 'GBP'}
+            className="text-sm leading-none line-through opacity-80"
+          />
+        ) : null}
+      </div>
+    </div>
+  );
+};

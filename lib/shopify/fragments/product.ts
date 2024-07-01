@@ -57,6 +57,10 @@ export const productFragment = /* GraphQL */ `
             amount
             currencyCode
           }
+          compareAtPrice {
+            amount
+            currencyCode
+          }
         }
       }
     }
@@ -125,6 +129,10 @@ export const productAlgolia = /* GraphQL */ `
       edges {
         node {
           price {
+            amount
+            currencyCode
+          }
+          compareAtPrice {
             amount
             currencyCode
           }
