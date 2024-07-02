@@ -91,7 +91,8 @@ async function migrate() {
       };
 
       try {
-        await queryShopify(updateVariantMutation, variables);
+        // Uncomment to enable update
+        // await queryShopify(updateVariantMutation, variables);
         await wait(150); // max 40 requests per minute
         console.log(`Updated: ${variant.id} - ${variant.price} / ${discountedPrice}`);
       } catch (err) {
