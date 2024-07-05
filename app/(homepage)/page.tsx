@@ -17,8 +17,9 @@ export const metadata = {
   alternates: {
     canonical: BASE_URL
   },
+  title: 'Svelte Office | Premium Office Furniture for Home Professionals',
   description:
-    'Upgrade your workspace with premium office furniture. Shop our exclusive collection of ergonomic chairs, modern desks, and storage solutions. Transform your office into a stylish and efficient hub today.',
+    'Discover premium office furniture at Svelte Office. Elevate your home workspace with ergonomic chairs, modern desks, and stylish storage solutions. Shop now for the perfect blend of comfort and style.',
   openGraph: {
     images: [
       {
