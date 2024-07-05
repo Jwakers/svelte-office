@@ -142,9 +142,9 @@ function GradientSlide() {
       />
       <div className="md:l-10 z-10 ml-4 self-center justify-self-start bg-gradient-to-r from-brand p-6 text-white md:min-w-[44rem] md:p-10">
         <div className="flex h-full max-w-[32rem] flex-col gap-4">
-          <h1 className="font-serif text-4xl md:text-6xl">
+          <h2 className="font-serif text-4xl md:text-6xl">
             Your office should reflect your ambitions.
-          </h1>
+          </h2>
           <p className="mb-20">
             Transform your workspace with our stylish, functional office furniture. Our collections
             elevate your home office, inspiring success and productivity every day.
