@@ -2,6 +2,12 @@ import Prose from 'components/prose';
 import { getPolicies } from 'lib/shopify';
 import { notFound } from 'next/navigation';
 
+export const metadata = {
+  title: 'Policies',
+  description:
+    'Review the policies of Svelte Office. Learn about our shipping, returns, privacy, and terms of service to ensure a seamless shopping experience for premium office furniture.'
+};
+
 export default async function PolicyPage({ params }: { params: { policy: string } }) {
   const policies = await getPolicies();
   var camelCased = params.policy.replace(/-([a-z])/g, (g) => (g[1] ? g[1].toUpperCase() : ''));

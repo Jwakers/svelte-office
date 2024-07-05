@@ -50,18 +50,17 @@ export async function generateMetadata({
         follow: indexable
       }
     },
-    openGraph: url
-      ? {
-          images: [
-            {
-              url,
-              width,
-              height,
-              alt
-            }
-          ]
+    openGraph: {
+      images: [
+        {
+          url,
+          width,
+          height,
+          alt
         }
-      : null
+      ],
+      description: product.seo.description || product.description
+    }
   };
 }
 

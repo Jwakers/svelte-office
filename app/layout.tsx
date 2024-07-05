@@ -14,7 +14,7 @@ export const metadata = {
   metadataBase: new URL(getPublicBaseUrl()),
   title: {
     default: SITE_NAME || '',
-    template: `%s | ${SITE_NAME}`
+    template: `%s | Svelte Office - Premium Office Furniture`
   },
   robots: {
     follow: true,
