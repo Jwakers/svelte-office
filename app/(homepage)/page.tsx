@@ -8,7 +8,6 @@ import USPs from 'components/usps';
 import { ROUTES } from 'lib/constants';
 import { getPublicBaseUrl } from 'lib/utils';
 import Link from 'next/link';
-import opengraphImage from 'public/forge-corner-lifestyle.jpg';
 import { Suspense } from 'react';
 import { ArrowRight } from 'react-feather';
 
@@ -24,7 +23,7 @@ export const metadata = {
   openGraph: {
     images: [
       {
-        url: opengraphImage,
+        url: '/forge-corner-lifestyle.jpg',
         width: 1200,
         height: 630
       }
