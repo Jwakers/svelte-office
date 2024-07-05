@@ -40,7 +40,7 @@ async function updateGoogleMerchantProducts(
 
   for (const shopifyProduct of shopifyProducts) {
     const availableForSale = shopifyProduct.variants.some(
-      (variant) => variant.inventory_quantity >= 1
+      (variant) => variant.inventory_quantity >= 1 || variant.inventory_management === null
     );
     const hasColourVariants = shopifyProduct.options.some(
       (option) => option.name.toLowerCase() === 'colour'
