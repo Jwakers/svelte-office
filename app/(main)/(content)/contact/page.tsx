@@ -1,5 +1,11 @@
 import ContactForm from 'components/contact';
 
+export const metadata = {
+  title: 'Contact Us',
+  description:
+    "Get in touch with Svelte Office. We're here to help with any questions about our premium office furniture. Contact us for support, inquiries, or feedback."
+};
+
 export default function ContactPage() {
   return (
     <section className="mx-auto h-full w-full animate-fadeIn border-brand p-3 md:max-w-3xl md:border-l md:border-r">

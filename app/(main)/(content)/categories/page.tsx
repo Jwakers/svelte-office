@@ -3,18 +3,16 @@ import { getURIComponent } from 'lib/algolia';
 import { ROUTES } from 'lib/constants';
 import { getCollections } from 'lib/shopify';
 import { getImageSizes } from 'lib/utils';
-import { Metadata } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { ArrowRight } from 'react-feather';
 
-export async function generateMetadata(): Promise<Metadata> {
-  return {
-    title: 'Categories',
-    description: 'All product categories'
-  };
-}
+export const metadata = {
+  title: 'All Categories',
+  description:
+    'Browse all categories at Svelte Office. Discover a wide range of premium office furniture, including ergonomic chairs, modern desks, and stylish storage solutions.'
+};
 
 export default async function Collections() {
   const collections = await getCollections();
