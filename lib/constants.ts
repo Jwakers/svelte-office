@@ -25,7 +25,8 @@ export const sorting: SortFilterItem[] = [
 
 export const TAGS = {
   collections: 'collections',
-  products: 'products'
+  products: 'products',
+  blogs: 'blogs'
 };
 
 export const HIDDEN_PRODUCT_TAG = 'hide';
@@ -100,6 +101,7 @@ export const ROUTES = {
   products: 'products',
   categories: 'categories',
   search: 'search',
+  blogs: 'blogs',
   contact: 'contact',
   policies: 'policies',
   delivery: 'delivery',

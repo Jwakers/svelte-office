@@ -27,8 +27,10 @@ const Providers = ({ children }: { children: React.ReactNode }) => (
           leaveFrom="opacity-100 scale-100"
           leaveTo="opacity-0 scale-75"
         >
-          <p className="">{resolveValue(t.message, t)}</p>
-          <ToastIcon toast={t} />
+          <div>
+            <p className="">{resolveValue(t.message, t)}</p>
+            <ToastIcon toast={t} />
+          </div>
         </Transition>
       )}
     </Toaster>

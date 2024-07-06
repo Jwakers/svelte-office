@@ -34,6 +34,7 @@ import {
   getProductsQuery
 } from './queries/product';
 import {
+  Article,
   Cart,
   Collection,
   CollectionWithProducts,
@@ -43,6 +44,8 @@ import {
   Product,
   ProductAlgolia,
   ShopifyAddToCartOperation,
+  ShopifyArticleOperation,
+  ShopifyBlogsOperation,
   ShopifyCart,
   ShopifyCartOperation,
   ShopifyCollection,
@@ -391,11 +394,84 @@ export async function getPage(handle: string): Promise<Page> {
 
 export async function getPages(): Promise<Page[]> {
   const res = await shopifyFetch<ShopifyPagesOperation>({
-    query: getPagesQuery,
-    cache: 'no-store'
+    query: getPagesQuery
   });
 
   return removeEdgesAndNodes(res.body.data.pages);
+}
+
+export async function getArticle(handle: string): Promise<Article> {
+  const res = await shopifyFetch<ShopifyArticleOperation>({
+    query: /* GraphQL */ `
+      query getArticleByHandle($handle: String!) {
+        articles(first: 1, query: $handle) {
+          edges {
+            node {
+              excerpt
+              handle
+              title
+              publishedAt
+              image {
+                altText
+                height
+                id
+                url
+                width
+              }
+              contentHtml
+              authorV2 {
+                name
+              }
+            }
+          }
+        }
+      }
+    `,
+    variables: { handle }
+  });
+
+  return removeEdgesAndNodes(res.body.data.articles)[0];
+}
+
+export async function getBlogs() {
+  const res = await shopifyFetch<ShopifyBlogsOperation>({
+    query: /* GraphQL */ `
+      {
+        blogs(first: 100) {
+          edges {
+            node {
+              articles(first: 100) {
+                edges {
+                  node {
+                    excerpt
+                    handle
+                    title
+                    image {
+                      altText
+                      height
+                      id
+                      url
+                      width
+                    }
+                    contentHtml
+                    authorV2 {
+                      name
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    `,
+    tags: [TAGS.blogs]
+  });
+
+  const articles = removeEdgesAndNodes(res.body.data.blogs);
+  console.log(articles);
+
+  return articles;
 }
 
 export async function getProduct(handle: string): Promise<Product | undefined> {
