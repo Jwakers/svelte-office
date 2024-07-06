@@ -1,5 +1,6 @@
 import Prose from 'components/prose';
 import { getArticle } from 'lib/shopify';
+import Image from 'next/image';
 
 // export async function generateMetadata({
 //     params
@@ -28,26 +29,26 @@ import { getArticle } from 'lib/shopify';
 //     };
 //   }
 
-// TODO - Meta data and open graph
-// TODO - Add image to the blog
 // TODO - Move the graphQL query to the correct file
+// TODO - Meta data and open graph
 // TODO - Create all blogs page
 
 export default async function Page({ params }: { params: { slug: string } }) {
-  // const page = await getPage(params.slug);
-  const { title, contentHtml } = await getArticle(params.slug);
+  const { title, contentHtml, image } = await getArticle(params.slug);
 
   return (
     <>
       <h1 className="mb-8 font-serif text-5xl font-bold">{title}</h1>
+      {image ? (
+        <Image
+          alt={image.altText}
+          width={image.width}
+          height={image.height}
+          className="max-h-96 w-full object-cover"
+          src={image.url}
+        />
+      ) : null}
       <Prose className="mb-8" html={contentHtml} />
-      {/* <p className="text-sm italic">
-        {`This document was last updated on ${new Intl.DateTimeFormat(undefined, {
-          year: 'numeric',
-          month: 'long',
-          day: 'numeric'
-        }).format(new Date(page.updatedAt))}.`}
-      </p> */}
     </>
   );
 }
