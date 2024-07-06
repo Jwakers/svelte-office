@@ -14,6 +14,7 @@ import {
   removeFromCartMutation
 } from './mutations/cart';
 import { inventorySetOnHandQuantitiesMutation } from './mutations/product';
+import { getArticleByHandleQuery, getBlogsQuery } from './queries/blogs';
 import { getCartQuery } from './queries/cart';
 import {
   getCollectionProductsQuery,
@@ -402,31 +403,7 @@ export async function getPages(): Promise<Page[]> {
 
 export async function getArticle(handle: string): Promise<Article> {
   const res = await shopifyFetch<ShopifyArticleOperation>({
-    query: /* GraphQL */ `
-      query getArticleByHandle($handle: String!) {
-        articles(first: 1, query: $handle) {
-          edges {
-            node {
-              excerpt
-              handle
-              title
-              publishedAt
-              image {
-                altText
-                height
-                id
-                url
-                width
-              }
-              contentHtml
-              authorV2 {
-                name
-              }
-            }
-          }
-        }
-      }
-    `,
+    query: getArticleByHandleQuery,
     variables: { handle }
   });
 
@@ -435,36 +412,7 @@ export async function getArticle(handle: string): Promise<Article> {
 
 export async function getBlogs() {
   const res = await shopifyFetch<ShopifyBlogsOperation>({
-    query: /* GraphQL */ `
-      {
-        blogs(first: 100) {
-          edges {
-            node {
-              articles(first: 100) {
-                edges {
-                  node {
-                    excerpt
-                    handle
-                    title
-                    image {
-                      altText
-                      height
-                      id
-                      url
-                      width
-                    }
-                    contentHtml
-                    authorV2 {
-                      name
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    `,
+    query: getBlogsQuery,
     tags: [TAGS.blogs]
   });
 

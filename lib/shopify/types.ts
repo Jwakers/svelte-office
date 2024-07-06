@@ -73,7 +73,7 @@ export type Article = {
   excerpt?: string;
   handle: string;
   title: string;
-  image: Image;
+  image?: Image;
   publishedAt: string;
   contentHtml: string;
   seo: SEO;
