@@ -1,36 +1,38 @@
 import Prose from 'components/prose';
 import { getArticle } from 'lib/shopify';
+import { Metadata } from 'next';
 import Image from 'next/image';
+import { notFound } from 'next/navigation';
 
-// export async function generateMetadata({
-//     params
-//   }: {
-//     params: { page: string };
-//   }): Promise<Metadata> {
-//     const page = await getBlogs(params.page);
+export async function generateMetadata({
+  params
+}: {
+  params: { slug: string };
+}): Promise<Metadata> {
+  const article = await getArticle(params.slug);
 
-//     if (!page) notFound();
+  if (!article) notFound();
 
-//     return {
-//       title: page.seo?.title || page.title,
-//       description: page.seo?.description || page.bodySummary,
-//       openGraph: {
-//         images: [
-//           {
-//             url: `/api/og?title=${encodeURIComponent(page.title)}`,
-//             width: 1200,
-//             height: 630
-//           }
-//         ],
-//         publishedTime: page.createdAt,
-//         modifiedTime: page.updatedAt,
-//         type: 'article'
-//       }
-//     };
-//   }
+  return {
+    title: article.seo?.title || article.title,
+    description: article.excerpt || article.seo?.description,
+    openGraph: {
+      images: article.image
+        ? [
+            {
+              url: article.image.url,
+              width: article.image.width,
+              height: article.image.height,
+              alt: article.image.altText
+            }
+          ]
+        : undefined,
+      publishedTime: article.publishedAt,
+      type: 'article'
+    }
+  };
+}
 
-// TODO - Move the graphQL query to the correct file
-// TODO - Meta data and open graph
 // TODO - Create all blogs page
 
 export default async function Page({ params }: { params: { slug: string } }) {
