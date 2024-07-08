@@ -14,7 +14,7 @@ import {
   removeFromCartMutation
 } from './mutations/cart';
 import { inventorySetOnHandQuantitiesMutation } from './mutations/product';
-import { getArticleByHandleQuery, getBlogsQuery } from './queries/blogs';
+import { getArticleByHandleQuery, getArticlesQuery } from './queries/blogs';
 import { getCartQuery } from './queries/cart';
 import {
   getCollectionProductsQuery,
@@ -46,7 +46,7 @@ import {
   ProductAlgolia,
   ShopifyAddToCartOperation,
   ShopifyArticleOperation,
-  ShopifyBlogsOperation,
+  ShopifyArticlesOperation,
   ShopifyCart,
   ShopifyCartOperation,
   ShopifyCollection,
@@ -404,20 +404,20 @@ export async function getPages(): Promise<Page[]> {
 export async function getArticle(handle: string): Promise<Article> {
   const res = await shopifyFetch<ShopifyArticleOperation>({
     query: getArticleByHandleQuery,
-    variables: { handle }
+    variables: { handle },
+    tags: [TAGS.blogs]
   });
 
   return removeEdgesAndNodes(res.body.data.articles)[0];
 }
 
-export async function getBlogs() {
-  const res = await shopifyFetch<ShopifyBlogsOperation>({
-    query: getBlogsQuery,
+export async function getArticles(): Promise<Article[]> {
+  const res = await shopifyFetch<ShopifyArticlesOperation>({
+    query: getArticlesQuery,
     tags: [TAGS.blogs]
   });
 
-  const articles = removeEdgesAndNodes(res.body.data.blogs);
-  console.log(articles);
+  const articles = removeEdgesAndNodes(res.body.data.articles);
 
   return articles;
 }

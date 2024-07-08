@@ -309,9 +309,9 @@ export type ShopifyPagesOperation = {
   };
 };
 
-export type ShopifyBlogsOperation = {
+export type ShopifyArticlesOperation = {
   data: {
-    blogs: Connection<{ articles: Connection<Article> }>;
+    articles: Connection<Article>;
   };
 };
 

@@ -33,7 +33,8 @@ export async function generateMetadata({
   };
 }
 
-// TODO - Create all blogs page
+// TODO get static params
+// Add back to blogs button in info column on blog page
 
 export default async function Page({ params }: { params: { slug: string } }) {
   const { title, contentHtml, image } = await getArticle(params.slug);
