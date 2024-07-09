@@ -1,5 +1,5 @@
 import { ROUTES } from 'lib/constants';
-import { getCollections, getPages } from 'lib/shopify';
+import { getArticles, getCollections, getPages } from 'lib/shopify';
 import getAllOfType from 'lib/shopify/rest/get-all-of-type';
 import { Product } from 'lib/shopify/rest/types';
 import { getPublicBaseUrl } from 'lib/utils';
@@ -8,10 +8,12 @@ import { MetadataRoute } from 'next';
 const baseUrl = getPublicBaseUrl();
 
 export default async function sitemap(): Promise<Promise<Promise<MetadataRoute.Sitemap>>> {
-  const routesMap = ['', `/${ROUTES.contact}`, `/${ROUTES.search}`].map((route) => ({
-    url: `${baseUrl}${route}`,
-    lastModified: new Date().toISOString()
-  }));
+  const routesMap = ['', `/${ROUTES.contact}`, `/${ROUTES.search}`, `/${ROUTES.blogs}`].map(
+    (route) => ({
+      url: `${baseUrl}${route}`,
+      lastModified: new Date().toISOString()
+    })
+  );
 
   const collectionsPromise = getCollections().then((collections) =>
     collections.map((collection) => ({
@@ -34,8 +36,15 @@ export default async function sitemap(): Promise<Promise<Promise<MetadataRoute.S
     }))
   );
 
+  const articlesPromis = getArticles().then((pages) =>
+    pages.map((page) => ({
+      url: `${baseUrl}/${ROUTES.blogs}/${page.handle}`,
+      lastModidied: page.publishedAt
+    }))
+  );
+
   const fetchedRoutes = (
-    await Promise.all([collectionsPromise, productsPromise, pagesPromise])
+    await Promise.all([collectionsPromise, productsPromise, pagesPromise, articlesPromis])
   ).flat();
 
   return [...routesMap, ...fetchedRoutes];
