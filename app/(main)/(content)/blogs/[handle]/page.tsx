@@ -1,15 +1,22 @@
 import Prose from 'components/prose';
-import { getArticle } from 'lib/shopify';
+import { getArticle, getArticles } from 'lib/shopify';
 import { Metadata } from 'next';
 import Image from 'next/image';
 import { notFound } from 'next/navigation';
 
+export async function generateStaticParams() {
+  const articles = await getArticles();
+  const handles = articles.map((article) => ({ handle: article.handle }));
+
+  return handles;
+}
+
 export async function generateMetadata({
   params
 }: {
-  params: { slug: string };
+  params: { handle: string };
 }): Promise<Metadata> {
-  const article = await getArticle(params.slug);
+  const article = await getArticle(params.handle);
 
   if (!article) notFound();
 
@@ -33,11 +40,8 @@ export async function generateMetadata({
   };
 }
 
-// TODO get static params
-// Add back to blogs button in info column on blog page
-
-export default async function Page({ params }: { params: { slug: string } }) {
-  const { title, contentHtml, image } = await getArticle(params.slug);
+export default async function Page({ params }: { params: { handle: string } }) {
+  const { title, contentHtml, image } = await getArticle(params.handle);
 
   return (
     <>

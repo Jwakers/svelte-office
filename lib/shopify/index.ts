@@ -84,6 +84,7 @@ export async function shopifyFetch<T>({
   headers,
   query,
   tags,
+  revalidate,
   variables,
   adminAccessToken,
   storefontAccessToken = process.env.SHOPIFY_STOREFRONT_ACCESS_TOKEN!
@@ -92,6 +93,7 @@ export async function shopifyFetch<T>({
   headers?: HeadersInit;
   query: string;
   tags?: string[];
+  revalidate?: NextFetchRequestConfig['revalidate'];
   variables?: ExtractVariables<T>;
   adminAccessToken?: string;
   storefontAccessToken?: string;
@@ -110,7 +112,7 @@ export async function shopifyFetch<T>({
         ...(variables && { variables })
       }),
       cache,
-      ...(tags && { next: { tags } })
+      ...(tags && { next: { tags, revalidate } })
     });
 
     const body = await result.json();
@@ -405,7 +407,8 @@ export async function getArticle(handle: string): Promise<Article> {
   const res = await shopifyFetch<ShopifyArticleOperation>({
     query: getArticleByHandleQuery,
     variables: { handle },
-    tags: [TAGS.blogs]
+    tags: [TAGS.blogs, `${TAGS.blogs}-${handle}`],
+    revalidate: 3600
   });
 
   return removeEdgesAndNodes(res.body.data.articles)[0];
@@ -414,7 +417,8 @@ export async function getArticle(handle: string): Promise<Article> {
 export async function getArticles(): Promise<Article[]> {
   const res = await shopifyFetch<ShopifyArticlesOperation>({
     query: getArticlesQuery,
-    tags: [TAGS.blogs]
+    tags: [TAGS.blogs],
+    revalidate: 3600
   });
 
   const articles = removeEdgesAndNodes(res.body.data.articles);

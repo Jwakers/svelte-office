@@ -15,11 +15,6 @@ const Providers = ({ children }: { children: React.ReactNode }) => (
         <Transition
           appear
           show={t.visible}
-          className={clsx(
-            'flex transform items-center gap-2 rounded-none px-3 py-2 text-white shadow-sm transition-all',
-            { 'bg-success': t.type === 'success' },
-            { 'bg-error': t.type === 'error' }
-          )}
           enter="transition-all duration-150"
           enterFrom="opacity-0 scale-50"
           enterTo="opacity-100 scale-100"
@@ -27,7 +22,13 @@ const Providers = ({ children }: { children: React.ReactNode }) => (
           leaveFrom="opacity-100 scale-100"
           leaveTo="opacity-0 scale-75"
         >
-          <div>
+          <div
+            className={clsx(
+              'flex transform items-center gap-2 rounded-none px-3 py-2 text-white shadow-sm transition-all',
+              { 'bg-success': t.type === 'success' },
+              { 'bg-error': t.type === 'error' }
+            )}
+          >
             <p className="">{resolveValue(t.message, t)}</p>
             <ToastIcon toast={t} />
           </div>
