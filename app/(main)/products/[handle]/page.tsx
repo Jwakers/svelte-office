@@ -18,7 +18,7 @@ import {
   UNIT_MAP,
   WARRANTY
 } from 'lib/constants';
-import { getGenericFile, getProduct, getProductRecommendations } from 'lib/shopify';
+import { getGenericFile, getProduct, getProductRecommendations, getProducts } from 'lib/shopify';
 import { Product, ShopifyVendors } from 'lib/shopify/types';
 import { getPublicBaseUrl } from 'lib/utils';
 import { getReviews } from 'lib/yotpo';
@@ -96,6 +96,13 @@ function DeliverySection({
       </div>
     </Accordion>
   );
+}
+
+export async function generateStaticParams() {
+  const products = await getProducts({});
+  const handles = products.map((product) => ({ handle: product.handle }));
+
+  return handles;
 }
 
 export default async function ProductPage({ params }: { params: { handle: string } }) {
