@@ -8,10 +8,7 @@ export const createUrl = (pathname: string, params: URLSearchParams | ReadonlyUR
   return `${pathname}${queryString}`;
 };
 
-export const getPublicBaseUrl = () =>
-  process.env.NODE_ENV === 'production'
-    ? `https://${process.env.NEXT_PUBLIC_SITE_URL}`
-    : 'http://localhost:3000';
+export const getPublicBaseUrl = () => `https://${process.env.NEXT_PUBLIC_SITE_URL}`;
 
 export async function wait(ms: number) {
   return new Promise((resolve) => setTimeout(resolve, ms));
@@ -47,14 +44,12 @@ export function parseUnderscore(label: string) {
 type BreakpointKeys = keyof typeof BREAKPOINTS;
 
 export function getImageSizes(sizes: { [key in BreakpointKeys]?: string }) {
-  let sizesString = '';
   const pairs = Object.entries(sizes);
-  ('(max-width: 769) 100vw, (max-width: 1025) 50vw,');
 
-  pairs.forEach(([key, val], i) => {
+  return pairs.reduce((acc, [key, val], i) => {
     if (i < pairs.length - 1)
-      sizesString += `(max-width: ${BREAKPOINTS[key as BreakpointKeys] - 1}px) ${val}, `;
-    else sizesString += val;
-  });
-  return sizesString;
+      acc += `(max-width: ${BREAKPOINTS[key as BreakpointKeys] - 1}px) ${val}, `;
+    else acc += val;
+    return acc;
+  }, '');
 }

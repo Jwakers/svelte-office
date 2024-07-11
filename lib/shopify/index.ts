@@ -14,6 +14,7 @@ import {
   removeFromCartMutation
 } from './mutations/cart';
 import { inventorySetOnHandQuantitiesMutation } from './mutations/product';
+import { getArticleByHandleQuery, getArticlesQuery } from './queries/blogs';
 import { getCartQuery } from './queries/cart';
 import {
   getCollectionProductsQuery,
@@ -34,6 +35,7 @@ import {
   getProductsQuery
 } from './queries/product';
 import {
+  Article,
   Cart,
   Collection,
   CollectionWithProducts,
@@ -43,6 +45,8 @@ import {
   Product,
   ProductAlgolia,
   ShopifyAddToCartOperation,
+  ShopifyArticleOperation,
+  ShopifyArticlesOperation,
   ShopifyCart,
   ShopifyCartOperation,
   ShopifyCollection,
@@ -80,6 +84,7 @@ export async function shopifyFetch<T>({
   headers,
   query,
   tags,
+  revalidate,
   variables,
   adminAccessToken,
   storefontAccessToken = process.env.SHOPIFY_STOREFRONT_ACCESS_TOKEN!
@@ -88,6 +93,7 @@ export async function shopifyFetch<T>({
   headers?: HeadersInit;
   query: string;
   tags?: string[];
+  revalidate?: NextFetchRequestConfig['revalidate'];
   variables?: ExtractVariables<T>;
   adminAccessToken?: string;
   storefontAccessToken?: string;
@@ -106,7 +112,7 @@ export async function shopifyFetch<T>({
         ...(variables && { variables })
       }),
       cache,
-      ...(tags && { next: { tags } })
+      ...(tags && { next: { tags, revalidate } })
     });
 
     const body = await result.json();
@@ -391,11 +397,33 @@ export async function getPage(handle: string): Promise<Page> {
 
 export async function getPages(): Promise<Page[]> {
   const res = await shopifyFetch<ShopifyPagesOperation>({
-    query: getPagesQuery,
-    cache: 'no-store'
+    query: getPagesQuery
   });
 
   return removeEdgesAndNodes(res.body.data.pages);
+}
+
+export async function getArticle(handle: string): Promise<Article> {
+  const res = await shopifyFetch<ShopifyArticleOperation>({
+    query: getArticleByHandleQuery,
+    variables: { handle },
+    tags: [TAGS.blogs, `${TAGS.blogs}-${handle}`],
+    revalidate: process.env.NODE_ENV === 'development' ? 60 : 3600
+  });
+
+  return removeEdgesAndNodes(res.body.data.articles)[0];
+}
+
+export async function getArticles(): Promise<Article[]> {
+  const res = await shopifyFetch<ShopifyArticlesOperation>({
+    query: getArticlesQuery,
+    tags: [TAGS.blogs],
+    revalidate: process.env.NODE_ENV === 'development' ? 60 : 3600
+  });
+
+  const articles = removeEdgesAndNodes(res.body.data.articles);
+
+  return articles;
 }
 
 export async function getProduct(handle: string): Promise<Product | undefined> {
