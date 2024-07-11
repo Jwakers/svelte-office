@@ -101,7 +101,7 @@ export const ROUTES = {
   products: 'products',
   categories: 'categories',
   search: 'search',
-  blogs: 'blogs',
+  blog: 'blog',
   contact: 'contact',
   policies: 'policies',
   delivery: 'delivery',
@@ -120,6 +120,10 @@ export const MENU_ITEMS = [
   {
     title: 'All categories',
     path: `/${ROUTES.categories}`
+  },
+  {
+    title: 'Blog',
+    path: `/${ROUTES.blog}`
   },
   {
     title: 'Contact us',

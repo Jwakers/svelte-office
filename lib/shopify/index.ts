@@ -408,7 +408,7 @@ export async function getArticle(handle: string): Promise<Article> {
     query: getArticleByHandleQuery,
     variables: { handle },
     tags: [TAGS.blogs, `${TAGS.blogs}-${handle}`],
-    revalidate: 3600
+    revalidate: process.env.NODE_ENV === 'development' ? 60 : 3600
   });
 
   return removeEdgesAndNodes(res.body.data.articles)[0];
@@ -418,7 +418,7 @@ export async function getArticles(): Promise<Article[]> {
   const res = await shopifyFetch<ShopifyArticlesOperation>({
     query: getArticlesQuery,
     tags: [TAGS.blogs],
-    revalidate: 3600
+    revalidate: process.env.NODE_ENV === 'development' ? 60 : 3600
   });
 
   const articles = removeEdgesAndNodes(res.body.data.articles);

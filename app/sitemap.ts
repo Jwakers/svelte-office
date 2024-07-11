@@ -8,7 +8,7 @@ import { MetadataRoute } from 'next';
 const baseUrl = getPublicBaseUrl();
 
 export default async function sitemap(): Promise<Promise<Promise<MetadataRoute.Sitemap>>> {
-  const routesMap = ['', `/${ROUTES.contact}`, `/${ROUTES.search}`, `/${ROUTES.blogs}`].map(
+  const routesMap = ['', `/${ROUTES.contact}`, `/${ROUTES.search}`, `/${ROUTES.blog}`].map(
     (route) => ({
       url: `${baseUrl}${route}`,
       lastModified: new Date().toISOString()
@@ -38,7 +38,7 @@ export default async function sitemap(): Promise<Promise<Promise<MetadataRoute.S
 
   const articlesPromis = getArticles().then((pages) =>
     pages.map((page) => ({
-      url: `${baseUrl}/${ROUTES.blogs}/${page.handle}`,
+      url: `${baseUrl}/${ROUTES.blog}/${page.handle}`,
       lastModidied: page.publishedAt
     }))
   );

@@ -13,14 +13,14 @@ export default async function Layout({
   params: { handle: string };
 }) {
   const { title, excerpt, seo, authorV2, publishedAt } = await getArticle(params.handle);
-  const url = getPublicBaseUrl() + `/${ROUTES.blogs}/${params.handle}`;
+  const url = getPublicBaseUrl() + `/${ROUTES.blog}/${params.handle}`;
 
   return (
     <Suspense>
       <div className="mx-auto gap-4 px-3 py-10 md:grid md:max-w-5xl md:grid-cols-[1fr_200px] md:gap-8">
         <div>
           <div className="mb-2 flex items-center gap-1 text-xs md:mb-4">
-            <Link href={`/${ROUTES.blogs}`} className="underline">
+            <Link href={`/${ROUTES.blog}`} className="underline">
               Blogs
             </Link>
             <span>/</span>

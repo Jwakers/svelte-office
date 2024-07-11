@@ -13,13 +13,13 @@ export default async function Page() {
 
   return (
     <div className="mx-auto px-3 py-10 md:max-w-5xl ">
-      <h1 className="mb-8 font-serif text-5xl font-bold">Blogs</h1>
+      <h1 className="mb-8 font-serif text-5xl font-bold">Blog</h1>
 
       <div>
         {articles.map((article) => {
           return (
             <Link
-              href={`/${ROUTES.blogs}/${article.handle}`}
+              href={`/${ROUTES.blog}/${article.handle}`}
               className="block gap-3 border-b border-brand py-3 transition-transform hover:translate-x-4 md:grid md:grid-cols-[1fr_200px] md:py-6"
             >
               <div className="space-y-1 md:space-y-2">
