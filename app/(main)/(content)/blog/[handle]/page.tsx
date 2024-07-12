@@ -1,5 +1,6 @@
 import Prose from 'components/prose';
 import { getArticle, getArticles } from 'lib/shopify';
+import { getImageSizes } from 'lib/utils';
 import { Metadata } from 'next';
 import Image from 'next/image';
 import { notFound } from 'next/navigation';
@@ -51,6 +52,7 @@ export default async function Page({ params }: { params: { handle: string } }) {
           alt={image.altText}
           width={image.width}
           height={image.height}
+          sizes={getImageSizes({ sm: '100vw', md: '768px' })}
           className="max-h-96 w-full object-cover"
           src={image.url}
         />

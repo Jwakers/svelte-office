@@ -60,7 +60,11 @@ export default function Share({ url, text, title }: ShareProps) {
         </MenuItem>
         <MenuItem>
           <button onClick={handleCopyClick}>
-            <Copy size={isMd ? 30 : 50} strokeWidth={1} className="border border-brand p-2" />
+            <Copy
+              size={isMd ? 30 : 50}
+              strokeWidth={1}
+              className="border border-brand bg-white p-2"
+            />
           </button>
         </MenuItem>
       </MenuItems>

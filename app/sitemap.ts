@@ -36,7 +36,7 @@ export default async function sitemap(): Promise<Promise<Promise<MetadataRoute.S
     }))
   );
 
-  const articlesPromis = getArticles().then((pages) =>
+  const articlesPromise = getArticles().then((pages) =>
     pages.map((page) => ({
       url: `${baseUrl}/${ROUTES.blog}/${page.handle}`,
       lastModidied: page.publishedAt
@@ -44,7 +44,7 @@ export default async function sitemap(): Promise<Promise<Promise<MetadataRoute.S
   );
 
   const fetchedRoutes = (
-    await Promise.all([collectionsPromise, productsPromise, pagesPromise, articlesPromis])
+    await Promise.all([collectionsPromise, productsPromise, pagesPromise, articlesPromise])
   ).flat();
 
   return [...routesMap, ...fetchedRoutes];
