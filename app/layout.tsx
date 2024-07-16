@@ -1,4 +1,4 @@
-import { GoogleAnalytics, GoogleTagManager } from '@next/third-parties/google';
+import { GoogleTagManager } from '@next/third-parties/google';
 import { Analytics } from '@vercel/analytics/react';
 import { SpeedInsights } from '@vercel/speed-insights/next';
 import 'app/globals.css';
@@ -42,7 +42,6 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
         <Analytics />
         <SpeedInsights />
         <GoogleTagManager gtmId="GTM-MCW4BTKJ" />
-        <GoogleAnalytics gaId="G-QZHC45RS9P" />
         <Script
           src="//cdn.wishpond.net/connect.js?merchantId=1849473&amp;writeKey=53c8a5082846"
           async
