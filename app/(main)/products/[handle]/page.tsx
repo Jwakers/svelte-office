@@ -198,6 +198,7 @@ export default async function ProductPage({ params }: { params: { handle: string
           <AddToCart
             variants={product.variants}
             availableForSale={product.availableForSale}
+            product={product}
             className={clsx({ 'sticky bottom-14 md:bottom-4': product.availableForSale })}
           />
         </div>
