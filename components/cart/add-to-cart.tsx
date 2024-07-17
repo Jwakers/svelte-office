@@ -1,19 +1,22 @@
 'use client';
 
+import { sendGTMEvent } from '@next/third-parties/google';
 import clsx, { ClassValue } from 'clsx';
 import { addItem } from 'components/cart/actions';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useState, useTransition } from 'react';
 
 import LoadingDots from 'components/loading-dots';
-import { ProductVariant } from 'lib/shopify/types';
+import { Product, ProductVariant } from 'lib/shopify/types';
 
 export function AddToCart({
   variants,
+  product,
   availableForSale,
   className
 }: {
   variants: ProductVariant[];
+  product: Product;
   availableForSale: boolean;
   className: ClassValue;
 }) {
@@ -47,6 +50,12 @@ export function AddToCart({
             alert(error);
             return;
           }
+
+          sendGTMEvent({
+            event: 'conversion_event_add_to_cart',
+            product_name: product.title,
+            variant_title: product.variants.find((v) => v.id === selectedVariantId)?.title
+          });
 
           router.refresh();
         });
