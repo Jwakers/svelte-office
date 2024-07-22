@@ -92,11 +92,6 @@ function StandingDeskPromoSlide() {
             <br />
             <span className="text-3xl md:text-5xl">Ends July 31st</span>
           </h1>
-          <p>
-            Limited time offer. Just use code{' '}
-            <span className="inline-block border border-white p-1">STANDING</span> when you
-            checkout.
-          </p>
           <p className="mb-6 md:mb-20">
             Transform your workspace with our sit/stand desks and enjoy a healthier, more productive
             workday. For a limited time, get 15% off on all sit/stand desks. Don't miss out, upgrade
