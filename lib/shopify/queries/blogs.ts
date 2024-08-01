@@ -17,7 +17,7 @@ export const getArticleByHandleQuery = /* GraphQL */ `
 
 export const getArticlesQuery = /* GraphQL */ `
   query {
-    articles(first: 250) {
+    articles(first: 250, sortKey: PUBLISHED_AT, reverse: true) {
       edges {
         node {
           ...article
