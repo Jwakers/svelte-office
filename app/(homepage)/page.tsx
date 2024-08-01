@@ -3,7 +3,6 @@ import DeliveryBanner from 'components/delivery-banner';
 import { FeaturedProduct } from 'components/featured-product';
 import HeroCarousel from 'components/hero-carousel';
 import LatestProducts from 'components/product/latest';
-import PromotionBanner from 'components/promotion-banner';
 import USPs from 'components/usps';
 import { ROUTES } from 'lib/constants';
 import { getPublicBaseUrl } from 'lib/utils';
@@ -86,7 +85,7 @@ export default async function HomePage() {
         </div>
         <DeliveryBanner />
         <FeaturedProduct />
-        <PromotionBanner />
+        {/* <PromotionBanner /> */}
         <h2 className="border-brand px-3 py-4 font-serif text-2xl uppercase md:border-b md:py-10 md:text-3xl">
           Latest products
         </h2>

@@ -46,9 +46,9 @@ export default function HeroCarousel() {
         className="size-full"
         wrapperClass="h-full"
       >
-        <SwiperSlide className="size-full">
+        {/* <SwiperSlide className="size-full">
           <StandingDeskPromoSlide />
-        </SwiperSlide>
+        </SwiperSlide> */}
         <SwiperSlide className="size-full">
           <GradientSlide />
         </SwiperSlide>
@@ -92,6 +92,7 @@ function StandingDeskPromoSlide() {
             <br />
             <span className="text-3xl md:text-5xl">Ends July 31st</span>
           </h1>
+
           <p className="mb-6 md:mb-20">
             Transform your workspace with our sit/stand desks and enjoy a healthier, more productive
             workday. For a limited time, get 15% off on all sit/stand desks. Don't miss out, upgrade
