@@ -17,6 +17,9 @@ const collectionFragment = /* GraphQL */ `
       ...seo
     }
     updatedAt
+    hide: metafield(namespace: "collection", key: "hide") {
+      value
+    }
   }
 `;
 

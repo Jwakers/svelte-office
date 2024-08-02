@@ -156,6 +156,9 @@ export type ShopifyCollection = {
   seo: SEO;
   updatedAt: string;
   image?: Image;
+  hide: Maybe<{
+    value: boolean;
+  }>;
 };
 
 export type ShopifyProduct = {
