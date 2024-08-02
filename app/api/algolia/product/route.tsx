@@ -6,9 +6,8 @@ import { NextRequest, NextResponse } from 'next/server';
 const client = getAlgoliaIndex(true);
 
 export async function POST(req: NextRequest): Promise<Response> {
-  verifyWebhook(req);
-
   try {
+    verifyWebhook(req);
     const body = await req.json();
     const product = await getProductForAlgolia(body.id);
 

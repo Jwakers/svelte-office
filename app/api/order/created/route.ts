@@ -118,10 +118,14 @@ const handleData = (data: any) => {
 };
 
 export async function POST(req: NextRequest) {
-  const data = await req.clone().json();
+  try {
+    const data = await req.clone().json();
 
-  verifyWebhook(req);
+    verifyWebhook(req);
 
-  handleData(data);
-  return NextResponse.json({ status: 200 });
+    handleData(data);
+    return NextResponse.json({ status: 200 });
+  } catch (err) {
+    return NextResponse.json(err, { status: 500 });
+  }
 }

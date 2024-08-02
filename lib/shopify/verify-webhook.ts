@@ -7,8 +7,7 @@ export async function verifyWebhook(req: NextRequest) {
   const shopifyHash = headersList.get('x-shopify-hmac-sha256');
 
   if (!shopifyHash) {
-    console.error('No HMAC header, cannot be verified.');
-    return false;
+    throw Error('No HMAC header, cannot be verified.');
   }
 
   const rawBody = await req.clone().text();
