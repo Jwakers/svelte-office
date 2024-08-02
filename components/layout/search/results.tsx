@@ -29,7 +29,7 @@ function Result({ hit }: ResultProps) {
   return (
     <Link
       href={`/${ROUTES.products}/${hit.handle}`}
-      className="group relative flex h-full flex-col outline outline-1 outline-black"
+      className="group relative flex h-full flex-col shadow-border"
     >
       {showComparePrice ? (
         <span className="absolute right-2 top-2 block bg-brand p-1 text-xs text-white">

@@ -12,7 +12,7 @@ export default function ProductTile({ product }: { product: Product }) {
   return (
     <Link
       href={`/${ROUTES.products}/${product.handle}`}
-      className="group flex h-full flex-col outline outline-1 outline-black"
+      className="group flex h-full flex-col shadow-border"
     >
       <Image
         src={product.featuredImage.url}
