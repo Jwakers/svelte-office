@@ -31,7 +31,7 @@ export function getNamedTags(tags: string[]) {
     const keyName = key.split(' ').join('_').toLowerCase();
 
     if (Array.isArray(namedTags[keyName])) namedTags[keyName]?.push(val);
-    else namedTags[keyName] = [val];
+    else namedTags[keyName] = [val.trim()];
   });
   return namedTags;
 }
@@ -85,7 +85,6 @@ export function getRecord(product: ProductAlgolia) {
     brand: product.vendor,
     price: prices,
     compareAtPrice: compareAtPrices,
-    currency_code: product.priceRange.minVariantPrice.currencyCode, // Legacy can be deleted after deployment
     currencyCode: product.priceRange.minVariantPrice.currencyCode,
     image: { ...product.featuredImage },
     width: widths,
