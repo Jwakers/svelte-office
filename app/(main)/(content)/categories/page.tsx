@@ -33,7 +33,7 @@ export default async function Collections() {
                 collection.handle
               )}`}
               key={collection.handle}
-              className="group flex h-full flex-col outline outline-1 outline-black"
+              className="group flex h-full flex-col shadow-border"
             >
               {collection.image ? (
                 <Image

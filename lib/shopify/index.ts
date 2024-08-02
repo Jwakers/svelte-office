@@ -356,13 +356,15 @@ export async function getCollections(): Promise<CollectionWithProducts[]> {
     cache: 'no-store'
   });
   const shopifyCollections = removeEdgesAndNodes(res.body?.data?.collections);
-  const shopifyCollectionsWithProducts = shopifyCollections.map((collection) => {
-    const products = removeEdgesAndNodes(collection.products).filter(showInProd);
-    return {
-      ...collection,
-      products
-    };
-  });
+  const shopifyCollectionsWithProducts = shopifyCollections
+    .map((collection) => {
+      const products = removeEdgesAndNodes(collection.products).filter(showInProd);
+      return {
+        ...collection,
+        products
+      };
+    })
+    .filter((item) => item.hide === null || item.hide.value === true);
 
   return shopifyCollectionsWithProducts;
 }

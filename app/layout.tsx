@@ -16,6 +16,16 @@ export const metadata = {
     default: SITE_NAME || '',
     template: `%s | Svelte Office - Premium Office Furniture`
   },
+  openGraph: {
+    images: [
+      {
+        url: '/forge-corner-lifestyle.jpg',
+        width: 1200,
+        height: 630
+      }
+    ],
+    type: 'website'
+  },
   robots: {
     follow: true,
     index: true

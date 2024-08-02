@@ -1,8 +1,6 @@
 import algoliasearch from 'algoliasearch';
-import { RefinementListItem } from 'instantsearch.js/es/connectors/refinement-list/connectRefinementList';
 import { ALGOLIA } from 'lib/constants';
 import { ProductAlgolia } from 'lib/shopify/types';
-import { parseUnderscore } from 'lib/utils';
 
 export function getAlgoliaClient(isAdmin?: boolean) {
   const client = algoliasearch(
@@ -20,10 +18,6 @@ export function getAlgoliaIndex(isAdmin?: boolean, indexName: string = ALGOLIA.i
   return index;
 }
 
-export function transformLabels(items: RefinementListItem[]) {
-  return items.map((item) => ({ ...item, label: parseUnderscore(item.label) }));
-}
-
 export function getURIComponent(type: 'range' | 'refinementList', facet: string, value: string) {
   return `${encodeURIComponent(`${type}[${facet}]${type === 'range' ? '' : '[0]'}`)}=${value}`;
 }
@@ -37,7 +31,7 @@ export function getNamedTags(tags: string[]) {
     const keyName = key.split(' ').join('_').toLowerCase();
 
     if (Array.isArray(namedTags[keyName])) namedTags[keyName]?.push(val);
-    else namedTags[keyName] = [val];
+    else namedTags[keyName] = [val.trim()];
   });
   return namedTags;
 }
@@ -91,7 +85,6 @@ export function getRecord(product: ProductAlgolia) {
     brand: product.vendor,
     price: prices,
     compareAtPrice: compareAtPrices,
-    currency_code: product.priceRange.minVariantPrice.currencyCode, // Legacy can be deleted after deployment
     currencyCode: product.priceRange.minVariantPrice.currencyCode,
     image: { ...product.featuredImage },
     width: widths,
