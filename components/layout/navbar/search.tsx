@@ -16,15 +16,10 @@ export default function Search({ className }: { className?: ClassValue }) {
   const inputRef = useRef<HTMLInputElement>(null);
   const formRef = useRef<HTMLFormElement>(null);
 
-  const toggleOpen = () => setIsOpen(!isOpen);
+  const open = () => setIsOpen(true);
   const close = () => setIsOpen(false);
+  const toggle = () => setIsOpen(!isOpen);
   useOutsideClick(formRef, close);
-
-  useEffect(() => {
-    if (isOpen && inputRef.current) {
-      inputRef.current.focus();
-    }
-  }, [isOpen]);
 
   function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -43,6 +38,11 @@ export default function Search({ className }: { className?: ClassValue }) {
     close();
   }
 
+  useEffect(() => {
+    if (!isOpen || !inputRef.current) return;
+    inputRef.current.focus();
+  }, [isOpen]);
+
   return (
     <form onSubmit={onSubmit} className={clsx('flex h-6 items-center', className)} ref={formRef}>
       <input
@@ -53,13 +53,15 @@ export default function Search({ className }: { className?: ClassValue }) {
         placeholder="Search"
         autoComplete="off"
         defaultValue={searchParams?.get('q') || ''}
+        onFocus={open}
+        onBlur={close}
         className={clsx(
           'bg-transparent uppercase text-black transition-[width] placeholder:text-black/40 focus-visible:outline-none',
           isOpen ? 'w-full md:w-40' : 'w-0'
         )}
       />
       <button
-        onClick={toggleOpen}
+        onClick={toggle}
         type="button"
         title={isOpen ? 'Close' : 'Search'}
         className="h-full cursor-pointer"
