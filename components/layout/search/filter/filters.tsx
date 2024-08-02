@@ -1,7 +1,12 @@
 import clsx, { ClassValue } from 'clsx';
+import { RefinementListItem } from 'instantsearch.js/es/connectors/refinement-list/connectRefinementList';
 import RangeInput from './range-input';
 import RefinementList from './refinement-list';
 import StockSwitch from './stock-switch';
+
+function transformItems(items: RefinementListItem[]) {
+  return items.map((item) => ({ ...item, label: item.label.split('-').join(' ') }));
+}
 
 export default function Filters({ className }: { className?: ClassValue }) {
   return (
@@ -9,7 +14,11 @@ export default function Filters({ className }: { className?: ClassValue }) {
       <div>
         <h2 className="mb-2 font-serif text-xl">Filtering</h2>
         <div className="space-y-5">
-          <RefinementList attribute="collections" label="By category" />
+          <RefinementList
+            attribute="collections"
+            label="By category"
+            transformItems={transformItems}
+          />
           <RefinementList attribute="desk_type" label="By desk type" />
           <RangeInput attribute="width" label="By width" />
           <RangeInput attribute="height" label="By height" />

@@ -1,7 +1,16 @@
-import { transformLabels } from 'lib/algolia';
+import { TransformItems } from 'instantsearch.js';
+import { RefinementListItem } from 'instantsearch.js/es/connectors/refinement-list/connectRefinementList';
 import { RefinementList as AlgoliaRefinementList, useRefinementList } from 'react-instantsearch';
 
-export default function RefinementList({ attribute, label }: { attribute: string; label: string }) {
+export default function RefinementList({
+  attribute,
+  label,
+  transformItems
+}: {
+  attribute: string;
+  label: string;
+  transformItems?: TransformItems<RefinementListItem>;
+}) {
   const { items } = useRefinementList({ attribute });
 
   if (!items.length) return null;
@@ -10,7 +19,7 @@ export default function RefinementList({ attribute, label }: { attribute: string
       <div className="mb-2 text-lg">{label}</div>
       <AlgoliaRefinementList
         attribute={attribute}
-        transformItems={transformLabels}
+        transformItems={transformItems}
         classNames={{
           list: 'space-y-1',
           label: 'flex items-center gap-2',
