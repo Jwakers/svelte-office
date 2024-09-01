@@ -17,10 +17,12 @@ export default function DeliveryBanner() {
           />
         </div>
         <div className="max-w-3xl space-y-2 ">
-          <h2 className="font-serif text-3xl md:text-4xl">Free next day delivery</h2>
+          <h2 className="font-serif text-3xl md:text-4xl">
+            Free next day delivery on orders over £250
+          </h2>
           <p>
             Need it fast? We've got you covered! With our next day delivery service, you can have
-            your order at your doorstep in no time. Simply place your order before 2 PM, and we'll
+            your order at your doorstep in no time. Simply place your order before 1PM, and we'll
             ensure it arrives the very next day. Don't wait — shop now and enjoy the speed and
             convenience of our express delivery!
           </p>

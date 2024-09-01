@@ -52,10 +52,6 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
         <Analytics />
         <SpeedInsights />
         <GoogleTagManager gtmId="GTM-MCW4BTKJ" />
-        <Script
-          src="//cdn.wishpond.net/connect.js?merchantId=1849473&amp;writeKey=53c8a5082846"
-          async
-        />
         <Script src="//eu.fw-cdn.com/12852134/821894.js" chat="true" async></Script>
       </body>
     </html>
