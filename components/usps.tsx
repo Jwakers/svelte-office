@@ -12,7 +12,7 @@ const usps = [
     id: 1,
     title: 'Next day delivery',
     copy: [
-      "Need it fast? Order by 2 PM for next day delivery! Shop now and get your items tomorrow. Don't wait—buy today. ",
+      "Need it fast? Order by 1PM for next day delivery! Shop now and get your items tomorrow. Don't wait—buy today. ",
       <Link href={`/${ROUTES.delivery}`} className="underline">
         Find out more.
       </Link>
