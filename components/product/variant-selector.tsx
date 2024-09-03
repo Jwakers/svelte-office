@@ -170,7 +170,6 @@ const PriceSection = ({ selectedVariant, fromPrice, hasVariants }: PriceSectionP
 
   return (
     <div className="mb-4 flex flex-col gap-1">
-      {hasVariants ? <span className="text-xs leading-none opacity-80">from</span> : null}
       <div className="flex gap-2">
         <Price
           amount={priceItem.price.amount || '0'}
