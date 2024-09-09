@@ -141,7 +141,7 @@ export default async function ProductPage({ params }: { params: { handle: string
       />
       <section className="animate-fadeIn border-b border-brand md:grid md:grid-cols-2">
         <div className="relative flex flex-col border-brand md:border-r">
-          <Gallery images={product.images} />
+          <Gallery images={product.images} variants={product.variants} />
         </div>
         <div className="flex flex-col gap-4 p-3">
           <div className="flex flex-col">
@@ -157,7 +157,7 @@ export default async function ProductPage({ params }: { params: { handle: string
             </ReadMore>
           ) : null}
           <div>
-            {specSheet ? (
+            {product.specification.length || specSheet ? (
               <Accordion heading="Specification">
                 {product.specification.length && (
                   <table className="py-2">
@@ -177,16 +177,19 @@ export default async function ProductPage({ params }: { params: { handle: string
                     </tbody>
                   </table>
                 )}
-                <a
-                  className="button mb-4 mt-2 flex items-center justify-center gap-2"
-                  href={specSheet}
-                  target="_black"
-                >
-                  <span>Download full specification</span>
-                  <Download width={18} />
-                </a>
+                {specSheet ? (
+                  <a
+                    className="button mb-4 mt-2 flex items-center justify-center gap-2"
+                    href={specSheet}
+                    target="_black"
+                  >
+                    <span>Download full specification</span>
+                    <Download width={18} />
+                  </a>
+                ) : null}
               </Accordion>
             ) : null}
+
             <DeliverySection
               vendor={product.vendor as ShopifyVendors}
               deliveryType={product.deliveryType.value as keyof DeliveryTypes}

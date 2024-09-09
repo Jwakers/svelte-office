@@ -55,7 +55,8 @@ export type DeliveryTypes = {
 export const vendors: { [key: string]: ShopifyVendors } = {
   teknik: 'Teknik',
   hillInteriors: 'Hill Interiors',
-  lavoro: 'Lavoro'
+  lavoro: 'Lavoro',
+  dams: 'Dams'
 };
 
 export const DELIVERY_OPTIONS = {
@@ -70,6 +71,10 @@ export const DELIVERY_OPTIONS = {
   [vendors.lavoro!]: {
     ND: 'If this order is placed before 1pm it will be dispatched for next working day delivery.',
     '2M': 'This product is delivered by a two person team. You will be contacted to discuss a delivery date and time, typically delivered within 10 working days.'
+  },
+  [vendors.dams!]: {
+    ND: 'If this order is placed before 1pm it will be dispatched for next working day delivery.',
+    '2M': 'This product is delivered by a two person team. You will be contacted to discuss a delivery date and time, typically delivered within 10 working days.'
   }
 } as { [key in ShopifyVendors]: DeliveryTypes };
 
@@ -80,7 +85,8 @@ export const WARRANTY = {
     'All products have a two year mechanical parts replacement warranty (subject to fair use).',
   [vendors.hillInteriors!]:
     'All products have a two year mechanical parts replacement warranty (subject to fair use).',
-  [vendors.lavoro!]: '5 year guarantee.'
+  [vendors.lavoro!]: 'All products have a 5 year guarantee.',
+  [vendors.dams!]: 'All products have a 5 year warranty'
 } as { [key in ShopifyVendors | 'default']: string };
 
 export const UNIT_MAP = {

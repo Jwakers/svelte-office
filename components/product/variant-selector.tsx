@@ -24,7 +24,6 @@ type OptimizedVariant = {
 type PriceSectionProps = {
   selectedVariant?: OptimizedVariant;
   fromPrice: ProductVariant;
-  hasVariants: boolean;
 };
 
 export function VariantSelector({
@@ -97,22 +96,12 @@ export function VariantSelector({
   }, []);
 
   if (hasNoOptionsOrJustOneOption) {
-    return (
-      <PriceSection
-        selectedVariant={selectedVariant}
-        fromPrice={fromPrice}
-        hasVariants={!hasNoOptionsOrJustOneOption}
-      />
-    );
+    return <PriceSection selectedVariant={selectedVariant} fromPrice={fromPrice} />;
   }
 
   return (
     <>
-      <PriceSection
-        selectedVariant={selectedVariant}
-        fromPrice={fromPrice}
-        hasVariants={!hasNoOptionsOrJustOneOption}
-      />
+      <PriceSection selectedVariant={selectedVariant} fromPrice={fromPrice} />
       <div className="flex flex-col gap-2">
         {options.map((option) => (
           <dl key={option.id}>
@@ -162,7 +151,7 @@ export function VariantSelector({
   );
 }
 
-const PriceSection = ({ selectedVariant, fromPrice, hasVariants }: PriceSectionProps) => {
+const PriceSection = ({ selectedVariant, fromPrice }: PriceSectionProps) => {
   const priceItem = selectedVariant || fromPrice;
   const compareAtPrice = priceItem.compareAtPrice;
   const showCompareAtPrice =
@@ -170,7 +159,6 @@ const PriceSection = ({ selectedVariant, fromPrice, hasVariants }: PriceSectionP
 
   return (
     <div className="mb-4 flex flex-col gap-1">
-      {hasVariants ? <span className="text-xs leading-none opacity-80">from</span> : null}
       <div className="flex gap-2">
         <Price
           amount={priceItem.price.amount || '0'}

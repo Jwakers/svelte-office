@@ -5,16 +5,31 @@ import 'swiper/css/pagination';
 import { Navigation, Pagination } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
 
-import { Image as TImage } from 'lib/shopify/types';
+import { ProductVariant, Image as TImage } from 'lib/shopify/types';
 import { getImageSizes } from 'lib/utils';
 import Image from 'next/image';
-import { useRef } from 'react';
+import { useSearchParams } from 'next/navigation';
+import { useEffect, useState } from 'react';
 import { ArrowLeft, ArrowRight } from 'react-feather';
+import type { Swiper as TSwiper } from 'swiper';
 
-export function Gallery({ images }: { images: TImage[] }) {
-  const paginationRef = useRef(null);
-  const nextRef = useRef(null);
-  const prevRef = useRef(null);
+export function Gallery({ images, variants }: { images: TImage[]; variants: ProductVariant[] }) {
+  const [swiper, setSwiper] = useState<TSwiper | undefined>(undefined);
+  const params = useSearchParams();
+
+  useEffect(() => {
+    const variant = variants.find((variant: ProductVariant) =>
+      variant.selectedOptions.every(
+        (option) => option.value === params.get(option.name.toLowerCase())
+      )
+    );
+
+    if (!swiper || !variant) return;
+    const imageIndex = images.findIndex((image) => image.url === variant.image.url);
+
+    if (imageIndex === -1) return;
+    swiper.slideTo(imageIndex, 0);
+  }, [params]);
 
   return (
     <div className="sticky top-0">
@@ -29,9 +44,10 @@ export function Gallery({ images }: { images: TImage[] }) {
           clickable: true,
           bulletClass: 'rounded w-2 h-2 block border border-brand',
           bulletActiveClass: 'bg-brand',
-          type: 'bullets',
+          type: images.length < 12 ? 'bullets' : 'fraction',
           el: '.pagination'
         }}
+        onInit={(instance) => setSwiper(instance)}
       >
         {images.map(({ url, width, height, altText }, i) => (
           <SwiperSlide key={`slide-${url}`}>

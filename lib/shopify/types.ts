@@ -103,6 +103,10 @@ export type ProductVariant = {
   }[];
   price: Money;
   compareAtPrice: Money;
+  image: {
+    id: string;
+    url: string;
+  };
 };
 
 export type ProductAlgolia = Pick<
@@ -134,7 +138,7 @@ export type SEO = {
   description: string;
 };
 
-export type ShopifyVendors = 'Teknik' | 'Hill Interiors' | 'Lavoro';
+export type ShopifyVendors = 'Teknik' | 'Hill Interiors' | 'Lavoro' | 'Dams';
 
 export type ShopifyCart = {
   id: string;

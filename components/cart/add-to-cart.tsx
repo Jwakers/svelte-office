@@ -7,6 +7,7 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useState, useTransition } from 'react';
 
 import LoadingDots from 'components/loading-dots';
+import Price from 'components/price';
 import { Product, ProductVariant } from 'lib/shopify/types';
 
 export function AddToCart({
@@ -20,7 +21,7 @@ export function AddToCart({
   availableForSale: boolean;
   className: ClassValue;
 }) {
-  const [selectedVariantId, setSelectedVariantId] = useState(variants[0]?.id);
+  const [selectedVariant, setSelectedVariant] = useState(variants[0]);
   const router = useRouter();
   const searchParams = useSearchParams();
   const [isPending, startTransition] = useTransition();
@@ -33,9 +34,9 @@ export function AddToCart({
     );
 
     if (variant) {
-      setSelectedVariantId(variant.id);
+      setSelectedVariant(variant);
     }
-  }, [searchParams, variants, setSelectedVariantId]);
+  }, [searchParams, variants, setSelectedVariant]);
 
   return (
     <button
@@ -44,7 +45,7 @@ export function AddToCart({
       onClick={() => {
         if (!availableForSale) return;
         startTransition(async () => {
-          const error = await addItem(selectedVariantId);
+          const error = await addItem(selectedVariant?.id);
 
           if (error) {
             alert(error);
@@ -54,7 +55,7 @@ export function AddToCart({
           sendGTMEvent({
             event: 'conversion_event_add_to_cart',
             product_name: product.title,
-            variant_title: product.variants.find((v) => v.id === selectedVariantId)?.title
+            variant_title: selectedVariant?.title
           });
 
           router.refresh();
@@ -70,7 +71,21 @@ export function AddToCart({
         className
       )}
     >
-      <span>{availableForSale ? 'Add To Cart' : 'Out Of Stock'}</span>
+      <span>
+        {availableForSale ? (
+          <div className="flex items-center gap-2">
+            <span>Add To Cart</span>
+            <span>-</span>
+            <Price
+              amount={selectedVariant?.price.amount || '0'}
+              currencyCode={selectedVariant?.price.currencyCode || 'GBP'}
+              className="leading-none"
+            />
+          </div>
+        ) : (
+          'Out Of Stock'
+        )}
+      </span>
       {isPending ? <LoadingDots /> : null}
     </button>
   );
