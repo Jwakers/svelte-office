@@ -61,13 +61,17 @@ export const productFragment = /* GraphQL */ `
             amount
             currencyCode
           }
+          image {
+            id
+            url
+          }
         }
       }
     }
     featuredImage {
       ...image
     }
-    images(first: 20) {
+    images(first: 100) {
       edges {
         node {
           ...image

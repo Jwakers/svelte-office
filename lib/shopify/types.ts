@@ -103,6 +103,10 @@ export type ProductVariant = {
   }[];
   price: Money;
   compareAtPrice: Money;
+  image: {
+    id: string;
+    url: string;
+  };
 };
 
 export type ProductAlgolia = Pick<
