@@ -5,7 +5,7 @@ import 'swiper/css/pagination';
 import { Navigation, Pagination } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
 
-import { ProductOption, ProductVariant, Image as TImage } from 'lib/shopify/types';
+import { ProductVariant, Image as TImage } from 'lib/shopify/types';
 import { getImageSizes } from 'lib/utils';
 import Image from 'next/image';
 import { useSearchParams } from 'next/navigation';
@@ -13,58 +13,19 @@ import { useEffect, useState } from 'react';
 import { ArrowLeft, ArrowRight } from 'react-feather';
 import type { Swiper as TSwiper } from 'swiper';
 
-type ParamsMap = Record<string, string>;
-
-type OptimizedVariant = {
-  id: string;
-  image: ProductVariant['image'];
-  [key: string]: string | ProductVariant['image'];
-};
-
-export function Gallery({
-  images,
-  variants,
-  options
-}: {
-  images: TImage[];
-  variants: ProductVariant[];
-  options: ProductOption[];
-}) {
+export function Gallery({ images, variants }: { images: TImage[]; variants: ProductVariant[] }) {
   const [swiper, setSwiper] = useState<TSwiper | undefined>(undefined);
   const params = useSearchParams();
 
-  // Discard any unexpected options or values from url and create params map.
-  const paramsMap: ParamsMap = Object.fromEntries(
-    Array.from(params.entries()).filter(([key, value]) =>
-      options.find((option) => option.name.toLowerCase() === key && option.values.includes(value))
-    )
-  );
-
-  const optimizedVariants: OptimizedVariant[] = variants.map((variant) => {
-    const optimized: OptimizedVariant = {
-      id: variant.id,
-      image: variant.image
-    };
-
-    variant.selectedOptions.forEach((selectedOption) => {
-      const name = selectedOption.name.toLowerCase();
-      const value = selectedOption.value;
-
-      optimized[name] = value;
-    });
-
-    return optimized;
-  });
-
-  const selectedVariant = optimizedVariants.find((variant) => {
-    return Object.entries(paramsMap).every(([key, value]) => {
-      return variant[key] === value;
-    });
-  });
-
   useEffect(() => {
-    if (!swiper || !selectedVariant) return;
-    const imageIndex = images.findIndex((image) => image.url === selectedVariant.image.url);
+    const variant = variants.find((variant: ProductVariant) =>
+      variant.selectedOptions.every(
+        (option) => option.value === params.get(option.name.toLowerCase())
+      )
+    );
+
+    if (!swiper || !variant) return;
+    const imageIndex = images.findIndex((image) => image.url === variant.image.url);
 
     if (imageIndex === -1) return;
     swiper.slideTo(imageIndex, 0);
