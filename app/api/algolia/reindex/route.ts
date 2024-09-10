@@ -5,7 +5,7 @@ import { NextResponse } from 'next/server';
 
 const client = getAlgoliaIndex(true);
 
-async function recursiveFetch<T, K extends string>(
+async function getAllPages<T, K extends string>(
   property: K,
   callback: (after: string | null) => Promise<{ pageInfo: PageInfo } & { [key in K]: T[] }>
 ) {
@@ -30,7 +30,7 @@ async function recursiveFetch<T, K extends string>(
 
 export async function GET() {
   try {
-    const allProducts = await recursiveFetch<ProductAlgolia, 'products'>(
+    const allProducts = await getAllPages<ProductAlgolia, 'products'>(
       'products',
       getProductsForAlgolia
     );
