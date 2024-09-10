@@ -52,12 +52,16 @@ export const getProductTagsQuery = /* GraphQL */ `
 `;
 
 export const getProductsForAlgoliaQuery = /* GraphQL */ `
-  query {
-    products(first: 250) {
+  query getProductsForAlgoliaQuery($after: String) {
+    products(first: 100, after: $after) {
       edges {
         node {
           ...productAlgolia
         }
+      }
+      pageInfo {
+        hasNextPage
+        endCursor
       }
     }
   }

@@ -42,6 +42,7 @@ import {
   Connection,
   Menu,
   Page,
+  PageInfo,
   Product,
   ProductAlgolia,
   ShopifyAddToCartOperation,
@@ -507,10 +508,15 @@ export async function getProductTags() {
   return res.body.data.productTags.edges.map((item) => item.node);
 }
 
-export async function getProductsForAlgolia(): Promise<ProductAlgolia[]> {
+export async function getProductsForAlgolia(
+  after: string | null
+): Promise<{ products: ProductAlgolia[]; pageInfo: PageInfo }> {
   const res = await shopifyFetch<ShopifyGetProductsForAlgolia>({
     query: getProductsForAlgoliaQuery,
-    cache: 'no-store'
+    cache: 'no-store',
+    variables: {
+      after
+    }
   });
 
   const products = removeEdgesAndNodes(res.body.data.products).map((product) => ({
@@ -519,7 +525,7 @@ export async function getProductsForAlgolia(): Promise<ProductAlgolia[]> {
     collections: removeEdgesAndNodes(product.collections)
   }));
 
-  return products;
+  return { products, pageInfo: res.body.data.products.pageInfo };
 }
 
 export async function getProductForAlgolia(id: string): Promise<ProductAlgolia> {

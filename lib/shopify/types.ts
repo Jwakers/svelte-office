@@ -58,6 +58,11 @@ export type Money = {
   currencyCode: string;
 };
 
+export type PageInfo = {
+  hasNextPage: boolean;
+  endCursor: string;
+};
+
 export type Page = {
   id: string;
   title: string;
@@ -401,7 +406,10 @@ export type ShopifyGetProductsForAlgolia = {
         collections: Connection<ProductAlgolia['collections']>;
         variants: Connection<ProductAlgolia['variants']>;
       }
-    >;
+    > & { pageInfo: PageInfo };
+  };
+  variables: {
+    after: string | null;
   };
 };
 

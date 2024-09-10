@@ -26,7 +26,7 @@ const client = createAdminRestApiClient({
 });
 
 async function migrate() {
-  const productId = '9773583302957';
+  const productId = '9795838509357';
   const res = await client.get(`products/${productId}`);
   const { product }: { product: Product } = await res.json();
 
