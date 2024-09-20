@@ -2,6 +2,7 @@ import { ROUTES } from 'lib/constants';
 import getAllOfType from 'lib/shopify/rest/get-all-of-type';
 import getRestClient from 'lib/shopify/rest/get-rest-client';
 import { Product } from 'lib/shopify/rest/types';
+import { wait } from 'lib/utils';
 
 export const dynamic = 'force-dynamic'; // Prevents route running during build
 
@@ -40,7 +41,7 @@ const generateAltText = async function (imageUrl: string) {
     } else if (jsonFinalResponse.status === 'failed') {
       break;
     } else {
-      await new Promise((resolve) => setTimeout(resolve, 500));
+      await wait(500);
     }
   }
   return altText;
