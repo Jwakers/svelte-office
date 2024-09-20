@@ -17,8 +17,6 @@ const COLOUR_MAP = {
   'white/oak': 'WO'
 };
 
-type ColourMapKey = keyof typeof COLOUR_MAP;
-
 const client = createAdminRestApiClient({
   storeDomain: process.env.SHOPIFY_STORE_DOMAIN as string,
   accessToken: process.env.SHOPIFY_IMAGE_MANAGEMNET_ACCESS_TOKEN as string,
@@ -26,7 +24,7 @@ const client = createAdminRestApiClient({
 });
 
 async function migrate() {
-  const productId = '9795838509357';
+  const productId = '9810608062765';
   const res = await client.get(`products/${productId}`);
   const { product }: { product: Product } = await res.json();
 
@@ -36,24 +34,33 @@ async function migrate() {
     variantIds: [] as number[]
   }));
 
-  product.variants.forEach((variant) => {
-    const width = parseInt(variant.option1);
-    const tabletopColour = variant.option2;
-    const frameColor = variant.option3;
-    const tabletopKey = COLOUR_MAP[tabletopColour.toLowerCase() as ColourMapKey];
-    const frameKey = COLOUR_MAP[frameColor.toLowerCase() as ColourMapKey];
+  // console.log(product.variants);
 
-    console.log({ width, tabletopColour, frameColor, tabletopKey, frameKey });
+  product.variants.forEach((variant) => {
+    // const width = parseInt(variant.option1);
+    // const tabletopColour = variant.option2;
+    // const frameColor = variant.option3;
+    // const tabletopKey = COLOUR_MAP[tabletopColour.toLowerCase() as ColourMapKey];
+    // const frameKey = COLOUR_MAP[frameColor.toLowerCase() as ColourMapKey];
+
+    // console.log({ width, tabletopColour, frameColor, tabletopKey, frameKey });
+
+    // console.log(imageIds);
+    const { sku } = variant;
 
     const index = imageIds.findIndex((item) => {
-      if (!item.fileName) return;
-      // Width, top, frame
-      const [_, w, f, t] = item.fileName.split('-');
+      // if (!item.fileName) return;
+      // // Width, top, frame
+      // const [w, f, t] = item.fileName.split('-');
+      // console.log(w, f, t);
+      // let wi;
+      // if (w?.includes('12')) wi = 1200;
+      // if (w?.includes('14')) wi = 1400;
+      // if (w?.includes('16')) wi = 1600;
 
-      if (!w || !t || !f) return false;
+      // if (!w || !t || !f) return false;
 
-      if (parseInt(w) === width && t === tabletopKey.toLowerCase() && f === frameKey.toLowerCase())
-        return true;
+      if (sku.toLowerCase() === item.fileName) return true;
 
       return false;
     });
@@ -62,8 +69,11 @@ async function migrate() {
     imageIds[index]?.variantIds.push(variant.id);
   });
 
+  // console.log(imageIds);
+
   for (const item of imageIds) {
-    if (!item.variantIds.length) return;
+    console.log(item, !item.variantIds.length);
+    if (!item.variantIds.length) continue;
 
     const res = await client.put(`products/${product.id}/images/${item.id}`, {
       data: {
@@ -74,7 +84,7 @@ async function migrate() {
     });
 
     const data = await res.json();
-    console.log(data);
+    // console.log(data);
     await wait(150);
   }
 
