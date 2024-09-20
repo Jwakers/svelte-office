@@ -42,6 +42,7 @@ import {
   Connection,
   Menu,
   Page,
+  PageInfo,
   Product,
   ProductAlgolia,
   ShopifyAddToCartOperation,
@@ -203,6 +204,29 @@ const reshapeProducts = (products: ShopifyProduct[]) => {
 
   return reshapedProducts;
 };
+
+export async function getAllPages<T, K extends string>(
+  property: K,
+  callback: (after: string | null) => Promise<{ pageInfo: PageInfo } & { [key in K]: T[] }>
+) {
+  const allItems: T[] = [];
+  let hasNextPage = true;
+  let after = null;
+
+  while (hasNextPage) {
+    const response = await callback(after);
+    const items = response[property];
+
+    if (!items?.length) throw Error(`No items found for property: ${property}`);
+
+    allItems.push(...items);
+
+    hasNextPage = response.pageInfo.hasNextPage;
+    after = response.pageInfo.endCursor;
+  }
+
+  return allItems;
+}
 
 export async function createCart(): Promise<Cart> {
   const res = await shopifyFetch<ShopifyCreateCartOperation>({
@@ -479,16 +503,18 @@ export async function getProducts({
   return reshapeProducts(removeEdgesAndNodes(res.body.data.products));
 }
 
-export async function getProductSkus() {
+export async function getProductSkus(after: string | null) {
   const res = await shopifyFetch<ShopifyGetProductSkus>({
     adminAccessToken: adminStockManagementAccessToken,
     query: getProductSkusQuery,
+    cache: 'no-cache',
     variables: {
-      query: `vendor:${vendors.teknik || ''}`
+      query: `vendor:${vendors.teknik || ''}`,
+      after
     }
   });
 
-  return removeEdgesAndNodes(res.body.data.productVariants).map(
+  const variants = removeEdgesAndNodes(res.body.data.productVariants).map(
     ({ sku, id, inventoryQuantity, inventoryItem }) => ({
       sku,
       id,
@@ -496,6 +522,8 @@ export async function getProductSkus() {
       inventoryItemId: inventoryItem.id
     })
   );
+
+  return { variants, pageInfo: res.body.data.productVariants.pageInfo };
 }
 
 export async function getProductTags() {
@@ -507,10 +535,15 @@ export async function getProductTags() {
   return res.body.data.productTags.edges.map((item) => item.node);
 }
 
-export async function getProductsForAlgolia(): Promise<ProductAlgolia[]> {
+export async function getProductsForAlgolia(
+  after: string | null
+): Promise<{ products: ProductAlgolia[]; pageInfo: PageInfo }> {
   const res = await shopifyFetch<ShopifyGetProductsForAlgolia>({
     query: getProductsForAlgoliaQuery,
-    cache: 'no-store'
+    cache: 'no-store',
+    variables: {
+      after
+    }
   });
 
   const products = removeEdgesAndNodes(res.body.data.products).map((product) => ({
@@ -519,7 +552,7 @@ export async function getProductsForAlgolia(): Promise<ProductAlgolia[]> {
     collections: removeEdgesAndNodes(product.collections)
   }));
 
-  return products;
+  return { products, pageInfo: res.body.data.products.pageInfo };
 }
 
 export async function getProductForAlgolia(id: string): Promise<ProductAlgolia> {
@@ -544,7 +577,7 @@ export async function updateStock(inventoryItemId: string, quantity: number) {
     query: inventorySetOnHandQuantitiesMutation,
     variables: {
       input: {
-        reason: 'cycle_count_available',
+        reason: 'correction',
         setQuantities: [
           {
             inventoryItemId,

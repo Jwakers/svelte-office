@@ -47,36 +47,12 @@ export const BREAKPOINTS = {
   '2xl': 1536
 };
 
-export type DeliveryTypes = {
-  ND: string;
-  '2M': string;
-};
-
 export const vendors: { [key: string]: ShopifyVendors } = {
   teknik: 'Teknik',
   hillInteriors: 'Hill Interiors',
   lavoro: 'Lavoro',
   dams: 'Dams'
 };
-
-export const DELIVERY_OPTIONS = {
-  [vendors.teknik!]: {
-    ND: 'If this order is placed before 1pm it will be dispatched for next working day delivery.',
-    '2M': 'This product is delivered by a two person team. You will be contacted to discuss a delivery date and time, typically delivered within 10 working days.'
-  },
-  [vendors.hillInteriors!]: {
-    ND: 'If this order is placed before 1pm it will be dispatched for next working day delivery.',
-    '2M': 'This product is delivered by a two person team. You will be contacted to discuss a delivery date and time, typically delivered within 10 working days.'
-  },
-  [vendors.lavoro!]: {
-    ND: 'If this order is placed before 1pm it will be dispatched for next working day delivery.',
-    '2M': 'This product is delivered by a two person team. You will be contacted to discuss a delivery date and time, typically delivered within 10 working days.'
-  },
-  [vendors.dams!]: {
-    ND: 'If this order is placed before 1pm it will be dispatched for next working day delivery.',
-    '2M': 'This product is delivered by a two person team. You will be contacted to discuss a delivery date and time, typically delivered within 10 working days.'
-  }
-} as { [key in ShopifyVendors]: DeliveryTypes };
 
 export const WARRANTY = {
   default:

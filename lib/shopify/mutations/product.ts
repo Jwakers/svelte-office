@@ -5,6 +5,15 @@ export const inventorySetOnHandQuantitiesMutation = /* GraphQL */ `
         field
         message
       }
+      inventoryAdjustmentGroup {
+        createdAt
+        reason
+        referenceDocumentUri
+        changes {
+          name
+          delta
+        }
+      }
     }
   }
 `;

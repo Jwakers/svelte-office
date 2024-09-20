@@ -52,12 +52,16 @@ export const getProductTagsQuery = /* GraphQL */ `
 `;
 
 export const getProductsForAlgoliaQuery = /* GraphQL */ `
-  query {
-    products(first: 250) {
+  query getProductsForAlgoliaQuery($after: String) {
+    products(first: 100, after: $after) {
       edges {
         node {
           ...productAlgolia
         }
+      }
+      pageInfo {
+        hasNextPage
+        endCursor
       }
     }
   }
@@ -74,8 +78,8 @@ export const getProductForAlgoliaQuery = /* GraphQL */ `
 `;
 
 export const getProductSkusQuery = /* GraphQL */ `
-  query getProductSkus($query: String) {
-    productVariants(first: 250, query: $query) {
+  query getProductSkus($query: String, $after: String) {
+    productVariants(first: 250, query: $query, after: $after) {
       edges {
         node {
           sku
@@ -85,6 +89,10 @@ export const getProductSkusQuery = /* GraphQL */ `
             id
           }
         }
+      }
+      pageInfo {
+        hasNextPage
+        endCursor
       }
     }
   }

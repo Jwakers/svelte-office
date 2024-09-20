@@ -58,6 +58,11 @@ export type Money = {
   currencyCode: string;
 };
 
+export type PageInfo = {
+  hasNextPage: boolean;
+  endCursor: string;
+};
+
 export type Page = {
   id: string;
   title: string;
@@ -186,7 +191,6 @@ export type ShopifyProduct = {
   vendor: ShopifyVendors;
   specification: Metafield[];
   specificationSheet: Metafield;
-  deliveryType: Metafield;
 };
 
 export type ShopifyCartOperation = {
@@ -377,10 +381,11 @@ export type ShopifyGetProductSkus = {
       inventoryItem: {
         id: string;
       };
-    }>;
+    }> & { pageInfo: PageInfo };
   };
   variables: {
     query?: string;
+    after: string | null;
   };
 };
 
@@ -401,7 +406,10 @@ export type ShopifyGetProductsForAlgolia = {
         collections: Connection<ProductAlgolia['collections']>;
         variants: Connection<ProductAlgolia['variants']>;
       }
-    >;
+    > & { pageInfo: PageInfo };
+  };
+  variables: {
+    after: string | null;
   };
 };
 
@@ -419,7 +427,24 @@ export type ShopifyUpdateStockOperation = {
   data: any;
   variables: {
     input: {
-      reason: 'cycle_count_available';
+      reason:
+        | 'correction'
+        | 'cycle_count_available'
+        | 'damaged'
+        | 'movement_created'
+        | 'movement_updated'
+        | 'movement_received'
+        | 'movement_canceled'
+        | 'other'
+        | 'promotion'
+        | 'quality_control'
+        | 'received'
+        | 'reservation_created'
+        | 'reservation_deleted'
+        | 'reservation_updated'
+        | 'restock'
+        | 'safety_stock'
+        | 'shrinkage';
       setQuantities: {
         inventoryItemId: string;
         locationId: string;
