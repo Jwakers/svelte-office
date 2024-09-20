@@ -381,10 +381,11 @@ export type ShopifyGetProductSkus = {
       inventoryItem: {
         id: string;
       };
-    }>;
+    }> & { pageInfo: PageInfo };
   };
   variables: {
     query?: string;
+    after: string | null;
   };
 };
 
@@ -426,7 +427,24 @@ export type ShopifyUpdateStockOperation = {
   data: any;
   variables: {
     input: {
-      reason: 'cycle_count_available';
+      reason:
+        | 'correction'
+        | 'cycle_count_available'
+        | 'damaged'
+        | 'movement_created'
+        | 'movement_updated'
+        | 'movement_received'
+        | 'movement_canceled'
+        | 'other'
+        | 'promotion'
+        | 'quality_control'
+        | 'received'
+        | 'reservation_created'
+        | 'reservation_deleted'
+        | 'reservation_updated'
+        | 'restock'
+        | 'safety_stock'
+        | 'shrinkage';
       setQuantities: {
         inventoryItemId: string;
         locationId: string;

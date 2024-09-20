@@ -1,4 +1,4 @@
-import { getProductSkus, updateStock } from 'lib/shopify';
+import { getAllPages, getProductSkus, updateStock } from 'lib/shopify';
 import { NextResponse } from 'next/server';
 const ftp = require('basic-ftp');
 const fs = require('fs');
@@ -42,14 +42,18 @@ const getConvertedCSV = async function () {
 };
 
 const handleStockUpdate = async function () {
-  const skuList = await getProductSkus();
+  const skuList = await getAllPages('variants', getProductSkus);
   const stockList = await getConvertedCSV();
 
   for (const item of skuList) {
     const stock = stockList[item.sku];
+
     if (stock === undefined) {
       console.error(`Can not find sku: '${item.sku}' in stock list`);
-    } else if (stock !== item.inventoryQuantity) {
+      continue;
+    }
+
+    if (stock !== item.inventoryQuantity) {
       try {
         await updateStock(item.inventoryItemId, stock);
         console.log(`Updated stock of ${item.sku} from ${item.inventoryQuantity} to ${stock}`);
@@ -61,7 +65,7 @@ const handleStockUpdate = async function () {
   console.log('Stock update complete.');
 };
 
-export async function GET(request: Request) {
+export async function GET() {
   try {
     await handleStockUpdate();
     return NextResponse.json('Stock updated', { status: 200 });
