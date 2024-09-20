@@ -42,7 +42,10 @@ function Result({ hit }: ResultProps) {
         height={hit.image.height}
         alt={hit.image.altText}
         sizes={getImageSizes({ sm: '100vw', md: '50vw', lg: '33vw', xl: '25vw' })}
-        className="aspect-square w-full object-cover"
+        className={clsx(
+          'aspect-square w-full bg-white',
+          hit.brand === 'Teknik' ? 'object-contain py-4' : 'object-cover'
+        )}
       />
       <div className="flex h-full flex-col border-t border-brand bg-white p-3">
         <h2 className="font-serif text-lg uppercase md:text-xl">{hit.title}</h2>
