@@ -56,16 +56,16 @@ async function migrate() {
       const key = selection?.toLowerCase();
       if (!key) continue;
       if (!width) {
-        width = WIDTH_MAP[key];
+        width = WIDTH_MAP[key as keyof typeof WIDTH_MAP];
         if (width) continue;
       }
       if (!tabletop) {
-        tabletop = COLOUR_MAP[key];
+        tabletop = COLOUR_MAP[key as keyof typeof COLOUR_MAP];
         if (tabletop) continue;
       }
       if (!frame) {
         // Issue: key can match frame and colour maps
-        frame = FRAME_MAP[key];
+        frame = FRAME_MAP[key as keyof typeof FRAME_MAP];
         if (frame) continue;
       }
     }
