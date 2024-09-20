@@ -10,9 +10,6 @@ export const productFragment = /* GraphQL */ `
     description
     descriptionHtml
     vendor
-    deliveryType: metafield(namespace: "custom", key: "delivery_type") {
-      value
-    }
     specification: metafields(
       identifiers: [
         { namespace: "specification", key: "width" }

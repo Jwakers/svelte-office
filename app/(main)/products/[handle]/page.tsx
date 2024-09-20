@@ -10,14 +10,7 @@ import { ReviewStars } from 'components/product/review-stars';
 import { VariantSelector } from 'components/product/variant-selector';
 import Prose from 'components/prose';
 import ReadMore from 'components/read-more';
-import {
-  DELIVERY_OPTIONS,
-  DeliveryTypes,
-  HIDDEN_PRODUCT_TAG,
-  ROUTES,
-  UNIT_MAP,
-  WARRANTY
-} from 'lib/constants';
+import { HIDDEN_PRODUCT_TAG, ROUTES, UNIT_MAP, WARRANTY } from 'lib/constants';
 import { getGenericFile, getProduct, getProductRecommendations, getProducts } from 'lib/shopify';
 import { Product, ShopifyVendors } from 'lib/shopify/types';
 import { getPublicBaseUrl } from 'lib/utils';
@@ -64,20 +57,14 @@ export async function generateMetadata({
   };
 }
 
-function DeliverySection({
-  vendor,
-  deliveryType
-}: {
-  vendor: ShopifyVendors;
-  deliveryType: keyof DeliveryTypes;
-}) {
+function DeliverySection({ vendor }: { vendor: ShopifyVendors }) {
   return (
     <Accordion heading="Delivery and Returns">
       <div className="flex flex-col gap-2">
         <div className="py-2">
           <h3 className="font-medium">Delivery</h3>
-          <p>{DELIVERY_OPTIONS[vendor][deliveryType]}</p>
           <p>
+            If this order is placed before 1pm it will be dispatched for next working day delivery.
             For more information see our{' '}
             <Link href="/delivery" className="underline">
               delivery details page.
@@ -190,10 +177,7 @@ export default async function ProductPage({ params }: { params: { handle: string
               </Accordion>
             ) : null}
 
-            <DeliverySection
-              vendor={product.vendor as ShopifyVendors}
-              deliveryType={product.deliveryType.value as keyof DeliveryTypes}
-            />
+            <DeliverySection vendor={product.vendor as ShopifyVendors} />
             <Accordion heading="Warranty">
               <p className="py-2">{WARRANTY[product.vendor]}</p>
             </Accordion>

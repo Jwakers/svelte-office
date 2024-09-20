@@ -191,7 +191,6 @@ export type ShopifyProduct = {
   vendor: ShopifyVendors;
   specification: Metafield[];
   specificationSheet: Metafield;
-  deliveryType: Metafield;
 };
 
 export type ShopifyCartOperation = {
