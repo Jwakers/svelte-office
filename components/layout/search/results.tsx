@@ -25,6 +25,7 @@ function Result({ hit }: ResultProps) {
   const minPrice = Math.min(...hit.price);
   const minComparePrice = hit.compareAtPrice.length ? Math.min(...hit.compareAtPrice) : null;
   const showComparePrice = minComparePrice && minPrice < minComparePrice;
+  const containImage = hit.brand === 'Teknik' && hit.collections?.includes('office-chairs');
 
   return (
     <Link
@@ -44,7 +45,7 @@ function Result({ hit }: ResultProps) {
         sizes={getImageSizes({ sm: '100vw', md: '50vw', lg: '33vw', xl: '25vw' })}
         className={clsx(
           'aspect-square w-full bg-white',
-          hit.brand === 'Teknik' ? 'object-contain py-4' : 'object-cover'
+          containImage ? 'object-contain py-4' : 'object-cover'
         )}
       />
       <div className="flex h-full flex-col border-t border-brand bg-white p-3">
