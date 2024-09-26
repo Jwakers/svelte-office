@@ -455,11 +455,10 @@ export async function getArticles(): Promise<Article[]> {
 export async function getProduct(handle: string): Promise<Product | undefined> {
   const res = await shopifyFetch<ShopifyProductOperation>({
     query: getProductQuery,
-    tags: [TAGS.products],
+    tags: [TAGS.products, handle],
     variables: {
       handle
-    },
-    cache: 'no-store'
+    }
   });
 
   return reshapeProduct(res.body.data.product);
@@ -468,7 +467,7 @@ export async function getProduct(handle: string): Promise<Product | undefined> {
 export async function getProductRecommendations(productId: string): Promise<Product[]> {
   const res = await shopifyFetch<ShopifyProductRecommendationsOperation>({
     query: getProductRecommendationsQuery,
-    tags: [TAGS.products],
+    tags: [TAGS.products, productId],
     variables: {
       productId
     }

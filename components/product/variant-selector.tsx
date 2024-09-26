@@ -2,8 +2,9 @@
 
 import clsx from 'clsx';
 import Price from 'components/price';
-import { Money, ProductOption, ProductVariant } from 'lib/shopify/types';
-import { createUrl } from 'lib/utils';
+import { Money, ProductOption, ProductOptionValue, ProductVariant } from 'lib/shopify/types';
+import { createUrl, getImageSizes } from 'lib/utils';
+import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { useEffect } from 'react';
@@ -18,7 +19,7 @@ type OptimizedVariant = {
   params: URLSearchParams;
   price: Money;
   compareAtPrice: Money;
-  [key: string]: string | boolean | URLSearchParams | Money; // ie. { color: 'Red', size: 'Large', ... }
+  [key: string]: ProductOptionValue | string | boolean | URLSearchParams | Money | undefined;
 };
 
 type PriceSectionProps = {
@@ -37,7 +38,7 @@ export function VariantSelector({
   const currentParams = useSearchParams();
   const router = useRouter();
   const hasNoOptionsOrJustOneOption =
-    !options.length || (options.length === 1 && options[0]?.values.length === 1);
+    !options.length || (options.length === 1 && options[0]?.optionValues.length === 1);
   const fromPrice = variants.reduce((prev, curr) =>
     prev.price.amount < curr?.price.amount ? prev : curr
   );
@@ -45,7 +46,10 @@ export function VariantSelector({
   // Discard any unexpected options or values from url and create params map.
   const paramsMap: ParamsMap = Object.fromEntries(
     Array.from(currentParams.entries()).filter(([key, value]) =>
-      options.find((option) => option.name.toLowerCase() === key && option.values.includes(value))
+      options.find(
+        (option) =>
+          option.name.toLowerCase() === key && option.optionValues.some((op) => op.name === value)
+      )
     )
   );
 
@@ -61,10 +65,14 @@ export function VariantSelector({
 
     variant.selectedOptions.forEach((selectedOption) => {
       const name = selectedOption.name.toLowerCase();
-      const value = selectedOption.value;
+      const optionValue = options
+        .find((o) => o.name === selectedOption.name)
+        ?.optionValues.find((o) => o.name === selectedOption.value);
 
-      optimized[name] = value;
-      optimized.params.set(name, value);
+      console.log({ optionValue });
+
+      optimized[name] = optionValue;
+      optimized.params.set(name, optionValue?.name ?? '');
     });
 
     return optimized;
@@ -82,7 +90,9 @@ export function VariantSelector({
     optimizedVariants.find(
       (variant) =>
         variant.availableForSale &&
-        Object.entries(paramsMap).every(([key, value]) => variant[key] === value)
+        Object.entries(paramsMap).every(
+          ([key, value]) => (variant[key] as ProductOptionValue)?.name === value
+        )
     ) || optimizedVariants.find((variant) => variant.availableForSale);
 
   const selectedVariantParams = new URLSearchParams(selectedVariant?.params);
@@ -107,45 +117,82 @@ export function VariantSelector({
           <dl key={option.id}>
             <dt className="mb-2 text-sm uppercase">{option.name}</dt>
             <dd className="flex flex-wrap gap-2">
-              {option.values.map((value) => {
+              {option.optionValues.map((value) => {
                 // Base option params on selected variant params.
                 const optionParams = new URLSearchParams(selectedVariantParams);
                 // Update the params using the current option to reflect how the url would change.
-                optionParams.set(option.name.toLowerCase(), value);
+                optionParams.set(option.name.toLowerCase(), value.name);
 
                 const optionUrl = createUrl(pathname, optionParams);
 
                 // The option is active if it is in the url params.
-                const isActive = selectedVariantParams.get(option.name.toLowerCase()) === value;
+                const isActive =
+                  selectedVariantParams.get(option.name.toLowerCase()) === value.name;
 
                 // The option is available for sale if it fully matches the variant in the option's url params.
                 // It's super important to note that this is the options params, *not* the selected variant's params.
                 // This is the "magic" that will cross check possible future variant combinations and preemptively
                 // disable combinations that are not possible.
                 const isAvailableForSale = optimizedVariants.find((a) =>
-                  Array.from(optionParams.entries()).every(([key, value]) => a[key] === value)
+                  Array.from(optionParams.entries()).every(
+                    ([key, value]) => (a[key] as ProductOptionValue)?.name === value
+                  )
                 )?.availableForSale;
 
                 const DynamicTag = isAvailableForSale ? Link : 'span';
+                const [name] = value.name.split(' ('); // Remove any categorisation e.g. white (frame)
 
                 return (
                   <DynamicTag
-                    key={value}
+                    key={value.name}
                     href={optionUrl}
                     scroll={isAvailableForSale ? false : undefined}
-                    title={`${option.name} ${value}${!isAvailableForSale ? ' (Out of Stock)' : ''}`}
-                    className={clsx('border px-2 py-1 text-xs', {
+                    title={`${option.name} ${name}${!isAvailableForSale ? ' (Out of Stock)' : ''}`}
+                    className={clsx('flex border text-xs', {
                       'cursor-pointer bg-brand text-white': isActive,
                       'cursor-not-allowed opacity-20': !isAvailableForSale
                     })}
                   >
-                    {value}
+                    {value.swatch?.color ? (
+                      <div
+                        className="aspect-square w-4 border-r"
+                        style={{ backgroundColor: value.swatch?.color ?? undefined }}
+                      />
+                    ) : null}
+                    <span className="px-2 py-1">{name}</span>
                   </DynamicTag>
                 );
               })}
             </dd>
           </dl>
         ))}
+      </div>
+
+      <div className="mt-4 grid gap-4 sm:grid-cols-2">
+        {options
+          ? options.map((option) => {
+              const value = selectedVariant?.[option.name.toLowerCase()] as ProductOptionValue;
+              const image = value?.swatch?.image?.previewImage;
+
+              if (!image) return null;
+
+              return (
+                <div>
+                  <h4 className="mb-2 text-sm font-semibold">
+                    {option.name.replace(' colour', '')}
+                  </h4>
+                  <Image
+                    src={image.url}
+                    alt={image.altText}
+                    width={image.width}
+                    height={image.height}
+                    className="h-auto max-h-56 w-full border object-cover sm:max-h-none"
+                    sizes={getImageSizes({ sm: '45vw', md: '25vw' })}
+                  />
+                </div>
+              );
+            })
+          : null}
       </div>
     </>
   );
