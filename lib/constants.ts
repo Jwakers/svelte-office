@@ -31,8 +31,8 @@ export const TAGS = {
 
 export const HIDDEN_PRODUCT_TAG = 'hide';
 export const DEFAULT_OPTION = 'Default Title';
-export const SHOPIFY_GRAPHQL_API_ENDPOINT = '/api/2023-07/graphql.json';
-export const SHOPIFY_GRAPHQL_ADMIN_API_ENDPOINT = '/admin/api/2023-07/graphql.json';
+export const SHOPIFY_GRAPHQL_API_ENDPOINT = '/api/2024-07/graphql.json';
+export const SHOPIFY_GRAPHQL_ADMIN_API_ENDPOINT = '/admin/api/2024-07/graphql.json';
 
 export const FADE_ANIMATION = {
   animate: { opacity: 1 },
@@ -112,3 +112,7 @@ export const MENU_ITEMS = [
     path: `/${ROUTES.contact}`
   }
 ];
+
+export const CONTAIN_IMAGE_BRANDS = [vendors.teknik];
+
+export const CONTAIN_IMAGE_COLLECTIONS = ['office-chairs'];

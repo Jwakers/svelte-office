@@ -14,7 +14,7 @@ export type Record = {
   depth?: number;
   height?: number[];
   weight?: number;
-  collections: string[] | [];
+  collections?: string[];
   options: { name: string; values: string[] }[];
   desk_type: string[];
 };

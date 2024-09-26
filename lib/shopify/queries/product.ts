@@ -53,7 +53,7 @@ export const getProductTagsQuery = /* GraphQL */ `
 
 export const getProductsForAlgoliaQuery = /* GraphQL */ `
   query getProductsForAlgoliaQuery($after: String) {
-    products(first: 100, after: $after) {
+    products(first: 100, after: $after, query: "tag_not:hide") {
       edges {
         node {
           ...productAlgolia

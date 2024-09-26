@@ -1,6 +1,6 @@
 import algoliasearch from 'algoliasearch';
 import { ALGOLIA } from 'lib/constants';
-import { ProductAlgolia } from 'lib/shopify/types';
+import { ProductAlgolia, ProductOption } from 'lib/shopify/types';
 
 export function getAlgoliaClient(isAdmin?: boolean) {
   const client = algoliasearch(
@@ -36,20 +36,20 @@ export function getNamedTags(tags: string[]) {
   return namedTags;
 }
 
-export function parseDimention(value?: string) {
+export function parseDimension(value?: string) {
   if (!value) return null;
   const props = JSON.parse(value);
 
   return props.value ? parseFloat(props.value) : null;
 }
 
-export function getSizes(options: { name: string; values: string[] }[]) {
+export function getSizes(options: ProductOption[]) {
   const sizes = options.find((option) => option.name.toLowerCase() === 'size');
   if (!sizes) return null;
 
-  const dimentions = sizes.values
-    .map((size) => {
-      const split = size.split('x');
+  const dimensions = sizes.optionValues
+    .map(({ name }) => {
+      const split = name.split('x');
       if (!split[0] || !split[1]) return null;
 
       return {
@@ -59,7 +59,7 @@ export function getSizes(options: { name: string; values: string[] }[]) {
     })
     .filter((item) => item !== null);
 
-  return dimentions as { width: number; depth: number }[];
+  return dimensions as { width: number; depth: number }[];
 }
 
 export function getRecord(product: ProductAlgolia) {
@@ -89,8 +89,8 @@ export function getRecord(product: ProductAlgolia) {
     image: { ...product.featuredImage },
     width: widths,
     depth: depths,
-    height: parseDimention(product.height?.value),
-    weight: parseDimention(product.weight?.value),
+    height: parseDimension(product.height?.value),
+    weight: parseDimension(product.weight?.value),
     collections: product.collections.map((collection) => collection.handle),
     options: product.options,
     availableForSale: product.availableForSale

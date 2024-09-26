@@ -16,7 +16,7 @@ export async function GET() {
 
     await client.replaceAllObjects(objectsToIndex);
 
-    return NextResponse.json({ message: 'Algolia reindex started' }, { status: 200 });
+    return NextResponse.json({ message: 'Reindex complete' }, { status: 200 });
   } catch (err) {
     console.log(err);
     return NextResponse.json({ message: 'There was an error', error: err }, { status: 500 });

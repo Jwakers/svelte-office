@@ -28,7 +28,18 @@ export const productFragment = /* GraphQL */ `
     options {
       id
       name
-      values
+      optionValues {
+        id
+        name
+        swatch {
+          color
+          image {
+            previewImage {
+              ...image
+            }
+          }
+        }
+      }
     }
     priceRange {
       maxVariantPrice {

@@ -3,8 +3,9 @@
 import clsx from 'clsx';
 import Price from 'components/price';
 import { Record } from 'lib/algolia/types';
-import { ROUTES } from 'lib/constants';
+import { CONTAIN_IMAGE_BRANDS, CONTAIN_IMAGE_COLLECTIONS, ROUTES } from 'lib/constants';
 import { useIsBreakpoint } from 'lib/hooks';
+import { ShopifyVendors } from 'lib/shopify/types';
 import { getImageSizes } from 'lib/utils';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -20,11 +21,20 @@ type ResultProps = {
   hit: Record;
 };
 
+function shouldUseContainedImage(hit: Record) {
+  return (
+    CONTAIN_IMAGE_BRANDS.includes(hit.brand as ShopifyVendors) &&
+    CONTAIN_IMAGE_COLLECTIONS.some((collection) => hit.collections?.includes(collection))
+  );
+}
+
 function Result({ hit }: ResultProps) {
   const hasVariants = hit.options.length > 1;
   const minPrice = Math.min(...hit.price);
   const minComparePrice = hit.compareAtPrice.length ? Math.min(...hit.compareAtPrice) : null;
   const showComparePrice = minComparePrice && minPrice < minComparePrice;
+  // Special styling for certain brands and collections that require contained images
+  const containImage = shouldUseContainedImage(hit);
 
   return (
     <Link
@@ -42,7 +52,10 @@ function Result({ hit }: ResultProps) {
         height={hit.image.height}
         alt={hit.image.altText}
         sizes={getImageSizes({ sm: '100vw', md: '50vw', lg: '33vw', xl: '25vw' })}
-        className="aspect-square w-full object-cover"
+        className={clsx(
+          'aspect-square w-full bg-white',
+          containImage ? 'object-contain py-4' : 'object-cover'
+        )}
       />
       <div className="flex h-full flex-col border-t border-brand bg-white p-3">
         <h2 className="font-serif text-lg uppercase md:text-xl">{hit.title}</h2>
