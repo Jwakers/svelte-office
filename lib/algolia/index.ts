@@ -36,7 +36,7 @@ export function getNamedTags(tags: string[]) {
   return namedTags;
 }
 
-export function parseDimention(value?: string) {
+export function parseDimension(value?: string) {
   if (!value) return null;
   const props = JSON.parse(value);
 
@@ -47,7 +47,7 @@ export function getSizes(options: ProductOption[]) {
   const sizes = options.find((option) => option.name.toLowerCase() === 'size');
   if (!sizes) return null;
 
-  const dimentions = sizes.optionValues
+  const dimensions = sizes.optionValues
     .map(({ name }) => {
       const split = name.split('x');
       if (!split[0] || !split[1]) return null;
@@ -59,7 +59,7 @@ export function getSizes(options: ProductOption[]) {
     })
     .filter((item) => item !== null);
 
-  return dimentions as { width: number; depth: number }[];
+  return dimensions as { width: number; depth: number }[];
 }
 
 export function getRecord(product: ProductAlgolia) {
@@ -89,8 +89,8 @@ export function getRecord(product: ProductAlgolia) {
     image: { ...product.featuredImage },
     width: widths,
     depth: depths,
-    height: parseDimention(product.height?.value),
-    weight: parseDimention(product.weight?.value),
+    height: parseDimension(product.height?.value),
+    weight: parseDimension(product.weight?.value),
     collections: product.collections.map((collection) => collection.handle),
     options: product.options,
     availableForSale: product.availableForSale
