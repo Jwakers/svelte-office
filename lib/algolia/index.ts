@@ -1,6 +1,6 @@
 import algoliasearch from 'algoliasearch';
 import { ALGOLIA } from 'lib/constants';
-import { ProductAlgolia } from 'lib/shopify/types';
+import { ProductAlgolia, ProductOption } from 'lib/shopify/types';
 
 export function getAlgoliaClient(isAdmin?: boolean) {
   const client = algoliasearch(
@@ -43,13 +43,13 @@ export function parseDimention(value?: string) {
   return props.value ? parseFloat(props.value) : null;
 }
 
-export function getSizes(options: { name: string; values: string[] }[]) {
+export function getSizes(options: ProductOption[]) {
   const sizes = options.find((option) => option.name.toLowerCase() === 'size');
   if (!sizes) return null;
 
-  const dimentions = sizes.values
-    .map((size) => {
-      const split = size.split('x');
+  const dimentions = sizes.optionValues
+    .map(({ name }) => {
+      const split = name.split('x');
       if (!split[0] || !split[1]) return null;
 
       return {
