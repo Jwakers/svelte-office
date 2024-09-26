@@ -301,8 +301,7 @@ export async function getCollection(handle: string): Promise<Collection | undefi
     tags: [TAGS.collections],
     variables: {
       handle
-    },
-    cache: 'no-store'
+    }
   });
 
   return reshapeCollection(res.body.data.collectionByHandle);
@@ -324,8 +323,7 @@ export async function getCollectionProducts({
       handle,
       reverse,
       sortKey
-    },
-    cache: 'no-store'
+    }
   });
 
   if (!res.body.data.collectionByHandle) {
@@ -355,8 +353,7 @@ export async function getCollectionWithProducts({
       reverse,
       sortKey,
       limit
-    },
-    cache: 'no-store'
+    }
   });
 
   if (!res.body.data.collectionByHandle) {
@@ -376,8 +373,7 @@ export async function getCollectionWithProducts({
 export async function getCollections(): Promise<CollectionWithProducts[]> {
   const res = await shopifyFetch<ShopifyCollectionsOperation>({
     query: getCollectionsQuery,
-    tags: [TAGS.collections],
-    cache: 'no-store'
+    tags: [TAGS.collections]
   });
   const shopifyCollections = removeEdgesAndNodes(res.body?.data?.collections);
   const shopifyCollectionsWithProducts = shopifyCollections
@@ -399,8 +395,7 @@ export async function getMenu(handle: string): Promise<Menu[]> {
     tags: [TAGS.collections],
     variables: {
       handle
-    },
-    cache: 'no-store'
+    }
   });
 
   return (
@@ -414,8 +409,7 @@ export async function getMenu(handle: string): Promise<Menu[]> {
 export async function getPage(handle: string): Promise<Page> {
   const res = await shopifyFetch<ShopifyPageOperation>({
     query: getPageQuery,
-    variables: { handle },
-    cache: 'no-store'
+    variables: { handle }
   });
 
   return res.body.data.pageByHandle;
@@ -495,8 +489,7 @@ export async function getProducts({
       reverse,
       sortKey,
       limit
-    },
-    cache: 'no-store'
+    }
   });
 
   return reshapeProducts(removeEdgesAndNodes(res.body.data.products));
@@ -557,7 +550,6 @@ export async function getProductsForAlgolia(
 export async function getProductForAlgolia(id: string): Promise<ProductAlgolia> {
   const res = await shopifyFetch<ShopifyGetProductForAlgolia>({
     query: getProductForAlgoliaQuery,
-    cache: 'no-store',
     variables: { id }
   });
 
@@ -616,72 +608,6 @@ export async function updateBarcode(productId: string, barcode: string) {
 
   return res;
 }
-
-// export async function bulkOperationRunQuery(query: string) {
-//   const res = await shopifyFetch<ShopifyBulkOperationRunQueryOperation>({
-//     adminAccessToken: adminGoogleMerchantFeedAccessToken,
-//     query: /* GraphQL */ `
-//     mutation {
-//     bulkOperationRunQuery(
-//      query: """${query}"""
-//     ) {
-//       bulkOperation {
-//         id
-//         status
-//       }
-//       userErrors {
-//         field
-//         message
-//       }
-//     }
-//   }`,
-//     cache: 'no-store'
-//   });
-
-//   return res.body.data;
-// }
-
-// export async function getBulkOperation(id: string) {
-//   const res = await shopifyFetch<ShopifyGetBulkOperationOperation>({
-//     adminAccessToken: adminGoogleMerchantFeedAccessToken,
-//     query: /** GraphQL */ `
-//     query {
-//       node(id: "${id}") {
-//         ... on BulkOperation {
-//           url
-//         }
-//       }
-//     }`
-//   });
-//   return res.body.data.node;
-// }
-
-// export async function webhookSubscriptionCreate(callbackUrl: string, topic: WebhookTopics) {
-//   const res = await shopifyFetch({
-//     adminAccessToken: adminGoogleMerchantFeedAccessToken,
-//     query: /* GraphQL */ `
-//     mutation {
-//       webhookSubscriptionCreate(
-//         topic: ${topic}
-//         webhookSubscription: {
-//           format: JSON,
-//           callbackUrl: "${callbackUrl}"}
-//       ) {
-//         userErrors {
-//           field
-//           message
-//         }
-//         webhookSubscription {
-//           id
-//           topic
-//         }
-//       }
-//     }`,
-//     cache: 'no-store'
-//   });
-
-//   return res;
-// }
 
 export async function getGenericFile(id: string) {
   const res = await shopifyFetch<ShopifyGenericFileOperation>({
