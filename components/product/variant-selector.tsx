@@ -69,8 +69,6 @@ export function VariantSelector({
         .find((o) => o.name === selectedOption.name)
         ?.optionValues.find((o) => o.name === selectedOption.value);
 
-      console.log({ optionValue });
-
       optimized[name] = optionValue;
       optimized.params.set(name, optionValue?.name ?? '');
     });
@@ -177,7 +175,7 @@ export function VariantSelector({
               if (!image) return null;
 
               return (
-                <div>
+                <div key={option.id}>
                   <h4 className="mb-2 text-sm font-semibold">
                     {option.name.replace(' colour', '')}
                   </h4>
