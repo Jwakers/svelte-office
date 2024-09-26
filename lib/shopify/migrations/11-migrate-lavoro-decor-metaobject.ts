@@ -94,6 +94,7 @@ async function graphqlQuery(query: string, variables = {}) {
     return response.data;
   } catch (error: any) {
     console.error('GraphQL query error:', error.response.data.errors);
+    throw error;
   }
 }
 
@@ -117,6 +118,9 @@ async function fetchLavoroDecorEntries() {
     `;
 
   const response = await graphqlQuery(query);
+  if (!response || !response.data) {
+    throw new Error('Failed to fetch Lavoro Decor entries.');
+  }
   return response.data.metaobjects.edges.map((edge: any) => edge.node);
 }
 
@@ -153,7 +157,7 @@ async function updateColorMetaobjectEntry(
   const response = await graphqlQuery(mutation, variables);
   console.log(JSON.stringify(response, null, 2));
   if (response.data.metaobjectUpsert.userErrors.length > 0) {
-    console.error('Error updating Color metaobject:', response.data.metaobjectCreate.userErrors);
+    console.error('Error updating Color metaobject:', response.data.metaobjectUpsert.userErrors);
   } else {
     console.log(`Created Color metaobject with handle: ${handle}`);
   }
@@ -176,7 +180,13 @@ async function migrateLavoroDecorToColor() {
       if (key === 'colour') k = 'color';
       if (key === 'base_colour') {
         k = 'color_taxonomy_reference';
-        const colors = JSON.parse(value);
+        let colors = [];
+        try {
+          colors = JSON.parse(value);
+        } catch (e) {
+          console.error(`Failed to parse base_colour JSON for handle ${handle}:`, e);
+          return; // Skip this entry or handle the error appropriately
+        }
         v = `["${TAXONOMY_COLOR_MAP[colors[0] as keyof typeof TAXONOMY_COLOR_MAP]}"]`;
 
         if (value.includes('Grey')) {
