@@ -112,3 +112,7 @@ export const MENU_ITEMS = [
     path: `/${ROUTES.contact}`
   }
 ];
+
+export const CONTAIN_IMAGE_BRANDS = [vendors.teknik];
+
+export const CONTAIN_IMAGE_COLLECTIONS = ['office-chairs'];
