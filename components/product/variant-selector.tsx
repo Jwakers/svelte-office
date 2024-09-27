@@ -46,6 +46,7 @@ export function VariantSelector({ options, variants }: VariantSelectorProps) {
     () => !options.length || (options.length === 1 && options[0]?.optionValues.length === 1),
     [options]
   );
+
   const fromPrice = useMemo(
     () => variants.reduce((prev, curr) => (prev.price.amount < curr?.price.amount ? prev : curr)),
     [variants]

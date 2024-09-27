@@ -8,17 +8,17 @@ import clsx from 'clsx';
 import { getImageSizes } from 'lib/utils';
 import LoadingDots from 'components/loading-dots';
 
-type ModalImageProps = {
+interface ModalImage {
   url: string;
   altText: string;
   width: number;
   height: number;
-};
+}
 
-type ImageModalProps = {
-  img: ModalImageProps;
+interface ImageModalProps {
+  img: ModalImage;
   className?: string;
-};
+}
 
 export default function Component({ img, className }: ImageModalProps) {
   const [isOpen, setIsOpen] = useState(false);
@@ -67,6 +67,10 @@ export default function Component({ img, className }: ImageModalProps) {
           className="max-h-80 w-full object-cover"
           placeholder="blur"
           sizes={getImageSizes({ sm: '50vw', md: '25vw' })}
+          onError={() => {
+            console.error(`Failed to load image: ${img.url}`);
+            setIsLoading(false);
+          }}
           blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg=="
         />
       </button>
@@ -118,6 +122,10 @@ export default function Component({ img, className }: ImageModalProps) {
                     isLoading ? 'opacity-0' : 'opacity-100'
                   )}
                   onLoad={() => setIsLoading(false)}
+                  onError={() => {
+                    console.error(`Failed to load image: ${img.url}`);
+                    setIsLoading(false);
+                  }}
                   sizes={getImageSizes({ sm: '100vw' })}
                 />
               </div>
