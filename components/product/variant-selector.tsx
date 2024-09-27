@@ -27,13 +27,17 @@ type PriceSectionProps = {
   fromPrice: ProductVariant;
 };
 
-export function VariantSelector({
-  options,
-  variants
-}: {
+type OptionSwatchesProps = {
+  options: ProductOption[];
+  selectedVariant?: OptimizedVariant;
+};
+
+type VariantSelectorProps = {
   options: ProductOption[];
   variants: ProductVariant[];
-}) {
+};
+
+export function VariantSelector({ options, variants }: VariantSelectorProps) {
   const pathname = usePathname();
   const currentParams = useSearchParams();
   const router = useRouter();
@@ -165,33 +169,7 @@ export function VariantSelector({
           </dl>
         ))}
       </div>
-
-      <div className="mt-4 grid gap-4 sm:grid-cols-2">
-        {options
-          ? options.map((option) => {
-              const value = selectedVariant?.[option.name.toLowerCase()] as ProductOptionValue;
-              const image = value?.swatch?.image?.previewImage;
-
-              if (!image) return null;
-
-              return (
-                <div key={option.id}>
-                  <h4 className="mb-2 text-sm font-semibold">
-                    {option.name.replace(' colour', '')}
-                  </h4>
-                  <Image
-                    src={image.url}
-                    alt={image.altText}
-                    width={image.width}
-                    height={image.height}
-                    className="h-auto max-h-56 w-full border object-cover sm:max-h-none"
-                    sizes={getImageSizes({ sm: '45vw', md: '25vw' })}
-                  />
-                </div>
-              );
-            })
-          : null}
-      </div>
+      <OptionSwatches options={options} selectedVariant={selectedVariant} />
     </>
   );
 }
@@ -221,3 +199,32 @@ const PriceSection = ({ selectedVariant, fromPrice }: PriceSectionProps) => {
     </div>
   );
 };
+
+function OptionSwatches({ options, selectedVariant }: OptionSwatchesProps) {
+  return (
+    <div className="mt-4 grid gap-4 sm:grid-cols-2">
+      {options
+        ? options.map((option) => {
+            const value = selectedVariant?.[option.name.toLowerCase()] as ProductOptionValue;
+            const image = value?.swatch?.image?.previewImage;
+
+            if (!image) return null;
+
+            return (
+              <div key={option.id}>
+                <h4 className="mb-2 text-sm font-semibold">{option.name.replace(' colour', '')}</h4>
+                <Image
+                  src={image.url}
+                  alt={image.altText}
+                  width={image.width}
+                  height={image.height}
+                  className="h-auto max-h-56 w-full border object-cover sm:max-h-none"
+                  sizes={getImageSizes({ sm: '45vw', md: '25vw' })}
+                />
+              </div>
+            );
+          })
+        : null}
+    </div>
+  );
+}
