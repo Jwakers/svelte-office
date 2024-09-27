@@ -45,34 +45,39 @@ const TABLETOP = {
 };
 
 async function migrate() {
-  const productId = '9815731372333';
-  const widthCode = '1200700';
-  const productResponse = await client.get(`${ROUTES.products}/${productId}`);
-  const { product }: { product: Product } = await productResponse.json();
+  try {
+    const productId = '9820016116013';
+    const widthCode = '1800800';
+    const productResponse = await client.get(`${ROUTES.products}/${productId}`);
+    const { product }: { product: Product } = await productResponse.json();
 
-  const variantsToUpdate = product.variants.map((variant) => {
-    const { option1: frameOption, option2: tabletopOption } = variant;
+    const variantsToUpdate = product.variants.map((variant) => {
+      const { option1: frameOption, option2: tabletopOption } = variant;
 
-    const sku = `${FRAME[frameOption as keyof typeof FRAME]}${widthCode}${
-      TABLETOP[tabletopOption as keyof typeof TABLETOP]
-    }`;
+      const sku = `${FRAME[frameOption as keyof typeof FRAME]}${widthCode}${
+        TABLETOP[tabletopOption as keyof typeof TABLETOP]
+      }`;
 
-    return {
-      id: variant.id,
-      product_id: product.id,
-      sku: sku
-    };
-  });
+      return {
+        id: variant.id,
+        product_id: product.id,
+        sku: sku
+      };
+    });
 
-  const response = await client.put(`${ROUTES.products}/${productId}`, {
-    data: {
-      product: {
-        variants: variantsToUpdate
+    const response = await client.put(`${ROUTES.products}/${productId}`, {
+      data: {
+        product: {
+          variants: variantsToUpdate
+        }
       }
-    }
-  });
+    });
 
-  const responseData = await response.json();
-  console.log(JSON.stringify(responseData, null, 2));
+    const responseData = await response.json();
+    console.log(JSON.stringify(responseData, null, 2));
+  } catch (error) {
+    console.error(error);
+    process.exit(1);
+  }
 }
 migrate();

@@ -1,10 +1,10 @@
 'use client';
 
 import clsx from 'clsx';
+import ImageModal from 'components/image-modal';
 import Price from 'components/price';
 import { Money, ProductOption, ProductOptionValue, ProductVariant } from 'lib/shopify/types';
-import { createUrl, getImageSizes } from 'lib/utils';
-import Image from 'next/image';
+import { createUrl } from 'lib/utils';
 import Link from 'next/link';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { useEffect } from 'react';
@@ -105,7 +105,7 @@ export function VariantSelector({ options, variants }: VariantSelectorProps) {
     if (currentUrl !== selectedVariantUrl) {
       router.replace(selectedVariantUrl);
     }
-  }, []);
+  }, [currentUrl, selectedVariantUrl, router]);
 
   if (hasNoOptionsOrJustOneOption) {
     return <PriceSection selectedVariant={selectedVariant} fromPrice={fromPrice} />;
@@ -202,7 +202,7 @@ const PriceSection = ({ selectedVariant, fromPrice }: PriceSectionProps) => {
 
 function OptionSwatches({ options, selectedVariant }: OptionSwatchesProps) {
   return (
-    <div className="mt-4 grid gap-4 sm:grid-cols-2">
+    <div className="mt-4 grid grid-cols-2 gap-4">
       {options
         ? options.map((option) => {
             const value = selectedVariant?.[option.name.toLowerCase()] as ProductOptionValue;
@@ -213,14 +213,7 @@ function OptionSwatches({ options, selectedVariant }: OptionSwatchesProps) {
             return (
               <div key={option.id}>
                 <h4 className="mb-2 text-sm font-semibold">{option.name.replace(' colour', '')}</h4>
-                <Image
-                  src={image.url}
-                  alt={image.altText}
-                  width={image.width}
-                  height={image.height}
-                  className="h-auto max-h-56 w-full border object-cover sm:max-h-none"
-                  sizes={getImageSizes({ sm: '45vw', md: '25vw' })}
-                />
+                <ImageModal className="w-full" img={image} />
               </div>
             );
           })
