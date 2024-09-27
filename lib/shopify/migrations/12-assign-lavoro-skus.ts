@@ -44,15 +44,21 @@ const TABLETOP = {
   'Cascina Pine': 'CAS'
 };
 
-async function migrate() {
+async function migrate(productId: string) {
   try {
-    const productId = '9820016116013';
     const widthCode = '1800800';
     const productResponse = await client.get(`${ROUTES.products}/${productId}`);
     const { product }: { product: Product } = await productResponse.json();
 
     const variantsToUpdate = product.variants.map((variant) => {
       const { option1: frameOption, option2: tabletopOption } = variant;
+
+      if (!FRAME[frameOption as keyof typeof FRAME]) {
+        throw new Error(`Unknown frame option: ${frameOption}`);
+      }
+      if (!TABLETOP[tabletopOption as keyof typeof TABLETOP]) {
+        throw new Error(`Unknown tabletop option: ${tabletopOption}`);
+      }
 
       const sku = `${FRAME[frameOption as keyof typeof FRAME]}${widthCode}${
         TABLETOP[tabletopOption as keyof typeof TABLETOP]
@@ -65,19 +71,44 @@ async function migrate() {
       };
     });
 
-    const response = await client.put(`${ROUTES.products}/${productId}`, {
-      data: {
-        product: {
-          variants: variantsToUpdate
+    try {
+      const response = await client.put(`${ROUTES.products}/${productId}`, {
+        data: {
+          product: {
+            variants: variantsToUpdate
+          }
         }
-      }
-    });
+      });
 
-    const responseData = await response.json();
-    console.log(JSON.stringify(responseData, null, 2));
+      const responseData = await response.json();
+
+      if (!response.ok) {
+        throw new Error(
+          `API responded with status ${response.status}: ${JSON.stringify(responseData)}`
+        );
+      }
+
+      console.log(
+        `Successfully updated ${responseData.product.variants.length} variants for product ${productId}`
+      );
+      console.log('Updated SKUs:');
+      responseData.product.variants.forEach((variant: any) => {
+        console.log(`  ${variant.title}: ${variant.sku}`);
+      });
+    } catch (error) {
+      console.error(`Error updating product`, error);
+      process.exit(1);
+    }
   } catch (error) {
     console.error(error);
     process.exit(1);
   }
 }
-migrate();
+
+const productId = process.argv[2];
+
+if (!productId) {
+  console.error('Please provide a product ID');
+  process.exit(1);
+}
+migrate(productId);
