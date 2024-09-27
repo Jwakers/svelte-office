@@ -2,17 +2,23 @@
 
 import React, { useState, useCallback, useRef, useEffect } from 'react';
 import Image from 'next/image';
-import { Image as ImageProps } from 'lib/shopify/types';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X } from 'react-feather';
 import clsx from 'clsx';
 import { getImageSizes } from 'lib/utils';
 import LoadingDots from 'components/loading-dots';
 
-interface ImageModalProps {
-  img: ImageProps;
+type ModalImageProps = {
+  url: string;
+  altText: string;
+  width: number;
+  height: number;
+};
+
+type ImageModalProps = {
+  img: ModalImageProps;
   className?: string;
-}
+};
 
 export default function Component({ img, className }: ImageModalProps) {
   const [isOpen, setIsOpen] = useState(false);
