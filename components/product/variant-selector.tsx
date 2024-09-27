@@ -7,7 +7,7 @@ import { Money, ProductOption, ProductOptionValue, ProductVariant } from 'lib/sh
 import { createUrl } from 'lib/utils';
 import Link from 'next/link';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
-import { useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
 
 type ParamsMap = {
   [key: string]: string; // ie. { color: 'Red', size: 'Large', ... }
@@ -41,10 +41,14 @@ export function VariantSelector({ options, variants }: VariantSelectorProps) {
   const pathname = usePathname();
   const currentParams = useSearchParams();
   const router = useRouter();
-  const hasNoOptionsOrJustOneOption =
-    !options.length || (options.length === 1 && options[0]?.optionValues.length === 1);
-  const fromPrice = variants.reduce((prev, curr) =>
-    prev.price.amount < curr?.price.amount ? prev : curr
+
+  const hasNoOptionsOrJustOneOption = useMemo(
+    () => !options.length || (options.length === 1 && options[0]?.optionValues.length === 1),
+    [options]
+  );
+  const fromPrice = useMemo(
+    () => variants.reduce((prev, curr) => (prev.price.amount < curr?.price.amount ? prev : curr)),
+    [variants]
   );
 
   // Discard any unexpected options or values from url and create params map.
