@@ -116,6 +116,8 @@ export function VariantSelector({ options, variants }: VariantSelectorProps) {
     return <PriceSection selectedVariant={selectedVariant} fromPrice={fromPrice} />;
   }
 
+  console.log({ options });
+
   return (
     <>
       <PriceSection selectedVariant={selectedVariant} fromPrice={fromPrice} />

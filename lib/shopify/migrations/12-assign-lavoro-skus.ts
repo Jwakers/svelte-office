@@ -4,7 +4,7 @@ import { ROUTES } from 'lib/constants';
 import { Product } from 'lib/shopify/rest/types';
 dotenv.config({ path: '.env.local' });
 
-// pnpm tsx lib/shopify/migrations/12-assign-lavoro-skus.ts
+// pnpm tsx lib/shopify/migrations/12-assign-lavoro-skus.ts 9819989672237
 
 const client = createAdminRestApiClient({
   storeDomain: process.env.SHOPIFY_STORE_DOMAIN as string,
@@ -15,11 +15,11 @@ const client = createAdminRestApiClient({
 const FRAME = {
   'Black (frame)': 'BADVS/',
   'Anthracite (frame)': 'AADVS/',
-  'Dark Grey (frame)': 'DGADVS/',
+  'Dark grey (frame)': 'DGADVS/',
   'Silver (frame)': 'SADVS/',
-  'Light Grey (frame)': 'LGADVS/',
+  'Light grey (frame)': 'LGADVS/',
   'White (frame)': 'WADVS/',
-  'Raw Steel (frame)': 'RADVS/'
+  'Raw steel (frame)': 'RADVS/'
 };
 const TABLETOP = {
   Black: 'BLA',
@@ -44,30 +44,48 @@ const TABLETOP = {
   'Cascina Pine': 'CAS'
 };
 
-async function migrate(productId: string) {
+function getImageFileName(frameOption: string, tabletopOption: string): string {
+  const framePart = frameOption
+    .replace(' (frame)', '')
+    .split(' ')
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+    .join('');
+  const tabletopPart = tabletopOption
+    .split(' ')
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+    .join('');
+
+  return `${framePart}Advance${tabletopPart}`;
+}
+
+async function migrate(productId: string, widthCode: string) {
   try {
-    const widthCode = '1800800';
     const productResponse = await client.get(`${ROUTES.products}/${productId}`);
     const { product }: { product: Product } = await productResponse.json();
 
     const variantsToUpdate = product.variants.map((variant) => {
       const { option1: frameOption, option2: tabletopOption } = variant;
+      const frameChoice = FRAME[frameOption as keyof typeof FRAME];
+      const tabletopChoice = TABLETOP[tabletopOption as keyof typeof TABLETOP];
 
-      if (!FRAME[frameOption as keyof typeof FRAME]) {
+      if (!frameChoice) {
         throw new Error(`Unknown frame option: ${frameOption}`);
       }
-      if (!TABLETOP[tabletopOption as keyof typeof TABLETOP]) {
+      if (!tabletopChoice) {
         throw new Error(`Unknown tabletop option: ${tabletopOption}`);
       }
 
-      const sku = `${FRAME[frameOption as keyof typeof FRAME]}${widthCode}${
-        TABLETOP[tabletopOption as keyof typeof TABLETOP]
-      }`;
+      const sku = `${frameChoice}${widthCode}${tabletopChoice}`;
+      const imageName = getImageFileName(frameOption, tabletopOption);
+      const image = product.images.find((img) => img.src.includes(imageName));
+
+      if (!image) console.warn(`Image not found for ${imageName}`);
 
       return {
         id: variant.id,
         product_id: product.id,
-        sku: sku
+        sku: sku,
+        image_id: image ? image.id : null
       };
     });
 
@@ -106,9 +124,14 @@ async function migrate(productId: string) {
 }
 
 const productId = process.argv[2];
-
+const widthCode = process.argv[3];
 if (!productId) {
   console.error('Please provide a product ID');
   process.exit(1);
 }
-migrate(productId);
+if (!widthCode) {
+  console.error('Please provide a width code e.g. 1200800');
+  process.exit(1);
+}
+
+migrate(productId, widthCode);
