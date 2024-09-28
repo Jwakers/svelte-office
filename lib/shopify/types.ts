@@ -202,6 +202,7 @@ export type ShopifyProduct = {
   vendor: ShopifyVendors;
   specification: Metafield[];
   specificationSheet: Metafield;
+  sizeReferences: Metafield;
 };
 
 export type ShopifyCartOperation = {
@@ -348,6 +349,13 @@ export type ShopifyProductOperation = {
   data: { product: ShopifyProduct };
   variables: {
     handle: string;
+  };
+};
+
+export type ShopifyProductByIdOperation = {
+  data: { product: ShopifyProduct };
+  variables: {
+    id: string;
   };
 };
 

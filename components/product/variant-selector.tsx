@@ -35,9 +35,10 @@ type OptionSwatchesProps = {
 type VariantSelectorProps = {
   options: ProductOption[];
   variants: ProductVariant[];
+  children: React.ReactNode | null;
 };
 
-export function VariantSelector({ options, variants }: VariantSelectorProps) {
+export function VariantSelector({ options, variants, children }: VariantSelectorProps) {
   const pathname = usePathname();
   const currentParams = useSearchParams();
   const router = useRouter();
@@ -113,14 +114,18 @@ export function VariantSelector({ options, variants }: VariantSelectorProps) {
   }, [currentUrl, selectedVariantUrl, router]);
 
   if (hasNoOptionsOrJustOneOption) {
-    return <PriceSection selectedVariant={selectedVariant} fromPrice={fromPrice} />;
+    return (
+      <>
+        <PriceSection selectedVariant={selectedVariant} fromPrice={fromPrice} />
+        {children}
+      </>
+    );
   }
-
-  console.log({ options });
 
   return (
     <>
       <PriceSection selectedVariant={selectedVariant} fromPrice={fromPrice} />
+      {children}
       <div className="flex flex-col gap-2">
         {options.map((option) => (
           <dl key={option.id}>

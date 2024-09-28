@@ -25,6 +25,10 @@ export const productFragment = /* GraphQL */ `
       key
       value
     }
+    sizeReferences: metafield(namespace: "custom", key: "variant_size_references") {
+      key
+      value
+    }
     options {
       id
       name

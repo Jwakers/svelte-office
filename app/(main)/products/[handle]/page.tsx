@@ -11,21 +11,28 @@ import { VariantSelector } from 'components/product/variant-selector';
 import Prose from 'components/prose';
 import ReadMore from 'components/read-more';
 import { HIDDEN_PRODUCT_TAG, ROUTES, UNIT_MAP, WARRANTY } from 'lib/constants';
-import { getGenericFile, getProduct, getProductRecommendations, getProducts } from 'lib/shopify';
-import { Product, ShopifyVendors } from 'lib/shopify/types';
+import {
+  getGenericFile,
+  getProductByHandle,
+  getProductById,
+  getProductRecommendations,
+  getProducts
+} from 'lib/shopify';
+import { Product } from 'lib/shopify/types';
 import { getPublicBaseUrl } from 'lib/utils';
 import { getReviews } from 'lib/yotpo';
 import Link from 'next/link';
 import Script from 'next/script';
 import { Suspense } from 'react';
 import { Download } from 'react-feather';
+import { SizeVariants } from './size-variants';
 
 export async function generateMetadata({
   params
 }: {
   params: { handle: string };
 }): Promise<Metadata> {
-  const product = await getProduct(params.handle);
+  const product = await getProductByHandle(params.handle);
 
   if (!product) notFound();
 
@@ -57,34 +64,6 @@ export async function generateMetadata({
   };
 }
 
-function DeliverySection({ vendor }: { vendor: ShopifyVendors }) {
-  return (
-    <Accordion heading="Delivery and Returns">
-      <div className="flex flex-col gap-2">
-        <div className="py-2">
-          <h3 className="font-medium">Delivery</h3>
-          <p>
-            If this order is placed before 1pm it will be dispatched for next working day delivery.
-            For more information see our{' '}
-            <Link href="/delivery" className="underline">
-              delivery details page.
-            </Link>
-          </p>
-        </div>
-        <div>
-          <h3 className="font-medium">Returns</h3>
-          <p>
-            For more information see our{' '}
-            <Link href="/returns" className="underline">
-              Returns page.
-            </Link>
-          </p>
-        </div>
-      </div>
-    </Accordion>
-  );
-}
-
 export async function generateStaticParams() {
   const products = await getProducts({});
   const handles = products.map((product) => ({ handle: product.handle }));
@@ -93,9 +72,17 @@ export async function generateStaticParams() {
 }
 
 export default async function ProductPage({ params }: { params: { handle: string } }) {
-  const product = await getProduct(params.handle);
+  const product = await getProductByHandle(params.handle);
 
   if (!product) notFound();
+
+  const sizeVariantIds: string[] | undefined = product.sizeReferences?.value
+    ? JSON.parse(product.sizeReferences.value)
+    : null;
+
+  const sizeVariants = sizeVariantIds
+    ? await Promise.all(sizeVariantIds.map((id) => getProductById(id)))
+    : null;
 
   let specSheet: string | undefined;
   if (product.specificationSheet)
@@ -136,7 +123,12 @@ export default async function ProductPage({ params }: { params: { handle: string
               <h1 className="font-serif text-2xl md:text-3xl">{product.title}</h1>
               <ReviewsHead productId={product.id} />
             </div>
-            <VariantSelector options={product.options} variants={product.variants} />
+
+            <VariantSelector options={product.options} variants={product.variants}>
+              {sizeVariants && sizeVariants.length ? (
+                <SizeVariants products={sizeVariants} />
+              ) : null}
+            </VariantSelector>
           </div>
           {product.descriptionHtml ? (
             <ReadMore>
@@ -177,7 +169,7 @@ export default async function ProductPage({ params }: { params: { handle: string
               </Accordion>
             ) : null}
 
-            <DeliverySection vendor={product.vendor as ShopifyVendors} />
+            <DeliverySection />
             <Accordion heading="Warranty">
               <p className="py-2">{WARRANTY[product.vendor]}</p>
             </Accordion>
@@ -195,6 +187,34 @@ export default async function ProductPage({ params }: { params: { handle: string
         <RelatedProducts id={product.id} />
       </Suspense>
     </>
+  );
+}
+
+function DeliverySection() {
+  return (
+    <Accordion heading="Delivery and Returns">
+      <div className="flex flex-col gap-2">
+        <div className="py-2">
+          <h3 className="font-medium">Delivery</h3>
+          <p>
+            If this order is placed before 1pm it will be dispatched for next working day delivery.
+            For more information see our{' '}
+            <Link href="/delivery" className="underline">
+              delivery details page.
+            </Link>
+          </p>
+        </div>
+        <div>
+          <h3 className="font-medium">Returns</h3>
+          <p>
+            For more information see our{' '}
+            <Link href="/returns" className="underline">
+              Returns page.
+            </Link>
+          </p>
+        </div>
+      </div>
+    </Accordion>
   );
 }
 
@@ -226,6 +246,7 @@ function ReviewSection({ product }: { product: Product }) {
   return (
     <>
       <Script
+        id="yotpo-widget"
         strategy="afterInteractive"
         dangerouslySetInnerHTML={{
           __html: `
@@ -259,7 +280,7 @@ async function RelatedProducts({ id }: { id: string }) {
       <div className="mb-4 px-3 font-serif text-3xl">Related Products</div>
       <ul className="grid sm:grid-cols-2 md:grid-cols-4">
         {products.map((product) => (
-          <ProductTile product={product} />
+          <ProductTile key={product.id} product={product} />
         ))}
       </ul>
     </div>
