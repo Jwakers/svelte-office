@@ -1,4 +1,5 @@
 import { content_v2_1, google } from 'googleapis';
+import { SHOPIFY_TAGS } from 'lib/constants';
 import googleAuth from 'lib/google-auth';
 import getAllOfType from 'lib/shopify/rest/get-all-of-type';
 import { Product } from 'lib/shopify/rest/types';
@@ -10,8 +11,11 @@ export const dynamic = 'force-dynamic'; // Prevents route running during build
 export async function GET() {
   try {
     const shopifyProducts = await getAllOfType<Product>('products');
+    const filteredProducts = shopifyProducts.filter(
+      (product) => !product.tags.includes(SHOPIFY_TAGS.noindexGoogle)
+    );
 
-    if (!shopifyProducts || !shopifyProducts.length) throw Error('No shopify products');
+    if (!filteredProducts || !filteredProducts.length) throw Error('No shopify products');
 
     const auth = googleAuth();
 
@@ -20,7 +24,7 @@ export async function GET() {
       auth
     });
 
-    const googleMerchantProducts = await updateGoogleMerchantProducts(content, shopifyProducts);
+    const googleMerchantProducts = await updateGoogleMerchantProducts(content, filteredProducts);
 
     return NextResponse.json(googleMerchantProducts);
   } catch (error) {
