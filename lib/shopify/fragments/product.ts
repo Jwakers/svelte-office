@@ -127,7 +127,12 @@ export const productAlgolia = /* GraphQL */ `
     }
     options {
       name
-      values
+      optionValues {
+        name
+        swatch {
+          color
+        }
+      }
     }
     width: metafield(namespace: "specification", key: "width") {
       value

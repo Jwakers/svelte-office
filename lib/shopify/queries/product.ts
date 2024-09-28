@@ -1,3 +1,4 @@
+import { SHOPIFY_TAGS } from 'lib/constants';
 import { productAlgolia, productFragment } from '../fragments/product';
 
 export const getProductQuery = /* GraphQL */ `
@@ -62,7 +63,7 @@ export const getProductTagsQuery = /* GraphQL */ `
 
 export const getProductsForAlgoliaQuery = /* GraphQL */ `
   query getProductsForAlgoliaQuery($after: String) {
-    products(first: 100, after: $after, query: "tag_not:hide") {
+    products(first: 100, after: $after, query: "tag_not:${SHOPIFY_TAGS.hide} AND tag_not:${SHOPIFY_TAGS.noindexAlgolia}") {
       edges {
         node {
           ...productAlgolia

@@ -45,6 +45,7 @@ export function parseDimension(value?: string) {
 
 export function getSizes(options: ProductOption[]) {
   const sizes = options.find((option) => option.name.toLowerCase() === 'size');
+  console.log(sizes);
   if (!sizes) return null;
 
   const dimensions = sizes.optionValues

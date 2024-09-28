@@ -30,6 +30,7 @@ export const TAGS = {
 };
 
 export const SHOPIFY_TAGS = {
+  hide: 'hide',
   canonicalParent: 'canonical-parent',
   noindexAlgolia: 'noindex-algolia',
   noindexGoogle: 'noindex-google'
