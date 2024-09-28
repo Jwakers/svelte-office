@@ -29,6 +29,12 @@ export const TAGS = {
   blogs: 'blogs'
 };
 
+export const SHOPIFY_TAGS = {
+  canonicalParent: 'canonical-parent',
+  noindexAlgolia: 'noindex-algolia',
+  noindexGoogle: 'noindex-google'
+};
+
 export const HIDDEN_PRODUCT_TAG = 'hide';
 export const DEFAULT_OPTION = 'Default Title';
 export const SHOPIFY_GRAPHQL_API_ENDPOINT = '/api/2024-07/graphql.json';

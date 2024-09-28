@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { notFound } from 'next/navigation';
+import { notFound, redirect } from 'next/navigation';
 
 import clsx from 'clsx';
 import { AddToCart } from 'components/cart/add-to-cart';
@@ -10,7 +10,7 @@ import { ReviewStars } from 'components/product/review-stars';
 import { VariantSelector } from 'components/product/variant-selector';
 import Prose from 'components/prose';
 import ReadMore from 'components/read-more';
-import { HIDDEN_PRODUCT_TAG, ROUTES, UNIT_MAP, WARRANTY } from 'lib/constants';
+import { HIDDEN_PRODUCT_TAG, ROUTES, SHOPIFY_TAGS, UNIT_MAP, WARRANTY } from 'lib/constants';
 import {
   getGenericFile,
   getProductByHandle,
@@ -104,6 +104,11 @@ export default async function ProductPage({ params }: { params: { handle: string
       lowPrice: product.priceRange.minVariantPrice.amount
     }
   };
+
+  // Redirect to first size variant if the product is tagged with canonical-parent
+  if (product.tags.includes(SHOPIFY_TAGS.canonicalParent) && sizeVariants?.length) {
+    return redirect(`/${ROUTES.products}/${sizeVariants[0]!.handle}`);
+  }
 
   return (
     <>
