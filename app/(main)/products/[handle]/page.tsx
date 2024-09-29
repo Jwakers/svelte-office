@@ -7,6 +7,7 @@ import Accordion from 'components/product/accordion';
 import { Gallery } from 'components/product/gallery';
 import ProductTile from 'components/product/product-tile';
 import { ReviewStars } from 'components/product/review-stars';
+import { SizeVariants } from 'components/product/size-variants';
 import { VariantSelector } from 'components/product/variant-selector';
 import Prose from 'components/prose';
 import ReadMore from 'components/read-more';
@@ -25,7 +26,6 @@ import Link from 'next/link';
 import Script from 'next/script';
 import { Suspense } from 'react';
 import { Download } from 'react-feather';
-import { SizeVariants } from './size-variants';
 
 export async function generateMetadata({
   params
