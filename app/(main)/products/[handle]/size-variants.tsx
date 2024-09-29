@@ -9,11 +9,11 @@ import { getMetafieldValue } from 'lib/utils';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { ChevronDown } from 'react-feather';
 
-export function SizeVariants({ products }: { products: (Product | undefined)[] }) {
+export function SizeVariants({ products }: { products: Product[] }) {
   const router = useRouter();
   const pathName = usePathname();
   const params = useSearchParams();
-  const activeProduct = products.find((product) => product?.handle === pathName.split('/').pop());
+  const activeProduct = products.find((product) => product.handle === pathName.split('/').pop());
 
   return (
     <div className="mb-4">

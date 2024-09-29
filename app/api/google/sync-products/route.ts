@@ -15,7 +15,16 @@ export async function GET() {
       (product) => !product.tags.includes(SHOPIFY_TAGS.noindexGoogle)
     );
 
-    if (!filteredProducts || !filteredProducts.length) throw Error('No shopify products');
+    console.log(
+      `Filtered out ${
+        shopifyProducts.length - filteredProducts.length
+      } products with the noindexGoogle tag`
+    );
+
+    if (filteredProducts.length === 0) {
+      console.warn('All products were filtered out. No updates will be sent to Google Merchant.');
+      return NextResponse.json({ message: 'No products to update' });
+    }
 
     const auth = googleAuth();
 

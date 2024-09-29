@@ -36,7 +36,6 @@ export const SHOPIFY_TAGS = {
   noindexGoogle: 'noindex-google'
 };
 
-export const HIDDEN_PRODUCT_TAG = 'hide';
 export const DEFAULT_OPTION = 'Default Title';
 export const SHOPIFY_GRAPHQL_API_ENDPOINT = '/api/2024-07/graphql.json';
 export const SHOPIFY_GRAPHQL_ADMIN_API_ENDPOINT = '/admin/api/2024-07/graphql.json';

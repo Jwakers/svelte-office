@@ -10,7 +10,7 @@ import { ReviewStars } from 'components/product/review-stars';
 import { VariantSelector } from 'components/product/variant-selector';
 import Prose from 'components/prose';
 import ReadMore from 'components/read-more';
-import { HIDDEN_PRODUCT_TAG, ROUTES, SHOPIFY_TAGS, UNIT_MAP, WARRANTY } from 'lib/constants';
+import { ROUTES, SHOPIFY_TAGS, UNIT_MAP, WARRANTY } from 'lib/constants';
 import {
   getGenericFile,
   getProductByHandle,
@@ -37,7 +37,7 @@ export async function generateMetadata({
   if (!product) notFound();
 
   const { url, width, height, altText: alt } = product.featuredImage || {};
-  const indexable = !product.tags.includes(HIDDEN_PRODUCT_TAG);
+  const indexable = !product.tags.includes(SHOPIFY_TAGS.hide);
 
   return {
     title: product.seo.title || product.title,
@@ -81,7 +81,11 @@ export default async function ProductPage({ params }: { params: { handle: string
     : null;
 
   const sizeVariants = sizeVariantIds
-    ? await Promise.all(sizeVariantIds.map((id) => getProductById(id)))
+    ? await Promise.all(
+        sizeVariantIds
+          .map((id) => getProductById(id))
+          .filter((product): product is Promise<Product> => !!product)
+      )
     : null;
 
   let specSheet: string | undefined;

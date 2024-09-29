@@ -1,8 +1,8 @@
 import {
-  HIDDEN_PRODUCT_TAG,
   ROUTES,
   SHOPIFY_GRAPHQL_ADMIN_API_ENDPOINT,
   SHOPIFY_GRAPHQL_API_ENDPOINT,
+  SHOPIFY_TAGS,
   TAGS,
   vendors
 } from 'lib/constants';
@@ -175,7 +175,7 @@ const reshapeCollection = (collection: ShopifyCollection): Collection | undefine
 };
 
 const showInProd = (product: ShopifyProduct) =>
-  product.tags.includes(HIDDEN_PRODUCT_TAG) && process.env.NODE_ENV === 'production' ? false : true;
+  product.tags.includes(SHOPIFY_TAGS.hide) && process.env.NODE_ENV === 'production' ? false : true;
 
 const reshapeProduct = (product: ShopifyProduct) => {
   if (!product || !showInProd(product)) {
