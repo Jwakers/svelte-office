@@ -175,7 +175,7 @@ const reshapeCollection = (collection: ShopifyCollection): Collection | undefine
 };
 
 const showInProd = (product: ShopifyProduct) =>
-  product.tags.includes(SHOPIFY_TAGS.hide) && process.env.NODE_ENV === 'production' ? false : true;
+  !(product.tags.includes(SHOPIFY_TAGS.hide) && process.env.NODE_ENV === 'production');
 
 const reshapeProduct = (product: ShopifyProduct) => {
   if (!product || !showInProd(product)) {

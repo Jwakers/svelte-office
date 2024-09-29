@@ -77,14 +77,19 @@ export default async function ProductPage({ params }: { params: { handle: string
   if (!product) notFound();
 
   const sizeVariantIds: string[] | undefined = product.sizeReferences?.value
-    ? JSON.parse(product.sizeReferences.value)
+    ? (() => {
+        try {
+          return JSON.parse(product.sizeReferences.value);
+        } catch (error) {
+          console.error('Failed to parse sizeReferences.value:', error);
+          return null;
+        }
+      })()
     : null;
 
   const sizeVariants = sizeVariantIds
-    ? await Promise.all(
-        sizeVariantIds
-          .map((id) => getProductById(id))
-          .filter((product): product is Promise<Product> => !!product)
+    ? await Promise.all(sizeVariantIds.map((id) => getProductById(id))).then((products) =>
+        products.filter((product): product is Product => !!product)
       )
     : null;
 
@@ -111,7 +116,10 @@ export default async function ProductPage({ params }: { params: { handle: string
 
   // Redirect to first size variant if the product is tagged with canonical-parent
   if (product.tags.includes(SHOPIFY_TAGS.canonicalParent) && sizeVariants?.length) {
-    return redirect(`/${ROUTES.products}/${sizeVariants[0]!.handle}`);
+    const firstSizeVariant = sizeVariants[0];
+    if (firstSizeVariant) {
+      return redirect(`/${ROUTES.products}/${firstSizeVariant.handle}`);
+    }
   }
 
   return (
@@ -134,9 +142,7 @@ export default async function ProductPage({ params }: { params: { handle: string
             </div>
 
             <VariantSelector options={product.options} variants={product.variants}>
-              {sizeVariants && sizeVariants.length ? (
-                <SizeVariants products={sizeVariants} />
-              ) : null}
+              {sizeVariants?.length ? <SizeVariants products={sizeVariants} /> : null}
             </VariantSelector>
           </div>
           {product.descriptionHtml ? (
@@ -251,6 +257,12 @@ async function ReviewsHead({ productId }: { productId: string }) {
 
 function ReviewSection({ product }: { product: Product }) {
   const productId = product.id.split('/').at(-1);
+  const yotpoId = process.env.YOTPO_STORE_ID;
+
+  if (!productId || !yotpoId) {
+    console.error(`Cannot render reviews for product ${product.id}`);
+    return null;
+  }
 
   return (
     <>
@@ -259,7 +271,7 @@ function ReviewSection({ product }: { product: Product }) {
         strategy="afterInteractive"
         dangerouslySetInnerHTML={{
           __html: `
-      (function e(){var e=document.createElement("script");e.type="text/javascript",e.async=true,e.src="//staticw2.yotpo.com/${process.env.YOTPO_STORE_ID}/widget.js";var t=document.getElementsByTagName("script")[0];t.parentNode.insertBefore(e,t)})();
+      (function e(){var e=document.createElement("script");e.type="text/javascript",e.async=true,e.src="//staticw2.yotpo.com/${yotpoId}/widget.js";var t=document.getElementsByTagName("script")[0];t.parentNode.insertBefore(e,t)})();
       `
         }}
       />
