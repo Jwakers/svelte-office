@@ -1,8 +1,8 @@
 import {
-  HIDDEN_PRODUCT_TAG,
   ROUTES,
   SHOPIFY_GRAPHQL_ADMIN_API_ENDPOINT,
   SHOPIFY_GRAPHQL_API_ENDPOINT,
+  SHOPIFY_TAGS,
   TAGS,
   vendors
 } from 'lib/constants';
@@ -26,6 +26,7 @@ import { getMenuQuery } from './queries/menu';
 import { getPageQuery, getPagesQuery, getPoliciesQuery } from './queries/page';
 import {
   getGenericFileQuery,
+  getProductByIdQuery,
   getProductForAlgoliaQuery,
   getProductQuery,
   getProductRecommendationsQuery,
@@ -65,6 +66,7 @@ import {
   ShopifyPageOperation,
   ShopifyPagesOperation,
   ShopifyProduct,
+  ShopifyProductByIdOperation,
   ShopifyProductOperation,
   ShopifyProductRecommendationsOperation,
   ShopifyProductsOperation,
@@ -173,7 +175,7 @@ const reshapeCollection = (collection: ShopifyCollection): Collection | undefine
 };
 
 const showInProd = (product: ShopifyProduct) =>
-  product.tags.includes(HIDDEN_PRODUCT_TAG) && process.env.NODE_ENV === 'production' ? false : true;
+  !(product.tags.includes(SHOPIFY_TAGS.hide) && process.env.NODE_ENV === 'production');
 
 const reshapeProduct = (product: ShopifyProduct) => {
   if (!product || !showInProd(product)) {
@@ -446,12 +448,24 @@ export async function getArticles(): Promise<Article[]> {
   return articles;
 }
 
-export async function getProduct(handle: string): Promise<Product | undefined> {
+export async function getProductByHandle(handle: string): Promise<Product | undefined> {
   const res = await shopifyFetch<ShopifyProductOperation>({
     query: getProductQuery,
     tags: [TAGS.products, handle],
     variables: {
       handle
+    }
+  });
+
+  return reshapeProduct(res.body.data.product);
+}
+
+export async function getProductById(id: string): Promise<Product | undefined> {
+  const res = await shopifyFetch<ShopifyProductByIdOperation>({
+    query: getProductByIdQuery,
+    tags: [TAGS.products, id],
+    variables: {
+      id
     }
   });
 

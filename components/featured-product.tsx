@@ -1,5 +1,5 @@
 import { ROUTES } from 'lib/constants';
-import { getProduct } from 'lib/shopify';
+import { getProductByHandle } from 'lib/shopify';
 import { getImageSizes } from 'lib/utils';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -8,7 +8,7 @@ import Price from './price';
 import { ReviewStars } from './product/review-stars';
 
 export async function FeaturedProduct() {
-  const product = await getProduct('advance');
+  const product = await getProductByHandle('advance');
   const id = product?.id.split('/').at(-1);
 
   if (!product || !id) return null;

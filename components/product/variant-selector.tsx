@@ -1,13 +1,13 @@
 'use client';
 
 import clsx from 'clsx';
+import ImageModal from 'components/image-modal';
 import Price from 'components/price';
 import { Money, ProductOption, ProductOptionValue, ProductVariant } from 'lib/shopify/types';
-import { createUrl, getImageSizes } from 'lib/utils';
-import Image from 'next/image';
+import { createUrl } from 'lib/utils';
 import Link from 'next/link';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
-import { useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
 
 type ParamsMap = {
   [key: string]: string; // ie. { color: 'Red', size: 'Large', ... }
@@ -27,20 +27,30 @@ type PriceSectionProps = {
   fromPrice: ProductVariant;
 };
 
-export function VariantSelector({
-  options,
-  variants
-}: {
+type OptionSwatchesProps = {
+  options: ProductOption[];
+  selectedVariant?: OptimizedVariant;
+};
+
+type VariantSelectorProps = {
   options: ProductOption[];
   variants: ProductVariant[];
-}) {
+  children: React.ReactNode | null;
+};
+
+export function VariantSelector({ options, variants, children }: VariantSelectorProps) {
   const pathname = usePathname();
   const currentParams = useSearchParams();
   const router = useRouter();
-  const hasNoOptionsOrJustOneOption =
-    !options.length || (options.length === 1 && options[0]?.optionValues.length === 1);
-  const fromPrice = variants.reduce((prev, curr) =>
-    prev.price.amount < curr?.price.amount ? prev : curr
+
+  const hasNoOptionsOrJustOneOption = useMemo(
+    () => !options.length || (options.length === 1 && options[0]?.optionValues.length === 1),
+    [options]
+  );
+
+  const fromPrice = useMemo(
+    () => variants.reduce((prev, curr) => (prev.price.amount < curr?.price.amount ? prev : curr)),
+    [variants]
   );
 
   // Discard any unexpected options or values from url and create params map.
@@ -101,15 +111,21 @@ export function VariantSelector({
     if (currentUrl !== selectedVariantUrl) {
       router.replace(selectedVariantUrl);
     }
-  }, []);
+  }, [currentUrl, selectedVariantUrl, router]);
 
   if (hasNoOptionsOrJustOneOption) {
-    return <PriceSection selectedVariant={selectedVariant} fromPrice={fromPrice} />;
+    return (
+      <>
+        <PriceSection selectedVariant={selectedVariant} fromPrice={fromPrice} />
+        {children}
+      </>
+    );
   }
 
   return (
     <>
       <PriceSection selectedVariant={selectedVariant} fromPrice={fromPrice} />
+      {children}
       <div className="flex flex-col gap-2">
         {options.map((option) => (
           <dl key={option.id}>
@@ -165,33 +181,7 @@ export function VariantSelector({
           </dl>
         ))}
       </div>
-
-      <div className="mt-4 grid gap-4 sm:grid-cols-2">
-        {options
-          ? options.map((option) => {
-              const value = selectedVariant?.[option.name.toLowerCase()] as ProductOptionValue;
-              const image = value?.swatch?.image?.previewImage;
-
-              if (!image) return null;
-
-              return (
-                <div key={option.id}>
-                  <h4 className="mb-2 text-sm font-semibold">
-                    {option.name.replace(' colour', '')}
-                  </h4>
-                  <Image
-                    src={image.url}
-                    alt={image.altText}
-                    width={image.width}
-                    height={image.height}
-                    className="h-auto max-h-56 w-full border object-cover sm:max-h-none"
-                    sizes={getImageSizes({ sm: '45vw', md: '25vw' })}
-                  />
-                </div>
-              );
-            })
-          : null}
-      </div>
+      <OptionSwatches options={options} selectedVariant={selectedVariant} />
     </>
   );
 }
@@ -221,3 +211,25 @@ const PriceSection = ({ selectedVariant, fromPrice }: PriceSectionProps) => {
     </div>
   );
 };
+
+function OptionSwatches({ options, selectedVariant }: OptionSwatchesProps) {
+  return (
+    <div className="mt-4 grid grid-cols-2 gap-4">
+      {options
+        ? options.map((option) => {
+            const value = selectedVariant?.[option.name.toLowerCase()] as ProductOptionValue;
+            const image = value?.swatch?.image?.previewImage;
+
+            if (!image) return null;
+
+            return (
+              <div key={option.id}>
+                <h4 className="mb-2 text-sm font-semibold">{option.name.replace(' colour', '')}</h4>
+                <ImageModal className="w-full" img={image} />
+              </div>
+            );
+          })
+        : null}
+    </div>
+  );
+}

@@ -1,5 +1,6 @@
 import { ReadonlyURLSearchParams } from 'next/navigation';
 import { BREAKPOINTS } from './constants';
+import { Product } from './shopify/types';
 
 export const createUrl = (pathname: string, params: URLSearchParams | ReadonlyURLSearchParams) => {
   const paramsString = params.toString();
@@ -53,3 +54,8 @@ export function getImageSizes(sizes: { [key in BreakpointKeys]?: string }) {
     return acc;
   }, '');
 }
+
+export const getMetafieldValue = (product: Product, key: string) => {
+  const metafield = product.specification.find((spec) => spec.key === key);
+  return metafield ? JSON.parse(metafield.value).value : '';
+};

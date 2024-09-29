@@ -25,6 +25,10 @@ export const productFragment = /* GraphQL */ `
       key
       value
     }
+    sizeReferences: metafield(namespace: "custom", key: "variant_size_references") {
+      key
+      value
+    }
     options {
       id
       name
@@ -123,7 +127,12 @@ export const productAlgolia = /* GraphQL */ `
     }
     options {
       name
-      values
+      optionValues {
+        name
+        swatch {
+          color
+        }
+      }
     }
     width: metafield(namespace: "specification", key: "width") {
       value

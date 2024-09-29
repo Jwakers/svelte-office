@@ -9,7 +9,7 @@ import { ProductVariant, Image as TImage } from 'lib/shopify/types';
 import { getImageSizes } from 'lib/utils';
 import Image from 'next/image';
 import { useSearchParams } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { ArrowLeft, ArrowRight } from 'react-feather';
 import type { Swiper as TSwiper } from 'swiper';
 
@@ -17,7 +17,7 @@ export function Gallery({ images, variants }: { images: TImage[]; variants: Prod
   const [swiper, setSwiper] = useState<TSwiper | undefined>(undefined);
   const params = useSearchParams();
 
-  useEffect(() => {
+  const handleSlideTo = useCallback(() => {
     const variant = variants.find((variant: ProductVariant) =>
       variant.selectedOptions.every(
         (option) => option.value === params.get(option.name.toLowerCase())
@@ -29,7 +29,11 @@ export function Gallery({ images, variants }: { images: TImage[]; variants: Prod
 
     if (imageIndex === -1) return;
     swiper.slideTo(imageIndex, 0);
-  }, [params]);
+  }, [variants, params, images, swiper]);
+
+  useEffect(() => {
+    handleSlideTo();
+  }, [params, handleSlideTo]);
 
   return (
     <div className="sticky top-0">
