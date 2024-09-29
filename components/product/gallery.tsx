@@ -35,10 +35,6 @@ export function Gallery({ images, variants }: { images: TImage[]; variants: Prod
     handleSlideTo();
   }, [params, handleSlideTo]);
 
-  useEffect(() => {
-    handleSlideTo();
-  }, []);
-
   return (
     <div className="sticky top-0">
       <Swiper
