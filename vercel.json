@@ -1,7 +1,7 @@
 {
   "crons": [
     {
-      "path": "/api/stock",
+      "path": "/api/teknik/stock",
       "schedule": "0 22 * * *"
     },
     {
