@@ -1,3 +1,4 @@
+import { VENDORS } from 'lib/constants';
 import { getAllPages, getProductSkus, updateStock } from 'lib/shopify';
 import { NextResponse } from 'next/server';
 const ftp = require('basic-ftp');
@@ -42,7 +43,13 @@ const getConvertedCSV = async function () {
 };
 
 const handleStockUpdate = async function () {
-  const skuList = await getAllPages('variants', getProductSkus);
+  const skuList = await getAllPages(
+    'variants',
+    async (after, vendor) => {
+      return await getProductSkus(after, vendor);
+    },
+    VENDORS.teknik!
+  );
   const stockList = await getConvertedCSV();
 
   for (const item of skuList) {
@@ -68,7 +75,7 @@ const handleStockUpdate = async function () {
 export async function GET() {
   try {
     await handleStockUpdate();
-    return NextResponse.json('Stock updated', { status: 200 });
+    return NextResponse.json('Teknik stock updated', { status: 200 });
   } catch (error) {
     return NextResponse.json({ error }, { status: 500 });
   }
