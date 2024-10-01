@@ -12,14 +12,20 @@ const client = createAdminRestApiClient({
   apiVersion: '2024-04'
 });
 
+const skuPrefix = process.argv[5];
+if (!skuPrefix) {
+  console.error('Please provide a SKU prefix e.g. DUO');
+  process.exit(1);
+}
+
 const FRAME = {
-  'Black (frame)': 'BADVS/',
-  'Anthracite (frame)': 'AADVS/',
-  'Dark grey (frame)': 'DGADVS/',
-  'Silver (frame)': 'SADVS/',
-  'Light grey (frame)': 'LGADVS/',
-  'White (frame)': 'WADVS/',
-  'Raw steel (frame)': 'RADVS/'
+  'Black (frame)': `B${skuPrefix}/`,
+  'Anthracite (frame)': `A${skuPrefix}/`,
+  'Dark grey (frame)': `DG${skuPrefix}/`,
+  'Silver (frame)': `S${skuPrefix}/`,
+  'Light grey (frame)': `LG${skuPrefix}/`,
+  'White (frame)': `W${skuPrefix}/`,
+  'Raw steel (frame)': `R${skuPrefix}/`
 };
 const TABLETOP = {
   Black: 'BLA',
@@ -44,7 +50,7 @@ const TABLETOP = {
   'Cascina Pine': 'CAS'
 };
 
-function getImageFileName(frameOption: string, tabletopOption: string): string {
+function getImageFileName(frameOption: string, tabletopOption: string, imageName: string): string {
   const framePart = frameOption
     .replace(' (frame)', '')
     .split(' ')
@@ -55,10 +61,10 @@ function getImageFileName(frameOption: string, tabletopOption: string): string {
     .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
     .join('');
 
-  return `${framePart}Advance${tabletopPart}`;
+  return `${framePart}${imageName}${tabletopPart}`;
 }
 
-async function migrate(productId: string, widthCode: string) {
+async function migrate(productId: string, widthCode: string, imgName: string) {
   try {
     const productResponse = await client.get(`${ROUTES.products}/${productId}`);
     const { product }: { product: Product } = await productResponse.json();
@@ -76,7 +82,7 @@ async function migrate(productId: string, widthCode: string) {
       }
 
       const sku = `${frameChoice}${widthCode}${tabletopChoice}`;
-      const imageName = getImageFileName(frameOption, tabletopOption);
+      const imageName = getImageFileName(frameOption, tabletopOption, imgName);
       const image = product.images.find((img) => img.src.includes(imageName));
 
       if (!image) console.warn(`Image not found for ${imageName}`);
@@ -85,7 +91,7 @@ async function migrate(productId: string, widthCode: string) {
         id: variant.id,
         product_id: product.id,
         sku: sku,
-        image_id: image ? image.id : null
+        ...(image && { image_id: image.id })
       };
     });
 
@@ -125,6 +131,7 @@ async function migrate(productId: string, widthCode: string) {
 
 const productId = process.argv[2];
 const widthCode = process.argv[3];
+const imageName = process.argv[4];
 if (!productId) {
   console.error('Please provide a product ID');
   process.exit(1);
@@ -133,5 +140,9 @@ if (!widthCode) {
   console.error('Please provide a width code e.g. 1200800');
   process.exit(1);
 }
+if (!imageName) {
+  console.error('Please provide an image name e.g. AdvanceCorner');
+  process.exit(1);
+}
 
-migrate(productId, widthCode);
+migrate(productId, widthCode, imageName);
