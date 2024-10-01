@@ -1,11 +1,11 @@
 {
   "crons": [
     {
-      "path": "/api/teknik/stock",
+      "path": "/api/stock/teknik",
       "schedule": "0 22 * * *"
     },
     {
-      "path": "/api/dams/stock",
+      "path": "/api/stock/dams",
       "schedule": "0 21 * * *"
     },
     {
