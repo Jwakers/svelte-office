@@ -6,19 +6,17 @@ import os from 'os';
 import Papa from 'papaparse';
 import { downloadStockViaFtp } from '../utils';
 
-export const tempDir = os.tmpdir();
-
 export const dynamic = 'force-dynamic'; // Prevents route running during build
 
+const tempDir = os.tmpdir();
 const host = process.env.TEKNIK_FTP_HOST,
   user = process.env.TEKNIK_FTP_USER,
   password = process.env.TEKNIK_FTP_PASS;
 
-const handleStockUpdate = async function () {
+const downloadStock = async () => {
   if (!host || !user || !password) {
-    throw Error('Missing FTP credentials');
+    throw new Error('Missing FTP credentials');
   }
-
   await downloadStockViaFtp({
     dir: tempDir,
     remoteFileName: 'TeknikStockSimple.csv',
@@ -26,48 +24,64 @@ const handleStockUpdate = async function () {
     user,
     password
   });
+};
 
-  const skuList = await getAllPages(
-    'variants',
-    async (after, vendor) => {
-      return await getProductSkus(after, vendor);
-    },
-    VENDORS.teknik!
-  );
-  let file;
-
+const readStockFile = async () => {
   try {
-    file = await fs.promises.readFile(`${tempDir}/stock.csv`, 'utf-8');
+    return await fs.promises.readFile(`${tempDir}/stock.csv`, 'utf-8');
   } catch (error) {
     console.error(`Error reading file: ${tempDir}/stock.csv:`, error);
     throw error;
   }
+};
 
-  const parseResult = Papa.parse<Record<'Item No' | 'Quantity in Stock', string>>(file, {
+const parseStockData = (file: string) => {
+  return Papa.parse<Record<'Item No' | 'Quantity in Stock', string>>(file, {
     header: true
-  });
-  const stockList = parseResult.data;
+  }).data;
+};
 
-  for (const item of skuList) {
-    const stock = stockList.find((stock) => stock['Item No'] === item.sku);
-    const quantity = stock ? Number(stock['Quantity in Stock']) : undefined;
+const updateStockItem = async (item: any, stockList: any[]) => {
+  const stock = stockList.find((stock) => stock['Item No'] === item.sku);
+  const quantity = stock ? Number(stock['Quantity in Stock']) : undefined;
 
-    if (!stock || quantity === undefined) {
-      console.error(`Can not find sku: '${item.sku}' in stock list`);
-      continue;
-    }
-
-    if (Number.isNaN(quantity) || quantity === item.inventoryQuantity) continue;
-
-    try {
-      await updateStock(item.inventoryItemId, quantity);
-      console.log(`Updated stock of ${item.sku} from ${item.inventoryQuantity} to ${quantity}`);
-    } catch (error) {
-      console.error(error);
-      throw error;
-    }
+  if (!stock || quantity === undefined) {
+    console.warn(`Cannot find sku: '${item.sku}' in stock list`);
+    return;
   }
-  console.log('Stock update complete.');
+
+  if (Number.isNaN(quantity) || quantity === item.inventoryQuantity) return;
+
+  try {
+    await updateStock(item.inventoryItemId, quantity);
+    console.log(`Updated stock of ${item.sku} from ${item.inventoryQuantity} to ${quantity}`);
+  } catch (error) {
+    console.error(`Failed to update stock for ${item.sku}:`, error);
+    throw error;
+  }
+};
+
+const handleStockUpdate = async function () {
+  try {
+    await downloadStock();
+    const skuList = await getAllPages(
+      'variants',
+      async (after, vendor) => await getProductSkus(after, vendor),
+      VENDORS.teknik!
+    );
+    const file = await readStockFile();
+    const stockList = parseStockData(file);
+
+    for (const item of skuList) {
+      await updateStockItem(item, stockList);
+    }
+    console.log('Stock update complete.');
+  } catch (error) {
+    console.error('Stock update failed:', error);
+    throw error;
+  } finally {
+    await fs.promises.unlink(`${tempDir}/stock.csv`).catch(console.error);
+  }
 };
 
 export async function GET() {
@@ -83,7 +97,5 @@ export async function GET() {
       },
       { status: 500 }
     );
-  } finally {
-    fs.promises.unlink(`${tempDir}/stock.csv`);
   }
 }
