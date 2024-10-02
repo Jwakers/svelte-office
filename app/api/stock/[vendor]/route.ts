@@ -9,20 +9,48 @@ import { downloadStockViaFtp } from '../utils';
 export const dynamic = 'force-dynamic'; // Prevents route running during build
 
 const tempDir = os.tmpdir();
-const host = process.env.DAMS_FTP_HOST,
-  user = process.env.DAMS_FTP_USER,
-  password = process.env.DAMS_FTP_PASS;
 
-const downloadStock = async () => {
-  if (!host || !user || !password) {
+interface VendorConfig {
+  ftpHost: string;
+  ftpUser: string;
+  ftpPass: string;
+  remoteFileName: string;
+  csvSkuColumnName: string;
+  csvSkuQuantityColumnName: string;
+  vendorKey: keyof typeof VENDORS;
+}
+
+const vendorConfigs: Record<string, VendorConfig> = {
+  teknik: {
+    ftpHost: process.env.TEKNIK_FTP_HOST!,
+    ftpUser: process.env.TEKNIK_FTP_USER!,
+    ftpPass: process.env.TEKNIK_FTP_PASS!,
+    remoteFileName: 'TeknikStockSimple.csv',
+    csvSkuColumnName: 'Item No',
+    csvSkuQuantityColumnName: 'Quantity in Stock',
+    vendorKey: 'teknik'
+  },
+  dams: {
+    ftpHost: process.env.DAMS_FTP_HOST!,
+    ftpUser: process.env.DAMS_FTP_USER!,
+    ftpPass: process.env.DAMS_FTP_PASS!,
+    remoteFileName: 'stock.csv',
+    csvSkuColumnName: 'Code',
+    csvSkuQuantityColumnName: 'FreeStock',
+    vendorKey: 'dams'
+  }
+};
+
+const downloadStock = async (config: VendorConfig) => {
+  if (!config.ftpHost || !config.ftpUser || !config.ftpPass) {
     throw new Error('Missing FTP credentials');
   }
   await downloadStockViaFtp({
     dir: tempDir,
-    remoteFileName: 'stock.csv',
-    host,
-    user,
-    password
+    remoteFileName: config.remoteFileName,
+    host: config.ftpHost,
+    user: config.ftpUser,
+    password: config.ftpPass
   });
 };
 
@@ -36,14 +64,14 @@ const readStockFile = async () => {
 };
 
 const parseStockData = (file: string) => {
-  return Papa.parse<Record<'Item No' | 'Quantity in Stock', string>>(file, {
+  return Papa.parse<Record<string, string>>(file, {
     header: true
   }).data;
 };
 
-const updateStockItem = async (item: any, stockList: any[]) => {
-  const stock = stockList.find((stock) => stock['Item No'] === item.sku);
-  const quantity = stock ? Number(stock['Quantity in Stock']) : undefined;
+const updateStockItem = async (config: VendorConfig, item: any, stockList: any[]) => {
+  const stock = stockList.find((stock) => stock[config.csvSkuColumnName] === item.sku);
+  const quantity = stock ? Number(stock[config.csvSkuQuantityColumnName]) : undefined;
 
   if (!stock || quantity === undefined) {
     console.warn(`Cannot find sku: '${item.sku}' in stock list`);
@@ -61,19 +89,19 @@ const updateStockItem = async (item: any, stockList: any[]) => {
   }
 };
 
-const handleStockUpdate = async function () {
+const handleStockUpdate = async function (config: VendorConfig) {
   try {
-    await downloadStock();
+    await downloadStock(config);
     const skuList = await getAllPages(
       'variants',
       async (after, vendor) => await getProductSkus(after, vendor),
-      VENDORS.dams!
+      VENDORS[config.vendorKey]!
     );
     const file = await readStockFile();
     const stockList = parseStockData(file);
 
     for (const item of skuList) {
-      await updateStockItem(item, stockList);
+      await updateStockItem(config, item, stockList);
     }
     console.log('Stock update complete.');
   } catch (error) {
@@ -84,10 +112,17 @@ const handleStockUpdate = async function () {
   }
 };
 
-export async function GET() {
+export async function GET(request: Request, { params }: { params: { vendor: string } }) {
+  const { vendor } = params;
+  const config = vendorConfigs[vendor.toLowerCase()];
+
+  if (!config) {
+    return NextResponse.json({ error: `Invalid vendor: ${vendor}` }, { status: 400 });
+  }
+
   try {
-    await handleStockUpdate();
-    return NextResponse.json('Dams stock updated', { status: 200 });
+    await handleStockUpdate(config);
+    return NextResponse.json(`${vendor} stock updated`, { status: 200 });
   } catch (error) {
     console.error('Stock update failed:', error);
     return NextResponse.json(
