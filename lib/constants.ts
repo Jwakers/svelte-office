@@ -53,7 +53,7 @@ export const BREAKPOINTS = {
   '2xl': 1536
 };
 
-export const vendors: { [key: string]: ShopifyVendors } = {
+export const VENDORS: { [key: string]: ShopifyVendors } = {
   teknik: 'Teknik',
   hillInteriors: 'Hill Interiors',
   lavoro: 'Lavoro',
@@ -63,12 +63,12 @@ export const vendors: { [key: string]: ShopifyVendors } = {
 export const WARRANTY = {
   default:
     'All products have a two year mechanical parts replacement warranty (subject to fair use).',
-  [vendors.teknik!]:
+  [VENDORS.teknik!]:
     'All products have a two year mechanical parts replacement warranty (subject to fair use).',
-  [vendors.hillInteriors!]:
+  [VENDORS.hillInteriors!]:
     'All products have a two year mechanical parts replacement warranty (subject to fair use).',
-  [vendors.lavoro!]: 'All products have a 5 year guarantee.',
-  [vendors.dams!]: 'All products have a 5 year warranty'
+  [VENDORS.lavoro!]: 'All products have a 5 year guarantee.',
+  [VENDORS.dams!]: 'All products have a 5 year warranty'
 } as { [key in ShopifyVendors | 'default']: string };
 
 export const UNIT_MAP = {
@@ -119,6 +119,6 @@ export const MENU_ITEMS = [
   }
 ];
 
-export const CONTAIN_IMAGE_BRANDS = [vendors.teknik];
+export const CONTAIN_IMAGE_BRANDS = [VENDORS.teknik];
 
 export const CONTAIN_IMAGE_COLLECTIONS = ['office-chairs'];

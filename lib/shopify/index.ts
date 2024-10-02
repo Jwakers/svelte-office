@@ -3,8 +3,7 @@ import {
   SHOPIFY_GRAPHQL_ADMIN_API_ENDPOINT,
   SHOPIFY_GRAPHQL_API_ENDPOINT,
   SHOPIFY_TAGS,
-  TAGS,
-  vendors
+  TAGS
 } from 'lib/constants';
 import { isShopifyError } from 'lib/type-guards';
 import {
@@ -72,7 +71,8 @@ import {
   ShopifyProductsOperation,
   ShopifyRemoveFromCartOperation,
   ShopifyUpdateCartOperation,
-  ShopifyUpdateStockOperation
+  ShopifyUpdateStockOperation,
+  ShopifyVendors
 } from './types';
 
 const domain = `https://${process.env.SHOPIFY_STORE_DOMAIN!}`;
@@ -207,16 +207,20 @@ const reshapeProducts = (products: ShopifyProduct[]) => {
   return reshapedProducts;
 };
 
-export async function getAllPages<T, K extends string>(
+export async function getAllPages<T, K extends string, Args extends any[]>(
   property: K,
-  callback: (after: string | null) => Promise<{ pageInfo: PageInfo } & { [key in K]: T[] }>
+  callback: (
+    after: string | null,
+    ...args: Args
+  ) => Promise<{ pageInfo: PageInfo } & { [key in K]: T[] }>,
+  ...callbackArgs: Args
 ) {
   const allItems: T[] = [];
   let hasNextPage = true;
-  let after = null;
+  let after: string | null = null;
 
   while (hasNextPage) {
-    const response = await callback(after);
+    const response = await callback(after, ...callbackArgs);
     const items = response[property];
 
     if (!items?.length) throw Error(`No items found for property: ${property}`);
@@ -509,13 +513,13 @@ export async function getProducts({
   return reshapeProducts(removeEdgesAndNodes(res.body.data.products));
 }
 
-export async function getProductSkus(after: string | null) {
+export async function getProductSkus(after: string | null, vendor: ShopifyVendors) {
   const res = await shopifyFetch<ShopifyGetProductSkus>({
     adminAccessToken: adminStockManagementAccessToken,
     query: getProductSkusQuery,
     cache: 'no-cache',
     variables: {
-      query: `vendor:${vendors.teknik || ''}`,
+      query: `vendor:${vendor}`,
       after
     }
   });

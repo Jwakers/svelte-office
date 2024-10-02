@@ -1,8 +1,12 @@
 {
   "crons": [
     {
-      "path": "/api/stock",
+      "path": "/api/stock/teknik",
       "schedule": "0 22 * * *"
+    },
+    {
+      "path": "/api/stock/dams",
+      "schedule": "0 21 * * *"
     },
     {
       "path": "/api/google/sync-products",
