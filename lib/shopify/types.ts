@@ -149,6 +149,13 @@ export type ProductAlgolia = Pick<
   }[];
 };
 
+export type InventoryItem = {
+  sku: string;
+  id: string;
+  inventoryQuantity: number;
+  inventoryItemId: string;
+};
+
 export type SEO = {
   title: string;
   description: string;
@@ -391,7 +398,7 @@ export type ShopifyGenericFileOperation = {
   };
 };
 
-export type ShopifyGetProductSkus = {
+export type ShopifyGetProductSkusOperation = {
   data: {
     productVariants: Connection<{
       sku: string;

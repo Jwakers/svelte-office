@@ -1,6 +1,7 @@
 import * as fs from 'fs';
 import { VENDORS } from 'lib/constants';
 import { getAllPages, getProductSkus, updateStock } from 'lib/shopify';
+import { InventoryItem } from 'lib/shopify/types';
 import { NextResponse } from 'next/server';
 import os from 'os';
 import Papa from 'papaparse';
@@ -69,7 +70,11 @@ const parseStockData = (file: string) => {
   }).data;
 };
 
-const updateStockItem = async (config: VendorConfig, item: any, stockList: any[]) => {
+const updateStockItem = async (
+  config: VendorConfig,
+  item: InventoryItem,
+  stockList: Record<string, string>[]
+) => {
   const stock = stockList.find((stock) => stock[config.csvSkuColumnName] === item.sku);
   const quantity = stock ? Number(stock[config.csvSkuQuantityColumnName]) : undefined;
 
