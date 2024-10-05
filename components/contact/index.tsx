@@ -8,6 +8,7 @@ import LoadingDots from 'components/loading-dots';
 import { useRouter } from 'next/navigation';
 import { FormEvent, useState } from 'react';
 import { toast } from 'react-hot-toast';
+import ReCaptchaProvider from '../recaptcha-provider';
 
 type MutationResponse = {
   message?: string;
@@ -16,6 +17,14 @@ type MutationResponse = {
 };
 
 export default function ContactForm() {
+  return (
+    <ReCaptchaProvider>
+      <Form />
+    </ReCaptchaProvider>
+  );
+}
+
+function Form() {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [subject, setSubject] = useState('');

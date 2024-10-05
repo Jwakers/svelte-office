@@ -1,3 +1,4 @@
+import { verifyRecaptcha } from '@/lib/utils';
 import sendEmail from 'lib/send-email';
 import { NextResponse } from 'next/server';
 import { z } from 'zod';
@@ -14,24 +15,11 @@ export type ContactFormSchema = z.infer<typeof contactFormSchema>;
 
 export async function POST(request: Request) {
   const data: ContactFormSchema = await request.json();
-  const secretKey = process?.env?.RECAPTCHA_SECRET_KEY;
-  const verifyParams = `secret=${secretKey}&response=${data.token}`;
-  let score;
-
-  try {
-    const res = await fetch(`https://www.google.com/recaptcha/api/siteverify?${verifyParams}`, {
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded'
-      }
-    });
-    score = await res.json();
-  } catch (err) {
-    console.log('recaptcha error:', err);
-    return NextResponse.json({ message: 'ReCAPTCHA Error', error: err }, { status: 500 });
-  }
 
   try {
     contactFormSchema.parse(data);
+    verifyRecaptcha(data.token);
+
     const res = await sendEmail({
       subject: `${data.subject}`,
       fromLabel: 'Svelte Office contact form',
@@ -42,8 +30,6 @@ export async function POST(request: Request) {
     <p><strong>Message:</strong> ${data.message}</p>
   `
     });
-
-    if (!score?.success) return NextResponse.json({ message: 'ReCAPTCHA Failed' }, { status: 500 });
 
     return NextResponse.json({ message: 'Message sent, thank you!' }, { status: 200 });
   } catch (err) {

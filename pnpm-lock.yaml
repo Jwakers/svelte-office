@@ -145,6 +145,9 @@ devDependencies:
   '@tailwindcss/typography':
     specifier: ^0.5.9
     version: 0.5.9(tailwindcss@3.4.3)
+  '@types/lodash.capitalize':
+    specifier: ^4.2.9
+    version: 4.2.9
   '@types/mailchimp__mailchimp_marketing':
     specifier: ^3.0.20
     version: 3.0.20
@@ -1497,6 +1500,16 @@ packages:
 
   /@types/json5@0.0.29:
     resolution: {integrity: sha512-dRLjCWHYg4oaA77cxO64oO+7JwCwnIzkZPdrrC71jQmQtlhM556pwKo5bUzqvZndkVbeFLIIi+9TC40JNF5hNQ==}
+    dev: true
+
+  /@types/lodash.capitalize@4.2.9:
+    resolution: {integrity: sha512-SV1dav/WbuI816SVig4trFz8ID/m5maVzC8I/E/DejPvmlXvIhw7Y0GWxJ03UhU6qaZOj6qQnR1xxC0mP7ZXoQ==}
+    dependencies:
+      '@types/lodash': 4.17.10
+    dev: true
+
+  /@types/lodash@4.17.10:
+    resolution: {integrity: sha512-YpS0zzoduEhuOWjAotS6A5AVCva7X4lVlYLF0FYHAY9sdraBfnatttHItlWeZdGhuEkf+OzMNg2ZYAx8t+52uQ==}
     dev: true
 
   /@types/mailchimp__mailchimp_marketing@3.0.20:

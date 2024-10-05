@@ -65,3 +65,23 @@ export const getMetafieldValue = (product: Product, key: string) => {
   const metafield = product.specification.find((spec) => spec.key === key);
   return metafield ? JSON.parse(metafield.value).value : '';
 };
+
+export async function verifyRecaptcha(token: string) {
+  const url = `https://www.google.com/recaptcha/api/siteverify?secret=${process.env.RECAPTCHA_SECRET_KEY}&response=${token}`;
+
+  try {
+    const res = await fetch(url, {
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded'
+      }
+    });
+    const score = await res.json();
+
+    if (!score.success) {
+      console.log('Score:', score);
+      throw Error('Recaptcha failed');
+    }
+  } catch (err) {
+    throw Error('ReCAPTCHA Error');
+  }
+}

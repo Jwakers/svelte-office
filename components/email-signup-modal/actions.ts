@@ -1,10 +1,10 @@
 'use server';
 
+import { verifyRecaptcha } from '@/lib/utils';
 import mailchimp, { ErrorResponse } from '@mailchimp/mailchimp_marketing';
 import capitalize from 'lodash.capitalize';
 import { z } from 'zod';
 
-// Configure Mailchimp
 mailchimp.setConfig({
   apiKey: process.env.MAILCHIMP_NEWSLETTER_API_KEY,
   server: process.env.MAILCHIMP_SERVER_PREFIX
@@ -17,26 +17,6 @@ const formSchema = z.object({
   token: z.string()
 });
 
-async function verifyRecaptcha(token: string) {
-  const url = `https://www.google.com/recaptcha/api/siteverify?secret=${process.env.RECAPTCHA_SECRET_KEY}&response=${token}`;
-
-  try {
-    const res = await fetch(url, {
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded'
-      }
-    });
-    const score = await res.json();
-
-    if (!score.success) {
-      throw Error('Recaptcha failed');
-    }
-  } catch (err) {
-    console.log('recaptcha error:', err);
-    throw Error('ReCAPTCHA Error');
-  }
-}
-
 export async function subscribeEmail(previousState: FormData, formData: FormData) {
   // Convert formData to an object that zod can parse
   const formDataObject = Object.fromEntries(formData.entries());
@@ -45,8 +25,6 @@ export async function subscribeEmail(previousState: FormData, formData: FormData
     const validatedData = formSchema.parse(formDataObject);
     console.log(validatedData);
     verifyRecaptcha(validatedData.token);
-
-    // TODO: loading spinner not working
 
     await mailchimp.lists.addListMember(process.env.MAILCHIMP_LIST_ID!, {
       email_address: validatedData.email.toLowerCase(),

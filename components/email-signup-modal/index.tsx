@@ -15,9 +15,10 @@ import modalImage from 'public/advance-lifestyle.jpg';
 import { useEffect, useState } from 'react';
 import { useFormState, useFormStatus } from 'react-dom';
 
+import LoadingDots from '@/components/loading-dots';
 import { useRecaptcha } from '@/lib/hooks';
 import toast from 'react-hot-toast';
-import LoadingDots from '../loading-dots';
+import ReCaptchaProvider from '../recaptcha-provider';
 import { subscribeEmail } from './actions';
 
 type ActionReturnType = Awaited<ReturnType<typeof subscribeEmail>>;
@@ -30,7 +31,7 @@ const INITIAL_STATE: ActionReturnType = {
   errors: null
 };
 
-export function EmailSignupModalComponent() {
+export default function EmailSignupModalComponent() {
   const [isOpen, setIsOpen] = useState(false);
   const [state, formAction]: [ActionReturnType, any] = useFormState(subscribeEmail, INITIAL_STATE);
 
@@ -63,27 +64,29 @@ export function EmailSignupModalComponent() {
   }, [state]);
 
   return (
-    <Dialog open={isOpen} onOpenChange={handleChange}>
-      <DialogContent className="sm:max-w-[425px]">
-        <Image
-          src={modalImage}
-          alt="Advance desk image"
-          sizes={getImageSizes({ sm: '425px' })}
-          className="max-h-60 object-cover"
-        />
-        <div className="space-y-6 p-4">
-          <DialogHeader>
-            <DialogTitle>Get 15% Off Your First Order!</DialogTitle>
-            <DialogDescription>
-              Sign up for our newsletter and receive an exclusive discount.
-            </DialogDescription>
-          </DialogHeader>
-          <div className="grid gap-4">
-            <Form action={formAction} />
+    <ReCaptchaProvider>
+      <Dialog open={isOpen} onOpenChange={handleChange}>
+        <DialogContent className="sm:max-w-[425px]">
+          <Image
+            src={modalImage}
+            alt="Advance desk image"
+            sizes={getImageSizes({ sm: '425px' })}
+            className="max-h-60 object-cover"
+          />
+          <div className="space-y-6 p-4">
+            <DialogHeader>
+              <DialogTitle>Get 15% Off Your First Order!</DialogTitle>
+              <DialogDescription>
+                Sign up for our newsletter and receive an exclusive discount.
+              </DialogDescription>
+            </DialogHeader>
+            <div className="grid gap-4">
+              <Form action={formAction} />
+            </div>
           </div>
-        </div>
-      </DialogContent>
-    </Dialog>
+        </DialogContent>
+      </Dialog>
+    </ReCaptchaProvider>
   );
 }
 
