@@ -58,7 +58,7 @@ import {
   ShopifyCreateCartOperation,
   ShopifyGenericFileOperation,
   ShopifyGetProductForAlgolia,
-  ShopifyGetProductSkus,
+  ShopifyGetProductSkusOperation,
   ShopifyGetProductTags,
   ShopifyGetProductsForAlgolia,
   ShopifyMenuOperation,
@@ -514,7 +514,7 @@ export async function getProducts({
 }
 
 export async function getProductSkus(after: string | null, vendor: ShopifyVendors) {
-  const res = await shopifyFetch<ShopifyGetProductSkus>({
+  const res = await shopifyFetch<ShopifyGetProductSkusOperation>({
     adminAccessToken: adminStockManagementAccessToken,
     query: getProductSkusQuery,
     cache: 'no-cache',
