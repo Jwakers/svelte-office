@@ -7,7 +7,7 @@ const contactFormSchema = z.object({
   email: z.string().email(),
   subject: z.string().min(3, { message: 'Subject is too short' }),
   message: z.string().min(10, { message: 'Message is too short' }),
-  gReCaptchaToken: z.string()
+  token: z.string()
 });
 
 export type ContactFormSchema = z.infer<typeof contactFormSchema>;
@@ -15,7 +15,7 @@ export type ContactFormSchema = z.infer<typeof contactFormSchema>;
 export async function POST(request: Request) {
   const data: ContactFormSchema = await request.json();
   const secretKey = process?.env?.RECAPTCHA_SECRET_KEY;
-  const verifyParams = `secret=${secretKey}&response=${data.gReCaptchaToken}`;
+  const verifyParams = `secret=${secretKey}&response=${data.token}`;
   let score;
 
   try {
