@@ -22,11 +22,6 @@ function Form() {
   const router = useRouter();
   const token = useRecaptcha();
 
-  const ErrorMessage = ({ field }: { field: string }) => {
-    const error = state.errors?.find((err) => err.path === field)?.message;
-    return error ? <span className="text-sm text-error">{error}</span> : null;
-  };
-
   useEffect(() => {
     if (!state.errors.length) return;
     toast.error(state.message);
@@ -48,7 +43,7 @@ function Form() {
           <label htmlFor="email" className="mb-2 block text-sm uppercase">
             Your name
           </label>
-          <ErrorMessage field="name" />
+          <ErrorMessage field="name" errors={state.errors} />
           <Input
             type="text"
             id="name"
@@ -62,7 +57,7 @@ function Form() {
           <label htmlFor="email" className="mb-2 block text-sm uppercase">
             Your email
           </label>
-          <ErrorMessage field="email" />
+          <ErrorMessage field="email" errors={state.errors} />
           <Input
             type="email"
             id="email"
@@ -76,7 +71,7 @@ function Form() {
           <label htmlFor="subject" className="mb-2 block text-sm uppercase">
             Subject
           </label>
-          <ErrorMessage field="subject" />
+          <ErrorMessage field="subject" errors={state.errors} />
           <Input
             type="text"
             id="subject"
@@ -90,7 +85,7 @@ function Form() {
           <label htmlFor="message" className="mb-2 block text-sm uppercase">
             Your message
           </label>
-          <ErrorMessage field="message" />
+          <ErrorMessage field="message" errors={state.errors} />
           <Textarea
             id="message"
             name="message"
@@ -116,6 +111,11 @@ function FormButton() {
     </Button>
   );
 }
+
+const ErrorMessage = ({ field, errors }: { field: string; errors: ActionReturnType['errors'] }) => {
+  const error = errors?.find((err) => err.path === field)?.message;
+  return error ? <span className="text-sm text-error">{error}</span> : null;
+};
 
 export default function ContactForm() {
   return (

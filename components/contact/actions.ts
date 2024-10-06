@@ -3,7 +3,7 @@
 import { isRecaptchaError } from '@/lib/type-guards';
 import { verifyRecaptcha } from '@/lib/utils';
 import sendEmail from 'lib/send-email';
-import escape from 'lodash.escape';
+import escapeHtml from 'lodash.escape';
 import { z } from 'zod';
 
 const contactFormSchema = z.object({
@@ -27,10 +27,10 @@ const sendContactEmail = async (data: ContactFormSchema) => {
     subject: data.subject,
     fromLabel: 'Svelte Office contact form',
     html: `
-      <p><strong>Name:</strong> ${escape(data.name)}</p>
-      <p><strong>Email:</strong> ${escape(data.email)}</p>
-      <p><strong>Subject:</strong> ${escape(data.subject)}</p>
-      <p><strong>Message:</strong> ${escape(data.message)}</p>
+      <p><strong>Name:</strong> ${escapeHtml(data.name)}</p>
+      <p><strong>Email:</strong> ${escapeHtml(data.email)}</p>
+      <p><strong>Subject:</strong> ${escapeHtml(data.subject)}</p>
+      <p><strong>Message:</strong> ${escapeHtml(data.message)}</p>
     `
   });
 };
