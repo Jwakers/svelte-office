@@ -34,7 +34,8 @@ const INITIAL_STATE: ActionReturnType = {
 
 export default function EmailSignupModalComponent() {
   const [isOpen, setIsOpen] = useState(false);
-  const [state, formAction]: [ActionReturnType, any] = useFormState(subscribeEmail, INITIAL_STATE);
+  // @ts-ignore
+  const [state, formAction] = useFormState(subscribeEmail, INITIAL_STATE);
   const [email, setEmail] = useState<string | undefined>(undefined);
   const params = useSearchParams();
 

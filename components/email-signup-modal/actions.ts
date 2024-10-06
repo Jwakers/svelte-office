@@ -6,6 +6,12 @@ import mailchimp, { ErrorResponse } from '@mailchimp/mailchimp_marketing';
 import capitalize from 'lodash.capitalize';
 import { z } from 'zod';
 
+type SubscribeEmailActionResult = {
+  message: string;
+  success: boolean;
+  errors: string[] | string | null;
+};
+
 mailchimp.setConfig({
   apiKey: process.env.MAILCHIMP_NEWSLETTER_API_KEY,
   server: process.env.MAILCHIMP_SERVER_PREFIX
@@ -18,7 +24,10 @@ const formSchema = z.object({
   token: z.string()
 });
 
-export async function subscribeEmail(previousState: FormData, formData: FormData) {
+export async function subscribeEmail(
+  previousState: FormData,
+  formData: FormData
+): Promise<SubscribeEmailActionResult> {
   // Convert formData to an object that zod can parse
   const formDataObject = Object.fromEntries(formData.entries());
 
@@ -42,7 +51,7 @@ export async function subscribeEmail(previousState: FormData, formData: FormData
       return {
         success: false,
         message: 'Invalid email address',
-        errors: error.errors.map((e) => e.message)
+        errors: error.errors.map((e) => e.message).join(', ')
       };
     }
 
@@ -54,7 +63,7 @@ export async function subscribeEmail(previousState: FormData, formData: FormData
         return {
           success: false,
           message: 'This email is already subscribed to the newsletter.',
-          errors: [errorData.detail]
+          errors: errorData.detail
         };
       }
 
@@ -62,14 +71,15 @@ export async function subscribeEmail(previousState: FormData, formData: FormData
       return {
         success: false,
         message: errorData.title,
-        errors: [errorData.detail]
+        errors: errorData.detail
       };
     }
 
     if (isRecaptchaError(error)) {
       return {
         message: error.error,
-        errors: [{ message: 'ReCAPTCHA failed. Please try again.', path: null }]
+        success: false,
+        errors: 'ReCAPTCHA failed. Please try again.'
       };
     }
 
@@ -77,7 +87,7 @@ export async function subscribeEmail(previousState: FormData, formData: FormData
     return {
       success: false,
       message: 'Server error, please try again later.',
-      errors: ['Server error, please try again later.']
+      errors: 'Server error, please try again later.'
     };
   }
 }

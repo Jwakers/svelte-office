@@ -17,6 +17,7 @@ type ActionReturnType = Awaited<ReturnType<typeof contactAction>>;
 const initialState: ActionReturnType = { message: '', success: false, errors: [] };
 
 function Form() {
+  // @ts-ignore
   const [state, formAction] = useFormState(contactAction, initialState);
   const router = useRouter();
   const token = useRecaptcha();
