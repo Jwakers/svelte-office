@@ -18,13 +18,49 @@ module.exports = {
       },
       colors: {
         brand: colors.slate[900],
-        primary: colors.slate[900],
-        secondary: colors.slate[700],
+        primary: {
+          DEFAULT: colors.slate[900],
+          foreground: colors.white
+        },
+        secondary: {
+          DEFAULT: colors.slate[700],
+          foreground: colors.white
+        },
         error: colors.red[500],
         success: colors.green[500],
         warning: colors.yellow[500],
         accent: {
-          yellow: colors.yellow[400]
+          yellow: colors.yellow[400],
+          DEFAULT: 'hsl(var(--accent))',
+          foreground: 'hsl(var(--accent-foreground))'
+        },
+        background: 'hsl(var(--background))',
+        foreground: 'hsl(var(--foreground))',
+        card: {
+          DEFAULT: 'hsl(var(--card))',
+          foreground: 'hsl(var(--card-foreground))'
+        },
+        popover: {
+          DEFAULT: 'hsl(var(--popover))',
+          foreground: 'hsl(var(--popover-foreground))'
+        },
+        muted: {
+          DEFAULT: 'hsl(var(--muted))',
+          foreground: 'hsl(var(--muted-foreground))'
+        },
+        destructive: {
+          DEFAULT: 'hsl(var(--destructive))',
+          foreground: 'hsl(var(--destructive-foreground))'
+        },
+        border: 'hsl(var(--border))',
+        input: 'hsl(var(--input))',
+        ring: 'hsl(var(--ring))',
+        chart: {
+          1: 'hsl(var(--chart-1))',
+          2: 'hsl(var(--chart-2))',
+          3: 'hsl(var(--chart-3))',
+          4: 'hsl(var(--chart-4))',
+          5: 'hsl(var(--chart-5))'
         }
       },
       boxShadow: {
@@ -32,23 +68,42 @@ module.exports = {
       },
       keyframes: {
         fadeIn: {
-          from: { opacity: 0 },
-          to: { opacity: 1 }
+          from: {
+            opacity: '0'
+          },
+          to: {
+            opacity: '1'
+          }
         },
         ticker: {
-          '0%': { transform: 'translateX(0%)' },
-          '100%': { transform: 'translateX(-300%)' }
+          '0%': {
+            transform: 'translateX(0%)'
+          },
+          '100%': {
+            transform: 'translateX(-300%)'
+          }
         },
         blink: {
-          '0%': { opacity: 0.2 },
-          '20%': { opacity: 1 },
-          '100% ': { opacity: 0.2 }
+          '0%': {
+            opacity: '0.2'
+          },
+          '20%': {
+            opacity: '1'
+          },
+          '100%': {
+            opacity: '0.2'
+          }
         }
       },
       animation: {
         fadeIn: 'fadeIn .3s ease-in-out',
         ticker: 'ticker 12s linear infinite',
         blink: 'blink 1.4s both infinite'
+      },
+      borderRadius: {
+        lg: 'var(--radius)',
+        md: 'calc(var(--radius) - 2px)',
+        sm: 'calc(var(--radius) - 4px)'
       }
     }
   },
@@ -70,6 +125,7 @@ module.exports = {
           values: theme('transitionDelay')
         }
       );
-    })
+    }),
+    require('tailwindcss-animate')
   ]
 };

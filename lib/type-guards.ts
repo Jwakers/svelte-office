@@ -1,7 +1,15 @@
+import { ErrorResponse } from '@mailchimp/mailchimp_marketing';
+
 export interface ShopifyErrorLike {
   status: number;
   message: Error;
 }
+
+export type RecaptchaError = {
+  type: 'RECAPTCHA_ERROR';
+  message: string;
+  error: string;
+};
 
 export const isObject = (object: unknown): object is Record<string, unknown> => {
   return typeof object === 'object' && object !== null && !Array.isArray(object);
@@ -14,6 +22,26 @@ export const isShopifyError = (error: unknown): error is ShopifyErrorLike => {
 
   return findError(error);
 };
+
+export function isMailchimpError(error: unknown): error is { response: { body: ErrorResponse } } {
+  if (!isObject(error) || !isObject(error.response) || !isObject(error.response.body)) {
+    return false;
+  }
+
+  const errorData = error.response.body;
+  return 'status' in errorData && 'title' in errorData && 'detail' in errorData;
+}
+
+export function isRecaptchaError(error: unknown): error is RecaptchaError {
+  return (
+    typeof error === 'object' &&
+    error !== null &&
+    'type' in error &&
+    (error as RecaptchaError).type === 'RECAPTCHA_ERROR' &&
+    'error' in error &&
+    typeof (error as RecaptchaError).error === 'string'
+  );
+}
 
 function findError<T extends object>(error: T): boolean {
   if (Object.prototype.toString.call(error) === '[object Error]') {

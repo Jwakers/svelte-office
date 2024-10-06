@@ -1,3 +1,4 @@
+import EmailSignupModalComponent from '@/components/email-signup-modal';
 import 'app/globals.css';
 import Providers from 'app/providers';
 import Banner from 'components/layout/banner';
@@ -15,6 +16,9 @@ export default function Layout({ children }: { children: ReactNode }) {
       <Suspense>
         <Providers>
           <main>{children}</main>
+          <Suspense>
+            <EmailSignupModalComponent />
+          </Suspense>
         </Providers>
       </Suspense>
       <Suspense>

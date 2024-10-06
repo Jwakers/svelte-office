@@ -1,117 +1,55 @@
 'use client';
 
-import { useMutation } from '@tanstack/react-query';
-import { ContactFormSchema } from 'app/api/contact/route';
-import clsx from 'clsx';
+import { useRecaptcha } from '@/lib/hooks';
 import LoadingDots from 'components/loading-dots';
 import { useRouter } from 'next/navigation';
-import { FormEvent, useCallback, useEffect, useState } from 'react';
-import { GoogleReCaptchaProvider, useGoogleReCaptcha } from 'react-google-recaptcha-v3';
-import { toast } from 'react-hot-toast';
+import { useEffect } from 'react';
+import { useFormState, useFormStatus } from 'react-dom';
+import toast from 'react-hot-toast';
+import ReCaptchaProvider from '../recaptcha-provider';
+import { Button } from '../ui/button';
+import { Input } from '../ui/input';
+import { Textarea } from '../ui/textarea';
+import { contactAction } from './actions';
 
-type MutationResponse = {
-  message?: string;
-  errors?: { message: string; path: string }[];
-  error?: string;
-};
+type ActionReturnType = Awaited<ReturnType<typeof contactAction>>;
 
-export default function CaptchaWrapper() {
-  const recaptchaKey: string | undefined = process?.env?.NEXT_PUBLIC_RECAPTCHA_SITE_KEY;
+const initialState: ActionReturnType = { message: '', success: false, errors: [] };
 
-  return (
-    <GoogleReCaptchaProvider
-      reCaptchaKey={recaptchaKey ?? 'NOT DEFINED'}
-      scriptProps={{
-        async: false,
-        defer: false,
-        appendTo: 'head',
-        nonce: undefined
-      }}
-    >
-      <ContactForm />
-    </GoogleReCaptchaProvider>
-  );
-}
-
-function ContactForm() {
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [subject, setSubject] = useState('');
-  const [message, setMessage] = useState('');
-  const [gReCaptchaToken, setGReCaptchaToken] = useState('');
-  const [error, setError] = useState(false);
+function Form() {
+  // @ts-ignore
+  const [state, formAction] = useFormState(contactAction, initialState);
   const router = useRouter();
-  const { executeRecaptcha } = useGoogleReCaptcha();
-
-  const postContactData = async () => {
-    const res = await fetch(`api/contact`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ name, email, subject, message, gReCaptchaToken })
-    });
-
-    const data: MutationResponse = await res.json();
-
-    if (!data?.errors && res.ok) {
-      setError(false);
-      toast.success(data?.message || 'Message sent');
-      return router.push('/');
-    }
-
-    if (data.error) setError(true);
-    toast.error(data?.message || 'Error');
-
-    return data;
-  };
-
-  const mutation = useMutation(postContactData);
-
-  const { isLoading, data } = mutation;
-
-  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    await handleReCaptchaVerify();
-  };
-
-  const renderError = (key: keyof ContactFormSchema) => {
-    if (!data?.errors) return null;
-    const message = data.errors.find((err) => err.path === key);
-
-    return message ? <span className="text-sm text-error">{message.message}</span> : null;
-  };
-
-  const handleReCaptchaVerify = useCallback(async () => {
-    if (!executeRecaptcha) {
-      console.log('Execute recaptcha not yet available');
-      return;
-    }
-
-    const token = await executeRecaptcha('contactForm');
-    setGReCaptchaToken(token);
-  }, [executeRecaptcha]);
+  const token = useRecaptcha();
 
   useEffect(() => {
-    if (!gReCaptchaToken) return;
-    mutation.mutate();
-  }, [gReCaptchaToken]);
+    if (!state.errors.length) return;
+    toast.error(state.message);
+  }, [state.errors]);
+
+  useEffect(() => {
+    if (!state.success) return;
+
+    toast.success(state.message);
+    setTimeout(() => {
+      router.push('/');
+    }, 1000);
+  }, [state.success]);
 
   return (
     <>
-      <form action="#" className="space-y-4" onSubmit={handleSubmit}>
+      <form action={formAction} className="space-y-4">
         <div>
           <label htmlFor="email" className="mb-2 block text-sm uppercase">
             Your name
           </label>
-          {renderError('name')}
-          <input
+          <ErrorMessage field="name" errors={state.errors} />
+          <Input
             type="text"
             id="name"
+            name="name"
             className="block w-full border border-brand bg-white p-3 text-sm"
             placeholder="John Smith"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
             required
           />
         </div>
@@ -119,14 +57,13 @@ function ContactForm() {
           <label htmlFor="email" className="mb-2 block text-sm uppercase">
             Your email
           </label>
-          {renderError('email')}
-          <input
+          <ErrorMessage field="email" errors={state.errors} />
+          <Input
             type="email"
             id="email"
+            name="email"
             className="block w-full border border-brand bg-white p-3 text-sm"
             placeholder="name@gmail.com"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
             required
           />
         </div>
@@ -134,14 +71,13 @@ function ContactForm() {
           <label htmlFor="subject" className="mb-2 block text-sm uppercase">
             Subject
           </label>
-          {renderError('subject')}
-          <input
+          <ErrorMessage field="subject" errors={state.errors} />
+          <Input
             type="text"
             id="subject"
+            name="subject"
             className="block w-full border border-brand bg-white p-3 text-sm"
             placeholder="Let us know how we can help you"
-            value={subject}
-            onChange={(e) => setSubject(e.target.value)}
             required
           />
         </div>
@@ -149,37 +85,42 @@ function ContactForm() {
           <label htmlFor="message" className="mb-2 block text-sm uppercase">
             Your message
           </label>
-          {renderError('message')}
-          <textarea
+          <ErrorMessage field="message" errors={state.errors} />
+          <Textarea
             id="message"
+            name="message"
             rows={6}
             className="block w-full border border-brand bg-white p-3 text-sm"
             placeholder="Leave a comment..."
-            value={message}
-            onChange={(e) => setMessage(e.target.value)}
             required
-          ></textarea>
+          />
         </div>
-        <button
-          type="submit"
-          className={clsx('button inline-flex items-center', {
-            'pointer-events-none cursor-not-allowed': isLoading
-          })}
-        >
-          <span>Send message</span>
-          {isLoading ? <LoadingDots /> : null}
-        </button>
+        <input type="hidden" name="token" value={token} />
+        <FormButton />
       </form>
-      {error ? (
-        <p className="py-4">
-          Sorry, it looks like we are having trouble with our form. You can contact us directly
-          using{' '}
-          <a href="mailto:contact@svelteoffice.com" className="underline">
-            contact@svelteoffice.com
-          </a>
-          .
-        </p>
-      ) : null}
     </>
+  );
+}
+
+function FormButton() {
+  const { pending } = useFormStatus();
+
+  return (
+    <Button type="submit" disabled={pending}>
+      {pending ? <LoadingDots /> : <span>Send message</span>}
+    </Button>
+  );
+}
+
+const ErrorMessage = ({ field, errors }: { field: string; errors: ActionReturnType['errors'] }) => {
+  const error = errors?.find((err) => err.path === field)?.message;
+  return error ? <span className="text-sm text-error">{error}</span> : null;
+};
+
+export default function ContactForm() {
+  return (
+    <ReCaptchaProvider>
+      <Form />
+    </ReCaptchaProvider>
   );
 }

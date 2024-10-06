@@ -1,4 +1,5 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
+import { useGoogleReCaptcha } from 'react-google-recaptcha-v3';
 import { BREAKPOINTS } from './constants';
 
 export function useOutsideClick(ref: React.RefObject<HTMLElement>, callback: () => void) {
@@ -32,4 +33,31 @@ export function useIsBreakpoint(breakpoint: keyof typeof BREAKPOINTS = 'md') {
   }, []);
 
   return isBreakpoint;
+}
+
+export function useRecaptcha() {
+  const [token, setToken] = useState<string | undefined>();
+  const { executeRecaptcha } = useGoogleReCaptcha();
+
+  const handleRecaptcha = useCallback(async () => {
+    if (!executeRecaptcha) {
+      console.error('ReCAPTCHA not loaded');
+      return;
+    }
+
+    try {
+      const token = await executeRecaptcha('email_signup');
+      setToken(token);
+    } catch (error) {
+      console.error('Error executing ReCAPTCHA:', error);
+    }
+  }, [executeRecaptcha]);
+
+  useEffect(() => {
+    if (!executeRecaptcha || token) return;
+
+    void handleRecaptcha();
+  }, [executeRecaptcha, token, handleRecaptcha]);
+
+  return token;
 }

@@ -1,6 +1,12 @@
+import clsx, { ClassValue } from 'clsx';
 import { ReadonlyURLSearchParams } from 'next/navigation';
+import { twMerge } from 'tailwind-merge';
 import { BREAKPOINTS } from './constants';
 import { Product } from './shopify/types';
+
+export function cn(...inputs: ClassValue[]) {
+  return twMerge(clsx(inputs));
+}
 
 export const createUrl = (pathname: string, params: URLSearchParams | ReadonlyURLSearchParams) => {
   const paramsString = params.toString();
@@ -59,3 +65,37 @@ export const getMetafieldValue = (product: Product, key: string) => {
   const metafield = product.specification.find((spec) => spec.key === key);
   return metafield ? JSON.parse(metafield.value).value : '';
 };
+
+export async function verifyRecaptcha(token: string) {
+  const url = 'https://www.google.com/recaptcha/api/siteverify';
+
+  const params = new URLSearchParams();
+  params.append('secret', process.env.RECAPTCHA_SECRET_KEY!);
+  params.append('response', token);
+
+  try {
+    const res = await fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded'
+      },
+      body: params.toString()
+    });
+    const score = await res.json();
+
+    if (!score.success) {
+      throw {
+        type: 'RECAPTCHA_ERROR',
+        message: 'ReCAPTCHA error',
+        error: score['error-codes'].join(', ')
+      };
+    }
+  } catch (err) {
+    console.error('Error verifying ReCAPTCHA:', err);
+    throw {
+      type: 'RECAPTCHA_ERROR',
+      message: 'ReCAPTCHA error',
+      error: 'ReCAPTCHA error'
+    };
+  }
+}
