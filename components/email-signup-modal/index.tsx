@@ -107,7 +107,7 @@ function Form({
   email,
   setEmail
 }: {
-  action: any;
+  action: () => void;
   email?: string;
   setEmail?: Dispatch<SetStateAction<string | undefined>>;
 }) {
