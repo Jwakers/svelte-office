@@ -1,5 +1,6 @@
 'use server';
 
+import { isMailchimpError, isRecaptchaError } from '@/lib/type-guards';
 import { verifyRecaptcha } from '@/lib/utils';
 import mailchimp, { ErrorResponse } from '@mailchimp/mailchimp_marketing';
 import capitalize from 'lodash.capitalize';
@@ -23,7 +24,6 @@ export async function subscribeEmail(previousState: FormData, formData: FormData
 
   try {
     const validatedData = formSchema.parse(formDataObject);
-    console.log(validatedData);
     verifyRecaptcha(validatedData.token);
 
     await mailchimp.lists.addListMember(process.env.MAILCHIMP_LIST_ID!, {
@@ -66,6 +66,13 @@ export async function subscribeEmail(previousState: FormData, formData: FormData
       };
     }
 
+    if (isRecaptchaError(error)) {
+      return {
+        message: error.error,
+        errors: [{ message: 'ReCAPTCHA failed. Please try again.', path: null }]
+      };
+    }
+
     console.error('Unexpected error:');
     return {
       success: false,
@@ -73,10 +80,4 @@ export async function subscribeEmail(previousState: FormData, formData: FormData
       errors: ['Server error, please try again later.']
     };
   }
-}
-
-function isMailchimpError(error: any) {
-  const errorData: ErrorResponse = error?.response?.body as ErrorResponse;
-
-  return errorData && 'status' in errorData && 'title' in errorData && 'detail' in errorData;
 }

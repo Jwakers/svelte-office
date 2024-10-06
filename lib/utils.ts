@@ -79,9 +79,15 @@ export async function verifyRecaptcha(token: string) {
 
     if (!score.success) {
       console.log('Score:', score);
-      throw Error('Recaptcha failed');
+      throw {
+        type: 'RECAPTCHA_ERROR',
+        error: score['error-codes'].join(', ')
+      };
     }
   } catch (err) {
-    throw Error('ReCAPTCHA Error');
+    throw {
+      type: 'RECAPTCHA_ERROR',
+      error: 'ReCAPTCHA error'
+    };
   }
 }
