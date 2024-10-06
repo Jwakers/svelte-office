@@ -45,8 +45,12 @@ export function useRecaptcha() {
       return;
     }
 
-    const token = await executeRecaptcha('email_signup');
-    setToken(token);
+    try {
+      const token = await executeRecaptcha('email_signup');
+      setToken(token);
+    } catch (error) {
+      console.error('Error executing ReCAPTCHA:', error);
+    }
   }, [executeRecaptcha]);
 
   useEffect(() => {

@@ -67,26 +67,34 @@ export const getMetafieldValue = (product: Product, key: string) => {
 };
 
 export async function verifyRecaptcha(token: string) {
-  const url = `https://www.google.com/recaptcha/api/siteverify?secret=${process.env.RECAPTCHA_SECRET_KEY}&response=${token}`;
+  const url = 'https://www.google.com/recaptcha/api/siteverify';
+
+  const params = new URLSearchParams();
+  params.append('secret', process.env.RECAPTCHA_SECRET_KEY!);
+  params.append('response', token);
 
   try {
     const res = await fetch(url, {
+      method: 'POST',
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded'
-      }
+      },
+      body: params.toString()
     });
     const score = await res.json();
 
     if (!score.success) {
-      console.log('Score:', score);
       throw {
         type: 'RECAPTCHA_ERROR',
+        message: 'ReCAPTCHA error',
         error: score['error-codes'].join(', ')
       };
     }
   } catch (err) {
+    console.error('Error verifying ReCAPTCHA:', err);
     throw {
       type: 'RECAPTCHA_ERROR',
+      message: 'ReCAPTCHA error',
       error: 'ReCAPTCHA error'
     };
   }

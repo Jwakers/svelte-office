@@ -3,6 +3,7 @@
 import { isRecaptchaError } from '@/lib/type-guards';
 import { verifyRecaptcha } from '@/lib/utils';
 import sendEmail from 'lib/send-email';
+import escape from 'lodash.escape';
 import { z } from 'zod';
 
 const contactFormSchema = z.object({
@@ -26,10 +27,10 @@ const sendContactEmail = async (data: ContactFormSchema) => {
     subject: data.subject,
     fromLabel: 'Svelte Office contact form',
     html: `
-      <p><strong>Name:</strong> ${data.name}</p>
-      <p><strong>Email:</strong> ${data.email}</p>
-      <p><strong>Subject:</strong> ${data.subject}</p>
-      <p><strong>Message:</strong> ${data.message}</p>
+      <p><strong>Name:</strong> ${escape(data.name)}</p>
+      <p><strong>Email:</strong> ${escape(data.email)}</p>
+      <p><strong>Subject:</strong> ${escape(data.subject)}</p>
+      <p><strong>Message:</strong> ${escape(data.message)}</p>
     `
   });
 };
@@ -40,7 +41,7 @@ export async function contactAction(
 ): Promise<ContactActionResult> {
   try {
     const data = Object.fromEntries(formData.entries());
-    const validatedData = contactFormSchema.parse(data);
+    const validatedData = contactFormSchema.strict().parse(data);
 
     await verifyRecaptcha(validatedData.token);
     await sendContactEmail(validatedData);
@@ -61,9 +62,9 @@ export async function contactAction(
 
     if (isRecaptchaError(err)) {
       return {
-        message: err.error,
+        message: err.message,
         success: false,
-        errors: [{ message: 'ReCAPTCHA failed. Please try again.', path: null }]
+        errors: [{ message: err.error, path: null }]
       };
     }
 

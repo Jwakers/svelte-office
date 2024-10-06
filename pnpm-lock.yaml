@@ -77,6 +77,9 @@ dependencies:
   lodash.capitalize:
     specifier: ^4.2.1
     version: 4.2.1
+  lodash.escape:
+    specifier: ^4.0.1
+    version: 4.0.1
   lucide-react:
     specifier: ^0.447.0
     version: 0.447.0(react@18.3.1)
@@ -148,6 +151,9 @@ devDependencies:
   '@types/lodash.capitalize':
     specifier: ^4.2.9
     version: 4.2.9
+  '@types/lodash.escape':
+    specifier: ^4.0.9
+    version: 4.0.9
   '@types/mailchimp__mailchimp_marketing':
     specifier: ^3.0.20
     version: 3.0.20
@@ -1504,6 +1510,12 @@ packages:
 
   /@types/lodash.capitalize@4.2.9:
     resolution: {integrity: sha512-SV1dav/WbuI816SVig4trFz8ID/m5maVzC8I/E/DejPvmlXvIhw7Y0GWxJ03UhU6qaZOj6qQnR1xxC0mP7ZXoQ==}
+    dependencies:
+      '@types/lodash': 4.17.10
+    dev: true
+
+  /@types/lodash.escape@4.0.9:
+    resolution: {integrity: sha512-YR9R6RU9D36OWrhVZ+r4fY8mMXQtofnLXAcE6CkKIxdH66uiCdEjkhxx/eiJnYpxjOFmPbWBUUvdv8lckO823Q==}
     dependencies:
       '@types/lodash': 4.17.10
     dev: true
@@ -3877,6 +3889,10 @@ packages:
   /lodash.castarray@4.4.0:
     resolution: {integrity: sha512-aVx8ztPv7/2ULbArGJ2Y42bG1mEQ5mGjpdvrbJcJFU3TbYybe+QlLS4pst9zV52ymy2in1KpFPiZnAOATxD4+Q==}
     dev: true
+
+  /lodash.escape@4.0.1:
+    resolution: {integrity: sha512-nXEOnb/jK9g0DYMr1/Xvq6l5xMD7GDG55+GSYIYmS0G4tBk/hURD4JR9WCavs04t33WmJx9kCyp9vJ+mr4BOUw==}
+    dev: false
 
   /lodash.isplainobject@4.0.6:
     resolution: {integrity: sha512-oSXzaWypCMHkPC3NvBEaPHf0KsA5mvPrOPgQWDsbg8n7orZ290M0BmC/jgRZ4vcJ6DTAhjrsSYgdsW/F+MFOBA==}

@@ -7,6 +7,7 @@ export interface ShopifyErrorLike {
 
 export type RecaptchaError = {
   type: 'RECAPTCHA_ERROR';
+  message: string;
   error: string;
 };
 
@@ -22,10 +23,13 @@ export const isShopifyError = (error: unknown): error is ShopifyErrorLike => {
   return findError(error);
 };
 
-export function isMailchimpError(error: any) {
-  const errorData: ErrorResponse = error?.response?.body as ErrorResponse;
+export function isMailchimpError(error: unknown): error is { response: { body: ErrorResponse } } {
+  if (!isObject(error) || !isObject(error.response) || !isObject(error.response.body)) {
+    return false;
+  }
 
-  return errorData && 'status' in errorData && 'title' in errorData && 'detail' in errorData;
+  const errorData = error.response.body;
+  return 'status' in errorData && 'title' in errorData && 'detail' in errorData;
 }
 
 export function isRecaptchaError(error: unknown): error is RecaptchaError {

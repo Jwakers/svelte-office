@@ -2,7 +2,7 @@
 
 import { isMailchimpError, isRecaptchaError } from '@/lib/type-guards';
 import { verifyRecaptcha } from '@/lib/utils';
-import mailchimp, { ErrorResponse } from '@mailchimp/mailchimp_marketing';
+import mailchimp from '@mailchimp/mailchimp_marketing';
 import capitalize from 'lodash.capitalize';
 import { z } from 'zod';
 
@@ -32,8 +32,8 @@ export async function subscribeEmail(
   const formDataObject = Object.fromEntries(formData.entries());
 
   try {
-    const validatedData = formSchema.parse(formDataObject);
-    verifyRecaptcha(validatedData.token);
+    const validatedData = formSchema.strict().parse(formDataObject);
+    await verifyRecaptcha(validatedData.token);
 
     await mailchimp.lists.addListMember(process.env.MAILCHIMP_LIST_ID!, {
       email_address: validatedData.email.toLowerCase(),
@@ -57,7 +57,7 @@ export async function subscribeEmail(
 
     // Check if this is a Mailchimp error
     if (isMailchimpError(error)) {
-      const errorData = error?.response?.body as ErrorResponse;
+      const errorData = error.response.body;
 
       if (errorData.status === 400 && errorData.title === 'Member Exists') {
         return {

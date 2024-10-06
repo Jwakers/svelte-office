@@ -1,12 +1,16 @@
 'use client';
 import { GoogleReCaptchaProvider } from 'react-google-recaptcha-v3';
 
-const recaptchaKey: string | undefined = process?.env?.NEXT_PUBLIC_RECAPTCHA_SITE_KEY;
+const RECAPTCHA_SITE_KEY = process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY;
 
 export default function ReCaptchaProvider({ children }: React.PropsWithChildren) {
+  if (!RECAPTCHA_SITE_KEY) {
+    throw new Error('NEXT_PUBLIC_RECAPTCHA_SITE_KEY is not defined in the environment variables.');
+  }
+
   return (
     <GoogleReCaptchaProvider
-      reCaptchaKey={recaptchaKey ?? 'NOT_DEFINED'}
+      reCaptchaKey={RECAPTCHA_SITE_KEY}
       scriptProps={{
         async: false,
         defer: false,

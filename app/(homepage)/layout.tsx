@@ -16,7 +16,9 @@ export default function RootLayout({ children }: { children: ReactNode }) {
       <Suspense>
         <Providers>
           <main className="animate-fadeIn">{children}</main>
-          <EmailSignupModalComponent />
+          <Suspense>
+            <EmailSignupModalComponent />
+          </Suspense>
         </Providers>
       </Suspense>
       <Suspense>

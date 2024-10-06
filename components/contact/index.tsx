@@ -22,6 +22,11 @@ function Form() {
   const router = useRouter();
   const token = useRecaptcha();
 
+  const ErrorMessage = ({ field }: { field: string }) => {
+    const error = state.errors?.find((err) => err.path === field)?.message;
+    return error ? <span className="text-sm text-error">{error}</span> : null;
+  };
+
   useEffect(() => {
     if (!state.errors.length) return;
     toast.error(state.message);
@@ -43,11 +48,7 @@ function Form() {
           <label htmlFor="email" className="mb-2 block text-sm uppercase">
             Your name
           </label>
-          {state.errors?.find((err) => err.path === 'name')?.message && (
-            <span className="text-sm text-error">
-              {state.errors.find((err) => err.path === 'name')?.message}
-            </span>
-          )}
+          <ErrorMessage field="name" />
           <Input
             type="text"
             id="name"
@@ -61,11 +62,7 @@ function Form() {
           <label htmlFor="email" className="mb-2 block text-sm uppercase">
             Your email
           </label>
-          {state.errors?.find((err) => err.path === 'email')?.message && (
-            <span className="text-sm text-error">
-              {state.errors.find((err) => err.path === 'email')?.message}
-            </span>
-          )}
+          <ErrorMessage field="email" />
           <Input
             type="email"
             id="email"
@@ -79,11 +76,7 @@ function Form() {
           <label htmlFor="subject" className="mb-2 block text-sm uppercase">
             Subject
           </label>
-          {state.errors?.find((err) => err.path === 'subject')?.message && (
-            <span className="text-sm text-error">
-              {state.errors.find((err) => err.path === 'subject')?.message}
-            </span>
-          )}
+          <ErrorMessage field="subject" />
           <Input
             type="text"
             id="subject"
@@ -97,11 +90,7 @@ function Form() {
           <label htmlFor="message" className="mb-2 block text-sm uppercase">
             Your message
           </label>
-          {state.errors?.find((err) => err.path === 'message')?.message && (
-            <span className="text-sm text-error">
-              {state.errors.find((err) => err.path === 'message')?.message}
-            </span>
-          )}
+          <ErrorMessage field="message" />
           <Textarea
             id="message"
             name="message"

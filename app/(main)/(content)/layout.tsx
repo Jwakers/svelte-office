@@ -16,7 +16,9 @@ export default function Layout({ children }: { children: ReactNode }) {
       <Suspense>
         <Providers>
           <main>{children}</main>
-          <EmailSignupModalComponent />
+          <Suspense>
+            <EmailSignupModalComponent />
+          </Suspense>
         </Providers>
       </Suspense>
       <Suspense>

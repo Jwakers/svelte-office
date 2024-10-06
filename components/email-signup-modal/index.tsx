@@ -137,7 +137,7 @@ function FormButton() {
   const { pending } = useFormStatus();
 
   return (
-    <Button type="submit" className="w-full">
+    <Button type="submit" className="w-full" disabled={pending}>
       {pending ? <LoadingDots /> : 'Get My 15% Off'}
     </Button>
   );
