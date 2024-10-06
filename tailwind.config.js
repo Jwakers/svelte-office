@@ -23,8 +23,8 @@ module.exports = {
           foreground: colors.white
         },
         secondary: {
-          DEFAULT: 'hsl(var(--secondary))',
-          foreground: 'hsl(var(--secondary-foreground))'
+          DEFAULT: colors.slate[700],
+          foreground: colors.white
         },
         error: colors.red[500],
         success: colors.green[500],

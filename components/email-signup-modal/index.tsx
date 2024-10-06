@@ -12,11 +12,12 @@ import { Input } from '@/components/ui/input';
 import { getImageSizes } from '@/lib/utils';
 import Image from 'next/image';
 import modalImage from 'public/advance-lifestyle.jpg';
-import { useEffect, useState } from 'react';
+import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { useFormState, useFormStatus } from 'react-dom';
 
 import LoadingDots from '@/components/loading-dots';
 import { useRecaptcha } from '@/lib/hooks';
+import { useSearchParams } from 'next/navigation';
 import toast from 'react-hot-toast';
 import ReCaptchaProvider from '../recaptcha-provider';
 import { subscribeEmail } from './actions';
@@ -34,6 +35,8 @@ const INITIAL_STATE: ActionReturnType = {
 export default function EmailSignupModalComponent() {
   const [isOpen, setIsOpen] = useState(false);
   const [state, formAction]: [ActionReturnType, any] = useFormState(subscribeEmail, INITIAL_STATE);
+  const [email, setEmail] = useState<string | undefined>(undefined);
+  const params = useSearchParams();
 
   const handleChange = (open: boolean) => {
     setIsOpen(open);
@@ -63,6 +66,14 @@ export default function EmailSignupModalComponent() {
     }
   }, [state]);
 
+  useEffect(() => {
+    const emailParam = params.get('email');
+    if (!emailParam) return;
+
+    setEmail(emailParam);
+    setIsOpen(true);
+  }, [params]);
+
   return (
     <ReCaptchaProvider>
       <Dialog open={isOpen} onOpenChange={handleChange}>
@@ -81,7 +92,7 @@ export default function EmailSignupModalComponent() {
               </DialogDescription>
             </DialogHeader>
             <div className="grid gap-4">
-              <Form action={formAction} />
+              <Form action={formAction} email={email} setEmail={setEmail} />
             </div>
           </div>
         </DialogContent>
@@ -90,7 +101,15 @@ export default function EmailSignupModalComponent() {
   );
 }
 
-function Form({ action }: { action: any }) {
+function Form({
+  action,
+  email,
+  setEmail
+}: {
+  action: any;
+  email?: string;
+  setEmail?: Dispatch<SetStateAction<string | undefined>>;
+}) {
   const token = useRecaptcha();
 
   return (
@@ -99,7 +118,14 @@ function Form({ action }: { action: any }) {
         <Input name="firstName" placeholder="First Name" required />
         <Input name="lastName" placeholder="Last Name" required />
       </div>
-      <Input name="email" placeholder="Enter your email" type="email" required />
+      <Input
+        name="email"
+        placeholder="Enter your email"
+        type="email"
+        required
+        value={email}
+        onChange={(e) => setEmail?.(e.target.value)}
+      />
       <input hidden name="token" value={token} type="text" />
       <FormButton />
     </form>
