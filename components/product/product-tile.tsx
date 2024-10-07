@@ -22,7 +22,7 @@ export default function ProductTile({ product }: { product: Product }) {
         sizes={getImageSizes({ sm: '100vw', md: '50vw', lg: '33vw', xl: '25vw' })}
         className="aspect-square w-full object-cover"
       />
-      <div className="flex h-full flex-col border-t border-brand bg-white p-3">
+      <div className="flex h-full flex-col border-t bg-white p-3">
         <h2 className="font-serif text-lg uppercase md:text-xl">{product.title}</h2>
         {hasVariants && <span className="text-sm text-secondary">Multiple options</span>}
         <div className="mt-auto flex justify-between">

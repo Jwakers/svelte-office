@@ -20,7 +20,7 @@ export default async function Page() {
           return (
             <Link
               href={`/${ROUTES.blog}/${article.handle}`}
-              className="block gap-3 border-b border-brand py-3 transition-transform hover:translate-x-4 md:grid md:grid-cols-[1fr_200px] md:py-6"
+              className="block gap-3 border-b py-3 transition-transform hover:translate-x-4 md:grid md:grid-cols-[1fr_200px] md:py-6"
             >
               <div className="space-y-1 md:space-y-2">
                 <h4 className="font-serif text-2xl md:text-3xl">{article.title}</h4>

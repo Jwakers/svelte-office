@@ -57,7 +57,7 @@ function Result({ hit }: ResultProps) {
           containImage ? 'object-contain py-4' : 'object-cover'
         )}
       />
-      <div className="flex h-full flex-col border-t border-brand bg-white p-3">
+      <div className="flex h-full flex-col border-t bg-white p-3">
         <h2 className="font-serif text-lg uppercase md:text-xl">{hit.title}</h2>
         {hasVariants && <span className="text-sm text-secondary">Multiple options</span>}
         <div className="mt-auto flex justify-between">

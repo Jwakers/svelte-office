@@ -67,21 +67,17 @@ export function Gallery({ images, variants }: { images: TImage[]; variants: Prod
           </SwiperSlide>
         ))}
       </Swiper>
-      <div className="flex items-center justify-between gap-2 border-t border-brand px-4 py-4 md:items-start">
+      <div className="flex items-center justify-between gap-2 border-t px-4 py-4 md:items-start">
         <div className="pagination flex gap-1" />
         <div className="hidden gap-1 md:flex">
           <button
             type="button"
             title="Previous slide"
-            className="prev border border-brand p-2 disabled:opacity-20"
+            className="prev border p-2 disabled:opacity-20"
           >
             <ArrowLeft />
           </button>
-          <button
-            type="button"
-            title="Next slide"
-            className="next border border-brand p-2 disabled:opacity-20"
-          >
+          <button type="button" title="Next slide" className="next border p-2 disabled:opacity-20">
             <ArrowRight />
           </button>
         </div>

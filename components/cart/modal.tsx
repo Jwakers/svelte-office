@@ -86,7 +86,7 @@ export default function CartModal({ cart, cartIdUpdated }: { cart: Cart; cartIdU
             leaveFrom="translate-x-0"
             leaveTo="translate-x-full"
           >
-            <Dialog.Panel className="fixed bottom-0 right-0 top-0 flex h-full w-full flex-col border-brand bg-white md:w-3/5 md:border-l lg:w-2/5">
+            <Dialog.Panel className="fixed bottom-0 right-0 top-0 flex h-full w-full flex-col bg-white md:w-3/5 md:border-l lg:w-2/5">
               <div className="flex items-center justify-between p-3">
                 <p className="font-serif text-2xl">My Cart</p>
                 <button
@@ -124,7 +124,7 @@ export default function CartModal({ cart, cartIdUpdated }: { cart: Cart; cartIdU
                       return (
                         <li
                           key={i}
-                          className="flex flex-col gap-2 border-b border-brand py-3 last:border-b-0"
+                          className="flex flex-col gap-2 border-b py-3 last:border-b-0"
                           data-testid="cart-item"
                         >
                           <Link className="flex gap-4" href={merchandiseUrl} onClick={closeCart}>
@@ -169,7 +169,7 @@ export default function CartModal({ cart, cartIdUpdated }: { cart: Cart; cartIdU
                       );
                     })}
                   </ul>
-                  <div className="border-t border-brand pt-2 text-sm">
+                  <div className="border-t pt-2 text-sm">
                     <div className="p-3">
                       <div className="mb-2 flex items-center justify-between">
                         <p>Subtotal</p>
@@ -189,7 +189,7 @@ export default function CartModal({ cart, cartIdUpdated }: { cart: Cart; cartIdU
                           />
                         </div>
                       ) : null}
-                      <div className="mb-2 flex items-center justify-between border-b border-brand pb-2">
+                      <div className="mb-2 flex items-center justify-between border-b pb-2">
                         <p>Shipping</p>
                         <p className="text-right">FREE</p>
                       </div>
@@ -203,7 +203,7 @@ export default function CartModal({ cart, cartIdUpdated }: { cart: Cart; cartIdU
                       </div>
                       <a
                         href={cart.checkoutUrl}
-                        className="flex w-full items-center justify-center gap-2 border border-brand bg-brand p-3 text-sm uppercase text-white transition-colors hover:bg-white hover:text-brand"
+                        className="flex w-full items-center justify-center gap-2 border bg-brand p-3 text-sm uppercase text-white transition-colors hover:bg-white hover:text-brand"
                       >
                         <span>Proceed to Secure Checkout</span>
                         <Lock strokeWidth={1} />

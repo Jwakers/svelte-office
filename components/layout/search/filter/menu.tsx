@@ -56,11 +56,7 @@ export default function SearchMenu({ children }: { children: React.ReactNode }) 
                 <span className="ml-3 translate-y-[2px] font-serif text-xl font-bold leading-none tracking-tight">
                   SvelteOffice
                 </span>
-                <button
-                  className="border-l border-brand p-3"
-                  aria-label="Close menu"
-                  onClick={closeMenu}
-                >
+                <button className="border-l p-3" aria-label="Close menu" onClick={closeMenu}>
                   <X strokeWidth={1} />
                 </button>
               </div>

@@ -18,7 +18,7 @@ export default async function Navbar({ className }: { className: ClassValue }) {
       <Link href="/" aria-label="Go back home" className="relative z-50 block p-3 md:hidden">
         <Logo className="text-2xl" />
       </Link>
-      <nav className="fixed bottom-0 left-0 z-20 grid w-full grid-cols-[1fr_auto] items-center justify-between border-t border-brand bg-white px-4 md:static md:border-b md:border-t-0 md:bg-transparent">
+      <nav className="fixed bottom-0 left-0 z-20 grid w-full grid-cols-[1fr_auto] items-center justify-between border-t bg-white px-4 md:static md:border-b md:border-t-0 md:bg-transparent">
         <div className="flex">
           <Link href="/" aria-label="Go back home" className="py-2">
             <Logo className="text-xl md:text-3xl" />

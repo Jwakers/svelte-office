@@ -8,7 +8,7 @@ export const metadata = {
 
 export default function ContactPage() {
   return (
-    <section className="mx-auto h-full w-full animate-fadeIn border-brand p-3 md:max-w-3xl md:border-l md:border-r">
+    <section className="mx-auto h-full w-full animate-fadeIn p-3 md:max-w-3xl md:border-l md:border-r">
       <h1 className="font-serif text-3xl">Contact us</h1>
       <p className="mb-4 max-w-lg">
         Please fill out this short form and we will get back to you as soon as we can.

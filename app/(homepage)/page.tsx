@@ -59,7 +59,7 @@ export default async function HomePage() {
       </Suspense>
       <Suspense>
         <USPs />
-        <h2 className="border-brand px-3 py-4 font-serif text-2xl uppercase md:border-b md:py-10 md:text-3xl">
+        <h2 className="px-3 py-4 font-serif text-2xl uppercase md:border-b md:py-10 md:text-3xl">
           Shop by category
         </h2>
         <div className="md:grid md:grid-cols-2">
@@ -68,9 +68,9 @@ export default async function HomePage() {
           <CollectionPreview handle="bookcases-and-standing-shelves" />
           <Link
             href={`/${ROUTES.categories}`}
-            className="group relative border-b border-brand transition-colors hover:bg-brand hover:text-white md:grid-cols-[30%_1fr] md:border-l"
+            className="group relative border-b transition-colors hover:bg-brand hover:text-white md:grid-cols-[30%_1fr] md:border-l"
           >
-            <div className="sticky top-0 z-10 flex items-center gap-1 self-end border-b border-brand bg-white px-4 py-2 transition-all group-hover:gap-4 md:hidden">
+            <div className="sticky top-0 z-10 flex items-center gap-1 self-end border-b bg-white px-4 py-2 transition-all group-hover:gap-4 md:hidden">
               <h2 className="font-serif text-2xl">View all categories</h2>
               <ArrowRight />
             </div>
@@ -86,7 +86,7 @@ export default async function HomePage() {
         <DeliveryBanner />
         <FeaturedProduct />
         {/* <PromotionBanner /> */}
-        <h2 className="border-brand px-3 py-4 font-serif text-2xl uppercase md:border-b md:py-10 md:text-3xl">
+        <h2 className="px-3 py-4 font-serif text-2xl uppercase md:border-b md:py-10 md:text-3xl">
           Latest products
         </h2>
         <LatestProducts />

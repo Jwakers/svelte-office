@@ -15,7 +15,7 @@ export default function RangeInput({ attribute, label }: { attribute: string; la
         classNames={{
           form: 'flex flex-wrap gap-1 items-center',
           label: 'grow',
-          input: 'p-1 border border-brand w-full',
+          input: 'p-1 border w-full',
           submit: 'w-full button'
         }}
       />

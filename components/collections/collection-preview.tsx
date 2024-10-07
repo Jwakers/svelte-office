@@ -13,9 +13,9 @@ export const CollectionPreview = async function ({ handle }: { handle: string })
   return (
     <Link
       href={`/${ROUTES.search}?${getURIComponent('refinementList', 'collections', handle)}`}
-      className="group relative grid border-b border-brand md:grid-cols-[30%_1fr]"
+      className="group relative grid border-b md:grid-cols-[30%_1fr]"
     >
-      <div className="sticky top-0 z-10 flex items-center gap-1 self-end border-b border-brand bg-white px-4 py-2 transition-all group-hover:gap-4 md:hidden">
+      <div className="sticky top-0 z-10 flex items-center gap-1 self-end border-b bg-white px-4 py-2 transition-all group-hover:gap-4 md:hidden">
         <h2 className="font-serif text-2xl">{collection.title}</h2>
         <ArrowRight />
       </div>
