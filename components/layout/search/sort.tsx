@@ -8,7 +8,7 @@ export default function Sort() {
       <div>Sort by</div>
       <SortBy
         classNames={{
-          select: 'border border-brand p-2 pr-10 appearance-none'
+          select: 'border p-2 pr-10 appearance-none'
         }}
         items={[
           { label: 'Default', value: ALGOLIA.index.products },

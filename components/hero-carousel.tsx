@@ -60,10 +60,10 @@ export default function HeroCarousel() {
         </SwiperSlide>
       </Swiper>
       <div className="pointer-events-none absolute bottom-4 right-0 z-20 mx-4 flex -translate-y-4 justify-between gap-4 opacity-0 transition-[opacity,transform] duration-500 group-hover:pointer-events-auto group-hover:translate-y-0 group-hover:opacity-100">
-        <button className="prev border border-brand bg-white/50 p-2 transition-colors hover:bg-white">
+        <button className="prev border bg-white/50 p-2 transition-colors hover:bg-white">
           <ArrowLeft />
         </button>
-        <button className="next border border-brand bg-white/50 p-2 transition-colors hover:bg-white">
+        <button className="next border bg-white/50 p-2 transition-colors hover:bg-white">
           <ArrowRight />
         </button>
       </div>
@@ -170,7 +170,7 @@ function FeaturedProductSlide() {
   return (
     <div className="relative flex size-full flex-col-reverse md:flex-row">
       <div className="absolute inset-x-0 top-0 h-32 w-full self-start bg-gradient-to-b from-white/60"></div>
-      <div className="z-10 flex items-center border-r border-brand bg-white md:h-full md:max-w-[30rem]">
+      <div className="z-10 flex items-center border-r bg-white md:h-full md:max-w-[30rem]">
         <div className="space-y-4 p-4 pb-10 md:space-y-6 md:pb-4">
           <h2 className="font-serif text-3xl md:text-5xl">Advanced Sit/stand desk</h2>
           <p>

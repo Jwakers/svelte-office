@@ -48,7 +48,7 @@ function Form() {
             type="text"
             id="name"
             name="name"
-            className="block w-full border border-brand bg-white p-3 text-sm"
+            className="block w-full border bg-white p-3 text-sm"
             placeholder="John Smith"
             required
           />
@@ -62,7 +62,7 @@ function Form() {
             type="email"
             id="email"
             name="email"
-            className="block w-full border border-brand bg-white p-3 text-sm"
+            className="block w-full border bg-white p-3 text-sm"
             placeholder="name@gmail.com"
             required
           />
@@ -76,7 +76,7 @@ function Form() {
             type="text"
             id="subject"
             name="subject"
-            className="block w-full border border-brand bg-white p-3 text-sm"
+            className="block w-full border bg-white p-3 text-sm"
             placeholder="Let us know how we can help you"
             required
           />
@@ -90,7 +90,7 @@ function Form() {
             id="message"
             name="message"
             rows={6}
-            className="block w-full border border-brand bg-white p-3 text-sm"
+            className="block w-full border bg-white p-3 text-sm"
             placeholder="Leave a comment..."
             required
           />

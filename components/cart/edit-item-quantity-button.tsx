@@ -41,7 +41,7 @@ export default function EditItemQuantityButton({
       }}
       disabled={isPending}
       className={clsx(
-        'transition-color flex min-w-[36px] max-w-[36px] items-center justify-center border border-l-0 border-brand px-2 hover:bg-brand hover:text-white',
+        'transition-color flex min-w-[36px] max-w-[36px] items-center justify-center border border-l-0 px-2 hover:bg-brand hover:text-white',
         {
           'cursor-not-allowed': isPending,
           'ml-auto': type === 'minus'

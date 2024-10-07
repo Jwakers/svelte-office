@@ -16,12 +16,12 @@ export default function StockSwitch() {
         <Switch
           checked={hideOutOfStock}
           onChange={setHideOutOfStock}
-          className="flex h-6 w-11 cursor-pointer items-center border border-brand bg-brand/10"
+          className="flex h-6 w-11 cursor-pointer items-center border bg-brand/10"
         >
           {({ checked }) => (
             <span
               className={clsx(
-                'h-4 w-4 border border-brand bg-brand  transition',
+                'h-4 w-4 border bg-brand  transition',
                 checked ? 'translate-x-6 bg-brand' : 'translate-x-1 bg-transparent'
               )}
             />

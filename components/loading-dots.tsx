@@ -1,6 +1,6 @@
 import clsx from 'clsx';
 
-const dots = 'inline-block h-1 w-1 animate-blink rounded-md border-brand border bg-white';
+const dots = 'inline-block h-1 w-1 animate-blink rounded-md border bg-white';
 
 const LoadingDots = ({ className }: { className?: string }) => {
   return (

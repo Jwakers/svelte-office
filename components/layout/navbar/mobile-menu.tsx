@@ -70,7 +70,7 @@ export default function MobileMenu({ menu }: { menu: Menu[] }) {
                 <div className="flex items-center justify-between border-b border-brand">
                   <Logo className="ml-3 translate-y-[2px] text-xl leading-none" />
                   <button
-                    className="border-l border-brand p-3"
+                    className="border-l p-3"
                     onClick={closeMobileMenu}
                     aria-label="Close mobile menu"
                     data-testid="close-mobile-menu"
@@ -89,7 +89,7 @@ export default function MobileMenu({ menu }: { menu: Menu[] }) {
                     ))}
                   </ul>
                 </SearchWrapper>
-                <Search className="mt-auto h-auto justify-end justify-self-end border-t border-brand p-3" />
+                <Search className="mt-auto h-auto justify-end justify-self-end border-t p-3" />
               </div>
             </Dialog.Panel>
           </Transition.Child>

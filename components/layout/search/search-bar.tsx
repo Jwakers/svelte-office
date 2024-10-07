@@ -1,6 +1,6 @@
 import LoadingDots from 'components/loading-dots';
 import { useSearchParams } from 'next/navigation';
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { Search } from 'react-feather';
 import {
   ClearRefinements,
@@ -12,8 +12,21 @@ import {
 import CurrentRefinements from './filter/current-refinements';
 import Sort from './sort';
 
+function queryHook(query: string, search: (query: string) => void) {
+  if (timerId) {
+    clearTimeout(timerId);
+  }
+
+  timerId = setTimeout(() => search(query), timeout);
+}
+
+let timerId: undefined | NodeJS.Timeout = undefined;
+let timeout = 500; // Query debounce in ms
+
 export default function SearchBar() {
-  const { query, refine } = useSearchBox();
+  const { query, refine } = useSearchBox({
+    queryHook
+  });
   const { nbHits } = useStats();
   const { status } = useInstantSearch();
   const searchParams = useSearchParams();
@@ -35,41 +48,45 @@ export default function SearchBar() {
 
   const isSearchStalled = status === 'stalled';
 
-  function setQuery(newQuery: string) {
-    setInputValue(newQuery);
+  const setQuery = useCallback(
+    (newQuery: string) => {
+      setInputValue(newQuery);
 
-    refine(newQuery);
-  }
+      refine(newQuery);
+    },
+    [refine]
+  );
+
+  const handleSubmit = useCallback((event: React.FormEvent) => {
+    event.preventDefault();
+    event.stopPropagation();
+    inputRef.current?.blur();
+  }, []);
+
+  const handleReset = useCallback(
+    (event: React.FormEvent) => {
+      event.preventDefault();
+      event.stopPropagation();
+      setQuery('');
+      inputRef.current?.focus();
+    },
+    [setQuery]
+  );
+
+  const handleInputChange = useCallback(
+    (event: React.ChangeEvent<HTMLInputElement>) => {
+      setQuery(event.currentTarget.value);
+    },
+    [setQuery]
+  );
 
   return (
     <div className="m-3 flex flex-col flex-wrap gap-4 md:my-0 md:flex-row md:items-center">
-      <form
-        action=""
-        role="search"
-        noValidate
-        onSubmit={(event) => {
-          event.preventDefault();
-          event.stopPropagation();
-
-          if (inputRef.current) {
-            inputRef.current.blur();
-          }
-        }}
-        onReset={(event) => {
-          event.preventDefault();
-          event.stopPropagation();
-
-          setQuery('');
-
-          if (inputRef.current) {
-            inputRef.current.focus();
-          }
-        }}
-      >
+      <form action="" role="search" noValidate onSubmit={handleSubmit} onReset={handleReset}>
         <div className="flex w-full md:w-auto">
           <input
             ref={inputRef}
-            className="grow border border-r-0 border-brand p-2 md:text-xl"
+            className="grow border border-r-0 p-2 md:text-xl"
             autoComplete="off"
             autoCorrect="off"
             autoCapitalize="off"
@@ -79,11 +96,10 @@ export default function SearchBar() {
             type="search"
             value={inputValue}
             autoFocus
-            onChange={(event) => {
-              setQuery(event.currentTarget.value);
-            }}
+            onChange={handleInputChange}
+            aria-label="Search for products"
           />
-          <button type="submit" title="Submit" className="border border-brand px-3">
+          <button type="submit" title="Submit" className="border px-3" aria-label="Submit search">
             {isSearchStalled ? <LoadingDots /> : <Search strokeWidth={1} />}
           </button>
         </div>
