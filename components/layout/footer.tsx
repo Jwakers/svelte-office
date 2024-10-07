@@ -16,7 +16,11 @@ export default async function Footer() {
       <div className="w-full px-4">
         <div className="grid grid-cols-1 gap-x-8 gap-y-6 border-b border-brand py-12 transition-colors duration-150 lg:grid-cols-12">
           <div className="col-span-1 lg:col-span-3">
-            <a className="flex flex-initial items-center font-serif font-bold md:mr-24" href="/">
+            <a
+              className="flex flex-initial items-center font-serif font-bold md:mr-24"
+              href="/"
+              title="Go to the home page"
+            >
               <span className="mr-2">
                 <Logo />
               </span>
@@ -40,6 +44,7 @@ export default async function Footer() {
               href="https://www.facebook.com/people/Svelte-Office/61557356429541/"
               title="Svelte Office Facebook"
               target="_blank"
+              rel="noopener"
             >
               <Facebook />
             </a>
@@ -47,6 +52,7 @@ export default async function Footer() {
               href="https://www.instagram.com/svelteoffice/"
               title="Svelte Office Instagram"
               target="_blank"
+              rel="noopener"
             >
               <Instagram />
             </a>
