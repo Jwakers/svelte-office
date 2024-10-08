@@ -1,7 +1,8 @@
 import * as fs from 'fs';
-import { VENDORS } from 'lib/constants';
+import { TAGS, VENDORS } from 'lib/constants';
 import { getAllPages, getProductSkus, updateStock } from 'lib/shopify';
 import { InventoryItem } from 'lib/shopify/types';
+import { revalidateTag } from 'next/cache';
 import { NextResponse } from 'next/server';
 import os from 'os';
 import Papa from 'papaparse';
@@ -76,11 +77,10 @@ const updateStockItem = async (
   stockList: Record<string, string>[]
 ) => {
   const stock = stockList.find((stock) => stock[config.csvSkuColumnName] === item.sku);
-  const quantity = stock ? Number(stock[config.csvSkuQuantityColumnName]) : undefined;
+  const quantity = stock ? Number(stock[config.csvSkuQuantityColumnName]) : 0;
 
-  if (!stock || quantity === undefined) {
+  if (!stock) {
     console.warn(`Cannot find sku: '${item.sku}' in stock list`);
-    return;
   }
 
   if (Number.isNaN(quantity) || quantity === item.inventoryQuantity) return;
@@ -114,6 +114,7 @@ const handleStockUpdate = async function (config: VendorConfig) {
     throw error;
   } finally {
     await fs.promises.unlink(`${tempDir}/stock.csv`).catch(console.error);
+    revalidateTag(TAGS.products);
   }
 };
 
