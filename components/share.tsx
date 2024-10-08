@@ -59,7 +59,7 @@ export default function Share({ url, text, title }: ShareProps) {
           <WhatsappShare url={url} size={isMd ? 30 : 50} title={title} />
         </MenuItem>
         <MenuItem>
-          <button onClick={handleCopyClick}>
+          <button onClick={handleCopyClick} title="Copy URL">
             <Copy size={isMd ? 30 : 50} strokeWidth={1} className="border bg-white p-2" />
           </button>
         </MenuItem>
