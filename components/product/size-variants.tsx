@@ -15,6 +15,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu';
+import Price from '../price';
 import { Button } from '../ui/button';
 
 export function SizeVariants({ products }: { products: Product[] }) {
@@ -68,8 +69,15 @@ export function SizeVariants({ products }: { products: Product[] }) {
                         console.log('clicked');
                         router.push(`/${ROUTES.products}/${product.handle}?${params.toString()}`);
                       }}
+                      className="flex w-full items-center gap-2"
                     >
-                      {title}
+                      <span>{title}</span>
+                      <span className="ml-auto opacity-25">&bull;</span>
+                      <Price
+                        className="ml-auto"
+                        amount={product.priceRange.minVariantPrice.amount}
+                        currencyCode={product.priceRange.minVariantPrice.currencyCode}
+                      />
                     </motion.button>
                   </DropdownMenuItem>
                 );
