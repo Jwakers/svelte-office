@@ -519,7 +519,7 @@ export async function getProductSkus(after: string | null, vendor: ShopifyVendor
     query: getProductSkusQuery,
     cache: 'no-cache',
     variables: {
-      query: `vendor:${vendor}`,
+      query: `vendor:${vendor} AND product_status:active`,
       after
     }
   });
