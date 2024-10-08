@@ -65,10 +65,9 @@ export function SizeVariants({ products }: { products: Product[] }) {
                       initial={{ opacity: 0, x: -20 }}
                       animate={{ opacity: 1, x: 0 }}
                       transition={{ duration: 0.2, delay: index * 0.03 }}
-                      onClick={() => {
-                        console.log('clicked');
-                        router.push(`/${ROUTES.products}/${product.handle}?${params.toString()}`);
-                      }}
+                      onClick={() =>
+                        router.push(`/${ROUTES.products}/${product.handle}?${params.toString()}`)
+                      }
                       className="flex w-full items-center gap-2"
                     >
                       <span>{title}</span>
