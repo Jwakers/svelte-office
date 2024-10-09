@@ -1,19 +1,28 @@
 'use client';
 
-import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react';
 import clsx from 'clsx';
 import { AnimatePresence, motion } from 'framer-motion';
 import { ROUTES } from 'lib/constants';
 import { Product } from 'lib/shopify/types';
 import { getMetafieldValue } from 'lib/utils';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import { ChevronDown } from 'react-feather';
+
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger
+} from '@/components/ui/dropdown-menu';
+import Price from '../price';
+import { Button } from '../ui/button';
 
 export function SizeVariants({ products }: { products: Product[] }) {
   const router = useRouter();
   const pathName = usePathname();
   const params = useSearchParams();
+  const [isOpen, setIsOpen] = useState(false);
   const activeProduct = useMemo(() => {
     return products.find((product) => product.handle === pathName.split('/').pop());
   }, [products, pathName]);
@@ -25,15 +34,13 @@ export function SizeVariants({ products }: { products: Product[] }) {
       <label htmlFor="size-select" className="mb-2 block text-sm uppercase">
         Other sizes
       </label>
-      <Menu as="div" className="relative inline-block text-left">
-        <MenuButton className="flex items-center gap-4 border px-2 py-1 text-xs">
-          {({ active }) => (
-            <>
-              <span>{activeProduct ? activeProduct.title : 'Select a size'}</span>
-              <ChevronDown className={clsx('w-4 transition-transform', active && '-scale-y-100')} />
-            </>
-          )}
-        </MenuButton>
+      <DropdownMenu onOpenChange={setIsOpen}>
+        <DropdownMenuTrigger asChild>
+          <Button variant="outline">
+            <span>{activeProduct ? activeProduct.title : 'Select a size'}</span>
+            <ChevronDown className={clsx('w-4 transition-transform', isOpen && '-scale-y-100')} />
+          </Button>
+        </DropdownMenuTrigger>
         <AnimatePresence>
           <motion.div
             initial={{ opacity: 0, y: -10 }}
@@ -41,7 +48,7 @@ export function SizeVariants({ products }: { products: Product[] }) {
             exit={{ opacity: 0, y: -10 }}
             transition={{ duration: 0.2 }}
           >
-            <MenuItems className="absolute z-10 mt-2 max-h-[200px] w-full origin-top-right overflow-auto bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none md:max-h-[320px]">
+            <DropdownMenuContent>
               {products.map((product, index) => {
                 if (!product) return null;
 
@@ -50,29 +57,34 @@ export function SizeVariants({ products }: { products: Product[] }) {
                 const title = `${widthValue} x ${depthValue}mm`;
                 const isActive = activeProduct?.id === product.id;
 
+                if (isActive) return null;
+
                 return (
-                  <MenuItem key={product.id}>
+                  <DropdownMenuItem key={product.id} asChild>
                     <motion.button
                       initial={{ opacity: 0, x: -20 }}
                       animate={{ opacity: 1, x: 0 }}
-                      transition={{ duration: 0.2, delay: index * 0.05 }}
-                      className={clsx(
-                        'group flex w-full items-center px-2 py-2 text-sm hover:underline',
-                        isActive ? 'bg-gray-100 text-gray-900' : 'text-gray-700'
-                      )}
+                      transition={{ duration: 0.2, delay: index * 0.03 }}
                       onClick={() =>
                         router.push(`/${ROUTES.products}/${product.handle}?${params.toString()}`)
                       }
+                      className="flex w-full items-center gap-2"
                     >
-                      {title}
+                      <span>{title}</span>
+                      <span className="ml-auto opacity-25">&bull;</span>
+                      <Price
+                        className="ml-auto"
+                        amount={product.priceRange.minVariantPrice.amount}
+                        currencyCode={product.priceRange.minVariantPrice.currencyCode}
+                      />
                     </motion.button>
-                  </MenuItem>
+                  </DropdownMenuItem>
                 );
               })}
-            </MenuItems>
+            </DropdownMenuContent>
           </motion.div>
         </AnimatePresence>
-      </Menu>
+      </DropdownMenu>
     </div>
   );
 }
