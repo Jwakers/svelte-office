@@ -61,9 +61,13 @@ export function getImageSizes(sizes: { [key in BreakpointKeys]?: string }) {
   }, '');
 }
 
-export const getMetafieldValue = (product: Product, key: string) => {
-  const metafield = product.specification.find((spec) => spec.key === key);
-  return metafield ? JSON.parse(metafield.value).value : '';
+export const getMetafieldValue = (
+  product: Product,
+  key: 'width' | 'depth' | 'height' | 'weight'
+): string | undefined => {
+  const metafield = product[key];
+  if (!metafield) return undefined;
+  return metafield ? JSON.parse(metafield.value).value : undefined;
 };
 
 export async function verifyRecaptcha(token: string) {

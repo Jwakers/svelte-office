@@ -19,7 +19,7 @@ import {
   getProductRecommendations,
   getProducts
 } from 'lib/shopify';
-import { Product } from 'lib/shopify/types';
+import { Metafield, Product } from 'lib/shopify/types';
 import { getPublicBaseUrl } from 'lib/utils';
 import { getReviews } from 'lib/yotpo';
 import Link from 'next/link';
@@ -75,6 +75,10 @@ export default async function ProductPage({ params }: { params: { handle: string
   const product = await getProductByHandle(params.handle);
 
   if (!product) notFound();
+
+  const specification = [product.width, product.depth, product.height, product.weight].filter(
+    (spec): spec is Metafield => !!spec
+  );
 
   const sizeVariantIds: string[] | undefined = product.sizeReferences?.value
     ? (() => {
@@ -151,12 +155,12 @@ export default async function ProductPage({ params }: { params: { handle: string
             </ReadMore>
           ) : null}
           <div>
-            {product.specification.length || specSheet ? (
+            {specification.length || specSheet ? (
               <Accordion heading="Specification">
-                {product.specification.length && (
+                {specification.length && (
                   <table className="py-2">
                     <tbody>
-                      {product.specification.map((spec) => {
+                      {specification.map((spec) => {
                         if (!spec) return null;
                         const value = JSON.parse(spec.value);
                         return (

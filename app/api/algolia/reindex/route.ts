@@ -8,7 +8,9 @@ export async function GET() {
   try {
     const allProducts = await getAllPages('products', getProductsForAlgolia);
 
-    const objectsToIndex = allProducts.map(getRecord);
+    const objectsToIndex = await Promise.all(
+      allProducts.map(async (product) => await getRecord(product))
+    );
 
     await client.replaceAllObjects(objectsToIndex);
 

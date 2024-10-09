@@ -10,15 +10,16 @@ export const productFragment = /* GraphQL */ `
     description
     descriptionHtml
     vendor
-    specification: metafields(
-      identifiers: [
-        { namespace: "specification", key: "width" }
-        { namespace: "specification", key: "depth" }
-        { namespace: "specification", key: "height" }
-        { namespace: "specification", key: "weight" }
-      ]
-    ) {
-      key
+    width: metafield(namespace: "specification", key: "width") {
+      value
+    }
+    depth: metafield(namespace: "specification", key: "depth") {
+      value
+    }
+    height: metafield(namespace: "specification", key: "height") {
+      value
+    }
+    weight: metafield(namespace: "specification", key: "weight") {
       value
     }
     specificationSheet: metafield(namespace: "specification", key: "specification_sheet") {
@@ -144,6 +145,10 @@ export const productAlgolia = /* GraphQL */ `
       value
     }
     weight: metafield(namespace: "specification", key: "weight") {
+      value
+    }
+    sizeReferences: metafield(namespace: "custom", key: "variant_size_references") {
+      key
       value
     }
     variants(first: 100) {

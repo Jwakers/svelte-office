@@ -1,6 +1,8 @@
 import algoliasearch from 'algoliasearch';
 import { ALGOLIA } from 'lib/constants';
-import { ProductAlgolia, ProductOption } from 'lib/shopify/types';
+import { Product, ProductAlgolia, ProductOption } from 'lib/shopify/types';
+import { getProductById } from '../shopify';
+import { getMetafieldValue } from '../utils';
 
 export function getAlgoliaClient(isAdmin?: boolean) {
   const client = algoliasearch(
@@ -62,41 +64,99 @@ export function getSizes(options: ProductOption[]) {
   return dimensions as { width: number; depth: number }[];
 }
 
-export function getRecord(product: ProductAlgolia) {
+export async function getRecord(product: ProductAlgolia) {
   const sizes = getSizes(product.options);
-  const widths = sizes?.map((size) => size.width);
-  const depths = sizes?.map((size) => size.depth);
-  const prices = Array.from(
-    new Set(product.variants.map((variant) => parseFloat(variant.price.amount)))
-  );
-  const compareAtPrices = Array.from(
+
+  let sizeVariants: Product[] | null = [];
+
+  if (product.sizeReferences) {
+    const sizeVariantIds: string[] | undefined = product.sizeReferences?.value
+      ? (() => {
+          try {
+            return JSON.parse(product.sizeReferences.value);
+          } catch (error) {
+            console.error('Failed to parse sizeReferences.value:', error);
+            return null;
+          }
+        })()
+      : null;
+    sizeVariants = sizeVariantIds
+      ? await Promise.all(sizeVariantIds.map((id) => getProductById(id))).then((products) =>
+          products.filter((product) => !!product)
+        )
+      : null;
+  }
+
+  const namedTags = getNamedTags(product.tags);
+
+  const record = {
+    objectID: getObjectId(product),
+    title: product.title,
+    handle: product.handle,
+    tags: product.tags,
+    brand: product.vendor,
+    price: getPrices(product),
+    compareAtPrice: getCompareAtPrices(product),
+    currencyCode: product.priceRange.minVariantPrice.currencyCode,
+    image: { ...product.featuredImage },
+    collections: getCollections(product),
+    options: product.options,
+    availableForSale: product.availableForSale,
+    ...getDimensions(product, sizes, sizeVariants),
+    ...namedTags
+  };
+
+  return record;
+}
+
+// New helper functions
+function getObjectId(product: ProductAlgolia): string {
+  return product.id.split('/').at(-1) ?? '';
+}
+
+function getPrices(product: ProductAlgolia): number[] {
+  return Array.from(new Set(product.variants.map((variant) => parseFloat(variant.price.amount))));
+}
+
+function getCompareAtPrices(product: ProductAlgolia): number[] {
+  return Array.from(
     new Set(
       product.variants
         .filter((v) => v.compareAtPrice)
         .map((variant) => parseFloat(variant.compareAtPrice.amount))
     )
   );
+}
 
-  const record = {
-    objectID: product.id.split('/').at(-1),
-    title: product.title,
-    handle: product.handle,
-    tags: product.tags,
-    brand: product.vendor,
-    price: prices,
-    compareAtPrice: compareAtPrices,
-    currencyCode: product.priceRange.minVariantPrice.currencyCode,
-    image: { ...product.featuredImage },
-    width: widths,
-    depth: depths,
+function getDimensions(
+  product: ProductAlgolia,
+  sizes: ReturnType<typeof getSizes>,
+  sizeVariants: Product[] | null
+) {
+  const widths = sizes?.map((size) => size.width) ?? [];
+  const depths = sizes?.map((size) => size.depth) ?? [];
+  const sizeVariantWidths = getSizeVariantDimensions(sizeVariants, 'width');
+  const sizeVariantDepths = getSizeVariantDimensions(sizeVariants, 'depth');
+
+  return {
+    width: [...widths, ...sizeVariantWidths].filter((width): width is number => width !== null),
+    depth: [...depths, ...sizeVariantDepths].filter((depth): depth is number => depth !== null),
     height: parseDimension(product.height?.value),
-    weight: parseDimension(product.weight?.value),
-    collections: product.collections.map((collection) => collection.handle),
-    options: product.options,
-    availableForSale: product.availableForSale
+    weight: parseDimension(product.weight?.value)
   };
+}
 
-  const namedTags = getNamedTags(product.tags);
+function getSizeVariantDimensions(
+  sizeVariants: Product[] | null,
+  dimension: 'width' | 'depth'
+): number[] {
+  return (
+    sizeVariants
+      ?.map((variant) => parseInt(getMetafieldValue(variant, dimension) ?? '0'))
+      .filter((d): d is number => !!d) ?? []
+  );
+}
 
-  return { ...record, ...namedTags };
+function getCollections(product: ProductAlgolia): string[] {
+  return product.collections.map((collection) => collection.handle);
 }
