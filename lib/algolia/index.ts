@@ -109,7 +109,6 @@ export async function getRecord(product: ProductAlgolia) {
   return record;
 }
 
-// New helper functions
 function getObjectId(product: ProductAlgolia): string {
   return product.id.split('/').at(-1) ?? '';
 }
