@@ -137,6 +137,7 @@ export type ProductAlgolia = Pick<
   | 'vendor'
   | 'options'
   | 'availableForSale'
+  | 'sizeReferences'
 > & {
   collections: { handle: string; title: string }[];
   width: { value: string };
@@ -207,7 +208,10 @@ export type ShopifyProduct = {
   tags: string[];
   updatedAt: string;
   vendor: ShopifyVendors;
-  specification: Metafield[];
+  width: Metafield;
+  depth: Metafield;
+  height: Metafield;
+  weight: Metafield;
   specificationSheet: Metafield;
   sizeReferences: Metafield;
 };

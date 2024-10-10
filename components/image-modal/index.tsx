@@ -1,12 +1,12 @@
 'use client';
 
-import React, { useState, useCallback, useRef, useEffect } from 'react';
-import Image from 'next/image';
-import { motion, AnimatePresence } from 'framer-motion';
-import { X } from 'react-feather';
 import clsx from 'clsx';
-import { getImageSizes } from 'lib/utils';
 import LoadingDots from 'components/loading-dots';
+import { AnimatePresence, motion } from 'framer-motion';
+import { getImageSizes } from 'lib/utils';
+import Image from 'next/image';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
+import { X } from 'react-feather';
 
 interface ModalImage {
   url: string;
@@ -53,10 +53,7 @@ export default function Component({ img, className }: ImageModalProps) {
     <>
       <button
         onClick={openModal}
-        className={clsx(
-          'cursor-pointer overflow-hidden focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50',
-          className
-        )}
+        className={clsx('cursor-pointer overflow-hidden outline-offset-2', className)}
         aria-label={`Open full-size image of ${img.altText}`}
       >
         <Image
