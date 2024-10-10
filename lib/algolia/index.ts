@@ -83,7 +83,7 @@ export async function getRecord(product: ProductAlgolia) {
       // Import getProductById dynamically to avoid circular dependency
       const { getProductById } = await import('lib/shopify');
       sizeVariants = await Promise.all(sizeVariantIds.map((id) => getProductById(id))).then(
-        (products) => products.filter((product) => !!product)
+        (products) => products.filter((product): product is Product => !!product)
       );
     }
   }
