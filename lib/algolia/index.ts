@@ -1,7 +1,6 @@
 import algoliasearch from 'algoliasearch';
 import { ALGOLIA } from 'lib/constants';
 import { Product, ProductAlgolia, ProductOption } from 'lib/shopify/types';
-import { getProductById } from '../shopify';
 import { getMetafieldValue } from '../utils';
 
 export function getAlgoliaClient(isAdmin?: boolean) {
@@ -67,7 +66,7 @@ export function getSizes(options: ProductOption[]) {
 export async function getRecord(product: ProductAlgolia) {
   const sizes = getSizes(product.options);
 
-  let sizeVariants: Product[] | null = [];
+  let sizeVariants: Product[] | null = null;
 
   if (product.sizeReferences) {
     const sizeVariantIds: string[] | undefined = product.sizeReferences?.value
@@ -80,11 +79,13 @@ export async function getRecord(product: ProductAlgolia) {
           }
         })()
       : null;
-    sizeVariants = sizeVariantIds
-      ? await Promise.all(sizeVariantIds.map((id) => getProductById(id))).then((products) =>
-          products.filter((product) => !!product)
-        )
-      : null;
+    if (sizeVariantIds) {
+      // Import getProductById dynamically to avoid circular dependency
+      const { getProductById } = await import('lib/shopify');
+      sizeVariants = await Promise.all(sizeVariantIds.map((id) => getProductById(id))).then(
+        (products) => products.filter((product) => !!product)
+      );
+    }
   }
 
   const namedTags = getNamedTags(product.tags);
@@ -152,7 +153,7 @@ function getSizeVariantDimensions(
   return (
     sizeVariants
       ?.map((variant) => parseInt(getMetafieldValue(variant, dimension) ?? '0'))
-      .filter((d): d is number => !!d) ?? []
+      .filter((d): d is number => !isNaN(d)) ?? []
   );
 }
 
