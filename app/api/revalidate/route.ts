@@ -1,5 +1,5 @@
 import { TAGS } from 'lib/constants';
-import { verifyWebhook } from 'lib/shopify/verify-webhook';
+import { verifyShopifyWebhook } from 'lib/shopify/verify-webhook';
 import { revalidateTag } from 'next/cache';
 import { headers } from 'next/headers';
 import { NextRequest, NextResponse } from 'next/server';
@@ -8,7 +8,7 @@ import { NextRequest, NextResponse } from 'next/server';
 // otherwise it will continue to retry the request.
 export async function POST(req: NextRequest): Promise<Response> {
   try {
-    verifyWebhook(req);
+    await verifyShopifyWebhook(req);
 
     const collectionWebhooks = ['collections/create', 'collections/delete', 'collections/update'];
     const productWebhooks = ['products/create', 'products/delete', 'products/update'];
