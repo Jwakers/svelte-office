@@ -4,7 +4,6 @@ import { Button } from '@/components/ui/button';
 import { ROUTES } from '@/lib/constants';
 import { MonitorX, RefreshCcw } from 'lucide-react';
 import Link from 'next/link';
-import { useEffect } from 'react';
 
 export default function GeneralError({
   error,
@@ -13,11 +12,6 @@ export default function GeneralError({
   error: Error & { digest?: string };
   reset: () => void;
 }) {
-  useEffect(() => {
-    // Log the error to an error reporting service
-    console.error(error);
-  }, [error]);
-
   return (
     <div className="flex min-h-[calc(100dvh-74px)] flex-col items-center justify-center px-4">
       <div className="text-center">
