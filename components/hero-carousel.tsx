@@ -60,10 +60,16 @@ export default function HeroCarousel() {
         </SwiperSlide>
       </Swiper>
       <div className="pointer-events-none absolute bottom-4 right-0 z-20 mx-4 flex -translate-y-4 justify-between gap-4 opacity-0 transition-[opacity,transform] duration-500 group-hover:pointer-events-auto group-hover:translate-y-0 group-hover:opacity-100">
-        <button className="prev border bg-white/50 p-2 transition-colors hover:bg-white">
+        <button
+          className="prev border bg-white/50 p-2 transition-colors hover:bg-white"
+          title="Previous slide"
+        >
           <ArrowLeft />
         </button>
-        <button className="next border bg-white/50 p-2 transition-colors hover:bg-white">
+        <button
+          className="next border bg-white/50 p-2 transition-colors hover:bg-white"
+          title="Next slide"
+        >
           <ArrowRight />
         </button>
       </div>
