@@ -52,7 +52,7 @@ export default function NotFound() {
   };
 
   return (
-    <div className="relative flex min-h-screen flex-col items-center justify-center overflow-hidden bg-background py-20 text-foreground">
+    <div className="relative flex min-h-[calc(100dvh-74px)] flex-col items-center justify-center overflow-hidden bg-background py-20 text-foreground">
       {/* Content */}
       <div className="z-10 w-full max-w-3xl px-4 text-center">
         <h1 className="mb-4 text-9xl font-bold">404</h1>
