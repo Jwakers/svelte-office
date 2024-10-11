@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { notFound, redirect } from 'next/navigation';
 
+import { Button } from '@/components/ui/button';
 import clsx from 'clsx';
 import { AddToCart } from 'components/cart/add-to-cart';
 import Accordion from 'components/product/accordion';
@@ -19,7 +20,7 @@ import {
   getProductRecommendations,
   getProducts
 } from 'lib/shopify';
-import { Metafield, Product } from 'lib/shopify/types';
+import { Product } from 'lib/shopify/types';
 import { getPublicBaseUrl } from 'lib/utils';
 import { getReviews } from 'lib/yotpo';
 import Link from 'next/link';
@@ -76,9 +77,12 @@ export default async function ProductPage({ params }: { params: { handle: string
 
   if (!product) notFound();
 
-  const specification = [product.width, product.depth, product.height, product.weight].filter(
-    (spec): spec is Metafield => !!spec
-  );
+  const specification = [
+    { name: 'width', value: product.width?.value },
+    { name: 'depth', value: product.depth?.value },
+    { name: 'height', value: product.height?.value },
+    { name: 'weight', value: product.weight?.value }
+  ].filter((spec) => !!spec.value);
 
   const sizeVariantIds: string[] | undefined = product.sizeReferences?.value
     ? (() => {
@@ -163,9 +167,10 @@ export default async function ProductPage({ params }: { params: { handle: string
                       {specification.map((spec) => {
                         if (!spec) return null;
                         const value = JSON.parse(spec.value);
+
                         return (
-                          <tr className="border-b border-brand/20" key={spec.key}>
-                            <td className="py-2 capitalize">{spec.key}</td>
+                          <tr className="border-b border-brand/20" key={spec.name}>
+                            <td className="py-2 capitalize">{spec.name}</td>
                             <td>
                               {value.value} {UNIT_MAP[value.unit as keyof typeof UNIT_MAP] || ''}
                             </td>
@@ -176,14 +181,12 @@ export default async function ProductPage({ params }: { params: { handle: string
                   </table>
                 )}
                 {specSheet ? (
-                  <a
-                    className="button mb-4 mt-2 flex items-center justify-center gap-2"
-                    href={specSheet}
-                    target="_black"
-                  >
-                    <span>Download full specification</span>
-                    <Download width={18} />
-                  </a>
+                  <Button asChild>
+                    <a className="mt-2s mb-4" href={specSheet} target="_black">
+                      <span>Download full specification</span>
+                      <Download width={18} />
+                    </a>
+                  </Button>
                 ) : null}
               </Accordion>
             ) : null}
