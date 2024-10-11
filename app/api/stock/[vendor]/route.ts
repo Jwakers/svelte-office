@@ -1,9 +1,10 @@
+import verifyVercelCron from '@/lib/verify-vercel-cron';
 import * as fs from 'fs';
 import { TAGS, VENDORS } from 'lib/constants';
 import { getAllPages, getProductSkus, updateStock } from 'lib/shopify';
 import { InventoryItem } from 'lib/shopify/types';
 import { revalidateTag } from 'next/cache';
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import os from 'os';
 import Papa from 'papaparse';
 import { downloadStockViaFtp } from '../utils';
@@ -118,7 +119,9 @@ const handleStockUpdate = async function (config: VendorConfig) {
   }
 };
 
-export async function GET(request: Request, { params }: { params: { vendor: string } }) {
+export async function GET(req: NextRequest, { params }: { params: { vendor: string } }) {
+  verifyVercelCron(req);
+
   const { vendor } = params;
   const config = vendorConfigs[vendor.toLowerCase()];
 

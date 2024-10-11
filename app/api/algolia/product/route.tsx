@@ -1,13 +1,13 @@
 import { getAlgoliaIndex, getRecord } from 'lib/algolia';
 import { getProductForAlgolia } from 'lib/shopify';
-import { verifyWebhook } from 'lib/shopify/verify-webhook';
+import { verifyShopifyWebhook } from 'lib/shopify/verify-webhook';
 import { NextRequest, NextResponse } from 'next/server';
 
 const client = getAlgoliaIndex(true);
 
 export async function POST(req: NextRequest): Promise<Response> {
   try {
-    verifyWebhook(req);
+    await verifyShopifyWebhook(req);
     const body = await req.json();
     const product = await getProductForAlgolia(body.id);
 

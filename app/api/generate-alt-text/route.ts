@@ -1,8 +1,10 @@
+import { verifyShopifyWebhook } from '@/lib/shopify/verify-webhook';
 import { ROUTES } from 'lib/constants';
 import getAllOfType from 'lib/shopify/rest/get-all-of-type';
 import getRestClient from 'lib/shopify/rest/get-rest-client';
 import { Product } from 'lib/shopify/rest/types';
 import { wait } from 'lib/utils';
+import { NextRequest } from 'next/server';
 
 export const dynamic = 'force-dynamic'; // Prevents route running during build
 
@@ -78,8 +80,9 @@ const iterateImages = async function () {
   console.log('Alt text updates complete');
 };
 
-export async function GET(request: Request) {
+export async function POST(request: NextRequest) {
   try {
+    await verifyShopifyWebhook(request);
     await iterateImages();
     return Response.json('Images alt text updated', { status: 200 });
   } catch (error) {

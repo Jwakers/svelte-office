@@ -1,5 +1,5 @@
 import sendEmail from 'lib/send-email';
-import { verifyWebhook } from 'lib/shopify/verify-webhook';
+import { verifyShopifyWebhook } from 'lib/shopify/verify-webhook';
 import { NextRequest, NextResponse } from 'next/server';
 
 const handleData = (data: any) => {
@@ -120,8 +120,7 @@ const handleData = (data: any) => {
 export async function POST(req: NextRequest) {
   try {
     const data = await req.clone().json();
-
-    verifyWebhook(req);
+    await verifyShopifyWebhook(req);
 
     handleData(data);
     return NextResponse.json({ status: 200 });

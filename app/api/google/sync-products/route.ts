@@ -1,15 +1,17 @@
+import { verifyShopifyWebhook } from '@/lib/shopify/verify-webhook';
 import { content_v2_1, google } from 'googleapis';
 import { SHOPIFY_TAGS } from 'lib/constants';
 import googleAuth from 'lib/google-auth';
 import getAllOfType from 'lib/shopify/rest/get-all-of-type';
 import { Product } from 'lib/shopify/rest/types';
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import { getRequestBody } from '../get-request-body';
 
 export const dynamic = 'force-dynamic'; // Prevents route running during build
 
-export async function GET() {
+export async function POST(req: NextRequest) {
   try {
+    await verifyShopifyWebhook(req);
     const shopifyProducts = await getAllOfType<Product>('products');
     const filteredProducts = shopifyProducts.filter(
       (product) => !product.tags.includes(SHOPIFY_TAGS.noindexGoogle)

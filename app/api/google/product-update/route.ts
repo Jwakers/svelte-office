@@ -1,7 +1,7 @@
 import { content_v2_1, google } from 'googleapis';
 import googleAuth from 'lib/google-auth';
 import { Product } from 'lib/shopify/rest/types';
-import { verifyWebhook } from 'lib/shopify/verify-webhook';
+import { verifyShopifyWebhook } from 'lib/shopify/verify-webhook';
 import { NextRequest, NextResponse } from 'next/server';
 import { getRequestBody } from '../get-request-body';
 
@@ -9,7 +9,8 @@ export const dynamic = 'force-dynamic'; // Prevents route running during build
 
 export async function POST(req: NextRequest) {
   try {
-    verifyWebhook(req);
+    await verifyShopifyWebhook(req);
+
     const shopifyProduct: Product = await req.clone().json();
     const auth = googleAuth();
     const googleProductData: content_v2_1.Schema$Product[] = [];
