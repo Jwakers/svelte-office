@@ -84,12 +84,6 @@
   }
 }
 
-@layer components {
-  .button {
-    @apply border border-primary px-4 py-2 text-center text-sm uppercase text-primary transition-colors hover:bg-primary hover:text-white;
-  }
-}
-
 /* Web chat */
 #fc_frame {
   @apply !bottom-[52px] md:!bottom-[10px];

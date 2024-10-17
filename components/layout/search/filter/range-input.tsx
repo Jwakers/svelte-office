@@ -1,3 +1,5 @@
+import { buttonVariants } from '@/components/ui/button';
+import { cn } from '@/lib/utils';
 import { RangeInput as AlgoliaRangeInput, useRefinementList } from 'react-instantsearch';
 
 export default function RangeInput({ attribute, label }: { attribute: string; label: string }) {
@@ -16,7 +18,7 @@ export default function RangeInput({ attribute, label }: { attribute: string; la
           form: 'flex flex-wrap gap-1 items-center',
           label: 'grow',
           input: 'p-1 border w-full',
-          submit: 'w-full button'
+          submit: cn(buttonVariants(), 'w-full')
         }}
       />
     </div>

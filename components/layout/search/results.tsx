@@ -113,8 +113,8 @@ export default function Results() {
               classNames={{
                 root: 'flex flex-col items-center w-screen',
                 list: 'grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 w-full',
-                loadMore: 'button my-4',
-                loadPrevious: 'button my-4',
+                loadMore: 'my-4',
+                loadPrevious: 'my-4',
                 disabledLoadPrevious: 'hidden',
                 disabledLoadMore: 'hidden'
               }}

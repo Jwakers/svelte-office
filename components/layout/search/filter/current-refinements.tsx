@@ -1,3 +1,4 @@
+import { Button } from '@/components/ui/button';
 import { parseHyphen, parseUnderscore } from 'lib/utils';
 import { X } from 'react-feather';
 import { useCurrentRefinements } from 'react-instantsearch';
@@ -24,17 +25,18 @@ export default function CurrentRefinements() {
               }
 
               return (
-                <button
+                <Button
                   key={refinement.label}
-                  type="button"
-                  className="flex items-center gap-1 rounded-full bg-primary px-2 py-1 text-xs text-white"
+                  variant="pill"
+                  className="flex items-center"
                   onClick={() => {
                     item.refine(refinement);
                   }}
+                  size="xs"
                 >
                   <span>{refinementLabel}</span>
                   <X size={14} />
-                </button>
+                </Button>
               );
             })}
           </li>

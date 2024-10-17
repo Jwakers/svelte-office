@@ -1,5 +1,6 @@
 'use client';
 
+import { Button } from '@/components/ui/button';
 import { Transition } from '@headlessui/react';
 import clsx from 'clsx';
 import Image from 'next/image';
@@ -32,12 +33,13 @@ export default function SearchMenu({ children }: { children: React.ReactNode }) 
 
   return (
     <>
-      <button
+      <Button
+        variant="outline"
         onClick={openMenu}
-        className="button sticky -bottom-40 top-4 z-10 mx-4 mb-4 flex justify-center gap-2 bg-white md:my-0 md:hidden"
+        className="sticky -bottom-40 top-4 z-10 mx-4 mb-4 md:my-0 md:hidden"
       >
         <span>Filter & Sort</span>
-      </button>
+      </Button>
 
       <Transition show={isOpen} unmount={false}>
         <Transition.Child
@@ -56,9 +58,14 @@ export default function SearchMenu({ children }: { children: React.ReactNode }) 
                 <span className="ml-3 translate-y-[2px] font-serif text-xl font-bold leading-none tracking-tight">
                   SvelteOffice
                 </span>
-                <button className="border-l p-3" aria-label="Close menu" onClick={closeMenu}>
+                <Button
+                  variant="outline"
+                  className="border-0 border-l p-3"
+                  aria-label="Close menu"
+                  onClick={closeMenu}
+                >
                   <X strokeWidth={1} />
-                </button>
+                </Button>
               </div>
               {children}
 
@@ -66,17 +73,18 @@ export default function SearchMenu({ children }: { children: React.ReactNode }) 
                 <span className="text-sm text-secondary">Search powered by</span>
                 <Image src={algoliaLogo} alt="Algolia logo" className="max-w-[6rem]" />
               </div>
-              <button
+              <Button
                 className={clsx(
-                  'button sticky bottom-0 flex items-center justify-between gap-2 bg-brand text-white transition-transform',
+                  'sticky bottom-0 transition-transform',
                   showResults ? 'translate-y-0' : 'translate-y-full'
                 )}
+                size="lg"
                 aria-label="Close menu"
                 onClick={closeMenu}
               >
                 <span>Show results</span>
                 <ArrowRight strokeWidth={1} />
-              </button>
+              </Button>
             </div>
           </div>
         </Transition.Child>

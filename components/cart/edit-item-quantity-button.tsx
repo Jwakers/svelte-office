@@ -6,6 +6,7 @@ import { removeItem, updateItemQuantity } from 'components/cart/actions';
 import LoadingDots from 'components/loading-dots';
 import type { CartItem } from 'lib/shopify/types';
 import { Minus, Plus } from 'react-feather';
+import { Button } from '../ui/button';
 
 export default function EditItemQuantityButton({
   item,
@@ -18,8 +19,10 @@ export default function EditItemQuantityButton({
   const [isPending, startTransition] = useTransition();
 
   return (
-    <button
+    <Button
       aria-label={type === 'plus' ? 'Increase item quantity' : 'Reduce item quantity'}
+      size="icon"
+      variant="outline"
       onClick={() => {
         startTransition(async () => {
           const error =
@@ -40,13 +43,9 @@ export default function EditItemQuantityButton({
         });
       }}
       disabled={isPending}
-      className={clsx(
-        'transition-color flex min-w-[36px] max-w-[36px] items-center justify-center border border-l-0 px-2 hover:bg-brand hover:text-white',
-        {
-          'cursor-not-allowed': isPending,
-          'ml-auto': type === 'minus'
-        }
-      )}
+      className={clsx('border-l-0', {
+        'ml-auto': type === 'minus'
+      })}
     >
       {isPending ? (
         <LoadingDots />
@@ -55,6 +54,6 @@ export default function EditItemQuantityButton({
       ) : (
         <Minus strokeWidth={1} />
       )}
-    </button>
+    </Button>
   );
 }

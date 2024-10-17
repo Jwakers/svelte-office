@@ -19,6 +19,7 @@ import 'swiper/css/pagination';
 
 import { Autoplay, EffectFade, Navigation, Pagination } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
+import { Button } from './ui/button';
 
 export default function HeroCarousel() {
   return (
@@ -60,18 +61,12 @@ export default function HeroCarousel() {
         </SwiperSlide>
       </Swiper>
       <div className="pointer-events-none absolute bottom-4 right-0 z-20 mx-4 flex -translate-y-4 justify-between gap-4 opacity-0 transition-[opacity,transform] duration-500 group-hover:pointer-events-auto group-hover:translate-y-0 group-hover:opacity-100">
-        <button
-          className="prev border bg-white/50 p-2 transition-colors hover:bg-white"
-          title="Previous slide"
-        >
+        <Button className="prev" title="Previous slide">
           <ArrowLeft />
-        </button>
-        <button
-          className="next border bg-white/50 p-2 transition-colors hover:bg-white"
-          title="Next slide"
-        >
+        </Button>
+        <Button className="next" title="Next slide">
           <ArrowRight />
-        </button>
+        </Button>
       </div>
       <div className="pagination absolute !bottom-0 z-10 flex gap-1 p-4" />
     </div>
@@ -106,22 +101,20 @@ function StandingDeskPromoSlide() {
           </p>
 
           <div className="mt-auto flex flex-wrap gap-2">
-            <Link
-              className="button block w-full border-white text-white sm:w-auto"
-              href={`/${ROUTES.search}?${getURIComponent(
-                'refinementList',
-                'desk_type',
-                'sit/stand'
-              )}`}
-            >
-              View all sit/stand desks
-            </Link>
-            <Link
-              className="button block w-full border-white text-white sm:w-auto"
-              href={`/${ROUTES.products}/crown`}
-            >
-              View Crown desk
-            </Link>
+            <Button asChild variant="defaultLight">
+              <Link
+                href={`/${ROUTES.search}?${getURIComponent(
+                  'refinementList',
+                  'desk_type',
+                  'sit/stand'
+                )}`}
+              >
+                View all sit/stand desks
+              </Link>
+            </Button>
+            <Button asChild variant="outlineLight">
+              <Link href={`/${ROUTES.products}/crown`}>View Crown desk</Link>
+            </Button>
           </div>
         </div>
       </div>
@@ -153,18 +146,12 @@ function GradientSlide() {
           </p>
 
           <div className="mt-auto flex flex-wrap gap-2">
-            <Link
-              className="button block w-full border-white text-white sm:w-auto"
-              href={`/${ROUTES.search}`}
-            >
-              View all products
-            </Link>
-            <Link
-              className="button block w-full border-white text-white sm:w-auto"
-              href={`/${ROUTES.categories}`}
-            >
-              View all categories
-            </Link>
+            <Button asChild variant="defaultLight">
+              <Link href={`/${ROUTES.search}`}>View all products</Link>
+            </Button>
+            <Button asChild variant="outlineLight">
+              <Link href={`/${ROUTES.categories}`}>View all categories</Link>
+            </Button>
           </div>
         </div>
       </div>
@@ -184,9 +171,11 @@ function FeaturedProductSlide() {
             stylish, Swedish design desk with the impressive height adjustability. Featuring a quiet
             European electronic system by LogicData®, adjusting height is seamless.
           </p>
-          <Link className="button block w-full sm:w-auto" href={`/${ROUTES.products}/advance`}>
-            Find out more
-          </Link>
+          <Button asChild>
+            <Link href={`/${ROUTES.products}/advance-sit-stand-desk-1200-x-700mm`}>
+              Find out more
+            </Link>
+          </Button>
         </div>
       </div>
       <div className="ml-auto size-full">
@@ -248,22 +237,20 @@ function FourImageSlide() {
             workspace living.
           </p>
           <div className="flex flex-col justify-center gap-2 md:flex-row">
-            <Link
-              className="button block w-full border-white text-white transition-colors hover:bg-white hover:text-brand sm:w-auto"
-              href={`/${ROUTES.search}?${getURIComponent(
-                'refinementList',
-                'collections',
-                'office-desks'
-              )}`}
-            >
-              Find your perfect desk
-            </Link>
-            <Link
-              className="button hover block w-full border-white text-white transition-colors hover:bg-white hover:text-brand sm:w-auto"
-              href={`/${ROUTES.categories}`}
-            >
-              Explore product categories
-            </Link>
+            <Button asChild variant="defaultLight">
+              <Link
+                href={`/${ROUTES.search}?${getURIComponent(
+                  'refinementList',
+                  'collections',
+                  'office-desks'
+                )}`}
+              >
+                Find your perfect desk
+              </Link>
+            </Button>
+            <Button asChild variant="outlineLight">
+              <Link href={`/${ROUTES.categories}`}>Explore product categories</Link>
+            </Button>
           </div>
         </div>
       </div>

@@ -2,7 +2,6 @@ import type { Metadata } from 'next';
 import { notFound, redirect } from 'next/navigation';
 
 import { Button } from '@/components/ui/button';
-import clsx from 'clsx';
 import { AddToCart } from 'components/cart/add-to-cart';
 import Accordion from 'components/product/accordion';
 import { Gallery } from 'components/product/gallery';
@@ -200,7 +199,6 @@ export default async function ProductPage({ params }: { params: { handle: string
             variants={product.variants}
             availableForSale={product.availableForSale}
             product={product}
-            className={clsx({ 'sticky bottom-14 md:bottom-4': product.availableForSale })}
           />
         </div>
       </section>

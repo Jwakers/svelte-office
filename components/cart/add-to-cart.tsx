@@ -1,25 +1,24 @@
 'use client';
 
 import { sendGTMEvent } from '@next/third-parties/google';
-import clsx, { ClassValue } from 'clsx';
 import { addItem } from 'components/cart/actions';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useState, useTransition } from 'react';
 
+import { cn } from '@/lib/utils';
 import LoadingDots from 'components/loading-dots';
 import Price from 'components/price';
 import { Product, ProductVariant } from 'lib/shopify/types';
+import { Button } from '../ui/button';
 
 export function AddToCart({
   variants,
   product,
-  availableForSale,
-  className
+  availableForSale
 }: {
   variants: ProductVariant[];
   product: Product;
   availableForSale: boolean;
-  className: ClassValue;
 }) {
   const [selectedVariant, setSelectedVariant] = useState(variants[0]);
   const router = useRouter();
@@ -39,11 +38,11 @@ export function AddToCart({
   }, [searchParams, variants, setSelectedVariant]);
 
   return (
-    <button
+    <Button
       aria-label="Add item to cart"
       disabled={isPending || !availableForSale}
       onClick={() => {
-        if (!availableForSale) return;
+        if (!availableForSale || isPending) return;
         startTransition(async () => {
           const error = await addItem(selectedVariant?.id);
 
@@ -61,20 +60,13 @@ export function AddToCart({
           router.refresh();
         });
       }}
-      className={clsx(
-        'flex w-full items-center justify-center border border-primary bg-primary p-4 text-sm uppercase text-white hover:text-primary',
-        {
-          'cursor-not-allowed opacity-60 hover:text-white': !availableForSale,
-          'transition-colors hover:bg-white hover:text-brand': availableForSale,
-          'cursor-not-allowed': isPending
-        },
-        className
-      )}
+      className={cn(availableForSale && 'sticky bottom-14 md:bottom-4')}
+      size="lg"
     >
       <span>
         {availableForSale ? (
           <div className="flex items-center gap-2">
-            <span>Add To Cart</span>
+            <span className="uppercase">Add To Cart</span>
             <span>-</span>
             <Price
               amount={selectedVariant?.price.amount || '0'}
@@ -87,6 +79,6 @@ export function AddToCart({
         )}
       </span>
       {isPending ? <LoadingDots /> : null}
-    </button>
+    </Button>
   );
 }

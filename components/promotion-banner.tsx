@@ -4,6 +4,7 @@ import { getImageSizes } from 'lib/utils';
 import Image from 'next/image';
 import Link from 'next/link';
 import crownDeskImage from 'public/crown-desk-lifestyle.jpg';
+import { Button } from './ui/button';
 
 export default function PromotionBanner() {
   return (
@@ -27,12 +28,17 @@ export default function PromotionBanner() {
           your desk today.
         </p>
         <p className="mb-4 text-sm md:mb-0">Offer ends July 31st</p>
-        <Link
-          className="button mt-auto border-white text-white"
-          href={`/${ROUTES.search}?${getURIComponent('refinementList', 'desk_type', 'sit/stand')}`}
-        >
-          View all sit/stand desks
-        </Link>
+        <Button asChild variant="outlineLight" className="mt-auto">
+          <Link
+            href={`/${ROUTES.search}?${getURIComponent(
+              'refinementList',
+              'desk_type',
+              'sit/stand'
+            )}`}
+          >
+            View all sit/stand desks
+          </Link>
+        </Button>
       </div>
     </section>
   );
