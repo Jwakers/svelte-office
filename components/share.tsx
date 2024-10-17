@@ -6,6 +6,7 @@ import { useIsBreakpoint } from 'lib/hooks';
 import { Copy, Share2 } from 'react-feather';
 import toast from 'react-hot-toast';
 import { FacebookShare, TwitterShare, WhatsappShare } from 'react-share-lite';
+import { Button } from './ui/button';
 
 type ShareProps = {
   url: string;
@@ -36,12 +37,12 @@ export default function Share({ url, text, title }: ShareProps) {
 
   return (
     <Menu>
-      <MenuButton className="button fixed bottom-14 right-3 flex items-center gap-1 bg-white md:static">
-        <>
+      <Button asChild>
+        <MenuButton className="fixed bottom-14 right-3 md:static">
           <span>Share</span>
           <Share2 strokeWidth={1} />
-        </>
-      </MenuButton>
+        </MenuButton>
+      </Button>
       <MenuItems
         anchor={isMd ? 'bottom' : 'left'}
         className={clsx(
@@ -59,9 +60,9 @@ export default function Share({ url, text, title }: ShareProps) {
           <WhatsappShare url={url} size={isMd ? 30 : 50} title={title} />
         </MenuItem>
         <MenuItem>
-          <button onClick={handleCopyClick} title="Copy URL">
+          <Button onClick={handleCopyClick} title="Copy URL" className="px-0" variant="ghost">
             <Copy size={isMd ? 30 : 50} strokeWidth={1} className="border bg-white p-2" />
-          </button>
+          </Button>
         </MenuItem>
       </MenuItems>
     </Menu>

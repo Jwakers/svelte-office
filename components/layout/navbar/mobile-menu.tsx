@@ -4,6 +4,7 @@ import { Dialog, Transition } from '@headlessui/react';
 import { usePathname, useSearchParams } from 'next/navigation';
 import { Fragment, useEffect, useState } from 'react';
 
+import { Button } from '@/components/ui/button';
 import { Logo } from 'components/logo';
 import { MENU_ITEMS } from 'lib/constants';
 import { Menu } from 'lib/shopify/types';
@@ -69,14 +70,16 @@ export default function MobileMenu({ menu }: { menu: Menu[] }) {
               <div className="flex h-full flex-col">
                 <div className="flex items-center justify-between border-b border-brand">
                   <Logo className="ml-3 translate-y-[2px] text-xl leading-none" />
-                  <button
-                    className="border-l p-3"
+                  <Button
+                    className="border-0 border-l p-3"
                     onClick={closeMobileMenu}
                     aria-label="Close mobile menu"
                     data-testid="close-mobile-menu"
+                    size="icon"
+                    variant="outline"
                   >
                     <X strokeWidth={1} />
-                  </button>
+                  </Button>
                 </div>
                 <SearchWrapper>
                   <ul className="space-y-4 p-3 font-serif text-lg">

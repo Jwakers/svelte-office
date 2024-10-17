@@ -11,6 +11,7 @@ import { createUrl, getImageSizes } from 'lib/utils';
 import { Fragment, useEffect, useRef, useState } from 'react';
 import { useCookies } from 'react-cookie';
 import { Lock, ShoppingBag, X } from 'react-feather';
+import { Button } from '../ui/button';
 import DeleteItemButton from './delete-item-button';
 import EditItemQuantityButton from './edit-item-quantity-button';
 
@@ -89,14 +90,16 @@ export default function CartModal({ cart, cartIdUpdated }: { cart: Cart; cartIdU
             <Dialog.Panel className="fixed bottom-0 right-0 top-0 flex h-full w-full flex-col bg-white md:w-3/5 md:border-l lg:w-2/5">
               <div className="flex items-center justify-between p-3">
                 <p className="font-serif text-2xl">My Cart</p>
-                <button
+                <Button
                   aria-label="Close cart"
                   onClick={closeCart}
                   className="hover:border hover:border-brand"
                   data-testid="close-cart"
+                  size="icon"
+                  variant="ghost"
                 >
                   <X strokeWidth={1} />
-                </button>
+                </Button>
               </div>
 
               {cart.lines.length === 0 ? (

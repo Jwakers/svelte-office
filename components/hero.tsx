@@ -3,6 +3,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import lavoroHero from 'public/lavoro-hero.jpg';
 import manhattanDeskHero from 'public/manhattan-desk-hero.jpeg';
+import { Button } from './ui/button';
 
 export const Hero = function () {
   return (
@@ -12,12 +13,12 @@ export const Hero = function () {
           Let your office reflect your ambitions.
         </h1>
         <div className="flex flex-col gap-2 md:flex-row md:gap-4">
-          <Link href={`/${ROUTES.categories}/office-desks`} className="button grow">
-            Shop desks
-          </Link>
-          <Link href={`/${ROUTES.categories}/office-chairs`} className="button grow">
-            Shop chairs
-          </Link>
+          <Button asChild>
+            <Link href={`/${ROUTES.categories}/office-desks`}>Shop desks</Link>
+          </Button>
+          <Button asChild>
+            <Link href={`/${ROUTES.categories}/office-chairs`}>Shop chairs</Link>
+          </Button>
         </div>
       </div>
       <div className="relative min-h-[180px] grow border-b md:border-b-0 md:border-l">
@@ -62,12 +63,11 @@ export const FeaturedHero = function () {
               to last using premium European materials, with a 5-year warranty on all parts.
             </p>
             <div className="flex flex-col gap-1 sm:flex-row">
-              <Link
-                className="button block"
-                href={`/${ROUTES.search}?sortBy=products_price_dec&query=Lavoro`}
-              >
-                View Lavoro products
-              </Link>
+              <Button asChild>
+                <Link href={`/${ROUTES.search}?sortBy=products_price_dec&query=Lavoro`}>
+                  View Lavoro products
+                </Link>
+              </Button>
             </div>
           </div>
         </div>

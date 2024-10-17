@@ -7,6 +7,7 @@ import { getImageSizes } from 'lib/utils';
 import Image from 'next/image';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { X } from 'react-feather';
+import { Button } from '../ui/button';
 
 interface ModalImage {
   url: string;
@@ -96,13 +97,15 @@ export default function Component({ img, className }: ImageModalProps) {
               <h2 id="modal-title" className="sr-only">
                 Full-size image of {img.altText}
               </h2>
-              <button
+              <Button
                 onClick={closeModal}
-                className="absolute right-2 top-2 z-10 bg-white p-1 text-brand hover:text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
+                className="absolute right-2 top-2 z-10"
                 aria-label="Close modal"
+                size="icon"
+                variant="defaultLight"
               >
                 <X size={24} />
-              </button>
+              </Button>
               <div className="relative overflow-auto">
                 {isLoading && (
                   <div className="absolute inset-0 flex items-center justify-center">

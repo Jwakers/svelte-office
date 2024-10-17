@@ -1,7 +1,9 @@
 'use client';
 
 import clsx from 'clsx';
+import { ArrowDown, ArrowUp } from 'lucide-react';
 import { useCallback, useState } from 'react';
+import { Button } from './ui/button';
 
 type ReadMoreProps = {
   children: React.ReactNode;
@@ -33,14 +35,15 @@ export default function ReadMore({ children }: ReadMoreProps) {
       </div>
       <div className="prose">
         {/* Set button in prose to maintain the same max-width as the prose used in product descriptions */}
-        <button
-          className="ml-auto block text-secondary underline transition-colors hover:text-brand"
-          type="button"
+        <Button
+          variant="link"
+          className="px-0"
           onClick={handleClick}
           aria-label={isExpanded ? 'Show less content' : 'Show more content'}
         >
-          {isExpanded ? 'Show less' : 'Read more'}
-        </button>
+          <span>{isExpanded ? 'Show less' : 'Read more'}</span>
+          {isExpanded ? <ArrowUp className="w-4" /> : <ArrowDown className="w-4" />}
+        </Button>
       </div>
     </div>
   );

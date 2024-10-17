@@ -12,6 +12,7 @@ import { useSearchParams } from 'next/navigation';
 import { useCallback, useEffect, useState } from 'react';
 import { ArrowLeft, ArrowRight } from 'react-feather';
 import type { Swiper as TSwiper } from 'swiper';
+import { Button } from '../ui/button';
 
 export function Gallery({ images, variants }: { images: TImage[]; variants: ProductVariant[] }) {
   const [swiper, setSwiper] = useState<TSwiper | undefined>(undefined);
@@ -70,16 +71,12 @@ export function Gallery({ images, variants }: { images: TImage[]; variants: Prod
       <div className="flex items-center justify-between gap-2 border-t px-4 py-4 md:items-start">
         <div className="pagination flex gap-1" />
         <div className="hidden gap-1 md:flex">
-          <button
-            type="button"
-            title="Previous slide"
-            className="prev border p-2 disabled:opacity-20"
-          >
-            <ArrowLeft />
-          </button>
-          <button type="button" title="Next slide" className="next border p-2 disabled:opacity-20">
-            <ArrowRight />
-          </button>
+          <Button size="icon" variant="outline" title="Previous slide" className="prev">
+            <ArrowLeft className="w-4" />
+          </Button>
+          <Button size="icon" variant="outline" title="Next slide" className="next">
+            <ArrowRight className="w-4" />
+          </Button>
         </div>
       </div>
     </div>

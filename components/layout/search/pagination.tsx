@@ -1,6 +1,10 @@
-import { Pagination as AlgoliaPagination } from 'react-instantsearch';
+import { buttonVariants } from '@/components/ui/button';
+import { cn } from '@/lib/utils';
+import { Pagination as AlgoliaPagination, usePagination } from 'react-instantsearch';
 
 export default function Pagination() {
+  const { isFirstPage, isLastPage } = usePagination();
+  const buttonClasses = cn(buttonVariants({ variant: 'outline', size: 'icon' }), 'cursor-pointer');
   return (
     <AlgoliaPagination
       classNames={{
@@ -8,10 +12,10 @@ export default function Pagination() {
         list: 'flex gap-2 items-center',
         pageItem: 'text-lg p-2',
         selectedItem: 'underline',
-        firstPageItem: '[&>a]:button cursor-pointer',
-        lastPageItem: '[&>a]:button cursor-pointer',
-        previousPageItem: '[&>a]:button cursor-pointer',
-        nextPageItem: '[&>a]:button cursor-pointer'
+        firstPageItem: !isFirstPage ? buttonClasses : undefined,
+        lastPageItem: !isLastPage ? buttonClasses : undefined,
+        previousPageItem: buttonClasses,
+        nextPageItem: buttonClasses
       }}
     />
   );
