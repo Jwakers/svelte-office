@@ -35,9 +35,11 @@ export function SizeVariants({ products }: { products: Product[] }) {
         Other sizes
       </label>
       <DropdownMenu onOpenChange={setIsOpen}>
-        <DropdownMenuTrigger asChild>
+        <DropdownMenuTrigger asChild className="max-w-full">
           <Button variant="outline">
-            <span>{activeProduct ? activeProduct.title : 'Select a size'}</span>
+            <span className="truncate">
+              {activeProduct ? activeProduct.title : 'Select a size'}
+            </span>
             <ChevronDown className={clsx('w-4 transition-transform', isOpen && '-scale-y-100')} />
           </Button>
         </DropdownMenuTrigger>
