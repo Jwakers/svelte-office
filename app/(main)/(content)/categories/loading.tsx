@@ -1,4 +1,4 @@
-import { ArrowRight } from 'react-feather';
+import { ArrowRight } from 'lucide-react';
 
 export default function Loading() {
   return (

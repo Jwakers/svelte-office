@@ -3,10 +3,10 @@ import { getURIComponent } from 'lib/algolia';
 import { ROUTES } from 'lib/constants';
 import { getCollections } from 'lib/shopify';
 import { getImageSizes } from 'lib/utils';
+import { ArrowRight } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
-import { ArrowRight } from 'react-feather';
 
 export const metadata = {
   title: 'All Categories',

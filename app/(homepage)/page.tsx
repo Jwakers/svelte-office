@@ -6,9 +6,9 @@ import LatestProducts from 'components/product/latest';
 import USPs from 'components/usps';
 import { ROUTES } from 'lib/constants';
 import { getPublicBaseUrl } from 'lib/utils';
+import { ArrowRight } from 'lucide-react';
 import Link from 'next/link';
 import { Suspense } from 'react';
-import { ArrowRight } from 'react-feather';
 
 const BASE_URL = getPublicBaseUrl();
 

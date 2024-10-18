@@ -3,9 +3,9 @@ import clsx, { ClassValue } from 'clsx';
 import gsap from 'gsap';
 import { ROUTES } from 'lib/constants';
 import { useIsBreakpoint } from 'lib/hooks';
+import { ThumbsUp, Truck, Umbrella } from 'lucide-react';
 import Link from 'next/link';
 import { Fragment, useRef } from 'react';
-import { ThumbsUp, Truck, Umbrella } from 'react-feather';
 
 const usps = [
   {

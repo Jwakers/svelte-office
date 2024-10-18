@@ -1,4 +1,4 @@
-import { Truck } from 'react-feather';
+import { Truck } from 'lucide-react';
 
 export default function Banner() {
   return (

@@ -5,7 +5,7 @@ import clsx from 'clsx';
 import { removeItem, updateItemQuantity } from 'components/cart/actions';
 import LoadingDots from 'components/loading-dots';
 import type { CartItem } from 'lib/shopify/types';
-import { Minus, Plus } from 'react-feather';
+import { Minus, Plus } from 'lucide-react';
 import { Button } from '../ui/button';
 
 export default function EditItemQuantityButton({

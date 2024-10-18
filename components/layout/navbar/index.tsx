@@ -5,8 +5,8 @@ import Cart from 'components/cart';
 import { Logo } from 'components/logo';
 import { MENU_ITEMS } from 'lib/constants';
 import { getMenu } from 'lib/shopify';
+import { ShoppingBag } from 'lucide-react';
 import { Suspense } from 'react';
-import { ShoppingBag } from 'react-feather';
 import MobileMenu from './mobile-menu';
 import Search from './search';
 

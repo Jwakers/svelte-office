@@ -1,9 +1,9 @@
 import { ROUTES } from 'lib/constants';
 import { getProductByHandle } from 'lib/shopify';
 import { getImageSizes } from 'lib/utils';
+import { ArrowRight } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { ArrowRight } from 'react-feather';
 import Price from './price';
 import { ReviewStars } from './product/review-stars';
 

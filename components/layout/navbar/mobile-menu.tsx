@@ -8,8 +8,8 @@ import { Button } from '@/components/ui/button';
 import { Logo } from 'components/logo';
 import { MENU_ITEMS } from 'lib/constants';
 import { Menu } from 'lib/shopify/types';
+import { Menu as MenuIcon, X } from 'lucide-react';
 import Link from 'next/link';
-import { Menu as MenuIcon, X } from 'react-feather';
 import SearchWrapper from '../search/search-wrapper';
 import Search from './search';
 

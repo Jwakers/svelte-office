@@ -7,10 +7,10 @@ import { CONTAIN_IMAGE_BRANDS, CONTAIN_IMAGE_COLLECTIONS, ROUTES } from 'lib/con
 import { useIsBreakpoint } from 'lib/hooks';
 import { ShopifyVendors } from 'lib/shopify/types';
 import { getImageSizes } from 'lib/utils';
+import { ArrowRight } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import algoliaLogo from 'public/algolia-logo.svg';
-import { ArrowRight } from 'react-feather';
 import { Hits, InfiniteHits, useStats } from 'react-instantsearch';
 import Filters from './filter/filters';
 import SearchMenu from './filter/menu';

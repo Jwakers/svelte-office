@@ -3,7 +3,7 @@
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react';
 import clsx from 'clsx';
 import { useIsBreakpoint } from 'lib/hooks';
-import { Copy, Share2 } from 'react-feather';
+import { Copy, Share2 } from 'lucide-react';
 import toast from 'react-hot-toast';
 import { FacebookShare, TwitterShare, WhatsappShare } from 'react-share-lite';
 import { Button } from './ui/button';

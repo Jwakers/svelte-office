@@ -6,8 +6,8 @@ import clsx, { ClassValue } from 'clsx';
 import { ROUTES } from 'lib/constants';
 import { useOutsideClick } from 'lib/hooks';
 import { createUrl } from 'lib/utils';
+import { Search as SearchIcon, X } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
-import { Search as SearchIcon, X } from 'react-feather';
 
 export default function Search({ className }: { className?: ClassValue }) {
   const router = useRouter();

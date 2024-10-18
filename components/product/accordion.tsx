@@ -2,8 +2,8 @@
 
 import { Disclosure, Transition } from '@headlessui/react';
 import clsx from 'clsx';
+import { ChevronDown } from 'lucide-react';
 import { useRef } from 'react';
-import { ChevronDown } from 'react-feather';
 
 export default function Accordion({
   heading,

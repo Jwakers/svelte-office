@@ -2,9 +2,9 @@ import Price from 'components/price';
 import { ROUTES } from 'lib/constants';
 import { Product } from 'lib/shopify/types';
 import { getImageSizes } from 'lib/utils';
+import { ArrowRight } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { ArrowRight } from 'react-feather';
 
 export default function ProductTile({ product }: { product: Product }) {
   const hasVariants = product.variants.length > 1;

@@ -1,5 +1,5 @@
 import { ALGOLIA } from 'lib/constants';
-import { ChevronDown } from 'react-feather';
+import { ChevronDown } from 'lucide-react';
 import { SortBy } from 'react-instantsearch';
 
 export default function Sort() {
