@@ -3,6 +3,7 @@
 import { getURIComponent } from 'lib/algolia';
 import { ROUTES } from 'lib/constants';
 import { getImageSizes } from 'lib/utils';
+import { ArrowLeft, ArrowRight } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import advanceDeskHeroImage from 'public/advance-lifestyle.jpg';
@@ -12,7 +13,6 @@ import crownDeskImage from 'public/crown-desk-lifestyle.jpg';
 import forgeDeskHeroImage from 'public/forge-corner-lifestyle.jpg';
 import hampsteadParkDeskHeroImage from 'public/hampstead-park-desk-lifestyle.jpg';
 import hytheHelfBookcaseHeroImage from 'public/hythe-shelf-bookcase-lifestyle.jpg';
-import { ArrowLeft, ArrowRight } from 'react-feather';
 import 'swiper/css';
 import 'swiper/css/effect-fade';
 import 'swiper/css/pagination';

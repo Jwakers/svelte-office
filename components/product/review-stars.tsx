@@ -1,5 +1,5 @@
 import { getReviews } from 'lib/yotpo';
-import { Star } from 'react-feather';
+import { Star } from 'lucide-react';
 
 export async function ReviewStars({ productId }: { productId: string }) {
   const id = productId.split('/').at(-1);

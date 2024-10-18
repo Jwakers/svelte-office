@@ -22,10 +22,10 @@ import {
 import { Product } from 'lib/shopify/types';
 import { getPublicBaseUrl } from 'lib/utils';
 import { getReviews } from 'lib/yotpo';
+import { Download } from 'lucide-react';
 import Link from 'next/link';
 import Script from 'next/script';
 import { Suspense } from 'react';
-import { Download } from 'react-feather';
 
 export async function generateMetadata({
   params

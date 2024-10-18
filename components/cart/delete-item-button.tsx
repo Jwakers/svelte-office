@@ -3,8 +3,8 @@ import { useRouter } from 'next/navigation';
 
 import { removeItem } from 'components/cart/actions';
 import type { CartItem } from 'lib/shopify/types';
+import { X } from 'lucide-react';
 import { useTransition } from 'react';
-import { X } from 'react-feather';
 import { Button } from '../ui/button';
 
 export default function DeleteItemButton({ item }: { item: CartItem }) {

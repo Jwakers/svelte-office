@@ -7,10 +7,10 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 
 import { ProductVariant, Image as TImage } from 'lib/shopify/types';
 import { getImageSizes } from 'lib/utils';
+import { ArrowLeft, ArrowRight } from 'lucide-react';
 import Image from 'next/image';
 import { useSearchParams } from 'next/navigation';
 import { useCallback, useEffect, useState } from 'react';
-import { ArrowLeft, ArrowRight } from 'react-feather';
 import type { Swiper as TSwiper } from 'swiper';
 import { Button } from '../ui/button';
 

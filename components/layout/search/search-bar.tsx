@@ -1,7 +1,7 @@
 import LoadingDots from 'components/loading-dots';
+import { Search } from 'lucide-react';
 import { useSearchParams } from 'next/navigation';
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { Search } from 'react-feather';
 import {
   ClearRefinements,
   useCurrentRefinements,

@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { Logo } from 'components/logo';
 import { getMenu } from 'lib/shopify';
 import { Menu } from 'lib/shopify/types';
-import { Facebook, Instagram } from 'react-feather';
+import { Facebook, Instagram } from 'lucide-react';
 import FooterSignupForm from '../footer-signup-form';
 
 export default async function Footer() {

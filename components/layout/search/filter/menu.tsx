@@ -3,11 +3,11 @@
 import { Button } from '@/components/ui/button';
 import { Transition } from '@headlessui/react';
 import clsx from 'clsx';
+import { ArrowRight, X } from 'lucide-react';
 import Image from 'next/image';
 import { useSearchParams } from 'next/navigation';
 import algoliaLogo from 'public/algolia-logo.svg';
 import { Fragment, useEffect, useState } from 'react';
-import { ArrowRight, X } from 'react-feather';
 
 export default function SearchMenu({ children }: { children: React.ReactNode }) {
   const [isOpen, setIsOpen] = useState(false);

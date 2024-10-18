@@ -1,6 +1,6 @@
 import { Button } from '@/components/ui/button';
 import { parseHyphen, parseUnderscore } from 'lib/utils';
-import { X } from 'react-feather';
+import { X } from 'lucide-react';
 import { useCurrentRefinements } from 'react-instantsearch';
 
 export default function CurrentRefinements() {

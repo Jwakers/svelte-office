@@ -5,9 +5,9 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { ROUTES } from 'lib/constants';
 import { Product } from 'lib/shopify/types';
 import { getMetafieldValue } from 'lib/utils';
+import { ChevronDown } from 'lucide-react';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { useMemo, useState } from 'react';
-import { ChevronDown } from 'react-feather';
 
 import {
   DropdownMenu,

@@ -4,9 +4,9 @@ import clsx from 'clsx';
 import LoadingDots from 'components/loading-dots';
 import { AnimatePresence, motion } from 'framer-motion';
 import { getImageSizes } from 'lib/utils';
+import { X } from 'lucide-react';
 import Image from 'next/image';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { X } from 'react-feather';
 import { Button } from '../ui/button';
 
 interface ModalImage {
