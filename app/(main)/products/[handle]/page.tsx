@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { notFound, redirect } from 'next/navigation';
 
+import { PaymentOptionsComponent } from '@/components/payment-options';
 import { Button } from '@/components/ui/button';
 import { AddToCart } from 'components/cart/add-to-cart';
 import Accordion from 'components/product/accordion';
@@ -195,6 +196,7 @@ export default async function ProductPage({ params }: { params: { handle: string
               <p className="py-2">{WARRANTY[product.vendor]}</p>
             </Accordion>
           </div>
+          <PaymentOptionsComponent />
           <AddToCart
             variants={product.variants}
             availableForSale={product.availableForSale}

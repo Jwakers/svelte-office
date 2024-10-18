@@ -66,7 +66,7 @@ export default function Search({ className }: { className?: ClassValue }) {
         title={isOpen ? 'Close' : 'Search'}
         className="h-full cursor-pointer"
       >
-        {isOpen ? <X strokeWidth={1} /> : <SearchIcon strokeWidth={1} />}
+        {isOpen ? <X /> : <SearchIcon />}
       </button>
     </form>
   );

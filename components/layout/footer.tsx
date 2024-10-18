@@ -1,9 +1,9 @@
 import Link from 'next/link';
 
+import { SiFacebook, SiInstagram } from '@icons-pack/react-simple-icons';
 import { Logo } from 'components/logo';
 import { getMenu } from 'lib/shopify';
 import { Menu } from 'lib/shopify/types';
-import { Facebook, Instagram } from 'lucide-react';
 import FooterSignupForm from '../footer-signup-form';
 
 export default async function Footer() {
@@ -46,7 +46,7 @@ export default async function Footer() {
               target="_blank"
               rel="noopener"
             >
-              <Facebook />
+              <SiFacebook />
             </a>
             <a
               href="https://www.instagram.com/svelteoffice/"
@@ -54,7 +54,7 @@ export default async function Footer() {
               target="_blank"
               rel="noopener"
             >
-              <Instagram />
+              <SiInstagram />
             </a>
           </div>
           <div className="md:col-start-1 md:col-end-9">

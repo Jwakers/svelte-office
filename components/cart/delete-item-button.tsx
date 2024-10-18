@@ -29,7 +29,7 @@ export default function DeleteItemButton({ item }: { item: CartItem }) {
       disabled={isPending}
       size="icon"
     >
-      {isPending ? <LoadingDots /> : <X strokeWidth={1} />}
+      {isPending ? <LoadingDots /> : <X />}
     </Button>
   );
 }

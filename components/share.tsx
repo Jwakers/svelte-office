@@ -40,7 +40,7 @@ export default function Share({ url, text, title }: ShareProps) {
       <Button asChild>
         <MenuButton className="fixed bottom-14 right-3 md:static">
           <span>Share</span>
-          <Share2 strokeWidth={1} />
+          <Share2 />
         </MenuButton>
       </Button>
       <MenuItems
@@ -61,7 +61,7 @@ export default function Share({ url, text, title }: ShareProps) {
         </MenuItem>
         <MenuItem>
           <Button onClick={handleCopyClick} title="Copy URL" className="px-0" variant="ghost">
-            <Copy size={isMd ? 30 : 50} strokeWidth={1} className="border bg-white p-2" />
+            <Copy size={isMd ? 30 : 50} className="border bg-white p-2" />
           </Button>
         </MenuItem>
       </MenuItems>

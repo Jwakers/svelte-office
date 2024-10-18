@@ -88,3 +88,7 @@
 #fc_frame {
   @apply !bottom-[52px] md:!bottom-[10px];
 }
+
+.lucide {
+  stroke-width: 1px;
+}
