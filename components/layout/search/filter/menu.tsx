@@ -64,7 +64,7 @@ export default function SearchMenu({ children }: { children: React.ReactNode }) 
                   aria-label="Close menu"
                   onClick={closeMenu}
                 >
-                  <X strokeWidth={1} />
+                  <X />
                 </Button>
               </div>
               {children}
@@ -83,7 +83,7 @@ export default function SearchMenu({ children }: { children: React.ReactNode }) 
                 onClick={closeMenu}
               >
                 <span>Show results</span>
-                <ArrowRight strokeWidth={1} />
+                <ArrowRight />
               </Button>
             </div>
           </div>

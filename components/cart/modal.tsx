@@ -7,11 +7,11 @@ import Link from 'next/link';
 import Price from 'components/price';
 import { DEFAULT_OPTION, ROUTES } from 'lib/constants';
 import type { Cart } from 'lib/shopify/types';
-import { createUrl, getImageSizes } from 'lib/utils';
+import { cn, createUrl, getImageSizes } from 'lib/utils';
 import { Lock, ShoppingBag, X } from 'lucide-react';
 import { Fragment, useEffect, useRef, useState } from 'react';
 import { useCookies } from 'react-cookie';
-import { Button } from '../ui/button';
+import { Button, buttonVariants } from '../ui/button';
 import DeleteItemButton from './delete-item-button';
 import EditItemQuantityButton from './edit-item-quantity-button';
 
@@ -58,7 +58,7 @@ export default function CartModal({ cart, cartIdUpdated }: { cart: Cart; cartIdU
         onClick={openCart}
         data-testid="open-cart"
       >
-        <ShoppingBag strokeWidth={1} />
+        <ShoppingBag />
         {!!cart.totalQuantity && (
           <span className="absolute -bottom-1 -right-1 flex h-4 w-4  transform items-center justify-center rounded-full border bg-brand p-1 text-xs text-white">
             {cart.totalQuantity}
@@ -98,13 +98,13 @@ export default function CartModal({ cart, cartIdUpdated }: { cart: Cart; cartIdU
                   size="icon"
                   variant="ghost"
                 >
-                  <X strokeWidth={1} />
+                  <X />
                 </Button>
               </div>
 
               {cart.lines.length === 0 ? (
                 <div className="mt-20 flex w-full flex-col items-center justify-center">
-                  <ShoppingBag strokeWidth={1} />
+                  <ShoppingBag />
                   <p className="mt-6 font-serif text-3xl">Your cart is empty.</p>
                 </div>
               ) : (
@@ -206,10 +206,10 @@ export default function CartModal({ cart, cartIdUpdated }: { cart: Cart; cartIdU
                       </div>
                       <a
                         href={cart.checkoutUrl}
-                        className="flex w-full items-center justify-center gap-2 border bg-brand p-3 text-sm uppercase text-white transition-colors hover:bg-white hover:text-brand"
+                        className={cn(buttonVariants({ size: 'lg' }), 'w-full')}
                       >
                         <span>Proceed to Secure Checkout</span>
-                        <Lock strokeWidth={1} />
+                        <Lock />
                       </a>
                     </div>
                   </div>

@@ -47,13 +47,7 @@ export default function EditItemQuantityButton({
         'ml-auto': type === 'minus'
       })}
     >
-      {isPending ? (
-        <LoadingDots />
-      ) : type === 'plus' ? (
-        <Plus strokeWidth={1} />
-      ) : (
-        <Minus strokeWidth={1} />
-      )}
+      {isPending ? <LoadingDots /> : type === 'plus' ? <Plus /> : <Minus />}
     </Button>
   );
 }

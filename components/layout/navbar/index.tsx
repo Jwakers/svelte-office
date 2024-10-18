@@ -37,7 +37,7 @@ export default async function Navbar({ className }: { className: ClassValue }) {
           <div className="h-full border-l border-brand" />
           <div className="flex items-center gap-4">
             <Search className="hidden md:flex" />
-            <Suspense fallback={<ShoppingBag strokeWidth={1} />}>
+            <Suspense fallback={<ShoppingBag />}>
               <span>
                 <Cart />
               </span>

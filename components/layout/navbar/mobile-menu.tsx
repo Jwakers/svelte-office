@@ -42,7 +42,7 @@ export default function MobileMenu({ menu }: { menu: Menu[] }) {
         className="flex md:hidden"
         data-testid="open-mobile-menu"
       >
-        <MenuIcon strokeWidth={1} />
+        <MenuIcon />
       </button>
       <Transition show={isOpen}>
         <Dialog onClose={closeMobileMenu} className="relative z-50">
@@ -78,7 +78,7 @@ export default function MobileMenu({ menu }: { menu: Menu[] }) {
                     size="icon"
                     variant="outline"
                   >
-                    <X strokeWidth={1} />
+                    <X />
                   </Button>
                 </div>
                 <SearchWrapper>

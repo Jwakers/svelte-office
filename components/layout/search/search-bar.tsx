@@ -100,7 +100,7 @@ export default function SearchBar() {
             aria-label="Search for products"
           />
           <button type="submit" title="Submit" className="border px-3" aria-label="Submit search">
-            {isSearchStalled ? <LoadingDots /> : <Search strokeWidth={1} />}
+            {isSearchStalled ? <LoadingDots /> : <Search />}
           </button>
         </div>
       </form>
