@@ -35,13 +35,10 @@ const sendContactEmail = async (data: ContactFormSchema) => {
   });
 };
 
-export async function contactAction(
-  previousState: FormData,
-  formData: FormData
-): Promise<ContactActionResult> {
+export async function contactAction(_: FormData, formData: FormData): Promise<ContactActionResult> {
   try {
     const data = Object.fromEntries(formData.entries());
-    const validatedData = contactFormSchema.strict().parse(data);
+    const validatedData = contactFormSchema.parse(data);
 
     await verifyRecaptcha(validatedData.token);
     await sendContactEmail(validatedData);

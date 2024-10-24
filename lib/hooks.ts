@@ -39,7 +39,7 @@ export function useRecaptcha() {
   const [token, setToken] = useState<string | undefined>();
   const { executeRecaptcha } = useGoogleReCaptcha();
 
-  const handleRecaptcha = useCallback(async () => {
+  const _handleRecaptcha = useCallback(async () => {
     if (!executeRecaptcha) {
       console.error('ReCAPTCHA not loaded');
       return;
@@ -53,11 +53,15 @@ export function useRecaptcha() {
     }
   }, [executeRecaptcha]);
 
+  const refresh = async () => {
+    await _handleRecaptcha();
+  };
+
   useEffect(() => {
     if (!executeRecaptcha || token) return;
 
-    void handleRecaptcha();
-  }, [executeRecaptcha, token, handleRecaptcha]);
+    void _handleRecaptcha();
+  }, [executeRecaptcha, token, _handleRecaptcha]);
 
-  return token;
+  return { token, refresh };
 }

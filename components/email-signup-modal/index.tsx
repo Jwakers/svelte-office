@@ -93,7 +93,7 @@ export default function EmailSignupModalComponent() {
               </DialogDescription>
             </DialogHeader>
             <div className="grid gap-4">
-              <Form action={formAction} email={email} setEmail={setEmail} />
+              <Form action={formAction} email={email} setEmail={setEmail} state={state} />
             </div>
           </div>
         </DialogContent>
@@ -105,13 +105,19 @@ export default function EmailSignupModalComponent() {
 function Form({
   action,
   email,
-  setEmail
+  setEmail,
+  state
 }: {
   action: () => void;
   email?: string;
   setEmail?: Dispatch<SetStateAction<string | undefined>>;
+  state: ActionReturnType;
 }) {
-  const token = useRecaptcha();
+  const { token, refresh } = useRecaptcha();
+
+  useEffect(() => {
+    refresh();
+  }, [state]);
 
   return (
     <form action={action} className="space-y-4">
