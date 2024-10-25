@@ -57,38 +57,42 @@ export default async function HomePage() {
         {/* <FeaturedHero /> */}
         <HeroCarousel />
       </Suspense>
-      <Suspense>
-        <USPs />
-        <h2 className="px-3 py-4 font-serif text-2xl uppercase md:border-b md:py-10 md:text-3xl">
-          Shop by category
-        </h2>
-        <div className="md:grid md:grid-cols-2">
+      <USPs />
+      <h2 className="px-3 py-4 font-serif text-2xl uppercase md:border-b md:py-10 md:text-3xl">
+        Shop by category
+      </h2>
+      <div className="md:grid md:grid-cols-2">
+        <Suspense>
           <CollectionPreview handle="office-desks" />
           <CollectionPreview handle="office-chairs" />
           <CollectionPreview handle="bookcases-and-standing-shelves" />
-          <Link
-            href={`/${ROUTES.categories}`}
-            className="group relative border-b transition-colors hover:bg-brand hover:text-white md:grid-cols-[30%_1fr] md:border-l"
-          >
-            <div className="sticky top-0 z-10 flex items-center gap-1 self-end border-b bg-white px-4 py-2 transition-all group-hover:gap-4 md:hidden">
-              <h2 className="font-serif text-2xl">View all categories</h2>
-              <ArrowRight />
-            </div>
+        </Suspense>
+        <Link
+          href={`/${ROUTES.categories}`}
+          className="group relative border-b transition-colors hover:bg-brand hover:text-white md:grid-cols-[30%_1fr] md:border-l"
+        >
+          <div className="sticky top-0 z-10 flex items-center gap-1 self-end border-b bg-white px-4 py-2 transition-all group-hover:gap-4 md:hidden">
+            <h2 className="font-serif text-2xl">View all categories</h2>
+            <ArrowRight />
+          </div>
 
-            <div className="hidden h-full w-full content-end p-4 md:flex">
-              <div className="flex w-full items-center gap-1 self-end">
-                <h2 className="max-w-[90%] font-serif text-2xl lg:text-3xl">View all categories</h2>
-                <ArrowRight className="transition-transform group-hover:translate-x-2" />
-              </div>
+          <div className="hidden h-full w-full content-end p-4 md:flex">
+            <div className="flex w-full items-center gap-1 self-end">
+              <h2 className="max-w-[90%] font-serif text-2xl lg:text-3xl">View all categories</h2>
+              <ArrowRight className="transition-transform group-hover:translate-x-2" />
             </div>
-          </Link>
-        </div>
-        <DeliveryBanner />
+          </div>
+        </Link>
+      </div>
+      <DeliveryBanner />
+      <Suspense>
         <FeaturedProduct />
-        {/* <PromotionBanner /> */}
-        <h2 className="px-3 py-4 font-serif text-2xl uppercase md:border-b md:py-10 md:text-3xl">
-          Latest products
-        </h2>
+      </Suspense>
+      {/* <PromotionBanner /> */}
+      <h2 className="px-3 py-4 font-serif text-2xl uppercase md:border-b md:py-10 md:text-3xl">
+        Latest products
+      </h2>
+      <Suspense>
         <LatestProducts />
       </Suspense>
     </>

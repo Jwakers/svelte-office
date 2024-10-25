@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { notFound, redirect } from 'next/navigation';
 
+import Breadcrumbs from '@/components/breadcrumbs';
 import { PaymentOptionsComponent } from '@/components/payment-options';
 import { Button } from '@/components/ui/button';
 import { AddToCart } from 'components/cart/add-to-cart';
@@ -140,6 +141,15 @@ export default async function ProductPage({ params }: { params: { handle: string
       />
       <section className="animate-fadeIn border-b md:grid md:grid-cols-2">
         <div className="relative flex flex-col md:border-r">
+          <Breadcrumbs
+            parents={[
+              {
+                href: `/${ROUTES.search}`,
+                text: 'Products'
+              }
+            ]}
+            current={product?.title}
+          />
           <Gallery images={product.images} variants={product.variants} />
         </div>
         <div className="flex flex-col gap-4 p-3">

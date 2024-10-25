@@ -1,3 +1,4 @@
+import Breadcrumbs from '@/components/breadcrumbs';
 import Prose from 'components/prose';
 import { getPolicies } from 'lib/shopify';
 import { notFound } from 'next/navigation';
@@ -16,9 +17,12 @@ export default async function PolicyPage({ params }: { params: { policy: string 
   if (data === undefined) notFound();
 
   return (
-    <section className="mx-auto h-full w-full animate-fadeIn p-3 md:max-w-3xl md:border-l md:border-r">
-      <h1 className="mb-4 font-serif text-3xl">{data.title}</h1>
-      <Prose html={data.body} />
-    </section>
+    <>
+      <Breadcrumbs current={data.title} />
+      <section className="mx-auto h-full w-full animate-fadeIn p-3 md:max-w-3xl">
+        <h1 className="mb-4 font-serif text-3xl">{data.title}</h1>
+        <Prose html={data.body} />
+      </section>
+    </>
   );
 }

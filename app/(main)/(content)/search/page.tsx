@@ -1,5 +1,5 @@
-import Results from 'components/layout/search/results';
-import SearchWrapper from 'components/layout/search/search-wrapper';
+import Breadcrumbs from '@/components/breadcrumbs';
+import Listing from 'components/layout/search/listing';
 import { getAlgoliaIndex } from 'lib/algolia';
 import Head from 'next/head';
 
@@ -24,9 +24,8 @@ export default async function SearchPage() {
           rel="preconnect"
         />
       </Head>
-      <SearchWrapper>
-        <Results />
-      </SearchWrapper>
+      <Breadcrumbs current="Search" className="md:absolute" />
+      <Listing />
     </>
   );
 }
