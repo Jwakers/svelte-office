@@ -11,11 +11,14 @@ import { ArrowRight } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import algoliaLogo from 'public/algolia-logo.svg';
-import { Hits, InfiniteHits, useStats } from 'react-instantsearch';
+import { useState } from 'react';
+import { Configure, ConfigureProps, Hits, InfiniteHits } from 'react-instantsearch';
 import Filters from './filter/filters';
 import SearchMenu from './filter/menu';
+import StockSwitch from './filter/stock-switch';
 import Pagination from './pagination';
 import SearchBar from './search-bar';
+import SearchWrapper from './search-wrapper';
 
 type ResultProps = {
   hit: Record;
@@ -84,21 +87,29 @@ function Result({ hit }: ResultProps) {
   );
 }
 
-export default function Results() {
+export default function Listing() {
   const isMd = useIsBreakpoint('md');
-  const { nbPages } = useStats();
+  const [config, setConfig] = useState<ConfigureProps>({
+    // @ts-ignore: Incorrect types in algolia package
+    optionalFilters: 'collections:office-desks'
+  });
 
   return (
-    <>
+    <SearchWrapper>
+      <Configure {...config} />
       <div className="relative grid animate-fadeIn md:grid-cols-[14rem_1fr]">
         {!isMd && (
           <SearchMenu>
             <SearchBar />
-            <Filters />
+            <Filters>
+              <StockSwitch setConfig={setConfig} />
+            </Filters>
           </SearchMenu>
         )}
         <div className="md:border-r md:border-brand">
-          {isMd && <Filters className="min-w-[1px]" />}
+          <Filters className="mt-8 min-w-[1px] max-md:hidden">
+            <StockSwitch setConfig={setConfig} />
+          </Filters>
         </div>
         <div>
           <div className="my-3 hidden min-h-[46px] md:block">{isMd && <SearchBar />}</div>
@@ -121,11 +132,8 @@ export default function Results() {
             />
           )}
           <div className="flex items-center justify-between">
-            {
-              <div className={clsx((nbPages <= 1 || !isMd) && 'hidden')}>
-                <Pagination />
-              </div>
-            }
+            <Pagination />
+
             <div className="mx-auto flex flex-col items-center gap-2 p-3 md:ml-auto md:mr-0 md:items-end">
               <span className="text-sm text-secondary">Search powered by</span>
               <Image src={algoliaLogo} alt="Algolia logo" className="max-w-[6rem]" />
@@ -133,6 +141,6 @@ export default function Results() {
           </div>
         </div>
       </div>
-    </>
+    </SearchWrapper>
   );
 }
