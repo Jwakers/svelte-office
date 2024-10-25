@@ -20,7 +20,7 @@ function Form() {
   // @ts-ignore
   const [state, formAction] = useFormState(contactAction, initialState);
   const router = useRouter();
-  const token = useRecaptcha();
+  const { token, refresh } = useRecaptcha();
 
   useEffect(() => {
     if (!state.errors.length) return;
@@ -35,6 +35,10 @@ function Form() {
       router.push('/');
     }, 1000);
   }, [state.success]);
+
+  useEffect(() => {
+    refresh();
+  }, [state]);
 
   return (
     <>

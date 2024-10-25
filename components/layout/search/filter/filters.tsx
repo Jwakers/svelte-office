@@ -2,13 +2,15 @@ import clsx, { ClassValue } from 'clsx';
 import { RefinementListItem } from 'instantsearch.js/es/connectors/refinement-list/connectRefinementList';
 import RangeInput from './range-input';
 import RefinementList from './refinement-list';
-import StockSwitch from './stock-switch';
 
 function transformItems(items: RefinementListItem[]) {
   return items.map((item) => ({ ...item, label: item.label.split('-').join(' ') }));
 }
 
-export default function Filters({ className }: { className?: ClassValue }) {
+export default function Filters({
+  className,
+  children
+}: React.PropsWithChildren<{ className?: ClassValue }>) {
   return (
     <div className={clsx('p-3', className)}>
       <div>
@@ -23,7 +25,7 @@ export default function Filters({ className }: { className?: ClassValue }) {
           <RangeInput attribute="width" label="By width" />
           <RangeInput attribute="height" label="By height" />
           <RangeInput attribute="price" label="By price" />
-          <StockSwitch />
+          {children}
         </div>
       </div>
     </div>

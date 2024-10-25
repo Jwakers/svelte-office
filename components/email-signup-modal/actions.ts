@@ -25,7 +25,7 @@ const formSchema = z.object({
 });
 
 export async function subscribeEmail(
-  previousState: FormData,
+  _: FormData,
   formData: FormData
 ): Promise<SubscribeEmailActionResult> {
   // Convert formData to an object that zod can parse

@@ -403,11 +403,12 @@ export async function getMenu(handle: string): Promise<Menu[]> {
       handle
     }
   });
+  const checkoutSubDomain = `https://${process.env.SHOPIFY_STORE_CHECKOUT_SUBDOMAIN}`;
 
   return (
     res.body?.data?.menu?.items.map((item: { title: string; url: string }) => ({
       title: item.title,
-      path: item.url.replace(domain, '').replace('/pages', '')
+      path: item.url.replace(checkoutSubDomain, '').replace('/pages', '')
     })) || []
   );
 }
